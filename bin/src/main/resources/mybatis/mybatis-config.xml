@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+	<settings>
+		<setting name="logImpl" value="LOG4J2"/>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+	
+	<typeAliases>
+		<!-- 
+			클래스의 이름을 소문자로 변환한 형태의 별칭으로 등록
+			@Alias 어노테이션
+		 -->
+		<package name="kr.co.airbnb.vo"/>
+	</typeAliases>
+	
+</configuration>
