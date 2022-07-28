@@ -11,4 +11,10 @@ public class HomeController {
 		return "home";
 	}
 	// 정수민 // 김유나 유나
+	
+	@GetMapping(path = "/detail")
+	public String detail() {
+		
+		return "acc/detail";
+	}
 }
