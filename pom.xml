@@ -12,6 +12,7 @@
 	<artifactId>spring-airbnb</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>spring-airbnb</name>
+	<packaging>war</packaging>
 	<description>airbnb project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
