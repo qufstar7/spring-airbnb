@@ -8,5 +8,8 @@
 </head>
 <body>
 		<h1>홈 수정</h1>
+		
+		
+		<a href="/user/register">회원가입하기</a>
 </body>
 </html>
