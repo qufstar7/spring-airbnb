@@ -11,5 +11,7 @@
 		
 		
 		<a href="/user/register">회원가입하기</a>
+		<a href="/review">리뷰 작성하기</a>
+		
 </body>
 </html>
