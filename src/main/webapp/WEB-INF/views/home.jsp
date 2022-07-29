@@ -8,5 +8,6 @@
 </head>
 <body>
 		<h1>홈 수정</h1>
+		<a href="/host" class="">호스트  되기</a>
 </body>
 </html>
