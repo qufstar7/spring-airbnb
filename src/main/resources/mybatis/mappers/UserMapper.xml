@@ -29,5 +29,23 @@
 		insert into airbnb_users(user_no, user_name, user_email, user_password, user_birth_date)
 		values(users_seq.nextval, #{name}, #{email}, #{password}, #{birthDate})
 	</insert>
+	
+	<update id="updateUser" parameterType="User">
+		update airbnb_users
+		 set
+		 	user_name = #{name},
+		 	user_email = #{email},
+		 	user_password = #{password},
+		 	user_phone = #{phone},
+		 	user_profile_image = #{profileImage},
+		 	user_description = #{description},
+		 	user_birth_date = #{birthDate},
+		 	user_address = #{address},
+		 	user_disabled = #{disabled},
+		 	user_host = #{isHost},
+		 	user_updated_date = sysdate,
+		 	user_gender = #{gender}
+		where user_no = #{no}
+	</update>
 
 </mapper>

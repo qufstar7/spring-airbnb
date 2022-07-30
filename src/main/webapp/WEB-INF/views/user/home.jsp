@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +18,7 @@ pageEncoding="UTF-8"%>
 	#btn-next1, 
 	#btn-register,
 	#btn-login,
-	#btn-next2 {background: rgb(251,63,111);
+	#btn-register-complete {background: rgb(251,63,111);
 			   background: radial-gradient(circle, rgba(251,63,111,1) 0%, rgba(252,70,205,0.6617997540813201) 75%);
 			   color: white;
 			   font-size: large;
@@ -50,6 +51,8 @@ pageEncoding="UTF-8"%>
 	#agree1, #agree2 {zoom:3.0;}
 	#password-helper p {font-size: small; margin: 0%;}
 	
+	h4, h5 {font-weight: bold;}
+	
 </style>
 </head>
 <body>
@@ -65,7 +68,7 @@ pageEncoding="UTF-8"%>
 
 <!-- 이메일 입력 모달1 -->
 <div class="modal fade" id="email-login-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title fw-bold" id="exampleModalLabel">로그인 또는 회원가입</h5>
@@ -110,7 +113,7 @@ pageEncoding="UTF-8"%>
 
 <!-- 로그인의 경우 비밀번호 입력 모달2 -->
 <div class="modal fade" id="login-password-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title fw-bold" id="exampleModalLabel">로그인</h5>
@@ -152,7 +155,7 @@ pageEncoding="UTF-8"%>
 
 <!-- Modal -->
 <div class="modal fade" id="email-register-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title fw-bold" id="exampleModalLabel">회원 가입 완료하기</h5>
@@ -242,49 +245,56 @@ pageEncoding="UTF-8"%>
   회원가입 완료 모달
 </button>
 
-<!-- Modal -->
-<div class="modal fade" id="register-complete-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+<div class="modal fade" id="register-complete-modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title fw-bold" id="exampleModalLabel">프로필 생성하기</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-      	<div class="text-center">
-		    <img src="/resources/logo.png" alt="logo">
-		    <h4 class="fw-bold">에어비앤비에 오신 것을 환영합니다.</h4>
-		    <p>전 세계 숙소, 현지 레스토랑 및 독특한 체험을 찾아보세요.</p>
-		    <div class="d-grid gap-2 my-4">
-        		<button type="button" class="btn p-3" id="btn-next2">계속</button>
-        	</div>
-      	</div>
-      </div>
+	  <div class="modal-body text-center">
+			<img src="/resources/logo.png" alt="logo">
+			<h4>에어비앤비에 오신 것을 환영합니다.</h4>
+			<p>전 세계 숙소, 현지 레스토랑 및 독특한 체험을 찾아보세요.</p>
+			<div class="d-grid gap-2 my-4">
+		       <button type="button" class="btn p-3" id="btn-register-complete" data-bs-target="#upload-profile-modal" data-bs-toggle="modal" data-bs-dismiss="modal">계속</button>
+		    </div>
+	  </div>
     </div>
   </div>
 </div>
-
-<!-- 프로필 생성 모달 -->
-<div class="modal" tabindex="-1">
-  <div class="modal-dialog">
+<div class="modal fade" id="upload-profile-modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">프로필 생성하기</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body text-center p-5">
         <h4>프로필 사진 추가</h4>
-        <p>얼굴이 보이는 이미지를 선택하세요. 호스트는 예약이 확정된 후에만 사진을 볼 수 있습니다.</p>
-        <svg></svg>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <div>
+	        <p class="fs-5">얼굴이 보이는 이미지를 선택하세요. 호스트는 예약이 확정된 후에만 사진을 볼 수 있습니다.</p>
+	        <p class="fs-5 d-none">이 사진이 내 프로필에 추가됩니다. 호스트나 캐스트가 보게 되는 사진이므로 개인정보나 민감한 정보가 표시되지 않도록 하세요.</p>
+        </div>
+        <form:form id="form-profileImg" action="" method="post" enctype="multipart/form-data" modelAttribute="userRegisterForm">
+	        <div class="">
+		        <img src="/resources/logo.png">
+	        </div>
+	        <div class="d-grid gap-2 my-4">
+	        	<form:input type="file" path="profileImg" id="profile-img" class="d-none" accept="image/gif, image/jpeg, image/png" />
+	        	<button type="button" class="btn btn-dark p-3 fs-5 fw-bold" id="btn-add-profileImg"><i class="fa-solid fa-cloud-arrow-up text-start"></i> 사진 업로드하기</button>
+	        	<button type="button" class="btn btn-dark p-3 fs-5 fw-bold d-none" id="btn-add-complete" data-bs-dismiss="modal" aria-label="Close">완료</button>
+	        	<button type="button" class="btn btn-outline-dark p-3 fs-5 fw-bold" id="btn-use-facebookImg">페이스북 사진 사용</button>
+	        	<button type="button" class="btn btn-outline-dark p-3 fs-5 fw-bold d-none" id="btn-change-profileImg">사진 변경</button>
+	        </div>
+        </form:form>
+        <div>
+        	<button type="button" class="btn btn-link text-reset fw-bold fs-5" data-bs-dismiss="modal" aria-label="Close">나중에 할게요</button>
+        </div>
       </div>
     </div>
   </div>
 </div>
-
 
 <script type="text/javascript">
 
@@ -409,7 +419,7 @@ $(function () {
 	
 	let loginPasswordmodal = new bootstrap.Modal(document.getElementById("login-password-modal")); 
 	let registerModal = new bootstrap.Modal(document.getElementById("email-register-modal")); 
-	
+	// 로그인 및 회원가입 모달창에서 이메일 입력폼 제출
 	$("#btn-next1").click(function() {
 		$(".btn-close").click();
 		let email = $email1.val().trim();
@@ -429,7 +439,7 @@ $(function () {
 		
 		
 	});
-	
+	// 회원가입 입력폼 제출
 	$("#btn-register").click(function() {
 		
 		let querystring = $("#register-form").serialize();
@@ -443,6 +453,45 @@ $(function () {
 		})
 		
 	});
+	
+	$("#btn-add-profileImg").click(function() {
+		$("#profile-img").click();
+	});
+	$("#btn-change-profileImg").click(function() {
+		$("#profile-img").click();
+	});
+	
+	$("#profile-img").change(function() {
+		
+		$("#upload-profile-modal h4").text("좋아요!");
+		$("#upload-profile-modal p").text("이 사진이 내 프로필에 추가됩니다. 호스트나 캐스트가 보게 되는 사진이므로 개인정보나 민감한 정보가 표시되지 않도록 하세요.");
+		$("#btn-add-profileImg").addClass("d-none");
+		$("#btn-add-complete").removeClass("d-none");
+		$("#btn-use-facebookImg").addClass("d-none");
+		$("#btn-change-profileImg").removeClass("d-none");
+		
+		let formData = new FormData(document.getElementById("form-profileImg"));			// $("#form-profileImg")오류?
+		
+		$.ajax({
+			type: "POST",								
+			url: "/user/addProfileImg",			
+			data: formData,	
+			processData: false,
+			contentType: false,			
+			success: function(data) {					// 성공적인 응답이 왔을 때 실행되는 함수, data에는 서버가 보내느 응답데이터가 있다.
+				alert("성공");
+			} 
+			
+		});
+		
+		/* $.post("/user/addProfileImg", form, function(data) {
+			
+		}); */
+		
+		
+	});
+	
+	
 	
 })
 

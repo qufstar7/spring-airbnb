@@ -9,4 +9,5 @@ public interface UserMapper {
 
 	User getUserByEmail(String email);
 	void insertUser(User user);
+	void updateUser(User user);
 }
