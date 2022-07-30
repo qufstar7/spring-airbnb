@@ -1,13 +1,20 @@
 package kr.co.airbnb.controller;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,16 +33,20 @@ import kr.co.airbnb.vo.User;
 
 @Controller
 @RequestMapping("/user")
-@SessionAttributes("userRegisterForm")
+@SessionAttributes({"userRegisterForm", "LOGIN_USER"})
 
 public class UserController {
 
+	@Value("${airbnb.profile.image.save-directory}")
+	String profileImageSaveDirectory;
+	
 	@Autowired
 	private UserService userService;
 	
 	@GetMapping(path="/register")
 	public String register(Model model) {
 		
+		// 폼입력값을 담을 객체를 미리 생성해서 Model에 저장
 		model.addAttribute("userRegisterForm", new UserRegisterForm());
 		return "user/home";
 	}
@@ -56,7 +67,7 @@ public class UserController {
 	
 	@PostMapping(path="/register")
 	@ResponseBody
-	public Map<String, Object> register(@ModelAttribute UserRegisterForm userRegisterForm, Model model) {
+	public Map<String, Object> register(@ModelAttribute("userRegisterForm") UserRegisterForm userRegisterForm, Model model) {
 		
 		User user = new User();
 		user.setName(userRegisterForm.getLastName() + userRegisterForm.getFirstName());
@@ -65,7 +76,8 @@ public class UserController {
 		user.setPassword(userRegisterForm.getPassword());
 		
 		userService.addNewUser(user);
-		// 질문하기 !! model.addAttribute("LOGIN_USER", user);
+		// 회원가입시 자동으로 로그인 처리됨
+		model.addAttribute("LOGIN_USER", user);
 		//model.addAttribute("userRegisterForm", userRegisterForm);
 		
 		
@@ -76,10 +88,26 @@ public class UserController {
 	}
 	
 	@PostMapping(path="/addProfileImg")
-	public Map<String, Object> uploadProfileImg(@ModelAttribute UserRegisterForm userRegisterForm) {
+	public Map<String, Object> uploadProfileImg(@ModelAttribute("userRegisterForm") UserRegisterForm userRegisterForm, @LoginUser User loginUser) throws IOException {
 		
-		System.out.println(userRegisterForm);
-		System.out.println(userRegisterForm.getProfileImg().getOriginalFilename());
+		// 프로필이미지 사진 처리하기
+		if(!userRegisterForm.getProfileImg().isEmpty()) {
+			MultipartFile profileImg = userRegisterForm.getProfileImg();
+			String filename = profileImg.getOriginalFilename();
+			User user = userService.getUserByEmail(loginUser.getEmail());
+			user.setProfileImage(filename);
+			userService.updateUserInfo(user);
+			
+			InputStream in = profileImg.getInputStream();	// 업로드된 첨부파일이 임시파일로 저장되는데 그 파일을 읽어오는 스트림이다.
+			
+			if(!new File(profileImageSaveDirectory).exists()) {
+				System.out.println("존재하지않음");
+			}
+			
+			FileOutputStream out = new FileOutputStream(new File(profileImageSaveDirectory, filename));
+			FileCopyUtils.copy(in, out);
+		}
+		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("success", true);
 		
