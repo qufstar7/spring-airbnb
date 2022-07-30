@@ -283,8 +283,8 @@ pageEncoding="UTF-8"%>
 	        <div class="d-grid gap-2 my-4">
 	        	<form:input type="file" path="profileImg" id="profile-img" class="d-none" accept="image/gif, image/jpeg, image/png" />
 	        	<button type="button" class="btn btn-dark p-3 fs-5 fw-bold" id="btn-add-profileImg"><i class="fa-solid fa-cloud-arrow-up text-start"></i> 사진 업로드하기</button>
-	        	<button type="button" class="btn btn-dark p-3 fs-5 fw-bold d-none" data-bs-dismiss="modal" aria-label="Close">완료</button>
-	        	<button type="button" class="btn btn-outline-dark p-3 fs-5 fw-bold" id="">페이스북 사진 사용</button>
+	        	<button type="button" class="btn btn-dark p-3 fs-5 fw-bold d-none" id="btn-add-complete" data-bs-dismiss="modal" aria-label="Close">완료</button>
+	        	<button type="button" class="btn btn-outline-dark p-3 fs-5 fw-bold" id="btn-use-facebookImg">페이스북 사진 사용</button>
 	        	<button type="button" class="btn btn-outline-dark p-3 fs-5 fw-bold d-none" id="btn-change-profileImg">사진 변경</button>
 	        </div>
         </form:form>
@@ -465,8 +465,12 @@ $(function () {
 		
 		$("#upload-profile-modal h4").text("좋아요!");
 		$("#upload-profile-modal p").text("이 사진이 내 프로필에 추가됩니다. 호스트나 캐스트가 보게 되는 사진이므로 개인정보나 민감한 정보가 표시되지 않도록 하세요.");
+		$("#btn-add-profileImg").addClass("d-none");
+		$("#btn-add-complete").removeClass("d-none");
+		$("#btn-use-facebookImg").addClass("d-none");
+		$("#btn-change-profileImg").removeClass("d-none");
 		
-		let formData = new FormData(document.getElementById("form-profileImg"));			// $("#form-profileImg")오류
+		let formData = new FormData(document.getElementById("form-profileImg"));			// $("#form-profileImg")오류?
 		
 		$.ajax({
 			type: "POST",								

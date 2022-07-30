@@ -103,7 +103,7 @@ public class UserController {
 			if(!new File(profileImageSaveDirectory).exists()) {
 				System.out.println("존재하지않음");
 			}
-			
+			// 강사님께 질문
 			FileOutputStream out = new FileOutputStream(new File(profileImageSaveDirectory, filename));
 			FileCopyUtils.copy(in, out);
 		}
@@ -112,5 +112,12 @@ public class UserController {
 		result.put("success", true);
 		
 		return result;
+	}
+	
+	@GetMapping(path="/wishlist")
+	public String wishlist() {
+		
+		
+		return "user/wishlist";
 	}
 }
