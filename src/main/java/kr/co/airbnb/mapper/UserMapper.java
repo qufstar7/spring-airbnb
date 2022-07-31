@@ -8,6 +8,7 @@ import kr.co.airbnb.vo.User;
 public interface UserMapper {
 
 	User getUserByEmail(String email);
+	User getUserByNo(int no);
 	void insertUser(User user);
 	void updateUser(User user);
 }
