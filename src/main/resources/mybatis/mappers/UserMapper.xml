@@ -19,10 +19,18 @@
 		<result column="USER_GENDER" property="gender"/>
 	</resultMap>
 
+	<!-- User getUserByEmail(String email); -->
 	<select id="getUserByEmail" parameterType="string" resultMap="userResultMap">
 		select *
 		from airbnb_users
 		where user_email = #{value}
+	</select>
+	
+	<!-- User getUserByNo(int no); -->
+	<select id="getUserByNo" parameterType="int">
+		select *
+		from airbnb_users
+		where user_no = #{value}
 	</select>
 	
 	<insert id="insertUser" parameterType="User">

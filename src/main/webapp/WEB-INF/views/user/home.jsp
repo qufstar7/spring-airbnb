@@ -12,7 +12,10 @@ pageEncoding="UTF-8"%>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- 아이콘 라이브러리 -->
 <script src="https://kit.fontawesome.com/2628157b3b.js"></script>
-
+<!-- 구글 로그인 api -->
+<meta name="google-signin-client_id" content="340808936773-p2v7dk0jtatnsjl29nnvivnol8f9rni8.apps.googleusercontent.com">
+<!-- 구글 api 사용을 위한 스크립트? -->
+<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
 <title>Insert title here</title>
 <style type="text/css">
 	#btn-next1, 
@@ -96,7 +99,9 @@ pageEncoding="UTF-8"%>
       		</div>
 		    <div class="d-grid gap-2">
 		    	<button type="button" class="btn btn-outline-dark" >페이스북으로 로그인하기</button>
-		    	<button type="button" class="btn btn-outline-dark" >구글로 로그인하기</button>
+		    	<div class="g-signin2" data-onsuccess="onSignIn">
+					<button type="button" class="">구글로 로그인하기</button>
+				</div>
 		    	<button type="button" class="btn btn-outline-dark" >Apple 계정으로 로그인하기</button>
 		    </div>
       	</div>
@@ -296,9 +301,32 @@ pageEncoding="UTF-8"%>
   </div>
 </div>
 
+<a href="/user/wishlists">마이 위시리스트</a>
+
+
 <script type="text/javascript">
 
 $(function () {
+	
+	// 구글 로그인 test
+	 function onSignIn(googleUser) {
+		let profile= googleUser.getBasicProfile();
+		console.log("ID: " + profile.getId());
+		console.log("Name: " + profile.getName());
+		console.log("Image URL: " + profile.getImageUrl());
+		console.log("Email: " + profile.getEmail());
+	} 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	let $firstName = $(":input[name=firstName]");
 	let $lastName = $(":input[name=lastName]");
@@ -496,5 +524,6 @@ $(function () {
 })
 
 </script>
+
 </body>
 </html>

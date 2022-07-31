@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -30,6 +31,7 @@ import kr.co.airbnb.annotation.LoginUser;
 import kr.co.airbnb.form.UserRegisterForm;
 import kr.co.airbnb.service.UserService;
 import kr.co.airbnb.vo.User;
+import kr.co.airbnb.vo.Wishlist;
 
 @Controller
 @RequestMapping("/user")
@@ -114,10 +116,11 @@ public class UserController {
 		return result;
 	}
 	
-	@GetMapping(path="/wishlist")
-	public String wishlist() {
+	@GetMapping(path="/wishlists")
+	public String wishlist(Model model) { // 추후 @LoginUser User loginUser 추가하기
 		
-		
+		// List<Wishlist> wishlists = userService.getMyWishlists(loginUser.getNo());
+		// model.addAttribute("wishlists", wishlists);
 		return "user/wishlist";
 	}
 }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="kr.co.airbnb.mapper.WishlistMapper">
+
+	<resultMap type="Wishlist" id="WishlistResultMap">
+		<id column="wishlist_no" property="no"/>
+		<result column="wishlist_name" property="name"/>
+		<result column="wishlist_created_datE" property="createdDate"/>
+		<result column="wishlist_updated_date" property="updatedDate"/>
+		<association column="user_no" property= "user" select="kr.co.airbnb.mapper.UserMapper.getUserByNo" />
+		<!-- <association column="acc_no" property="acc" select=""/>  나중에 추가하기-->
+	</resultMap> 
+ 
+ 	<!-- List<Wishlist> getWishlistsByUserNo(int userNo); -->
+ 	<select id="getWishlistsByUserNo" parameterType="int" resultMap="WishlistResultMap">
+ 		select *
+ 		from airbnb_wishlists
+ 		where user_no = #{value}
+ 		order by wishlist_no desc
+ 	</select>
+ 	
+ 	<!-- void insertWishlist(Wishlist wishlist); -->
+ 	<insert id="insertWishlist" parameterType="Wishlist">
+ 		insert into airbnb_wishlists (wishlist_no, wishlist_name, user_no, acc_no)
+ 		values (wishlists_seq.nextval, #{name},  #{user.no}, #{acc.no})
+ 	</insert>
+ 
+ 
+</mapper>
