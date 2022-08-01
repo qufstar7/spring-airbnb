@@ -9,11 +9,86 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
 	rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css">
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Dinosaur', 'Length'],
+          ['Acrocanthosaurus (top-spined lizard)', 12.2],
+          ['Albertosaurus (Alberta lizard)', 9.1],
+          ['Allosaurus (other lizard)', 12.2],
+          ['Apatosaurus (deceptive lizard)', 22.9],
+          ['Archaeopteryx (ancient wing)', 0.9],
+          ['Argentinosaurus (Argentina lizard)', 36.6],
+          ['Baryonyx (heavy claws)', 9.1],
+          ['Brachiosaurus (arm lizard)', 30.5],
+          ['Ceratosaurus (horned lizard)', 6.1],
+          ['Coelophysis (hollow form)', 2.7],
+          ['Compsognathus (elegant jaw)', 0.9],
+          ['Deinonychus (terrible claw)', 2.7],
+          ['Diplodocus (double beam)', 27.1],
+          ['Dromicelomimus (emu mimic)', 3.4],
+          ['Gallimimus (fowl mimic)', 5.5],
+          ['Mamenchisaurus (Mamenchi lizard)', 21.0],
+          ['Megalosaurus (big lizard)', 7.9],
+          ['Microvenator (small hunter)', 1.2],
+          ['Ornithomimus (bird mimic)', 4.6],
+          ['Oviraptor (egg robber)', 1.5],
+          ['Plateosaurus (flat lizard)', 7.9],
+          ['Sauronithoides (narrow-clawed lizard)', 2.0],
+          ['Seismosaurus (tremor lizard)', 45.7],
+          ['Spinosaurus (spiny lizard)', 12.2],
+          ['Supersaurus (super lizard)', 30.5],
+          ['Tyrannosaurus (tyrant lizard)', 15.2],
+          ['Ultrasaurus (ultra lizard)', 30.5],
+          ['Velociraptor (swift robber)', 1.8]]);
+
+        var options = {
+          title: 'Lengths of dinosaurs, in meters',
+          legend: { position: 'none' },
+          colors: ['gray'],
+        };
+
+        var chart = new google.visualization.Histogram(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
 <title>Applied Coding & Computer - aircnc</title>
+<style type="text/css">
+.fw-lighter {
+	font-size: 14px;
+}
+
+#submit {
+	width: 163px;
+	height: 48px;
+}
+
+#accCheck, #convenience-required, #convenience-feature,
+	#guest-Accessibility, #bedroom, #bathroom, #disabled-Accessibility {
+	width: 1.55rem;
+	height: 1.55rem;
+	padding-top: 13px;
+	padding-left: 6px;
+}
+
+#book-option, #super-book-option {
+	width: 50px;
+	height: 32px;
+}
+
+#building {
+	width: 165px;
+	height: 128px;
+}
+</style>
 </head>
 <%@ include file="common/nav.jsp"%>
 <c:set var="menu" value="home" />
@@ -21,11 +96,12 @@
 	<div class="container my-3">
 		<div
 			class="d-flex align-content-start justify-content-between flex-wrap"
-			style="height: 10207px; margin-top:100px">
+			style="height: 10207px; margin-top: 100px">
 			<a href="#" style="text-decoration-line: none; color: black">
 				<div class="p-1">
 					<div class="" style="width: 300px">
-						<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+						<div id="carouselExampleIndicators" class="carousel slide"
+							data-bs-ride="true">
 							<!-- 숙소 섬네일 슬라이드쇼 -->
 							<div class="carousel-indicators">
 								<button type="button"
@@ -83,13 +159,13 @@
 						</div>
 					</div>
 				</div>
-			</a>
-			<a href="#" style="text-decoration-line: none; color: black">
+			</a> <a href="#" style="text-decoration-line: none; color: black">
 				<div class="p-1">
 					<div class="" style="width: 300px">
 						<!-- 숙소 섬네일 슬라이드쇼 시작 -->
 						<!-- 아이디에 acc_no나 img_no를 사용하는게 좋을 것 같습니다. / id - 아래 3개의 버튼, prev버튼, next버튼 -->
-						<div id="carouselExampleIndicators-1" class="carousel slide" data-bs-ride="true">
+						<div id="carouselExampleIndicators-1" class="carousel slide"
+							data-bs-ride="true">
 							<div class="carousel-indicators">
 								<button type="button"
 									data-bs-target="#carouselExampleIndicators-1"
@@ -120,15 +196,17 @@
 										style="object-fit: cover; width: 300px; height: 300px;">
 								</div>
 							</div>
-							
+
 							<button class="carousel-control-prev" type="button"
-								data-bs-target="#carouselExampleIndicators-1" data-bs-slide="prev">
+								data-bs-target="#carouselExampleIndicators-1"
+								data-bs-slide="prev">
 								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 								<span class="visually-hidden">Previous</span>
 							</button>
-							
+
 							<button class="carousel-control-next" type="button"
-								data-bs-target="#carouselExampleIndicators-1" data-bs-slide="next">
+								data-bs-target="#carouselExampleIndicators-1"
+								data-bs-slide="next">
 								<span class="carousel-control-next-icon" aria-hidden="true"></span>
 								<span class="visually-hidden">Next</span>
 							</button>
@@ -151,7 +229,8 @@
 			</a><a href="#" style="text-decoration-line: none; color: black">
 				<div class="p-1">
 					<div class="" style="width: 300px">
-						<div id="carouselExampleIndicators-2" class="carousel slide" data-bs-ride="true">
+						<div id="carouselExampleIndicators-2" class="carousel slide"
+							data-bs-ride="true">
 							<!-- 숙소 섬네일 슬라이드쇼 -->
 							<div class="carousel-indicators">
 								<button type="button"
@@ -184,12 +263,14 @@
 								</div>
 							</div>
 							<button class="carousel-control-prev" type="button"
-								data-bs-target="#carouselExampleIndicators-2" data-bs-slide="prev">
+								data-bs-target="#carouselExampleIndicators-2"
+								data-bs-slide="prev">
 								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 								<span class="visually-hidden">Previous</span>
 							</button>
 							<button class="carousel-control-next" type="button"
-								data-bs-target="#carouselExampleIndicators-2" data-bs-slide="next">
+								data-bs-target="#carouselExampleIndicators-2"
+								data-bs-slide="next">
 								<span class="carousel-control-next-icon" aria-hidden="true"></span>
 								<span class="visually-hidden">Next</span>
 							</button>
@@ -209,12 +290,11 @@
 						</div>
 					</div>
 				</div>
-			</a>
-			
-			<a href="#" style="text-decoration-line: none; color: black">
+			</a> <a href="#" style="text-decoration-line: none; color: black">
 				<div class="p-1">
 					<div class="" style="width: 300px">
-						<div id="carouselExampleIndicators-3" class="carousel slide" data-bs-ride="true">
+						<div id="carouselExampleIndicators-3" class="carousel slide"
+							data-bs-ride="true">
 							<!-- 숙소 섬네일 슬라이드쇼 -->
 							<div class="carousel-indicators">
 								<button type="button"
@@ -247,12 +327,14 @@
 								</div>
 							</div>
 							<button class="carousel-control-prev" type="button"
-								data-bs-target="#carouselExampleIndicators-3" data-bs-slide="prev">
+								data-bs-target="#carouselExampleIndicators-3"
+								data-bs-slide="prev">
 								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 								<span class="visually-hidden">Previous</span>
 							</button>
 							<button class="carousel-control-next" type="button"
-								data-bs-target="#carouselExampleIndicators-3" data-bs-slide="next">
+								data-bs-target="#carouselExampleIndicators-3"
+								data-bs-slide="next">
 								<span class="carousel-control-next-icon" aria-hidden="true"></span>
 								<span class="visually-hidden">Next</span>
 							</button>
@@ -272,12 +354,11 @@
 						</div>
 					</div>
 				</div>
-			</a>
-			
-			<a href="#" style="text-decoration-line: none; color: black">
+			</a> <a href="#" style="text-decoration-line: none; color: black">
 				<div class="p-1">
 					<div class="" style="width: 300px">
-						<div id="carouselExampleIndicators-4" class="carousel slide" data-bs-ride="true">
+						<div id="carouselExampleIndicators-4" class="carousel slide"
+							data-bs-ride="true">
 							<!-- 숙소 섬네일 슬라이드쇼 -->
 							<div class="carousel-indicators">
 								<button type="button"
@@ -310,12 +391,14 @@
 								</div>
 							</div>
 							<button class="carousel-control-prev" type="button"
-								data-bs-target="#carouselExampleIndicators-4" data-bs-slide="prev">
+								data-bs-target="#carouselExampleIndicators-4"
+								data-bs-slide="prev">
 								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 								<span class="visually-hidden">Previous</span>
 							</button>
 							<button class="carousel-control-next" type="button"
-								data-bs-target="#carouselExampleIndicators-4" data-bs-slide="next">
+								data-bs-target="#carouselExampleIndicators-4"
+								data-bs-slide="next">
 								<span class="carousel-control-next-icon" aria-hidden="true"></span>
 								<span class="visually-hidden">Next</span>
 							</button>
@@ -403,24 +486,601 @@
 		</div>
 	</div>
 
-<!-- filter modal -->
-<div class="modal" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+	<!-- filter modal -->
+	<div class="modal fade" id="filterModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-scrollable modal-lg">
+			<div class="modal-content">
+				<div class="modal-header d-flex justify-content-between" style="height:63px">
+					<div>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<h6 class="modal-title text-center" id="exampleModalLabel">필터</h6>
+					<div></div>
+				</div>
+				<div class="modal-body p-4">
+					<form action="">
+						<h5>
+							<strong>가격 범위</strong>
+						</h5>
+						<p class="text-muted">평균 1박 요금은 ₩413,410
+						
+					
+						입니다.</p>
+						<div class="p-3">
+							<div id="chart_div" style="width: 640px; height: 130px;"></div>
+							<div>가격 범위</div>
+						</div>
+						<hr class="my-4">
+						<h5>
+							<strong>숙소 유형</strong>
+						</h5>
+						<!-- 복수 선택이 가능하게 만들어야 합니다. button 아니에요.. -->
+						<div class="row p-3">
+							<div class="form-check col-6">
+								<input class="form-check-input" type="checkbox" value=""
+									id="accCheck"> <label class="form-check-label px-2"
+									for="flexCheckDefault"> 집 전체
+									<p class="fw-lighter">단독으로 사용하는 공간 전체</p>
+								</label>
+							</div>
+							<div class="form-check col-6">
+								<input class="form-check-input checkbox-lg" type="checkbox"
+									value="" id="accCheck"> <label
+									class="form-check-label px-2" for="flexCheckDefault">
+									개인실
+									<p class="fw-lighter">집 또는 호텔의 개인실과 일부 공용 공간</p>
+								</label>
+							</div>
+							<div class="form-check col-6">
+								<input class="form-check-input" type="checkbox" value=""
+									id="accCheck"> <label class="form-check-label px-2"
+									for="flexCheckDefault"> 다인실
+									<p class="fw-lighter">다른 사람들과 함께 사용하는 다인실 및 공용 공간</p>
+								</label>
+							</div>
+						</div>
+						<hr class="my-4">
+						<h5>
+							<strong>침실과 침대</strong>
+						</h5>
+						<div class="p-3 ps-0">
+							<p>침실</p>
+							<p class="pb-3">
+								<button type="button" class="btn btn-dark">
+									<label class="px-2">상관없음</label>
+								</button>
+								<button type="button" class="btn btn-dark">
+									<label class="px-2">1</label>
+								</button>
+								<button type="button" class="btn btn-dark">
+									<label class="px-2">2</label>
+								</button>
+								<button type="button" class="btn btn-dark">
+									<label class="px-2">3</label>
+								</button>
+								<button type="button" class="btn btn-dark">
+									<label class="px-2">4</label>
+								</button>
+								<button type="button" class="btn btn-dark">
+									<label class="px-2">5</label>
+								</button>
+								<button type="button" class="btn btn-dark">
+									<label class="px-2">6</label>
+								</button>
+								<button type="button" class="btn btn-dark">
+									<label class="px-2">7</label>
+								</button>
+								<button type="button" class="btn btn-dark">
+									<label class="px-2">8+</label>
+								</button>
+							</p>
+							<p>침대</p>
+							<p class="pb-3">
+								<button type="button" class="btn btn-dark">
+									<label class="px-2">상관없음</label>
+								</button>
+								<button type="button" class="btn btn-dark">
+									<label class="px-2">1</label>
+								</button>
+								<button type="button" class="btn btn-dark">
+									<label class="px-2">2</label>
+								</button>
+								<button type="button" class="btn btn-dark">
+									<label class="px-2">3</label>
+								</button>
+								<button type="button" class="btn btn-dark">
+									<label class="px-2">4</label>
+								</button>
+								<button type="button" class="btn btn-dark">
+									<label class="px-2">5</label>
+								</button>
+								<button type="button" class="btn btn-dark">
+									<label class="px-2">6</label>
+								</button>
+								<button type="button" class="btn btn-dark">
+									<label class="px-2">7</label>
+								</button>
+								<button type="button" class="btn btn-dark">
+									<label class="px-2">8+</label>
+								</button>
+							</p>
+
+							<div class="collapse" id="collapseExample">
+								<p>욕실</p>
+								<p class="pb-3">
+									<button type="button" class="btn btn-dark">
+										<label class="px-2">상관없음</label>
+									</button>
+									<button type="button" class="btn btn-dark">
+										<label class="px-2">1</label>
+									</button>
+									<button type="button" class="btn btn-dark">
+										<label class="px-2">2</label>
+									</button>
+									<button type="button" class="btn btn-dark">
+										<label class="px-2">3</label>
+									</button>
+									<button type="button" class="btn btn-dark">
+										<label class="px-2">4</label>
+									</button>
+									<button type="button" class="btn btn-dark">
+										<label class="px-2">5</label>
+									</button>
+									<button type="button" class="btn btn-dark">
+										<label class="px-2">6</label>
+									</button>
+									<button type="button" class="btn btn-dark">
+										<label class="px-2">7</label>
+									</button>
+									<button type="button" class="btn btn-dark">
+										<label class="px-2">8+</label>
+									</button>
+								</p>
+							</div>
+							<a class="btn btn-link" data-bs-toggle="collapse"
+								href="#collapseExample" role="button" aria-expanded="false"
+								aria-controls="collapseExample" style="color: black"> <strong>더
+									표시</strong>
+							</a>
+						</div>
+						<hr class="my-4">
+						<h5>
+							<strong>건물 유형</strong>
+						</h5>
+						<div class="d-flex justify-content-around p-3"></div>
+						<button class="btn btn-outline-dark " id="building">
+							<div class="">
+								<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+									fill="currentColor" class="bi bi-house-door"
+									viewBox="0 0 16 16">
+						  <path
+										d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+						</svg>
+							</div>
+							<div class="pt-4">단독 또는 다세대 주택</div>
+						</button>
+						<button class="btn btn-outline-dark" id="building">
+							<div class="">
+								<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+									fill="currentColor" class="bi bi-building" viewBox="0 0 16 16">
+						  <path fill-rule="evenodd"
+										d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022zM6 8.694 1 10.36V15h5V8.694zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5V15z" />
+						  <path
+										d="M2 11h1v1H2v-1zm2 0h1v1H4v-1zm-2 2h1v1H2v-1zm2 0h1v1H4v-1zm4-4h1v1H8V9zm2 0h1v1h-1V9zm-2 2h1v1H8v-1zm2 0h1v1h-1v-1zm2-2h1v1h-1V9zm0 2h1v1h-1v-1zM8 7h1v1H8V7zm2 0h1v1h-1V7zm2 0h1v1h-1V7zM8 5h1v1H8V5zm2 0h1v1h-1V5zm2 0h1v1h-1V5zm0-2h1v1h-1V3z" />
+						</svg>
+							</div>
+							<div class="pt-4">아파트</div>
+						</button>
+						<button class="btn btn-outline-dark" id="building">
+							<div class="">
+								<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+									fill="currentColor" class="bi bi-bank" viewBox="0 0 16 16">
+						  <path
+										d="m8 0 6.61 3h.89a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v7a.5.5 0 0 1 .485.38l.5 2a.498.498 0 0 1-.485.62H.5a.498.498 0 0 1-.485-.62l.5-2A.501.501 0 0 1 1 13V6H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 3h.89L8 0ZM3.777 3h8.447L8 1 3.777 3ZM2 6v7h1V6H2Zm2 0v7h2.5V6H4Zm3.5 0v7h1V6h-1Zm2 0v7H12V6H9.5ZM13 6v7h1V6h-1Zm2-1V4H1v1h14Zm-.39 9H1.39l-.25 1h13.72l-.25-1Z" />
+						</svg>
+							</div>
+							<div class="pt-4">게스트용 별채</div>
+						</button>
+						<button class="btn btn-outline-dark" id="building">
+							<div class="pt-4">
+								<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+									fill="currentColor" class="bi bi-hospital" viewBox="0 0 16 16">
+						    <path
+										d="M8.5 5.034v1.1l.953-.55.5.867L9 7l.953.55-.5.866-.953-.55v1.1h-1v-1.1l-.953.55-.5-.866L7 7l-.953-.55.5-.866.953.55v-1.1h1ZM13.25 9a.25.25 0 0 0-.25.25v.5c0 .138.112.25.25.25h.5a.25.25 0 0 0 .25-.25v-.5a.25.25 0 0 0-.25-.25h-.5ZM13 11.25a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5Zm.25 1.75a.25.25 0 0 0-.25.25v.5c0 .138.112.25.25.25h.5a.25.25 0 0 0 .25-.25v-.5a.25.25 0 0 0-.25-.25h-.5Zm-11-4a.25.25 0 0 0-.25.25v.5c0 .138.112.25.25.25h.5A.25.25 0 0 0 3 9.75v-.5A.25.25 0 0 0 2.75 9h-.5Zm0 2a.25.25 0 0 0-.25.25v.5c0 .138.112.25.25.25h.5a.25.25 0 0 0 .25-.25v-.5a.25.25 0 0 0-.25-.25h-.5ZM2 13.25a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5Z" />
+						    <path
+										d="M5 1a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1a1 1 0 0 1 1 1v4h3a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h3V3a1 1 0 0 1 1-1V1Zm2 14h2v-3H7v3Zm3 0h1V3H5v12h1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3Zm0-14H6v1h4V1Zm2 7v7h3V8h-3Zm-8 7V8H1v7h3Z" />
+					    </svg>
+							</div>
+							<div class="pt-4">호텔</div>
+						</button>
+						<hr class="my-4">
+						<h5>
+							<strong>편의시설</strong>
+						</h5>
+						<div>
+							<div class="row p-3">
+								<div class="col-12 pb-3 ps-0">
+									<strong>필수</strong>
+								</div>
+								<div class="form-check col-6">
+									<input class="form-check-input" type="checkbox" value=""
+										id="convenience-required"> <label
+										class="form-check-label p-2" for="flexCheckDefault">
+										무선 인터넷 </label>
+								</div>
+								<div class="form-check col-6">
+									<input class="form-check-input" type="checkbox" value=""
+										id="convenience-required"> <label
+										class="form-check-label p-2" for="flexCheckDefault">
+										주방 </label>
+								</div>
+								<div class="form-check col-6">
+									<input class="form-check-input" type="checkbox" value=""
+										id="convenience-required"> <label
+										class="form-check-label p-2" for="flexCheckDefault">
+										세탁기 </label>
+								</div>
+								<div class="form-check col-6">
+									<input class="form-check-input" type="checkbox" value=""
+										id="convenience-required"> <label
+										class="form-check-label p-2" for="flexCheckDefault">
+										건조기 </label>
+								</div>
+								<div class="form-check col-6">
+									<input class="form-check-input" type="checkbox" value=""
+										id="convenience-required"> <label
+										class="form-check-label p-2" for="flexCheckDefault">
+										에어컨 </label>
+								</div>
+								<div class="collapse" id="collapseExample">
+									<div class="row p-3 ps-0">
+										<div class="form-check col-6">
+											<input class="form-check-input" type="checkbox" value=""
+												id="convenience-required"> <label
+												class="form-check-label p-2" for="flexCheckDefault">
+												난방 </label>
+										</div>
+										<div class="form-check col-6">
+											<input class="form-check-input" type="checkbox" value=""
+												id="convenience-required"> <label
+												class="form-check-label p-2" for="flexCheckDefault">
+												업무 전용 공간 </label>
+										</div>
+										<div class="form-check col-6">
+											<input class="form-check-input" type="checkbox" value=""
+												id="convenience-required"> <label
+												class="form-check-label p-2" for="flexCheckDefault">
+												TV </label>
+										</div>
+										<div class="form-check col-6">
+											<input class="form-check-input" type="checkbox" value=""
+												id="convenience-required"> <label
+												class="form-check-label p-2" for="flexCheckDefault">
+												헤어드라이어 </label>
+										</div>
+										<div class="form-check col-6">
+											<input class="form-check-input" type="checkbox" value=""
+												id="convenience-required"> <label
+												class="form-check-label p-2" for="flexCheckDefault">
+												다리미 </label>
+										</div>
+									</div>
+
+									<div class="row p-3 ps-0">
+										<div class="col-12 pb-3 ps-0">
+											<strong>특징</strong>
+										</div>
+										<div class="form-check col-6">
+											<input class="form-check-input" type="checkbox" value=""
+												id="convenience-feature"> <label
+												class="form-check-label p-2" for="flexCheckDefault">
+												난방 </label>
+										</div>
+										<div class="form-check col-6">
+											<input class="form-check-input" type="checkbox" value=""
+												id="convenience-feature"> <label
+												class="form-check-label p-2" for="flexCheckDefault">
+												자쿠지 </label>
+										</div>
+										<div class="form-check col-6">
+											<input class="form-check-input" type="checkbox" value=""
+												id="convenience-feature"> <label
+												class="form-check-label p-2" for="flexCheckDefault">
+												건물 내 무료 주차 </label>
+										</div>
+										<div class="form-check col-6">
+											<input class="form-check-input" type="checkbox" value=""
+												id="convenience-feature"> <label
+												class="form-check-label p-2" for="flexCheckDefault">
+												전기차 충전 시설 </label>
+										</div>
+										<div class="form-check col-6">
+											<input class="form-check-input" type="checkbox" value=""
+												id="convenience-feature"> <label
+												class="form-check-label p-2" for="flexCheckDefault">
+												아기 침대 </label>
+										</div>
+										<div class="form-check col-6">
+											<input class="form-check-input" type="checkbox" value=""
+												id="convenience-feature"> <label
+												class="form-check-label p-2" for="flexCheckDefault">
+												헬스장 </label>
+										</div>
+										<div class="form-check col-6">
+											<input class="form-check-input" type="checkbox" value=""
+												id="convenience-feature"> <label
+												class="form-check-label p-2" for="flexCheckDefault">
+												바비큐 그릴 </label>
+										</div>
+										<div class="form-check col-6">
+											<input class="form-check-input" type="checkbox" value=""
+												id="convenience-feature"> <label
+												class="form-check-label p-2" for="flexCheckDefault">
+												아침식사 </label>
+										</div>
+										<div class="form-check col-6">
+											<input class="form-check-input" type="checkbox" value=""
+												id="convenience-feature"> <label
+												class="form-check-label p-2" for="flexCheckDefault">
+												실내 벽난로 </label>
+										</div>
+										<div class="form-check col-6">
+											<input class="form-check-input" type="checkbox" value=""
+												id="convenience-feature"> <label
+												class="form-check-label p-2" for="flexCheckDefault">
+												흡연 가능 </label>
+										</div>
+									</div>
+									<div class="row p-3 ps-0">
+										<div class="col-12 pb-3 ps-0">
+											<strong>위치</strong>
+										</div>
+										<div class="form-check col-6">
+											<input class="form-check-input" type="checkbox" value=""
+												id="convenience-location"> <label
+												class="form-check-label p-2" for="flexCheckDefault">
+												해변에 인접 </label>
+										</div>
+										<div class="form-check col-6">
+											<input class="form-check-input" type="checkbox" value=""
+												id="convenience-location"> <label
+												class="form-check-label p-2" for="flexCheckDefault">
+												수변에 인접 </label>
+										</div>
+									</div>
+									<div class="row p-3 ps-0">
+										<div class="col-12 pb-3 ps-0">
+											<strong>안전</strong>
+										</div>
+										<div class="form-check col-6">
+											<input class="form-check-input" type="checkbox" value=""
+												id="convenience-safe"> <label
+												class="form-check-label p-2" for="flexCheckDefault">
+												화재경보기 </label>
+										</div>
+										<div class="form-check col-6">
+											<input class="form-check-input" type="checkbox" value=""
+												id="convenience-safe"> <label
+												class="form-check-label p-2" for="flexCheckDefault">
+												일산화탄소 경보기 </label>
+										</div>
+									</div>
+
+								</div>
+								<a class="btn btn-link ps-0 text-start"
+									data-bs-toggle="collapse" href="#collapseExample" role="button"
+									aria-expanded="false" aria-controls="collapseExample"
+									style="color: black"> <strong>더 표시</strong>
+								</a>
+							</div>
+							<hr class="my-4">
+							<h5>
+								<strong>예약옵션</strong>
+							</h5>
+							<div class="p-3">
+								<div
+									class="form-check form-switch pb-3 ps-0 d-flex justify-content-between">
+									<div>
+										<label class="form-check-label" for="flexSwitchCheckDefault">
+											즉시 예약
+											<p class="fw-lighter">호스트 승인을 기다릴 필요 없이 예약할 수 있는 숙소</p>
+										</label>
+									</div>
+									<div>
+										<input class="form-check-input" type="checkbox" value=""
+											id="book-option">
+									</div>
+								</div>
+								<div
+									class="form-check form-switch pb-3 ps-0 d-flex justify-content-between">
+									<div>
+										<label class="form-check-label" for="flexSwitchCheckDefault">
+											셀프 체크인
+											<p class="fw-lighter">숙소에 도착한 후 복잡한 절차 없이 쉽게 입실할 수 있습니다.</p>
+										</label>
+									</div>
+									<div>
+										<input class="form-check-input" type="checkbox" value=""
+											id="book-option">
+									</div>
+								</div>
+							</div>
+							<hr class="my-4">
+							<h5>
+								<strong>접근성 편의</strong>
+							</h5>
+							<div>
+								<p class="text-muted">호스트가 제공하고 에어비앤비에서 검토한 정보 입니다.</p>
+							</div>
+							<div class="">
+								<div class="row p-3">
+									<div class="col-12 pb-3 ps-0">
+										<strong>필수</strong>
+									</div>
+									<div class="form-check col-6">
+										<input class="form-check-input" type="checkbox" value=""
+											id="guest-Accessibility"> <label
+											class="form-check-label p-2" for="flexCheckDefault">
+											게스트 출입구에 계단이나 문턱 없음 </label>
+									</div>
+									<div class="form-check col-6">
+										<input class="form-check-input" type="checkbox" value=""
+											id="guest-Accessibility"> <label
+											class="form-check-label p-2" for="flexCheckDefault">
+											너비 81cm 이상의 게스트 출입구 </label>
+									</div>
+									<div class="form-check col-6">
+										<input class="form-check-input" type="checkbox" value=""
+											id="guest-Accessibility"> <label
+											class="form-check-label p-2" for="flexCheckDefault">
+											휠체어 접근 가능 주차 공간 </label>
+									</div>
+									<div class="collapse" id="collapseExample">
+										<div class="row p-3 ps-0">
+											<div class="form-check col-6 d-flex justify-content-between">
+												<div>
+													<input class="form-check-input" type="checkbox" value=""
+														id="guest-Accessibility">
+												</div>
+												<div>
+													<label class="form-check-label p-2" for="flexCheckDefault">
+														게스트 출입구까지 계단이나 문턱 없이 이동 가능 </label>
+												</div>
+											</div>
+										</div>
+
+										<div class="row p-3 ps-0">
+											<div class="col-12 pb-3 ps-0">
+												<strong>침실</strong>
+											</div>
+											<div class="form-check col-6">
+												<input class="form-check-input" type="checkbox" value=""
+													id="bedroom"> <label class="form-check-label p-2"
+													for="flexCheckDefault"> 계단이나 문턱 없는 침실</label>
+											</div>
+											<div class="form-check col-6">
+												<input class="form-check-input" type="checkbox" value=""
+													id="bedroom"> <label class="form-check-label p-2"
+													for="flexCheckDefault"> 너비 81cm 이상의 침실 출입구</label>
+											</div>
+										</div>
+										<div class="row p-3 ps-0">
+											<div class="col-12 pb-3 ps-0">
+												<strong>욕실</strong>
+											</div>
+											<div class="form-check col-6">
+												<input class="form-check-input" type="checkbox" value=""
+													id="bathroom"> <label class="form-check-label p-2"
+													for="flexCheckDefault"> 계단이나 문턱 없는 욕실</label>
+											</div>
+											<div class="form-check col-6">
+												<input class="form-check-input" type="checkbox" value=""
+													id="bathroom"> <label class="form-check-label p-2"
+													for="flexCheckDefault"> 너비 81cm 이상의 침실 출입구</label>
+											</div>
+											<div class="form-check col-6">
+												<input class="form-check-input" type="checkbox" value=""
+													id="bathroom"> <label class="form-check-label p-2"
+													for="flexCheckDefault"> 샤워실 고정 손잡이</label>
+											</div>
+											<div class="form-check col-6">
+												<input class="form-check-input" type="checkbox" value=""
+													id="bathroom"> <label class="form-check-label p-2"
+													for="flexCheckDefault"> 변기 옆 고정 손잡이</label>
+											</div>
+											<div class="form-check col-6">
+												<input class="form-check-input" type="checkbox" value=""
+													id="bathroom"> <label class="form-check-label p-2"
+													for="flexCheckDefault"> 계단이나 문턱 없는 샤워실</label>
+											</div>
+											<div class="form-check col-6">
+												<input class="form-check-input" type="checkbox" value=""
+													id="bathroom"> <label class="form-check-label p-2"
+													for="flexCheckDefault"> 샤워/목욕 의자</label>
+											</div>
+										</div>
+										<div class="row p-3 ps-0">
+											<div class="col-12 pb-3 ps-0">
+												<strong>장애인용 보조 장치</strong>
+											</div>
+											<div class="form-check col-6">
+												<input class="form-check-input" type="checkbox" value=""
+													id="disabled-Accessibility"> <label
+													class="form-check-label p-2" for="flexCheckDefault">
+													천장형 또는 이동식 리프트</label>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<a class="btn btn-link ps-0 text-start" data-bs-toggle="collapse"
+							href="#collapseExample" role="button" aria-expanded="false"
+							aria-controls="collapseExample" style="color: black"> <strong>더
+								표시</strong>
+						</a>
+
+						<hr class="my-4">
+						<h5>
+							<strong>최고 수준의 숙소</strong>
+						</h5>
+						<div class="p-3">
+							<div
+									class="form-check form-switch pb-3 ps-0 d-flex justify-content-between">
+									<div>
+										<label class="form-check-label" for="flexSwitchCheckDefault">
+											슈퍼호스트
+											<p class="fw-lighter">슈퍼호스트의 숙소에 머물러보세요
+												<a href="#" style="color:black"><p><strong>더 알아보기</p></strong></a>
+											</p>
+											
+										</label>
+									</div>
+									<div>
+										<input class="form-check-input" type="checkbox" value=""
+											id="super-book-option">
+									</div>
+								</div>
+								<div
+									class="form-check form-switch pb-3 ps-0 d-flex justify-content-between">
+									<div>
+										<label class="form-check-label" for="flexSwitchCheckDefault">
+											셀프 체크인
+											<p class="fw-lighter">숙소에 도착한 후 복잡한 절차 없이 쉽게 입실할 수 있습니다.</p>
+										</label>
+									</div>
+									<div>
+										<input class="form-check-input" type="checkbox" value=""
+											id="super-book-option">
+									</div>
+								</div>
+						</div>
+						<hr class="my-4">
+						<h5>
+							<strong>호스트 언어</strong>
+						</h5>
+						<hr class="my-4">
+
+					</form>
+				</div>
+				<div class="modal-footer justify-content-between">
+					<button class="btn btn-link" style="color: black;">
+						<strong>전체 해제</strong>
+					</button>
+					<button class="btn btn-dark btn-lg"
+						data-bs-target="#exampleModalToggle" data-bs-toggle="modal"
+						data-bs-dismiss="modal" id="submit">
+						<h6 class="d-flex m-0 mx-1">
+							<strong>숙소 566개 표시</strong>
+						</h6>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
 
 </body>
 </html>
