@@ -31,6 +31,8 @@ body {
 	height: 100%;
 	box-sizing: border-box;
 	display: grid;
+	font-size: 12px;
+    font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif !important;
 }
 
 .hostVideo {
@@ -71,6 +73,16 @@ body {
 	word-break:keep-all;
 }
 
-.selectPage {
-	
+/* become-a-host 페이지 nav */
+.nav-link {
+	background-color:#f7f7f7;
+	cursor: pointer;
+	text-align: center;
+	border: none;
+	outline: none;
+	padding: 0;
+	margin: 0;
+	border-color: #DDDDDD;
+	color: #222222;
+	height: 32px;
 }
