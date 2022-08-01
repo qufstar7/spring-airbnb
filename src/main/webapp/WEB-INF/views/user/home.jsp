@@ -14,11 +14,13 @@ pageEncoding="UTF-8"%>
 <script src="https://kit.fontawesome.com/2628157b3b.js"></script>
 <!-- 구글 로그인 api -->
 <meta name="google-signin-client_id" content="340808936773-p2v7dk0jtatnsjl29nnvivnol8f9rni8.apps.googleusercontent.com">
-<!-- 구글 api 사용을 위한 스크립트? -->
+<!-- 구글 api 사용을 위한 스크립트 -->
 <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+<!-- 카카오 로그인지원 자바스크립트 라이브러리를 포함시킨다. -->
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <title>Insert title here</title>
 <style type="text/css">
-	#btn-next1, 
+	#btn-login-register, 
 	#btn-register,
 	#btn-login,
 	#btn-register-complete {background: rgb(251,63,111);
@@ -56,6 +58,12 @@ pageEncoding="UTF-8"%>
 	
 	h4, h5 {font-weight: bold;}
 	
+	/* #btn-expose-password {
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: inherit;} */
+	
 </style>
 </head>
 <body>
@@ -84,14 +92,14 @@ pageEncoding="UTF-8"%>
       	<div>
       		<form action="" method="post" class="needs-validation" novalidate>
 	      		<div class="form-floating my-4">
-			     	<input type="text" class="form-control outline" name="email1" placeholder="이메일" required >
+			     	<input type="text" class="form-control outline" name="email" placeholder="이메일" required >
 			     	<label for="floatingInput">이메일</label>
 			     	<div class="invalid-feedback">
 			     		<i class="fa-solid fa-circle-exclamation"></i>  이메일을 입력해주세요
 			     	</div>
 		    	</div>
 			    <div class="d-grid gap-2 my-4">
-				     <button type="button" class="btn p-3" id="btn-next1">계속</button>
+				     <button type="button" class="btn p-3" id="btn-login-register">계속</button>
 			    </div>
       		</form>
       		<div class="line">
@@ -99,10 +107,11 @@ pageEncoding="UTF-8"%>
       		</div>
 		    <div class="d-grid gap-2">
 		    	<button type="button" class="btn btn-outline-dark" >페이스북으로 로그인하기</button>
-		    	<div class="g-signin2" data-onsuccess="onSignIn">
-					<button type="button" class="">구글로 로그인하기</button>
-				</div>
+				<button type="button" class="btn btn-outline-dark">구글로 로그인하기</button>
 		    	<button type="button" class="btn btn-outline-dark" >Apple 계정으로 로그인하기</button>
+		    	<a id="custom-login-btn">
+				  <img src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg" width="242" />
+				</a> 
 		    </div>
       	</div>
       </div>
@@ -136,9 +145,10 @@ pageEncoding="UTF-8"%>
       	</div>
       	<div>
       		<form action="" method="post">
-	      		<div class="form-floating my-4">
+	      		<div class="form-floating  position-relative my-4 ">
 			     	<input type="password" class="form-control outline" name="loginPassword" placeholder="비밀번호"  >
 			     	<label for="floatingInput">비밀번호</label>
+			     	<button type="button" class="text-reset btn btn-link position-absolute top-50 end-0 translate-middle" id="btn-login-expose-password">표시</button>
 		    	</div>
 			    <div class="d-grid gap-2 my-4">
 				     <button type="button" class="btn p-3" id="btn-login">로그인</button>
@@ -196,16 +206,16 @@ pageEncoding="UTF-8"%>
 					<i class="fa-solid fa-circle-exclamation"></i><span>올바른 형식의 이메일을 입력해주세요.</span>
 				 </div>
 			</div>
-		    <div class="form-floating">
+		    <div class="form-floating position-relative">
 			     <input type="password" class="form-control outline" name="password" placeholder="비밀번호">
 			     <label for="floatingInput">비밀번호</label>
-			     <button type="button" id="expose-password">표시</button>
-			     <div id="password-helper" class="p-0">
-			     	<p class="d-none" id="ph-1">비밀번호에 본인 이름이나 이메일 주소를 포함할 수 없습니다</p>
-					<p class="d-none" id="ph-2">최소8자</p>
-					<p class="d-none" id="ph-3">숫자나 기호를 포함하세요</p>
-			     </div>
+			     <button type="button" class="text-reset btn btn-link position-absolute top-50 end-0 translate-middle" id="btn-register-expose-password">표시</button>
 			</div>
+		    <div id="password-helper" class="p-0">
+		     	<p class="d-none" id="ph-1">비밀번호에 본인 이름이나 이메일 주소를 포함할 수 없습니다</p>
+				<p class="d-none" id="ph-2">최소8자</p>
+				<p class="d-none" id="ph-3">숫자나 기호를 포함하세요</p>
+		    </div>
 			<div class="row my-3">
 				<div class="col-10">
 					<label for="agree1">개인정보 수집 및 이용에 동의합니다.
@@ -281,18 +291,18 @@ pageEncoding="UTF-8"%>
 	        <p class="fs-5">얼굴이 보이는 이미지를 선택하세요. 호스트는 예약이 확정된 후에만 사진을 볼 수 있습니다.</p>
 	        <p class="fs-5 d-none">이 사진이 내 프로필에 추가됩니다. 호스트나 캐스트가 보게 되는 사진이므로 개인정보나 민감한 정보가 표시되지 않도록 하세요.</p>
         </div>
-        <form:form id="form-profileImg" action="" method="post" enctype="multipart/form-data" modelAttribute="userRegisterForm">
-	        <div class="">
+        <form id="form-profileImg" action="" method="post" enctype="multipart/form-data" >
+	        <div class="">"
 		        <img src="/resources/logo.png">
 	        </div>
 	        <div class="d-grid gap-2 my-4">
-	        	<form:input type="file" path="profileImg" id="profile-img" class="d-none" accept="image/gif, image/jpeg, image/png" />
+	        	<input type="file" name="profileImg" id="profile-img" class="d-none" accept="image/gif, image/jpeg, image/png" />
 	        	<button type="button" class="btn btn-dark p-3 fs-5 fw-bold" id="btn-add-profileImg"><i class="fa-solid fa-cloud-arrow-up text-start"></i> 사진 업로드하기</button>
 	        	<button type="button" class="btn btn-dark p-3 fs-5 fw-bold d-none" id="btn-add-complete" data-bs-dismiss="modal" aria-label="Close">완료</button>
 	        	<button type="button" class="btn btn-outline-dark p-3 fs-5 fw-bold" id="btn-use-facebookImg">페이스북 사진 사용</button>
 	        	<button type="button" class="btn btn-outline-dark p-3 fs-5 fw-bold d-none" id="btn-change-profileImg">사진 변경</button>
 	        </div>
-        </form:form>
+        </form>
         <div>
         	<button type="button" class="btn btn-link text-reset fw-bold fs-5" data-bs-dismiss="modal" aria-label="Close">나중에 할게요</button>
         </div>
@@ -304,34 +314,126 @@ pageEncoding="UTF-8"%>
 <a href="/user/wishlists">마이 위시리스트</a>
 
 
-<script type="text/javascript">
 
+
+<div class="border p-3 mb-4 bg-light">
+	<!-- <a id="custom-login-btn">
+	  <img src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg" width="242" />
+	</a>  -->
+   	<form id="form-kakao-login" method="post" action="kakao-login">
+   		<input type="hidden" name="id" />
+   		<input type="hidden" name="nickname" />
+   		<input type="hidden" name="email" />
+   		<input type="hidden" name="gender" />
+   	</form>
+</div>
+<button class="api-btn" id="btn-kakaoLogout">카카오 로그아웃</button>
+
+
+<div class="g-signin2" data-onsuccess="onSignIn"></div>
+<div id="logout" style="display: none;">
+		<input type="button" onclick="signOut();" value="로그아웃" /><br>
+		
+		<img id="upic" src=""><br>
+		<span id="uname"></span>
+	</div>
+	
+<script type="text/javascript">
 $(function () {
 	
+	Kakao.init('2931d0043daf4865ac102f53587fef2c'); //발급받은 키 중 javascript키를 사용해준다.
+	console.log(Kakao.isInitialized()); // sdk초기화여부판단
+	//카카오로그인
+	$("#custom-login-btn").click(function() {
+		Kakao.Auth.login({
+	          success: function(authObj) {
+	            //alert(JSON.stringify(authObj))
+	            Kakao.API.request({
+	                url: '/v2/user/me',
+	                success: function(response) {
+	                	let account = response.kakao_account;
+	                	alert(JSON.stringify(account));
+	                	$('#form-kakao-login input[name=id]').val(response.id);
+	                	$('#form-kakao-login input[name=email]').val(( account.email != undefined ?  account.email : ''));
+	                	$('#form-kakao-login input[name=nickname]').val(account.profile.nickname);
+	                    $('#form-kakao-login input[name=age]').val(account.age_range);
+	                    $('#form-kakao-login input[name=gender]').val(account.gender);
+	                    //let properties = response.properties;
+	                    //let profile_image = properties.profile_image;
+	                    // 사용자 정보가 포함된 폼을 서버로 제출한다.
+						document.querySelector("#form-kakao-login").submit();
+	                },
+	                fail: function(error) {
+	                    console.log(error);
+	                }
+	            });
+	          },
+	          fail: function(err) {
+	            alert(JSON.stringify(err))
+	          },
+	        })
+	})
+	
+	$("#btn-kakaoLogout").click(function() {
+		if (Kakao.Auth.getAccessToken()) {
+		      Kakao.API.request({
+		        url: '/v1/user/unlink',
+		        success: function (response) {
+		        	console.log("로그아웃 성공");
+		        	console.log(response)
+		        },
+		        fail: function (error) {
+		          console.log(error)
+		        },
+		      })
+		      Kakao.Auth.setAccessToken(undefined)
+		    }
+	})
+	
 	// 구글 로그인 test
-	 function onSignIn(googleUser) {
-		let profile= googleUser.getBasicProfile();
-		console.log("ID: " + profile.getId());
-		console.log("Name: " + profile.getName());
-		console.log("Image URL: " + profile.getImageUrl());
-		console.log("Email: " + profile.getEmail());
-	} 
+	function onSignIn(googleUser) {
+        // Useful data for your client-side scripts:
+        var profile = googleUser.getBasicProfile();
+        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+        console.log('Full Name: ' + profile.getName());
+        console.log('Given Name: ' + profile.getGivenName());
+        console.log('Family Name: ' + profile.getFamilyName());
+        console.log("Image URL: " + profile.getImageUrl());
+        console.log("Email: " + profile.getEmail());
+
+        // The ID token you need to pass to your backend:
+        var id_token = googleUser.getAuthResponse().id_token;
+        console.log("ID Token: " + id_token);
+      } 
+	/* function onSignIn(){
+		var auth2 = gapi.auth2.getAuthInstance()
+		if(auth2.isSignedIn.get()){
+		 var profile = auth2.currentUser.get().getBasicProfile();
+		 googleLoginPro(profile)
+		  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+		  console.log('Name: ' + profile.getName());
+		  console.log('Image URL: ' + profile.getImageUrl());
+		  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+		
+		}
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	function signOut() {
+		if(gapi.auth2 != undefined){
+		 	var auth2 = gapi.auth2.getAuthInstance();
+	   		 auth2.signOut().then(function () {
+	    	  console.log('User signed out.');
+	    	});
+		}
+
+		
+		location.href= "/user/logOut.do"
+	} */
 	
 	let $firstName = $(":input[name=firstName]");
 	let $lastName = $(":input[name=lastName]");
 	let $birthDate = $(":input[name=birthDate]");
-	let $email1 = $(":input[name=email1]");
+	let $email = $(":input[name=email]");
 	let $registerEmail = $(":input[name=registerEmail]");
 	let $password = $(":input[name=password]");
 	
@@ -340,20 +442,48 @@ $(function () {
 	let passwordRegExp =  /^(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/;
 
 	
-	
-	$email1.keyup(function() {
-		let email = $email1.val().trim();
+	let validEmail = false;
+	$email.keyup(function() {
+		let email = $email.val().trim();
 		if (email === "") {
-			$email1.removeClass("is-valid").addClass("is-invalid");
+			$email.removeClass("is-valid").addClass("is-invalid");
 			return;
 		}
 		if (!emailRegExp.test(email)) {
-			$email1.removeClass("is-valid").addClass("is-invalid");
+			$email.removeClass("is-valid").addClass("is-invalid");
 			return;
 		}
 		
-		$email1.addClass("is-valid").removeClass("is-invalid");
-		// 다음 모달창 띄우기
+		$email.addClass("is-valid").removeClass("is-invalid");
+		validEmail = true;
+	});
+	
+	let loginPasswordmodal = new bootstrap.Modal(document.getElementById("login-password-modal")); 
+	let registerModal = new bootstrap.Modal(document.getElementById("email-register-modal")); 
+	// 로그인 및 회원가입 모달창에서 이메일 입력폼 제출
+	$("#btn-login-register").click(function() {
+		if(!validEmail) {
+			$email.focus();
+			$email.keyup();
+			return false;
+		}
+		$(".btn-close").click();
+		
+		let email = $email.val().trim();
+		console.log(email);
+		
+		$.getJSON("/user/checkEmail", "email=" + email, function(result) {
+			
+			// 사용자가 입력한 이메일이 db에 존재하면 비밀번호입력모달(로그인), 그렇지 않으면 회원가입모달창을 띄운다.
+			if(result.exist) {
+				loginPasswordmodal.show();
+				return;
+			} else {
+				registerModal.show();
+				$(":input[name=registerEmail]").val(email);
+				return;
+			}
+		});
 	});
 	
 	// 회원가입 모달의 이메일 입력필드
@@ -395,17 +525,29 @@ $(function () {
 	
 	
 	// 비밀번호 숨기기&표시 
-	$("#expose-password").click(function() {
-		
-		if($("#expose-password").text() == "표시") {
+	$("#btn-login-expose-password").click(function() {
+		if($("#btn-login-expose-password").text() == "표시") {
 			$password.attr("type", "text");
 			//$password.css("ime-mode", "disabled");
-			$("#expose-password").text("숨기기");
+			$("#btn-login-expose-password").text("숨기기");
 		} else {
 			$password.attr("type", "password");
-			$("#expose-password").text("표시");
+			$("#btn-login-expose-password").text("표시");
 		}
 	});
+	$("#btn-register-expose-password").click(function() {
+		if($("#btn-register-expose-password").text() == "표시") {
+			$password.attr("type", "text");
+			//$password.css("ime-mode", "disabled");
+			$("#btn-register-expose-password").text("숨기기");
+		} else {
+			$password.attr("type", "password");
+			$("#btn-register-expose-password").text("표시");
+		}
+	});
+	
+	
+	
 	
 	$password.focus(function() {
 		
@@ -445,28 +587,11 @@ $(function () {
 	});
 	
 	
-	let loginPasswordmodal = new bootstrap.Modal(document.getElementById("login-password-modal")); 
-	let registerModal = new bootstrap.Modal(document.getElementById("email-register-modal")); 
-	// 로그인 및 회원가입 모달창에서 이메일 입력폼 제출
-	$("#btn-next1").click(function() {
-		$(".btn-close").click();
-		let email = $email1.val().trim();
-		
-		$.getJSON("/user/checkEmail?email=", email, function(result) {
-			
-			if(result.exist) {
-				loginPasswordmodal.show();
-				return;
-			} else {
-				
-				registerModal.show();
-				return;
-			}
-		});
+	
 		
 		
 		
-	});
+	
 	// 회원가입 입력폼 제출
 	$("#btn-register").click(function() {
 		
