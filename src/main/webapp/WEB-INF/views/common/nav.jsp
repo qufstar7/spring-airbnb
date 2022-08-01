@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="tags.jsp"%>
 <nav class="navbar sticky-top pt-0" >
+		<!-- 로고가 있는 navbar -->
 		<div class="container m-auto justify-content-between align-items-center" id="nav" style="height:80px; width:100%; background-color: #FFFFFF; border-bottom:1px solid #E6E6E6">
 			<div class="" id="logo-space">
 				<a href="#"> <!-- 임시 로고 -->
@@ -13,6 +14,7 @@
 			</div>
 			<div class="d-flex justify-content-center" id="search-space">
 				<div class="shadow p-1 position-relative" style="border:1px solid #E6E6E6; border-radius: 25px; width:400px; height:48px;">
+					<!-- 메인페이지에서 사용하는 검색창 -->
 					<div class="d-inline-flex p-2 position-absolute top-50 start-50 translate-middle" style="width:366px;">
 						<button class="p-0" style="background-color:transparent; border: none; width:26%; font-size: 14px;">어디든지</button>
 						<span>|</span>
@@ -23,6 +25,15 @@
 							<i class="bi bi-search" style="color:#FFFFFF"></i>
 						</button>
 					</div>
+					<!-- 숙소 상세페이지에서 사용하는 검색창 -->
+					<!-- <div class="d-inline-flex p-2 position-absolute top-50 start-50 translate-middle " style="width:366px;">
+						<button class="position-absolute top-50 start-50 translate-middle" style="background-color:transparent; border: none; width:80%; font-size: 14px;">
+							<div class="float-start">검색 시작하기</div>
+							<div class="p-0 float-end" style="background-color:red; border: none; border-radius: 50px; width:9%">
+								<i class="bi bi-search" style="color:#FFFFFF"></i>
+							</div>
+						</button>
+					</div> -->
 				</div>			
 			</div>
 			<div class="justify-content-between" id="user-space">
@@ -44,7 +55,8 @@
 									</span>
 								</a>
 							</button>
-						
+							<!-- 읽지 않은 알람표시 -->
+							<span class="position-absolute top-0 end-0 translate-middle badge border border-light rounded-circle bg-danger p-2"><span class="visually-hidden">unread messages</span></span>
 							<div class="dropdown-menu dropdown-menu-end" style="">
 								<!-- 로그인 하지 않았을 때 -->
 								<a class="dropdown-item" href="#">로그인</a>
@@ -65,12 +77,13 @@
 				</div>
 			</div>
 		</div>
+		<!-- 태그와 필터가 있는 navbar -->
 		<!-- home.jsp일 경우에만 나타나게 합니다. -->
 		<div class="row tagFilterBar m-auto p-0" style="height: 78px; width:100%; background-color: #FFFFFF; ">
 			<div class="row align-items-center text-center">
 				<div class="col-10">태그 나열하는 곳</div>
 				<div class="col-2 float-end">
-					<button type="button" class="btn btn-outline-secondary">
+					<button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#filterModal">
 						<i class="bi bi-sliders"></i>
 						필터
 					</button>

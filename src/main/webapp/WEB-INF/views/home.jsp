@@ -87,18 +87,19 @@
 			<a href="#" style="text-decoration-line: none; color: black">
 				<div class="p-1">
 					<div class="" style="width: 300px">
-						<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
-							<!-- 숙소 섬네일 슬라이드쇼 -->
+						<!-- 숙소 섬네일 슬라이드쇼 시작 -->
+						<!-- 아이디에 acc_no나 img_no를 사용하는게 좋을 것 같습니다. / id - 아래 3개의 버튼, prev버튼, next버튼 -->
+						<div id="carouselExampleIndicators-1" class="carousel slide" data-bs-ride="true">
 							<div class="carousel-indicators">
 								<button type="button"
-									data-bs-target="#carouselExampleIndicators"
+									data-bs-target="#carouselExampleIndicators-1"
 									data-bs-slide-to="0" class="active" aria-current="true"
 									aria-label="Slide 1"></button>
 								<button type="button"
-									data-bs-target="#carouselExampleIndicators"
+									data-bs-target="#carouselExampleIndicators-1"
 									data-bs-slide-to="1" aria-label="Slide 2"></button>
 								<button type="button"
-									data-bs-target="#carouselExampleIndicators"
+									data-bs-target="#carouselExampleIndicators-1"
 									data-bs-slide-to="2" aria-label="Slide 3"></button>
 							</div>
 							<!-- 슬라이드쇼 이미지 -->
@@ -119,13 +120,15 @@
 										style="object-fit: cover; width: 300px; height: 300px;">
 								</div>
 							</div>
+							
 							<button class="carousel-control-prev" type="button"
-								data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+								data-bs-target="#carouselExampleIndicators-1" data-bs-slide="prev">
 								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 								<span class="visually-hidden">Previous</span>
 							</button>
+							
 							<button class="carousel-control-next" type="button"
-								data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+								data-bs-target="#carouselExampleIndicators-1" data-bs-slide="next">
 								<span class="carousel-control-next-icon" aria-hidden="true"></span>
 								<span class="visually-hidden">Next</span>
 							</button>
@@ -148,18 +151,18 @@
 			</a><a href="#" style="text-decoration-line: none; color: black">
 				<div class="p-1">
 					<div class="" style="width: 300px">
-						<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+						<div id="carouselExampleIndicators-2" class="carousel slide" data-bs-ride="true">
 							<!-- 숙소 섬네일 슬라이드쇼 -->
 							<div class="carousel-indicators">
 								<button type="button"
-									data-bs-target="#carouselExampleIndicators"
+									data-bs-target="#carouselExampleIndicators-2"
 									data-bs-slide-to="0" class="active" aria-current="true"
 									aria-label="Slide 1"></button>
 								<button type="button"
-									data-bs-target="#carouselExampleIndicators"
+									data-bs-target="#carouselExampleIndicators-2"
 									data-bs-slide-to="1" aria-label="Slide 2"></button>
 								<button type="button"
-									data-bs-target="#carouselExampleIndicators"
+									data-bs-target="#carouselExampleIndicators-2"
 									data-bs-slide-to="2" aria-label="Slide 3"></button>
 							</div>
 							<!-- 슬라이드쇼 이미지 -->
@@ -181,12 +184,12 @@
 								</div>
 							</div>
 							<button class="carousel-control-prev" type="button"
-								data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+								data-bs-target="#carouselExampleIndicators-2" data-bs-slide="prev">
 								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 								<span class="visually-hidden">Previous</span>
 							</button>
 							<button class="carousel-control-next" type="button"
-								data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+								data-bs-target="#carouselExampleIndicators-2" data-bs-slide="next">
 								<span class="carousel-control-next-icon" aria-hidden="true"></span>
 								<span class="visually-hidden">Next</span>
 							</button>
@@ -206,21 +209,23 @@
 						</div>
 					</div>
 				</div>
-			</a><a href="#" style="text-decoration-line: none; color: black">
+			</a>
+			
+			<a href="#" style="text-decoration-line: none; color: black">
 				<div class="p-1">
 					<div class="" style="width: 300px">
-						<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+						<div id="carouselExampleIndicators-3" class="carousel slide" data-bs-ride="true">
 							<!-- 숙소 섬네일 슬라이드쇼 -->
 							<div class="carousel-indicators">
 								<button type="button"
-									data-bs-target="#carouselExampleIndicators"
+									data-bs-target="#carouselExampleIndicators-3"
 									data-bs-slide-to="0" class="active" aria-current="true"
 									aria-label="Slide 1"></button>
 								<button type="button"
-									data-bs-target="#carouselExampleIndicators"
+									data-bs-target="#carouselExampleIndicators-3"
 									data-bs-slide-to="1" aria-label="Slide 2"></button>
 								<button type="button"
-									data-bs-target="#carouselExampleIndicators"
+									data-bs-target="#carouselExampleIndicators-3"
 									data-bs-slide-to="2" aria-label="Slide 3"></button>
 							</div>
 							<!-- 슬라이드쇼 이미지 -->
@@ -242,12 +247,12 @@
 								</div>
 							</div>
 							<button class="carousel-control-prev" type="button"
-								data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+								data-bs-target="#carouselExampleIndicators-3" data-bs-slide="prev">
 								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 								<span class="visually-hidden">Previous</span>
 							</button>
 							<button class="carousel-control-next" type="button"
-								data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+								data-bs-target="#carouselExampleIndicators-3" data-bs-slide="next">
 								<span class="carousel-control-next-icon" aria-hidden="true"></span>
 								<span class="visually-hidden">Next</span>
 							</button>
@@ -267,21 +272,23 @@
 						</div>
 					</div>
 				</div>
-			</a><a href="#" style="text-decoration-line: none; color: black">
+			</a>
+			
+			<a href="#" style="text-decoration-line: none; color: black">
 				<div class="p-1">
 					<div class="" style="width: 300px">
-						<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+						<div id="carouselExampleIndicators-4" class="carousel slide" data-bs-ride="true">
 							<!-- 숙소 섬네일 슬라이드쇼 -->
 							<div class="carousel-indicators">
 								<button type="button"
-									data-bs-target="#carouselExampleIndicators"
+									data-bs-target="#carouselExampleIndicators-4"
 									data-bs-slide-to="0" class="active" aria-current="true"
 									aria-label="Slide 1"></button>
 								<button type="button"
-									data-bs-target="#carouselExampleIndicators"
+									data-bs-target="#carouselExampleIndicators-4"
 									data-bs-slide-to="1" aria-label="Slide 2"></button>
 								<button type="button"
-									data-bs-target="#carouselExampleIndicators"
+									data-bs-target="#carouselExampleIndicators-4"
 									data-bs-slide-to="2" aria-label="Slide 3"></button>
 							</div>
 							<!-- 슬라이드쇼 이미지 -->
@@ -303,12 +310,12 @@
 								</div>
 							</div>
 							<button class="carousel-control-prev" type="button"
-								data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+								data-bs-target="#carouselExampleIndicators-4" data-bs-slide="prev">
 								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 								<span class="visually-hidden">Previous</span>
 							</button>
 							<button class="carousel-control-next" type="button"
-								data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+								data-bs-target="#carouselExampleIndicators-4" data-bs-slide="next">
 								<span class="carousel-control-next-icon" aria-hidden="true"></span>
 								<span class="visually-hidden">Next</span>
 							</button>
@@ -395,6 +402,25 @@
 			--%>
 		</div>
 	</div>
+
+<!-- filter modal -->
+<div class="modal" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
