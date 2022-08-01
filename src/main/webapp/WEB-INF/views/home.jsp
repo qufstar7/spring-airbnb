@@ -402,6 +402,7 @@
 			--%>
 		</div>
 	</div>
+
 <!-- filter modal -->
 <div class="modal" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -420,5 +421,6 @@
     </div>
   </div>
 </div>
+
 </body>
 </html>

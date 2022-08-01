@@ -1,0 +1,76 @@
+@charset "UTF-8";
+
+body {
+	font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto,
+		Helvetica Neue, sans-serif;
+}
+
+#logoHomeLink {
+	position: absolute !important;
+	top: 48px !important;
+	left: 48px !important;
+	z-index: 2 !important;
+}
+
+#startingHost {
+	width: 100%;
+	height: 100vh
+}
+
+#leftDiv {
+	float: left;
+	width: 50%;
+	height: 100%;
+	box-sizing: border-box;
+	display: grid;
+}
+
+#rightDiv {
+	float: left;
+	width: 50%;
+	height: 100%;
+	box-sizing: border-box;
+	display: grid;
+}
+
+.hostVideo {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	width: 50%;
+	height: 100%;
+}
+
+@media ( min-width : 744px) {
+	.selectMain {
+		background:
+			url(https://a0.muscache.com/im/pictures/Hosting/Gradient/original/4abb91ab-2c70-46d7-80a5-9c83ef0221ef.png)
+			no-repeat !important;
+		background-size: 100% 100% !important;
+	}
+}
+
+.selectMain {
+	position: absolute !important;
+	overflow: hidden !important;
+	height: 100% !important;
+	width: 100% !important;
+	z-index: -1 !important;
+	background:
+		url(https://a0.muscache.com/im/pictures/Hosting/Gradient/original/4abb91ab-2c70-46d7-80a5-9c83ef0221ef.png)
+		no-repeat !important;
+	background-size: 100% 100% !important;
+}
+
+.leftMainText {
+	color: white;
+	font-size: 48px;
+	line-height: 56px;
+	margin-bottom: 12px;
+	font-weight: 600 !important;
+	word-break:keep-all;
+}
+
+.selectPage {
+	
+}

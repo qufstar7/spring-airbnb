@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="kr.co.airbnb.mapper.UserMapper">
+
+	<resultMap type="User" id="userResultMap">
+		<id column="USER_NO" property="no"/>
+		<result column="USER_NAME" property="name"/>
+		<result column="USER_EMAIL" property="email"/>
+		<result column="USER_PASSWORD" property="password"/>
+		<result column="USER_PHONE" property="phone"/>
+		<result column="USER_PROFILE_IMAGE" property="profileImage"/>
+		<result column="USER_DESCRIPTION" property="description"/>
+		<result column="USER_BIRTH_DATE" property="birthDate"/>
+		<result column="USER_ADDRESS" property="address"/>
+		<result column="USER_DISABLED" property="disabled"/>
+		<result column="USER_HOST" property="isHost"/>
+		<result column="USER_CREATED_DATE" property="createdDate"/>
+		<result column="USER_UPDATED_DATE" property="updatedDate"/>
+		<result column="USER_GENDER" property="gender"/>
+	</resultMap>
+
+	<!-- User getUserByEmail(String email); -->
+	<select id="getUserByEmail" parameterType="string" resultMap="userResultMap">
+		select *
+		from airbnb_users
+		where user_email = #{value}
+	</select>
+	
+	<!-- User getUserByNo(int no); -->
+	<select id="getUserByNo" parameterType="int">
+		select *
+		from airbnb_users
+		where user_no = #{value}
+	</select>
+	
+	<insert id="insertUser" parameterType="User">
+		insert into airbnb_users(user_no, user_name, user_email, user_password, user_birth_date)
+		values(users_seq.nextval, #{name}, #{email}, #{password}, #{birthDate})
+	</insert>
+	
+	<update id="updateUser" parameterType="User">
+		update airbnb_users
+		 set
+		 	user_name = #{name},
+		 	user_email = #{email},
+		 	user_password = #{password},
+		 	user_phone = #{phone},
+		 	user_profile_image = #{profileImage},
+		 	user_description = #{description},
+		 	user_birth_date = #{birthDate},
+		 	user_address = #{address},
+		 	user_disabled = #{disabled},
+		 	user_host = #{isHost},
+		 	user_updated_date = sysdate,
+		 	user_gender = #{gender}
+		where user_no = #{no}
+	</update>
+
+</mapper>
