@@ -67,7 +67,7 @@
 								<a class="dropdown-item" href="#"><strong>여행</strong></a>
 								<a class="dropdown-item" href="#"><strong>위시리스트</strong></a>
 								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="#">숙소 호스트 되기</a>
+								<a class="dropdown-item" href="/host">숙소 호스트 되기</a>
 								<a class="dropdown-item" href="#">계정</a>
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="#">로그아웃</a>

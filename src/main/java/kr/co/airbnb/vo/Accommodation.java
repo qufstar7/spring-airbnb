@@ -1,5 +1,7 @@
 package kr.co.airbnb.vo;
 
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -9,5 +11,31 @@ import lombok.ToString;
 @ToString
 public class Accommodation {
 
-	// WhistList 클래스에 필요해서 미리 생성해 놓았습니다! - 유나 -
+	int no;
+	int typeNo;
+	User user;
+	int reviewCount;
+	int reviewScore;
+	String name;
+	String description;
+	String address;
+	String latitude;
+	int price;
+	int guest;
+	int pet;
+	Date checkIn;
+	Date checkOut;
+	String checkInType;
+	String status;
+	Date createdDate;
+	Date updatedDate;
+	int viewCount;
+	int minDay;
+	int maxDay;
+	String rent;
+	String trafficDescription;
+	String refoundDescription;
+	int cleaningPrice;
+	String imageCover;
+	
 }
