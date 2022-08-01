@@ -53,8 +53,12 @@ public class UserController {
 	private UserService userService;
 	
 	@GetMapping(path="/kakao")
-	public String test() {
-		return "user/test";
+	public String kakaotest() {
+		return "user/kakaotest";
+	}
+	@GetMapping(path="/facebook")
+	public String facebooktest() {
+		return "user/facebooktest";
 	}
 	
 	
