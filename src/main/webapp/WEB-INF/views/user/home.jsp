@@ -13,7 +13,7 @@ pageEncoding="UTF-8"%>
 <!-- 아이콘 라이브러리 -->
 <script src="https://kit.fontawesome.com/2628157b3b.js"></script>
 <!-- 구글 로그인 api -->
-<meta name="google-signin-client_id" content="340808936773-p2v7dk0jtatnsjl29nnvivnol8f9rni8.apps.googleusercontent.com">
+<meta name="google-signin-client_id" content="">
 <!-- 구글 api 사용을 위한 스크립트 -->
 <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
 <!-- 카카오 로그인지원 자바스크립트 라이브러리를 포함시킨다. -->
