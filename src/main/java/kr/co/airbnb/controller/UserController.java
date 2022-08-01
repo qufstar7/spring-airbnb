@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,25 +27,64 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.airbnb.annotation.LoginUser;
+import kr.co.airbnb.form.KakaoLoginForm;
 import kr.co.airbnb.form.UserRegisterForm;
 import kr.co.airbnb.service.UserService;
+import kr.co.airbnb.utils.SessionUtils;
 import kr.co.airbnb.vo.User;
 import kr.co.airbnb.vo.Wishlist;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/user")
-@SessionAttributes({"userRegisterForm", "LOGIN_USER"})
-
+@SessionAttributes({"userRegisterForm"})
+@Slf4j
 public class UserController {
 
 	@Value("${airbnb.profile.image.save-directory}")
 	String profileImageSaveDirectory;
+	private static final String KAKAO_LOGIN_TYPE = "kakao";
 	
 	@Autowired
 	private UserService userService;
+	
+	@GetMapping(path="/kakao")
+	public String kakaotest() {
+		return "user/kakaotest";
+	}
+	@GetMapping(path="/facebook")
+	public String facebooktest() {
+		return "user/facebooktest";
+	}
+	
+	
+	// 카카오 로그인 요청을 처리한다.
+		@PostMapping("/kakao-login")
+		public String loginWithKakao(KakaoLoginForm form) {
+			log.info("카카오 로그인 인증정보: " + form);
+			
+			User user = User.builder()
+						.id(form.getId())
+						.name(form.getNickname())
+						.email(form.getEmail())
+						.gender(form.getGender())
+						.loginType(KAKAO_LOGIN_TYPE)
+						.build();
+			User savedUser = userService.loginWithKakao(user);
+			
+			if (savedUser != null) {
+				SessionUtils.addAttribute("LOGIN_USER", savedUser);
+			} else {
+				SessionUtils.addAttribute("LOGIN_USER", user);
+			}
+			log.info("카카오 로그인 완료");
+			
+			return "redirect:/"; 
+		}
 	
 	@GetMapping(path="/register")
 	public String register(Model model) {
@@ -55,9 +96,11 @@ public class UserController {
 	
 	@GetMapping(path="/checkEmail")
 	@ResponseBody
-	public Map<String, Object> checkEmail(@RequestParam String email) {
+	public Map<String, Object> checkEmail(@RequestParam("email") String email) {
 		Map<String, Object> result = new HashMap<>();
+		System.out.println("email: " + email);
 		User savedUser = userService.getUserByEmail(email);
+		System.out.println(savedUser);
 		
 		if(savedUser == null) {
 			result.put("exist", false);
@@ -69,7 +112,7 @@ public class UserController {
 	
 	@PostMapping(path="/register")
 	@ResponseBody
-	public Map<String, Object> register(@ModelAttribute("userRegisterForm") UserRegisterForm userRegisterForm, Model model) {
+	public Map<String, Object> register(@ModelAttribute("userRegisterForm") UserRegisterForm userRegisterForm, Model model, SessionStatus sessionStatus) {
 		
 		User user = new User();
 		user.setName(userRegisterForm.getLastName() + userRegisterForm.getFirstName());
@@ -78,10 +121,10 @@ public class UserController {
 		user.setPassword(userRegisterForm.getPassword());
 		
 		userService.addNewUser(user);
+		// 세션에서 UserRegisterForm 삭제
+		sessionStatus.setComplete();
 		// 회원가입시 자동으로 로그인 처리됨
-		model.addAttribute("LOGIN_USER", user);
-		//model.addAttribute("userRegisterForm", userRegisterForm);
-		
+		SessionUtils.addAttribute("LOGIN_USER", user);
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("success", true);
@@ -90,22 +133,18 @@ public class UserController {
 	}
 	
 	@PostMapping(path="/addProfileImg")
-	public Map<String, Object> uploadProfileImg(@ModelAttribute("userRegisterForm") UserRegisterForm userRegisterForm, @LoginUser User loginUser) throws IOException {
+	public Map<String, Object> uploadProfileImg(@RequestParam("profileImg") MultipartFile multipartFile, @LoginUser User loginUser) throws IOException {
 		
 		// 프로필이미지 사진 처리하기
-		if(!userRegisterForm.getProfileImg().isEmpty()) {
-			MultipartFile profileImg = userRegisterForm.getProfileImg();
-			String filename = profileImg.getOriginalFilename();
+		if(!multipartFile.isEmpty()) {
+			String filename = multipartFile.getOriginalFilename();
 			User user = userService.getUserByEmail(loginUser.getEmail());
 			user.setProfileImage(filename);
 			userService.updateUserInfo(user);
 			
-			InputStream in = profileImg.getInputStream();	// 업로드된 첨부파일이 임시파일로 저장되는데 그 파일을 읽어오는 스트림이다.
+			// 이미지 파일명이 중복되는 것을 방지하기 위해 고유이미지파일명 설정? UUID.randomUUID()
 			
-			if(!new File(profileImageSaveDirectory).exists()) {
-				System.out.println("존재하지않음");
-			}
-			// 강사님께 질문
+			InputStream in = multipartFile.getInputStream();	// 업로드된 첨부파일이 임시파일로 저장되는데 그 파일을 읽어오는 스트림이다.
 			FileOutputStream out = new FileOutputStream(new File(profileImageSaveDirectory, filename));
 			FileCopyUtils.copy(in, out);
 		}
