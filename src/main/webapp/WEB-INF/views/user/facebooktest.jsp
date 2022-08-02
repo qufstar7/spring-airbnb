@@ -28,6 +28,7 @@
 $(function () {
 	
 	
+	
 	// Load the SDK asynchronously
 	(function(d, s, id) {
 	  var js, fjs = d.getElementsByTagName(s)[0];
@@ -49,6 +50,7 @@ $(function () {
 				console.log('check check check 11111111111111111111111111');
 			FB.getLoginStatus(function(response) {
 				console.log('check check check 2222222222222222222222222');
+				console.log(response.status);
 				if (response.status === 'connected') {
 					console.log("FB.getLoginStatus dddddddd get user info ...........................")
 					 FB.api('/me', {"fields":"name,email,gender,birthday"}, function(response) {
@@ -62,6 +64,7 @@ $(function () {
 			      		  });
 			    }
 			})
+			
 		}
 	}(document, 'script', 'facebook-jssdk'));	
 	
@@ -84,6 +87,7 @@ $(function () {
 	   			
 	   		  } else {
 	   		    // The person is not logged into your webpage or we are unable to tell. 
+	   			
 	   		  }
 			   		
 		     			
@@ -112,9 +116,17 @@ $(function () {
 
 	
 	$("#btn-facebook-logout").click(function() {
-		FB.logout(function(response) {
-			   // Person is now logged out
-			});
+	    FB.getLoginStatus(function(response) {
+	        if (response && response.status === 'connected') {
+	            console.log("logout: connected 일 때");
+	            FB.logout(function(response) {
+	                document.location.reload();
+	            });
+	        } else {
+	            console.log("logout: connected 아닐 때");
+	        }
+	    });
+		
 	});
 })
 </script>

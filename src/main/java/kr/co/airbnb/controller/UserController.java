@@ -60,6 +60,10 @@ public class UserController {
 	public String facebooktest() {
 		return "user/facebooktest";
 	}
+	@GetMapping(path="google")
+	public String googletest() {
+		return "user/googletest";
+	}
 	
 	
 	// 카카오 로그인 요청을 처리한다.
