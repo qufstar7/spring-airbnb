@@ -29,71 +29,71 @@
 	</li>
 </ul>
 <script type="text/javascript">
-Kakao.init('2931d0043daf4865ac102f53587fef2c'); //발급받은 키 중 javascript키를 사용해준다.
-console.log(Kakao.isInitialized()); // sdk초기화여부판단
-//카카오로그인
-  function loginWithKakao() {
-	  Kakao.Auth.login({
-          success: function(authObj) {
-            //alert(JSON.stringify(authObj))
-            Kakao.API.request({
-                url: '/v2/user/me',
-                success: function(response) {
-                	alert(JSON.stringify(response));
-                    let id = "kakao_" + response.id;
-                    let email = (response.kakao_account.email != undefined ? response.kakao_account.email : '');
-                    
-                    let properties = response.properties;
-                    let name = properties.nickname;
-                    let profile_image = properties.profile_image;
-                    
-                    let member = {
-                        id : id,
-                        password : id,
-                        email : email,
-                        name : name,
-                        profile : profile_image,
-                        snsyn : 'Y'
-                    }
-                    //console.log(member);
-                    kakaoLogin(member).then(res => {
-                        if(res.status == 200){
-                            getLoginInfo().then(result => {
-                                if(result.status == 200){
-                                    setLoginInfo(result.data);
-                                    closeLoginPop();
-                                }
-                            })
-                        }
-                    })
-
-                },
-                fail: function(error) {
-                    console.log(error);
-                }
-            });
-          },
-          fail: function(err) {
-            alert(JSON.stringify(err))
-          },
-        })
-  }
-//카카오로그아웃  
-function kakaoLogout() {
-    if (Kakao.Auth.getAccessToken()) {
-      Kakao.API.request({
-        url: '/v1/user/unlink',
-        success: function (response) {
-        	console.log("로그아웃 성공");
-        	console.log(response)
-        },
-        fail: function (error) {
-          console.log(error)
-        },
-      })
-      Kakao.Auth.setAccessToken(undefined)
-    }
-  }  
+	Kakao.init('2931d0043daf4865ac102f53587fef2c'); //발급받은 키 중 javascript키를 사용해준다.
+	console.log(Kakao.isInitialized()); // sdk초기화여부판단
+	//카카오로그인
+	  function loginWithKakao() {
+		  Kakao.Auth.login({
+	          success: function(authObj) {
+	            //alert(JSON.stringify(authObj))
+	            Kakao.API.request({
+	                url: '/v2/user/me',
+	                success: function(response) {
+	                	alert(JSON.stringify(response));
+	                    let id = "kakao_" + response.id;
+	                    let email = (response.kakao_account.email != undefined ? response.kakao_account.email : '');
+	                    
+	                    let properties = response.properties;
+	                    let name = properties.nickname;
+	                    let profile_image = properties.profile_image;
+	                    
+	                    let member = {
+	                        id : id,
+	                        password : id,
+	                        email : email,
+	                        name : name,
+	                        profile : profile_image,
+	                        snsyn : 'Y'
+	                    }
+	                    //console.log(member);
+	                    kakaoLogin(member).then(res => {
+	                        if(res.status == 200){
+	                            getLoginInfo().then(result => {
+	                                if(result.status == 200){
+	                                    setLoginInfo(result.data);
+	                                    closeLoginPop();
+	                                }
+	                            })
+	                        }
+	                    })
+	
+	                },
+	                fail: function(error) {
+	                    console.log(error);
+	                }
+	            });
+	          },
+	          fail: function(err) {
+	            alert(JSON.stringify(err))
+	          },
+	        })
+	  }
+	//카카오로그아웃  
+	function kakaoLogout() {
+	    if (Kakao.Auth.getAccessToken()) {
+	      Kakao.API.request({
+	        url: '/v1/user/unlink',
+	        success: function (response) {
+	        	console.log("로그아웃 성공");
+	        	console.log(response)
+	        },
+	        fail: function (error) {
+	          console.log(error)
+	        },
+	      })
+	      Kakao.Auth.setAccessToken(undefined)
+	    }
+	  }  
 
 </script>
 </body>

@@ -33,26 +33,29 @@
 		where user_no = #{value}
 	</select>
 	
-	<!-- User getUserById(String id); -->
-	<select id="getUserById" parameterType="string" resultMap="userResultMap">
-		select *
-		from airbnb_users
-		where user_id = #{value}
-	</select>
-	
 	<insert id="insertUser" parameterType="User">
-		insert into airbnb_users(user_no, user_name, user_email, user_password, user_birth_date)
-		values(users_seq.nextval, #{name}, #{email}, #{password}, #{birthDate})
-	</insert>
-	
-	<!-- void insertKakaoUser(User user) -->
-	<insert id="insertKakaoUser" parameterType="User">
-		<selectKey keyProperty="no" resultType="int" order="BEFORE">
-			select users_seq.nextval
-			from dual
-		</selectKey>
-		insert into airbnb_users(user_no, user_id, user_name, user_email, user_gender)
-		values(#{no}, #{id}, #{name}, #{email}, #{gender})
+		insert into airbnb_users(user_no, user_name, user_email
+		<if test="password != null">
+			, user_password
+		</if>
+		<if test="birthDate != null">
+			, user_birth_date
+		</if>
+		<if test="gender != null">
+			, user_gender
+		</if>
+		)
+		values(users_seq.nextval, #{name}, #{email}
+		<if test="password != null">
+			, #{password}
+		</if>
+		<if test="birthDate != null">
+			, #{birthDate}
+		</if>
+		<if test="gender != null">
+			, #{gender}
+		</if>
+		)
 	</insert>
 	
 	<update id="updateUser" parameterType="User">
