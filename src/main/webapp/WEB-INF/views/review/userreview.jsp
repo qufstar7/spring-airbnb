@@ -12,51 +12,58 @@
 <title>Insert title here</title>
 <style type="text/css"> 
 	
-	.next 	{  background: white;
-			   color: rgb(255, 90, 95);
-			   font-size: large;
-			   font-weight: bold;
-			   border: 2px solid rgb(255, 90, 95);
+	#star-next-btn,
+	#thumb-next-btn,
+	#public-next-btn,
+	#private-next-btn {  
+			background: white;
+		    color: rgb(255, 90, 95);
+		    font-size: large;
+		    font-weight: bold;
+		    border: 2px solid rgb(255, 90, 95);
 	}
 	
-	.next:hover {
-		 background: rgb(255, 90, 95) !important;
-		 color: white;
+	#star-next-btn:hover,
+	#thumb-next-btn:hover, 
+	#public-next-btn:hover,
+	#private-next-btn:hover {
+			background: rgb(255, 90, 95) !important;
+			color: white;
 	}
 	
 	.modal-content {		
-		width: 100%;
+		 	width: 100%;
 	}
 	
 	.question 		{
-		 font-size: 18px; 
+		 	font-size: 18px; 
 	}
 	
 	.bi-star  		{
-		 color: rgb(0, 166, 153); 
+		 	color: rgb(0, 166, 153); 
 	}
 	 
 	.bi-star-fill   {
-		 color: rgb(0, 166, 153); 
+			color: rgb(0, 166, 153); 
 	}
 	
 	.bi-hand-thumbs-down-fill   {
-		 color: rgb(0, 166, 153); 
+		 	color: rgb(0, 166, 153); 
 	}
 	
 	.bi-hand-thumbs-up-fill   {
-		 color: rgb(0, 166, 153); 
+		 	color: rgb(0, 166, 153); 
 	}
 	 
 	.gray 			{
-		 color: #323232; 
+		 	color: #323232; 
 	}
 	
 	[type=radio] { 
-		 position: absolute;
-		 opacity: 0;
-		 width: 0;
-		 height: 0;
+			position: absolute;
+			opacity: 0;
+			width: 0;
+			height: 0;
 	}
 	
 </style>
@@ -74,7 +81,9 @@
 </div>
 
 <!-- form 시작 -->
-<form class="mb-3" name="guestReview" id="guest-review" method="post" action="reviewcomplete">			
+<!-- 파라미터로 숙소 번호 받아야 한다. -->
+<form class="mb-3" name="guestReview" id="guest-review">		
+<input type="hidden" id="acc-no" name="accNo" value="101" />	
 <!-- Scrollable Modal -->
 <div class="modal fade" id="review-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   	<div class="modal-dialog modal-dialog-scrollable modal-lg">
@@ -249,11 +258,11 @@
 		        </div>
         		<div class="text-center">
         			<div class="mb-5">
-					    <input type="radio" name="thumb" id="down-thumb" value="부정">
+					    <input type="radio" name="thumb" id="down-thumb" value="N">
 					    <label for="down-thumb" id="bi-hand-thumbs-down" class="bi bi-hand-thumbs-down fs-1">
 					    	<span class="fs-4" style="color: black">아니요 &nbsp;</span>
 					    </label>
-					    <input type="radio" name="thumb" id="up-thumb" value="긍정" >
+					    <input type="radio" name="thumb" id="up-thumb" value="Y" >
 					    <label for="up-thumb" id="bi-hand-thumbs-up" class="bi bi-hand-thumbs-up fs-1">
 					    	<span class="fs-4" style="color: black">예!</span>
 					    </label>
@@ -301,21 +310,21 @@
 			<div class="modal-body">
 				<div>
 					<div class="mb-4">
-						<h3>호스트 비공개 피드백</h3>
+						<h3>호스트 비공개 피드백<span class="fs-5">  (선택사항)</span></h3>
 						<p>이 피드백은 비공개이며, 해당 호스트와 에어비앤비 직원 빛 서비스 제공자만 볼 수 있습니다.</p>
 					</div>
 					<div class="mb-4">
 						<p><strong>이 숙소에서 가장 마음에 드는 점은 무엇인가요?</strong></p>
-						<textarea name="favorite" id="favorite-text" cols="100" rows="5" onkeyup=""></textarea>
+						<textarea name="positive" id="positive-text" cols="100" rows="5"></textarea>
 					</div>
 					<div class="mb-5">
 						<p><strong>회원님의 호스트가 더 발전하기 위한 피드백을 주세요.</strong></p>
-						<textarea name="feedback" id="feedback-text" cols="100" rows="5" onkeyup=""></textarea>
+						<textarea name="feedback" id="feedback-text" cols="100" rows="5"></textarea>
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="submit" class="btn px-5 next" id="private-next-btn">완료</button>
+				<button type="button" class="btn px-5 next" id="btn-add-guestreview">완료</button>
 			</div>
 		</div>
 	</div>
@@ -482,6 +491,33 @@ $(function() {
 		exampleModalToggle3.hide();
 		exampleModalToggle4.show();
 	})
+	
+	// 게스트 리뷰 등록
+	$("#btn-add-guestreview").click(function() {
+		let review = {
+			totalScore: $("input[name='total']").val();
+			cleanScore: $("input[name='clean']").val();
+			accuracyScore: $("input[name='accuracy']").val();
+			communicationScore: $("input[name='communication']").val();
+			locationScore: $("input[name='location']").val();
+			checkinScore: $("input[name='checkin']").val();
+			valueScore: $("input[name='valueS']").val();
+			convenienceScore: $("input[name='convenience']").val();
+			content: $("#public-text").val();
+			positiveFeedback: $("#positive-text").val();
+			nagativeFeedback: $("#feedback-text").val();
+			wantMeetAgain: $("input[name='thumb']:checked").val();
+		}
+		
+		$ajax({
+			type: "POST",
+			url: 'http://localhost:80/reviews',
+			data: JSON.stringify(review),
+			contentType: "application/json",
+			dataType: 'json'
+		});
+		
+	});
 
 })
 

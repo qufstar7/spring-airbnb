@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="kr.co.airbnb.mapper.ReviewMapper">
+	<!-- void insertReview(Review review); -->
+	<insert id="insertReviewGuest" parameterType="Review">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select reviews_seq.val
+			from dual
+		</selectKey>
+		insert into airbnb_reviews 
+		(review_no, acc_no, user_no, review_content, total_score, cleanliness_score, accuracy_score, communication_score, 
+		location_score, checkin_score, value_score, convenience_score, positive_feedback, nagative_feedback, want_meet_again)
+		values 
+		(#{no}, 101, 2, #{content}, #{totalScore}, #{cleanScore}, #{accuracyScore}, #{communicationScore}, 
+		#{locationScore}, #{checkinScore}, #{valueScore}, #{convenienceScore}, #{positiveFeedback}, #{nagativeFeedback}, #{wantMeetAgain}); 
+	</insert>
+	
+	<!-- void insertReview(Review review); -->
+	<insert id="insertReviewHost" parameterType="Review">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select reviews_seq.val
+			from dual
+		</selectKey>
+		insert into airbnb_reviews 
+		(review_no, acc_no, user_no, review_content, total_score, cleanliness_score, communication_score, observance_score, private_note, want_meet_again)
+		values 
+		(#{no}, 101, 1, #{content}, #{totalScore}, #{cleanScore}, #{communicationScore}, #{observanceScore}, #{privateNote}, #{wantMeetAgain}); 
+	</insert>
+</mapper>
