@@ -13,8 +13,8 @@
 				</a>aircnc
 			</div>
 			<div class="d-flex justify-content-center" id="search-space">
-				<div class="shadow p-1 position-relative" style="border:1px solid #E6E6E6; border-radius: 25px; width:400px; height:48px;">
-					<!-- 메인페이지에서 사용하는 검색창 -->
+				<!-- 메인페이지에서 사용하는 검색창 -->
+				<div class="shadow p-1 position-relative" onclick="openNav()" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" style="border:1px solid #E6E6E6; border-radius: 25px; width:400px; height:48px;">
 					<div class="d-inline-flex p-2 position-absolute top-50 start-50 translate-middle" style="width:366px;">
 						<button class="p-0" style="background-color:transparent; border: none; width:26%; font-size: 14px;">어디든지</button>
 						<span>|</span>
@@ -25,16 +25,32 @@
 							<i class="bi bi-search" style="color:#FFFFFF"></i>
 						</button>
 					</div>
+				</div>
+				<!-- 클릭하면 커지는 검색창 Offcanvas 
+				<div class="p-1 position-relative overlay" type="" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" style="width:370px; height:48px;">
+					<div class="d-inline-flex p-2 position-absolute top-50 start-50 translate-middle" style="width:366px;">
+						<button class="p-0" style="background-color:transparent; border: none; width:29%; font-size: 16px;">숙소</button>
+						
+						<button class="p-0" style="background-color:transparent; border: none; width:35%; font-size: 16px;">체험</button>
+						
+						<button class="p-0" style="background-color:transparent; border: none; width:32%; font-size: 16px;">온라인 체험</button>
+					</div>
+					
+				</div>
+				-->
+				
 					<!-- 숙소 상세페이지에서 사용하는 검색창 -->
-					<!-- <div class="d-inline-flex p-2 position-absolute top-50 start-50 translate-middle " style="width:366px;">
+					<!--
+					<div class="shadow p-1 position-relative" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" style="border:1px solid #E6E6E6; border-radius: 25px; width:400px; height:48px;">
+					<div class="d-inline-flex p-2 position-absolute top-50 start-50 translate-middle " style="width:366px;">
 						<button class="position-absolute top-50 start-50 translate-middle" style="background-color:transparent; border: none; width:80%; font-size: 14px;">
 							<div class="float-start">검색 시작하기</div>
 							<div class="p-0 float-end" style="background-color:red; border: none; border-radius: 50px; width:9%">
 								<i class="bi bi-search" style="color:#FFFFFF"></i>
 							</div>
 						</button>
-					</div> -->
-				</div>			
+					</div> 
+				</div> -->	
 			</div>
 			<div class="justify-content-between" id="user-space">
 				<div class="row align-items-center">
@@ -77,7 +93,8 @@
 				</div>
 			</div>
 		</div>
-		<!-- 태그와 필터가 있는 navbar -->
+		
+		<!-- 태그와 필터가 있는 navbar2 -->
 		<!-- home.jsp일 경우에만 나타나게 합니다. -->
 		<div class="row tagFilterBar m-auto p-0" style="height: 78px; width:100%; background-color: #FFFFFF; ">
 			<div class="row align-items-center text-center">
