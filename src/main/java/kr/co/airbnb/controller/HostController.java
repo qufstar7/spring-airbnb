@@ -1,5 +1,7 @@
 package kr.co.airbnb.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.co.airbnb.service.HostService;
+import kr.co.airbnb.vo.AccType;
 
 @Controller
 @RequestMapping("/host")
@@ -24,17 +27,18 @@ public class HostController {
 	// 호스트숙소 메인타입 등록
 	@GetMapping(path = "/become-a-host")
 	public String becomeHost(Model model) {
-		model.addAttribute("accMainTypes", hostService.getAllAccMainTypes());
+		List<AccType> accTypes = hostService.getAllAccTypes();
+		model.addAttribute("accTypes", accTypes);
 
 		return "host/become-a-host";
 	}
 
 	// 호스트숙소 서브타입 등록
-	@GetMapping(path = "/become-a-host2")
-	public String becomeHost2(Model model) {
-		model.addAttribute("accSubTypes", hostService.getAllAccSubTypes());
-
-		return "host/become-a-host2";
-	}
+//	@GetMapping(path = "/become-a-host2")
+//	public String becomeHost2(Model model) {
+//		model.addAttribute("accSubTypes", hostService.getAllAccSubTypes());
+//
+//		return "host/become-a-host2";
+//	}
 
 }

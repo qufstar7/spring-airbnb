@@ -11,10 +11,12 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Alias("accMainTypes")
-public class AccTypes {
+@Alias("accType")
+public class AccType {
+	
 	private int no;
 	private String name;
-	private String maintype;
+	private int maintype;
 	private String imageName;
+	
 }
