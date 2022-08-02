@@ -31,7 +31,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.airbnb.annotation.LoginUser;
-import kr.co.airbnb.form.KakaoLoginForm;
+import kr.co.airbnb.form.SocialLoginForm;
 import kr.co.airbnb.form.UserRegisterForm;
 import kr.co.airbnb.service.UserService;
 import kr.co.airbnb.utils.SessionUtils;
@@ -60,28 +60,32 @@ public class UserController {
 	public String facebooktest() {
 		return "user/facebooktest";
 	}
+	@GetMapping(path="google")
+	public String googletest() {
+		return "user/googletest";
+	}
 	
 	
 	// 카카오 로그인 요청을 처리한다.
-		@PostMapping("/kakao-login")
-		public String loginWithKakao(KakaoLoginForm form) {
-			log.info("카카오 로그인 인증정보: " + form);
+		@PostMapping("/sns-login")
+		public String loginWithSns(SocialLoginForm form) {
+			log.info("소셜 로그인 인증정보: " + form);
 			
 			User user = User.builder()
-						.id(form.getId())
 						.name(form.getNickname())
 						.email(form.getEmail())
-						.gender(form.getGender())
-						.loginType(KAKAO_LOGIN_TYPE)
+						.gender(form.getGender() != null ? form.getGender() : "")
+						.loginType(form.getLoginType())
 						.build();
-			User savedUser = userService.loginWithKakao(user);
+			User savedUser = userService.loginWithSns(user);
 			
 			if (savedUser != null) {
 				SessionUtils.addAttribute("LOGIN_USER", savedUser);
+				savedUser.setLoginType(form.getLoginType());
 			} else {
 				SessionUtils.addAttribute("LOGIN_USER", user);
 			}
-			log.info("카카오 로그인 완료");
+			log.info("소셜 로그인 완료");
 			
 			return "redirect:/"; 
 		}

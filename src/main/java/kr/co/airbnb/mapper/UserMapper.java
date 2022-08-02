@@ -11,6 +11,4 @@ public interface UserMapper {
 	User getUserByNo(int no);
 	void insertUser(User user);
 	void updateUser(User user);
-	User getUserById(String id);
-	void insertKakaoUser(User user);
 }

@@ -320,7 +320,8 @@ pageEncoding="UTF-8"%>
 	<!-- <a id="custom-login-btn">
 	  <img src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg" width="242" />
 	</a>  -->
-   	<form id="form-kakao-login" method="post" action="kakao-login">
+   	<form id="form-kakao-login" method="post" action="sns-login">
+   		<input type="hidden" name="loginType" value="kakao">
    		<input type="hidden" name="id" />
    		<input type="hidden" name="nickname" />
    		<input type="hidden" name="email" />
