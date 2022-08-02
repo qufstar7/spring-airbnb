@@ -1,0 +1,186 @@
+@charset "UTF-8";
+
+	* {
+	  margin: 0;
+	  padding: 0;
+	  box-sizing: border-box;
+	}
+	body {
+	    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
+	    font-size: 14px;
+	    line-height: 1.43;
+	    color: #484848;
+	    background-color: #fff;
+	    margin: 0;
+	    -webkit-font-smoothing: antialiased;
+    }
+	.sticky {
+	   position: -webkit-sticky; /* 사파리 브라우저 지원 */
+	   position: sticky;
+	   top: 50px;
+	   padding: 10px;
+	}
+	.box {margin:20px auto;}
+    .content {
+        width: auto;
+    }
+    #map {
+	    width:1120px;
+	    height:480px;
+    }
+    #map2 {
+	    width:1550px;
+	    height:810px;
+    }
+    
+    .main {
+    	width:1200px;
+    }
+    .container {
+    	width:1200px;
+    	padding: 0px 40px;
+    }
+    .image2 {
+    	display:block;
+		width:100%;
+		height:auto;
+    }
+    #air-cover {
+    
+    	width: 97.5px;
+    	height: 26px;
+    }
+    #nav-1 {
+    	position: fixed;
+    	height: 80px;
+    	tob: 0; 
+    	z-index: 1000; /*페이지의 다른 요소보다 가장 위에 나타나도록 설정*/
+    	width:100%;
+    }
+    .progress-container {
+      width: 100%;
+      height: 8px;
+      background: #ccc;
+	}
+	 
+	#box {
+		width: 370;
+		height: 460;
+	}
+	.profile {
+		border-radius: 70%;
+		width: 64px; 
+		height: 64px;
+	}
+	#image-large {
+		width: 560px; 
+		height: 498px;
+		border-top-left-radius: 2em;
+		border-bottom-left-radius: 2em;
+		overflow: hidden;
+		
+	}
+	#image-large:hover {
+		width: 560px; 
+		height: 498px;
+		border-top-left-radius: 2em;
+		border-bottom-left-radius: 2em;
+	 	transition: transform 1s;
+	  	filter: brightness(70%);
+		
+	}
+	#image-right-top {
+		border-top-right-radius: 2em;
+		overflow: hidden;
+	}
+	#image-right-top:hover {
+		border-top-right-radius: 2em;
+		overflow: hidden;
+		transition: transform 1s;
+	  	filter: brightness(70%);
+	}
+	#image-right-bottom {
+		border-bottom-right-radius: 2em;
+		overflow: hidden;
+	}
+	#image-right-bottom:hover {
+		border-bottom-right-radius: 2em;
+		overflow: hidden;
+		transition: transform 1s;
+	  	filter: brightness(70%);
+	}
+	.short-img {
+		width: 272px; 
+		height: 249px;
+		overflow: hidden;
+	}
+	.short-img:hover {
+		width: 272px; 
+		height: 249px;
+		transition: transform 1s;
+	  	filter: brightness(70%);
+	}
+	
+	
+	#top-div {
+		padding-left: 80px;
+		padding-right: 80px;
+		height: 86px;
+	} 
+	.title {
+		font-size: 26px;
+	}
+	h4 {
+		font-size: 22px;
+		font-weight: bold;
+	}
+	
+	p {
+		font-size: 16px;
+	}
+	
+	h6 {
+	
+		font-size: 16px;
+		font-weight: bold;
+	}
+	
+	h5 {
+		font-size: 18px;
+		font-weight: bold;
+	}
+	
+	.card-columns {
+  column-gap: 0rem;
+}
+.card-columns .card {
+  border: none;
+  border-radius: 0;
+  margin: 0;
+}
+.card-columns .card img {
+  object-fit: cover;
+}
+
+/* Medium devices (tablets, 768px and up) The navbar toggle appears at this breakpoint */
+@media (min-width: 576px) {
+  .card-columns {
+    column-count: 1;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 768px) {
+  .card-columns {
+    column-count: 2;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .card-columns {
+    column-count: 2;
+  }
+}
+
+

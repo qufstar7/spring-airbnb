@@ -2,6 +2,8 @@ package kr.co.airbnb.vo;
 
 import java.util.Date;
 
+import org.apache.ibatis.type.Alias;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -9,17 +11,19 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@Alias("Accommodation")
 public class Accommodation {
 
 	int no;
 	int typeNo;
-	User user;
+	int userNo;
 	int reviewCount;
 	int reviewScore;
 	String name;
 	String description;
 	String address;
 	String latitude;
+	String longitude;
 	int price;
 	int guest;
 	int pet;
