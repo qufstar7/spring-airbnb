@@ -35,26 +35,17 @@
 			<div class="right-div-header">
 				<nav class="navbar navbar-expand-lg navbar-light p-4">
 					<div class="container-fluid flex-row-reverse">
-						</button>
 						<div id="navbarNav">
 							<ul class="navbar-nav">
 								<li class="nav-item">
-									<%--
-							<c:forEach var="host" items="${hosts }">
-								<span>
-									<div>
-										<img class="" src="/resources/images/host/${host.imageName }.jpg" aria-hidden="true" >
-									</div>
-								</span>
-							</c:forEach>
-							--%> <a class="profile-btn right-nav-btn nav-link active border rounded-pill" href="">
+									<a class="profile-btn right-nav-btn nav-link active border rounded-pill" href="">
 										<div>
 											<img class="sm-profile-img front-img" src="/resources/images/host/julian-wan.jpg" aria-hidden="true"> 
 											<img class="sm-profile-img middle-img" src="/resources/images/host/jurica-koletic.jpg" aria-hidden="true"> 
 											<img class="sm-profile-img back-img" src="/resources/images/host/michael-dam.jpg" aria-hidden="true">
 										</div> 
 										<span class="profile-text">슈퍼호스트에게 물어보기</span>
-								</a>
+									</a>
 								</li>
 								<li class="nav-item"><a class="right-nav-btn nav-link active border rounded-pill" href="">도움말</a></li>
 								<li class="nav-item"><a class="right-nav-btn nav-link active border rounded-pill" href="">저장 및 나가기</a></li>
@@ -74,7 +65,7 @@
 					<c:forEach var="type" items="${accTypes }">
 						<div class="p-2 text-center">
 							<button
-								class="main-type-btn btn btn-outline-secondary container p-3"
+								class="main-type-btn btn btn-outline-dark bg-white container p-3"
 								type="button" role="radio">
 								<div class="float-start m-3">
 									<div class="text-lg-center fw-bolder text-dark">${type.name }</div>
@@ -97,16 +88,15 @@
 
 			<!-- rightDiv footer -->
 			<footer class="footer mt-auto py-3 bg-light">
-				<div class="container">
+				<div class="container-fluid">
 					<!-- 진행상황 bar -->
 					<div class="progress mb-2">
-						<div class="progress-bar w-25" role="progressbar"
-							aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+				    	<div class="progress-bar bg-dark w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
 					<!-- 뒤로/다음버튼 -->
 					<div class="">
 						<button id="back-btn"
-							class="float-start btn btn-none ms-3 fs-6 text-decoration-none text-black"
+							class="float-start btn btn-none ms-4 fs-6 text-decoration-underline text-black border-0"
 							type="button" onclick="location.href='/become-a-host/intro';">뒤로</button>
 					</div>
 					<div class="">
@@ -121,16 +111,13 @@
 		</div>
 
 	</div>
+	
+<script type="text/javascript">
+let $clickedBtn = $(".main-type-btn").click(function(){
+	
+})
 
-
-	<script type="text/javascript">
-		let $accMainType = $
-		{
-			accMainTypes
-		};
-		console.log($accMainType);
-	</script>
-
+</script>
 
 </body>
 </html>
