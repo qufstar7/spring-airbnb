@@ -49,9 +49,9 @@
 							</c:forEach>
 							--%> <a class="profile-btn right-nav-btn nav-link active border rounded-pill" href="">
 										<div>
-											<img class="sm-profile-img front-img" src="/resources/images/host/julian-wan-unsplash.jpg" aria-hidden="true"> 
-											<img class="sm-profile-img middle-img" src="/resources/images/host/jurica-koletic-unsplash.jpg" aria-hidden="true"> 
-											<img class="sm-profile-img back-img" src="/resources/images/host/michael-dam-unsplash.jpg" aria-hidden="true">
+											<img class="sm-profile-img front-img" src="/resources/images/host/julian-wan.jpg" aria-hidden="true"> 
+											<img class="sm-profile-img middle-img" src="/resources/images/host/jurica-koletic.jpg" aria-hidden="true"> 
+											<img class="sm-profile-img back-img" src="/resources/images/host/michael-dam.jpg" aria-hidden="true">
 										</div> 
 										<span class="profile-text">슈퍼호스트에게 물어보기</span>
 								</a>
