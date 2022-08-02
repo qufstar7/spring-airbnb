@@ -8,226 +8,76 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
 	rel="stylesheet">
+	<!-- AOS 라이브러리 불러오기-->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"> 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script> 
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <title>Insert title here</title>
+<style type="text/css">
+	body, html {
+    height: 100%;
+}
+
+#first {
+    height: 400%;
+    background: none repeat scroll 0 0 white ;
+    text-align:center;
+    padding-top:20px;
+    font-size:22px;
+}
+
+#second {
+    padding-top:1200px;    
+    height: 600px;
+    background: none repeat scroll 0 0 blue;
+    border: 5px solid black;
+}
+
+#navbar {
+	position: fixed;
+	top: 0;
+}
+</style>
 </head>
 <body>
-	<div class="container">
-		<div class="_ytfarf" data-visible="true" style="padding: 0px 13px;">
-			<div class="_ihvjx2">
-				<div>
-					<h3 tabindex="-1" class="_14i3z6h" elementtiming="LCP-target">2022년
-						8월</h3>
-				</div>
-			</div>
-			<table class="_cvkwaj" role="presentation"
-				style="border-spacing: 0px 2px;">
-				<tbody>
-					<tr>
-						<td></td>
-						<td class="_n6uzal9" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_1hgc2j5m notranslate"
-								data-testid="calendar-day-2022.08.01."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">1</div></td>
-						<td class="_lsbavi7" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_5nurn6k notranslate"
-								data-testid="calendar-day-2022.08.02."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">2</div></td>
-						<td class="_lsbavi7" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_5nurn6k notranslate"
-								data-testid="calendar-day-2022.08.03."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">3</div></td>
-						<td class="_lsbavi7" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_5nurn6k notranslate"
-								data-testid="calendar-day-2022.08.04."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">4</div></td>
-						<td class="_lsbavi7" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_5nurn6k notranslate"
-								data-testid="calendar-day-2022.08.05."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">5</div></td>
-						<td class="_1pp260rp" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_1hgc2j5m notranslate"
-								data-testid="calendar-day-2022.08.06."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">6</div></td>
-					</tr>
-					<tr>
-						<td class="_efy6afn" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_1hgc2j5m notranslate"
-								data-testid="calendar-day-2022.08.07."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">7</div></td>
-						<td class="_lsbavi7" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_5nurn6k notranslate"
-								data-testid="calendar-day-2022.08.08."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">8</div></td>
-						<td class="_lsbavi7" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_5nurn6k notranslate"
-								data-testid="calendar-day-2022.08.09."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">9</div></td>
-						<td class="_lsbavi7" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_5nurn6k notranslate"
-								data-testid="calendar-day-2022.08.10."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">10</div></td>
-						<td class="_lsbavi7" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_5nurn6k notranslate"
-								data-testid="calendar-day-2022.08.11."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">11</div></td>
-						<td class="_lsbavi7" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_5nurn6k notranslate"
-								data-testid="calendar-day-2022.08.12."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">12</div></td>
-						<td class="_1pp260rp" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_1hgc2j5m notranslate"
-								data-testid="calendar-day-2022.08.13."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">13</div></td>
-					</tr>
-					<tr>
-						<td class="_efy6afn" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_1hgc2j5m notranslate"
-								data-testid="calendar-day-2022.08.14."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">14</div></td>
-						<td class="_lsbavi7" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_5nurn6k notranslate"
-								data-testid="calendar-day-2022.08.15."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">15</div></td>
-						<td class="_1sgf68tj" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_opuqu1t notranslate"
-								data-testid="calendar-day-2022.08.16."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">16</div></td>
-						<td class="_1mmaonhc" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 선택한 체크인 날짜 "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_tdsdpc7 notranslate"
-								data-testid="calendar-day-2022.08.17."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">17</div></td>
-						<td class="_1ba08hns" role="button" aria-disabled="false"
-							aria-label="NaN, Invalid date, Invalid date NaN. 선택한 체크아웃 날짜 "
-							tabindex="0" style="width: 70px; height: 70px;"><div
-								class="_1bwecu0e notranslate"
-								data-testid="calendar-day-2022.08.18."
-								data-is-day-blocked="false" style="width: 70px; height: 70px;">18</div></td>
-						<td class="_lsbavi7" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_5nurn6k notranslate"
-								data-testid="calendar-day-2022.08.19."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">19</div></td>
-						<td class="_1pp260rp" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_1hgc2j5m notranslate"
-								data-testid="calendar-day-2022.08.20."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">20</div></td>
-					</tr>
-					<tr>
-						<td class="_efy6afn" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_1hgc2j5m notranslate"
-								data-testid="calendar-day-2022.08.21."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">21</div></td>
-						<td class="_1sgf68tj" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_opuqu1t notranslate"
-								data-testid="calendar-day-2022.08.22."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">22</div></td>
-						<td class="_1sgf68tj" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_opuqu1t notranslate"
-								data-testid="calendar-day-2022.08.23."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">23</div></td>
-						<td class="_1sgf68tj" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_opuqu1t notranslate"
-								data-testid="calendar-day-2022.08.24."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">24</div></td>
-						<td class="_1sgf68tj" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_opuqu1t notranslate"
-								data-testid="calendar-day-2022.08.25."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">25</div></td>
-						<td class="_1sgf68tj" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_opuqu1t notranslate"
-								data-testid="calendar-day-2022.08.26."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">26</div></td>
-						<td class="_1pp260rp" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_1hgc2j5m notranslate"
-								data-testid="calendar-day-2022.08.27."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">27</div></td>
-					</tr>
-					<tr>
-						<td class="_efy6afn" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_1hgc2j5m notranslate"
-								data-testid="calendar-day-2022.08.28."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">28</div></td>
-						<td class="_1sgf68tj" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_opuqu1t notranslate"
-								data-testid="calendar-day-2022.08.29."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">29</div></td>
-						<td class="_1sgf68tj" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_opuqu1t notranslate"
-								data-testid="calendar-day-2022.08.30."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">30</div></td>
-						<td class="_10rqnsul" role="button" aria-disabled="true"
-							aria-label="NaN, Invalid date, Invalid date NaN. 예약 불가능합니다. "
-							tabindex="-1" style="width: 70px; height: 70px;"><div
-								class="_1kiderev notranslate"
-								data-testid="calendar-day-2022.08.31."
-								data-is-day-blocked="true" style="width: 70px; height: 70px;">31</div></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
+<div id="first">
+    스크롤 내려서 파랑 영역이 나올때까지 내려보세요
+</div>
+<div id="navbar"></div>
+<div id="second"></div>
+<script type="text/javascript">
+ 
+	 let $div2 = $('#second').offset(); 
+	 window.onscroll = scrollIF();
+	 
+	 $(function scrollIF() {
+	        if ($(window).scrollTop() > $div2.top) {
+	        	$('#navbar').attr("style", "tob:0");
+	        } else {
+	            $('#navbar').attr("style", "tob:-1000px");
+	        }
+	 }); 
+	 /* let isVisible = false;
+
+	 window.addEventListener('scroll', function() {
+	     if ( checkVisible($('#second')) && !isVisible) {
+	         alert("엘리먼트 보임 !!");
+	         isVisible=true;
+	     }
+	 });
+
+	 function checkVisible( elm, eval ) {
+	     eval = eval || "object visible";
+	     var viewportHeight = $(window).height(), // Viewport Height
+	         scrolltop = $(window).scrollTop(), // Scroll Top
+	         y = $(elm).offset().top,
+	         elementHeight = $(elm).height();   
+	     
+	     if (eval == "object visible") return ((y < (viewportHeight + scrolltop)) && (y > (scrolltop - elementHeight)));
+	     if (eval == "above") return ((y < (viewportHeight + scrolltop)));
+	 } */
+</script>
 </body>
 </html>
