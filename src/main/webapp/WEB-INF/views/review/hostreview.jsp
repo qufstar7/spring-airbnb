@@ -12,52 +12,53 @@
 <title>Insert title here</title>
 <style type="text/css"> 
 	
-	.next 	{  background: white; 
-			   color: rgb(0, 166, 153);
-			   font-size: large;
-			   font-weight: bold;
-			   border: 2px solid rgb(0, 166, 153);
+	#star-next-btn,
+	#public-next-btn,
+	#private-next-btn,
+	#again-next-btn {
+			background: white; 
+			color: rgb(0, 166, 153);
+			font-size: large;
+			font-weight: bold;
+			border: 2px solid rgb(0, 166, 153);
 	}
 	
-	.next:hover {
-		 background: rgb(0, 166, 153) !important;
-		 color: white;
+	#star-next-btn:hover,
+	#again-next-btn:hover, 
+	#public-next-btn:hover,
+	#private-next-btn:hover {
+			background: rgb(0, 166, 153) !important;
+			color: white;
 	}
 	
 	.modal-content {		
-		width: 100%;
+			width: 100%;
 	}
 	
 	.question 		{
-		 font-size: 18px; 
+		 	font-size: 18px; 
 	}
 	
 	.bi-star  		{
-		 color: rgb(255, 90, 95); 
+		 	color: rgb(255, 90, 95); 
 	}
 	 
 	.bi-star-fill   {
-		 color: rgb(255, 90, 95); 
+		 	color: rgb(255, 90, 95); 
 	}
 	
-	.bi-hand-thumbs-down-fill   {
-		 color: rgb(255, 90, 95); 
+	.bi-emoji-frown-fill   {
+		 	color: rgb(255, 90, 95); 
 	}
 	
-	.bi-hand-thumbs-up-fill   {
-		 color: rgb(255, 90, 95); 
+	.bi-emoji-smile-fill   {
+		 	color: rgb(255, 90, 95); 
 	}
 	 
 	.gray 			{
-		 color: #323232; 
+		 	color: #323232; 
 	}
-	
-	[type=radio] { 
-		 position: absolute;
-		 opacity: 0;
-		 width: 0;
-		 height: 0;
-	}
+
 	
 </style>
 </head>
@@ -109,6 +110,19 @@
 		     			<div class="row">
 		     				<div class="col-12">
 						       	<h3 class="mb-5 gray"><strong>숙박이 어땠나요?</strong></h3>
+								<div class="row mb-5">
+									<div class="col-12">
+										<h3 class="fs-4 gray" id="total-score"><strong>전체적 만족도</strong></h3>
+										<div id="box-total">
+											<i class="bi bi-star fs-2" data-score="1"></i>
+											<i class="bi bi-star fs-2" data-score="2"></i>
+											<i class="bi bi-star fs-2" data-score="3"></i>
+											<i class="bi bi-star fs-2" data-score="4"></i>
+											<i class="bi bi-star fs-2" data-score="5"></i>
+											<input type="hidden" name="total" value="0">
+										</div>
+									</div>
+								</div>    	
 								<div class="row mb-5">
 									<div class="col-12">
 										<h3 class="fs-4 gray" id="clean-score"><strong>청결도</strong></h3>
@@ -170,6 +184,37 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
+				<div class="text-center mb-5 mt-3">	
+		        	<h3><strong>이 게스트의 재방문을 허용할 건가요?</strong></h3>
+		        	<p>답변은 회원님의 프로필 또는 게스트에게 공개되지 않습니다.</p>
+		        </div>
+        		<div class="text-center">
+        			<div class="mb-5">
+					    <input type="radio" name="again" id="down-again" value="N">
+					    <label for="down-again" id="bi-emoji-frown" class="bi bi-emoji-frown fs-1">
+					    	<span class="fs-4" style="color: black">아니요 &nbsp;</span>
+					    </label>
+					    <input type="radio" name="again" id="up-again" value="Y" >
+					    <label for="up-again" id="bi-emoji-smile" class="bi bi-emoji-smile fs-1">
+					    	<span class="fs-4" style="color: black">예!</span>
+					    </label>
+					</div>    
+					<div class="modal-footer">
+						<button type="button" class="btn px-5 next" id="again-next-btn">다음</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
+	<div class="modal-dialog modal-dialog-centered modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="modal-title" id="exampleModalLabel3"><strong>평가 및 후기</strong></h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
 				<div class="mb-5">
 					<h3>공개후기<span class="fs-5"></span></h3>
 					<p class="mb-4">호스트의 후기는 게스트 프로필에 전체 공개됩니다.
@@ -186,17 +231,17 @@
 		</div>
 	</div>
 </div>
-<div class="modal fade" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
+<div class="modal fade" id="exampleModalToggle4" aria-hidden="true" aria-labelledby="exampleModalToggleLabel4" tabindex="-1">
 	<div class="modal-dialog modal-dialog-centered modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h3 class="modal-title" id="exampleModalLabel3"><strong>평가 및 후기</strong></h5>
+				<h3 class="modal-title" id="exampleModalLabel4"><strong>평가 및 후기</strong></h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
 				<div>
 					<div class="mb-4">
-						<h3>게스트 비공개 피드백</h3>
+						<h3>게스트 비공개 피드백<span class="fs-5">  (선택사항)</span></h3>
 						<p>이 피드백은 비공개이며, 해당 게스트와 에어비앤비 직원 빛 서비스 제공자만 볼 수 있습니다.</p>
 					</div>
 					<div class="mb-5">
@@ -206,39 +251,7 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn px-5 next" id="review-next" href="#exampleModalToggle4" 
-					    data-bs-toggle="modal" data-bs-dismiss="modal">다음</button>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="modal fade" id="exampleModalToggle4" aria-hidden="true" aria-labelledby="exampleModalToggleLabel4" tabindex="-1">
-	<div class="modal-dialog modal-dialog-centered modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h3 class="modal-title" id="exampleModalLabel4"><strong>평가 및 후기</strong></h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<div class="text-center mb-5 mt-3">	
-		        	<h3><strong>이 게스트의 재방문을 허용할 건가요?</strong></h3>
-		        	<p>답변은 회원님의 프로필 또는 게스트에게 공개되지 않습니다.</p>
-		        </div>
-        		<div class="text-center">
-        			<div class="mb-5">
-					    <input type="radio" name="thumb" id="down-thumb" value="부정">
-					    <label for="down-thumb" id="bi-hand-thumbs-down" class="bi bi-hand-thumbs-down fs-1">
-					    	<span class="fs-4" style="color: black">아니요 &nbsp;</span>
-					    </label>
-					    <input type="radio" name="thumb" id="up-thumb" value="긍정" >
-					    <label for="up-thumb" id="bi-hand-thumbs-up" class="bi bi-hand-thumbs-up fs-1">
-					    	<span class="fs-4" style="color: black">예!</span>
-					    </label>
-					</div>    
-					<div class="modal-footer">
-						<button type="submit" class="btn px-5 next" id="thumb-next-btn">완료</button>
-					</div>
-				</div>
+				<button type="submit" class="btn px-5 next" id="private-next-btn">완료</button>
 			</div>
 		</div>
 	</div>
@@ -258,6 +271,13 @@ $(function() {
 	})
 	
 	// form 1 - 별점
+	$("#box-total i").click(function() {
+		let value = $(this).attr("data-score");
+		$("input[name='total']").val(value);
+		$("#box-total i").removeClass("bi-star-fill").addClass("bi-star");
+		$("#box-total i:lt(" + value + ")").removeClass("bi-star").addClass("bi-star-fill");
+	})
+	
 	$("#box-clean i").click(function() {
 		let value = $(this).attr("data-score");
 		$("input[name='clean']").val(value);
@@ -296,8 +316,24 @@ $(function() {
 		exampleModalToggle2.show();
 	})
 	
-	// form 2 - 후기
-	// 글자수 세는 함수
+	// radio 미체크 확인
+	$("#again-next-btn").click(function() {
+		let existEmptyAgain = false;
+		let $checkAgain = $(":radio:checked()").length;
+		
+		if($checkAgain === 0) {
+			existEmptyAgain = true;
+		}
+	
+		if(existEmptyAgain) {
+			alert("항목 중 하나를 선택해 주세요.");
+			return false;
+		}
+		exampleModalToggle2.hide();
+		exampleModalToggle3.show();
+	})
+	
+	// 공개 리뷰 - 글자수 세는 함수
 	$("#public-text").keyup(function() {
 		let content = $(this).val();
 		$("#test-length").text("( "+ ( 500 - parseInt(content.length)) +" / 500 )");
@@ -323,56 +359,34 @@ $(function() {
 			alert("내용을 입력해 주세요.");
 			return false;
 		}
-		exampleModalToggle2.hide();
-		exampleModalToggle3.show();
+		exampleModalToggle3.hide();
+		exampleModalToggle4.show();
 	})
 	
-	// form 4 - 재방문 허용 의사
-	
 	/*
-	$("#bi-hand-thumbs-down").mouseenter(function() {
-		$('#bi-hand-thumbs-up').addClass("bi-hand-thumbs-up").removeClass("bi-hand-thumbs-up-fill");
-		$("#bi-hand-thumbs-down").removeClass("bi-hand-thumbs-down").addClass("bi-hand-thumbs-down-fill");
+	$("#bi-emoji-frown").mouseenter(function() {
+		$('#bi-emoji-smile').addClass("bi-emoji-smile").removeClass("bi-emoji-smile-fill");
+		$("#bi-emoji-frown").removeClass("bi-emoji-frown").addClass("bi-emoji-frown-fill");
 		
 	})
 	
-	$("#bi-hand-thumbs-up").mouseenter(function() {
-		$("#bi-hand-thumbs-down").addClass("bi-hand-thumbs-down").removeClass("bi-hand-thumbs-down-fill");
-		$('#bi-hand-thumbs-up').removeClass("bi-hand-thumbs-up").addClass("bi-hand-thumbs-up-fill");
+	$("#bi-emoji-smile").mouseenter(function() {
+		$("#bi-emoji-frown").addClass("bi-emoji-frown").removeClass("bi-emoji-frown-fill");
+		$('#bi-emoji-smile').removeClass("bi-emoji-smile").addClass("bi-emoji-smile-fill");
 	})
 	*/
 	
-	$("#bi-hand-thumbs-down").click(function() {
+	$("#bi-emoji-frown").click(function() {
 		$("#down-thumb").prop("checked", true);
-		$('#bi-hand-thumbs-up').addClass("bi-hand-thumbs-up").removeClass("bi-hand-thumbs-up-fill");
-		$("#bi-hand-thumbs-down").removeClass("bi-hand-thumbs-down").addClass("bi-hand-thumbs-down-fill");
+		$('#bi-emoji-smile').addClass("bi-emoji-smile").removeClass("bi-emoji-smile-fill");
+		$("#bi-emoji-frown").removeClass("bi-emoji-frown").addClass("bi-emoji-frown-fill");
 	})
 	
-	$("#bi-hand-thumbs-up").click(function() {
+	$("#bi-emoji-smile").click(function() {
 		$("#up-thumb").prop("checked", true);
-		$("#bi-hand-thumbs-down").addClass("bi-hand-thumbs-down").removeClass("bi-hand-thumbs-down-fill");
-		$('#bi-hand-thumbs-up').removeClass("bi-hand-thumbs-up").addClass("bi-hand-thumbs-up-fill");
+		$("#bi-emoji-frown").addClass("bi-emoji-frown").removeClass("bi-emoji-frown-fill");
+		$('#bi-emoji-smile').removeClass("bi-emoji-smile").addClass("bi-emoji-smile-fill");
 	})
-	
-	// thumb 미체크 확인
-	$("#thumb-next-btn").click(function() {
-		let existEmptyThumb = false;
-		let $checkThumb = $(":radio:checked()").length;
-		
-		if($checkThumb === 0) {
-			existEmptyThumb = true;
-		}
-	
-		if(existEmptyThumb) {
-			alert("항목 중 하나를 선택해 주세요.");
-			return false;
-		}
-		exampleModalToggle4.hide();
-	})
-	
-
-	
-
 
 })
 

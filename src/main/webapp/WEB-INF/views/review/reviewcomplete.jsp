@@ -11,16 +11,17 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <title>Insert title here</title>
 <style type="text/css">  
-	.next 	{  background: white;
-			   color: rgb(255, 90, 95);
-			   font-size: large;
-			   font-weight: bold;
-			   border: 2px solid rgb(255, 90, 95);
+	.next {  
+			background: white;
+			color: rgb(255, 90, 95);
+		    font-size: large;
+		    font-weight: bold;
+		    border: 2px solid rgb(255, 90, 95);
 	}
 	
 	.next:hover {
-		 background: rgb(255, 90, 95) !important;
-		 color: white;
+			background: rgb(255, 90, 95) !important;
+			color: white;
 	}
 	
 </style>
