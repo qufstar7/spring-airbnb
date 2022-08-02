@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ include file="../common/tags.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,214 +18,21 @@
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+<!--  부트스트랩 아이콘 -->
+<link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
+<!-- 페데리코 -->
+<script type="text/javascript" src="/resources/js/fresco.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/resources/css/fresco.css" />
+<link rel="stylesheet" type="text/css" href="/resources/css/detaile.css">
 <style type="text/css">
-	* {
-	  margin: 0;
-	  padding: 0;
-	  box-sizing: border-box;
-	}
-	body {
-    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
-    font-size: 14px;
-    line-height: 1.43;
-    color: #484848;
-    background-color: #fff;
-    margin: 0;
-    -webkit-font-smoothing: antialiased;
-    }
-	.sticky {
-   position: -webkit-sticky; /* 사파리 브라우저 지원 */
-   position: sticky;
-   top: 50px;
-   padding: 10px;
-	}
-	.box {margin:20px auto;}
-    .content {
-        width: auto;
-    }
-    #map {
-	    width:1120px;
-	    height:480px;
-    }
-    #map2 {
-	    width:1550px;
-	    height:810px;
-    }
-    
-    .main {
-    	width:1200px;
-    }
-    .container {
-    	width:1200px;
-    }
-    .image2 {
-    	display:block;
-		width:100%;
-		height:auto;
-    }
-    #air-cover {
-    
-    	width: 97.5px;
-    	height: 26px;
-    }
-    #nav-1 {
-    	position: fixed;
-    	height: 80px;
-    	tob: 0; 
-    	z-index: 1000; /*페이지의 다른 요소보다 가장 위에 나타나도록 설정*/
-    	width:100%;
-    }
-    .progress-container {
-      width: 100%;
-      height: 8px;
-      background: #ccc;
-	}
-	 
-	#box {
-		width: 370;
-		height: 460;
-	}
-	.profile {
-		border-radius: 70%;
-		width: 40px; 
-		height: 40px;
-	}
-	#image-large {
-		width: 560px; 
-		height: 498px;
-		border-top-left-radius: 2em;
-		border-bottom-left-radius: 2em;
-	}
-	#image-right-top {
-		border-top-right-radius: 2em;
-	}
-	#image-right-bottom {
-		border-bottom-right-radius: 2em;
-	}
-	
-	.short-img {
-		width: 272px; 
-		height: 249px;
-	}
-	/* section calendar */
-
-	.sec_cal {
-	    width: 360px;
-	    margin: 0 auto;
-	    font-family: "NotoSansR";
-	}
-	
-	.sec_cal .cal_nav {
-	    display: flex;
-	    justify-content: center;
-	    align-items: center;
-	    font-weight: 700;
-	    font-size: 48px;
-	    line-height: 78px;
-	}
-	
-	.sec_cal .cal_nav .year-month {
-	    width: 300px;
-	    text-align: center;
-	    line-height: 1;
-	}
-	
-	.sec_cal .cal_nav .nav {
-	    display: flex;
-	    border: 1px solid #333333;
-	    border-radius: 5px;
-	}
-	
-	.sec_cal .cal_nav .go-prev,
-	.sec_cal .cal_nav .go-next {
-	    display: block;
-	    width: 50px;
-	    height: 78px;
-	    font-size: 0;
-	    display: flex;
-	    justify-content: center;
-	    align-items: center;
-	}
-	
-	.sec_cal .cal_nav .go-prev::before,
-	.sec_cal .cal_nav .go-next::before {
-	    content: "";
-	    display: block;
-	    width: 20px;
-	    height: 20px;
-	    border: 3px solid #000;
-	    border-width: 3px 3px 0 0;
-	    transition: border 0.1s;
-	}
-	
-	.sec_cal .cal_nav .go-prev:hover::before,
-	.sec_cal .cal_nav .go-next:hover::before {
-	    border-color: #ed2a61;
-	}
-	
-	.sec_cal .cal_nav .go-prev::before {
-	    transform: rotate(-135deg);
-	}
-	
-	.sec_cal .cal_nav .go-next::before {
-	    transform: rotate(45deg);
-	}
-	
-	.sec_cal .cal_wrap {
-	    padding-top: 40px;
-	    position: relative;
-	    margin: 0 auto;
-	}
-	
-	.sec_cal .cal_wrap .days {
-	    display: flex;
-	    margin-bottom: 20px;
-	    padding-bottom: 20px;
-	    border-bottom: 1px solid #ddd;
-	}
-	
-	.sec_cal .cal_wrap::after {
-	    top: 368px;
-	}
-	
-	.sec_cal .cal_wrap .day {
-	    display:flex;
-	    align-items: center;
-	    justify-content: center;
-	    width: calc(100% / 7);
-	    text-align: left;
-	    color: #999;
-	    font-size: 12px;
-	    text-align: center;
-	    border-radius:5px
-	}
-	
-	.current.today {background: rgb(242 242 242);}
-	
-	.sec_cal .cal_wrap .dates {
-	    display: flex;
-	    flex-flow: wrap;
-	    height: 290px;
-	}
-	
-	.sec_cal .cal_wrap .day:nth-child(7n -1) {
-	    color: #3c6ffa;
-	}
-	
-	.sec_cal .cal_wrap .day:nth-child(7n) {
-	    color: #ed2a61;
-	}
-	
-	.sec_cal .cal_wrap .day.disable {
-	    color: #ddd;
-	}
-	
 </style>
 <title>숙소 상세 페이지</title>
 </head>
 <body >
-	<nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-center" id="nav-1">
-		<ul class="navbar-nav me-auto">
+<c:set var="menu" value="detaile"/>
+	<div class="container"> 
+	<nav class="navbar navbar-expand-lg navbar-white bg-white" id="nav-1">
+		<ul class="navbar-nav me-auto justify-content-center">
 		  <li class="nav-item">
 		    <a class="nav-link" href="#btn-open-image-modal">사진</a>
 		  </li>
@@ -239,10 +47,10 @@
 		  </li>
 		</ul>
 	</nav>
-	<div class="container" style="padding: 0px 40px;"> 
-		<div class="row p-2 mb-2" style="padding-left: 80px; padding-right: 80px;">
+	<%@ include file="../common/nav2.jsp" %>
+		<div class="row p-2 mb-2" id="top-div" >
 			<div>
-				<h2>${acc.name }</h2>
+				<span class="title"><strong>${acc.name }</strong></span>
 			</div>
 			<div class="pl-1">
 				<p>
@@ -257,29 +65,29 @@
 			</div>
 		</div>
 	</div>
-	<div class="container main" style="padding: 0px 40px;">
+	<div class="container main">
 		<div class="row mb-5">
 			<div class="col-6">
-				<div class="img-large" id="btn-open-image-modal">
-					<img src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg" id="image-large">
+				<div class="img-large imagebox" id="btn-open-image-modal">
+					<a href="#"><img src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg" id="image-large"></a>
 				</div>
 			</div>
 			<div class="col-3">
 			
-				<div class="img-short" id="btn-open-image-modal2">
-					<img src="https://a0.muscache.com/airbnb/static/destinations/o-Rome_Piazza017_480x320.jpg" class="short-img">
+				<div class="img-short imagebox" id="btn-open-image-modal2">
+					<a href="#"><img src="https://a0.muscache.com/airbnb/static/destinations/o-Rome_Piazza017_480x320.jpg" class="short-img"></a>
 				</div>
-				<div class="img-short" id="btn-open-image-modal3">
-					<img src="https://a0.muscache.com/airbnb/static/destinations/o-Los_Angeles_480x320.jpg" class="short-img">
+				<div class="img-short imagebox" id="btn-open-image-modal3">
+					<a href="#"><img src="https://a0.muscache.com/airbnb/static/destinations/o-Los_Angeles_480x320.jpg" class="short-img"></a>
 				</div>
 			</div>
 			<div class="col-3">
 			
-				<div class="img-short" id="btn-open-image-modal4">
-					<img src="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg" class="short-img" id="image-right-top">
+				<div class="img-short imagebox" id="btn-open-image-modal4">
+					<a href="#"><img src="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg" class="short-img" id="image-right-top"></a>
 				</div>
-				<div class="img-short" id="btn-open-image-modal5">
-					<img src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg" class="short-img" id="image-right-bottom">
+				<div class="img-short imagebox" id="btn-open-image-modal5">
+					<a href="#"><img src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg" class="short-img" id="image-right-bottom"></a>
 				</div>
 			</div>
 		</div>
@@ -292,12 +100,14 @@
 					<a id="profile" href="#host">
 						<img class="float-end profile" src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg">
 					</a>
-					<h2>덕인님이 호스팅하는 ${acc.name }</h2>
+					<h4>덕인님이 호스팅하는 ${acc.name }</h4>
 					<p>최대 인원 ${acc.guest }명<i class="bi bi-dot"></i>침실 1개<i class="bi bi-dot"></i>침대 1개<i class="bi bi-dot"></i>욕실 1개</p>
 				</div>
 				<hr>
 				<div>
-					<h3>마음껏 물놀이를 즐기세요</h1>
+					<div id="">
+						<h6><i class="bi bi-door-closed"></i> 셀프 체크인</h6>
+					</div>
 				</div>
 				<hr>
 				<div>
@@ -311,15 +121,15 @@
 				</div>
 				<hr>
 				<div class="box mt-5 mb-5">
-					<h3>숙소설명</h3>
+					<h4>숙소설명</h4>
 					<div class="content mb-2">
 					
-					<p>${acc.description }</p>
+						<p>${acc.description }</p>
 					</div>
 				</div>
 				<hr>
 				<div class="row mt-5">
-					<h3>숙박장소</h1>
+					<h4>숙박장소</h4>
 					<div class="col-6" id="btn-open-image2-modal">
 						<img class="image2 rounded mb-2" alt="" src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg" >
 						<h5>침실공간</h5>
@@ -333,47 +143,31 @@
 				</div>
 				<hr>
 				<div class="row mt-5" id="con">
-					<h3>편의시설</h3>
-					<div class="col-6 mb-3"><i class="bi bi-wifi"></i> 무선인터넷</div>
-					<div class="col-6 mb-3"><i class="bi bi-wifi"></i> 수영장</div>
-					<div class="col-6 mb-3"><i class="bi bi-wifi"></i> 바베큐그릴</div>
-					<div class="col-6 mb-3"><i class="bi bi-wifi"></i> 어쩌구</div>
-					<div class="col-6 mb-3"><i class="bi bi-wifi"></i> 저쩌구</div>
-					<div class="col-6 mb-3"><i class="bi bi-wifi"></i> 저쩌구리</div>
+					<span class="mb-3">
+						<h4>숙소 편의시설</h4>
+					</span>
+					
+					<div class="col-6 mb-2"><p><i class="bi bi-wifi"></i> 무선인터넷</p></div>
+					<div class="col-6 mb-2"><p><i class="bi bi-wifi"></i> 수영장</p></div>
+					<div class="col-6 mb-2"><p><i class="bi bi-wifi"></i> 바베큐그릴</p></div>
+					<div class="col-6 mb-2"><p><i class="bi bi-wifi"></i> 어쩌구</p></div>
+					<div class="col-6 mb-2"><p><i class="bi bi-wifi"></i> 저쩌구</p></div>
+					<div class="col-6 mb-2"><p><i class="bi bi-wifi"></i> 저쩌구리</p></div>
 					<div class="col-6 mb-2">
 						<button class="btn btn-outline-dark btn-lg" id="btn-open-con-modal">편의시설 xx개 더보기</button>
 					</div>
 				</div>
 				<hr>
 				<div class="mt-5 mb-5">
-					<h2>달력</h2>
+					<h4>체크아웃 날짜를 선택하세요.</h4>
 					<input type="text" id="demo" name="demo" value="01/01/2018 - 01/15/2018" />
-					<div class="sec_cal">
-						<div class="cal_nav">
-							<a href="javascript:;" class="nav-btn go-prev">prev</a>
-							<div class="year-month"></div>
-							<a href="javascript:;" class="nav-btn go-next">next</a>
-						</div>
-						<div class="cal_wrap">
-							<div class="days">
-								<div class="day">MON</div>
-								<div class="day">TUE</div>
-								<div class="day">WED</div>
-								<div class="day">THU</div>
-								<div class="day">FRI</div>
-								<div class="day">SAT</div>
-								<div class="day">SUN</div>
-							</div>
-							<div class="dates"></div>
-						</div>
-					</div>
 				</div>
 				
 			</div>
 			<div class="col-4" >
 				<div class="sticky" id="box">
 					<div class="shadow-lg p-3 mb-5 bg-body rounded">
-						<span><strong>₩ ${acc.price }</strong>/박</span>
+						<h4><strong>₩ ${acc.price }</strong></h4><span>/박</span>
 						<button type="button" class="btn btn-link text-dark btn-sm"><i class="bi bi-star-fill"></i> ${acc.reviewScore } <span class="text-decoration-underline">후기 ${acc.reviewCount }개</span></button>
 						<img alt="" src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg" style="width: 100%;">
 					</div>
@@ -390,7 +184,7 @@
 			<hr>
 			<div class="mt-5 mb-5">
 				<div class="">
-					<h3>호스팅 지역</h3>
+					<h4>호스팅 지역</h4>
 				</div>
 				<div class="mb-2" id="map"></div>
 				<div class="mb-2">
@@ -402,13 +196,13 @@
 			<div class="row mt-5 mb-5">
 				<div class="col-6 mb-2" id="host">
 					<div class="row">
-						<div class="col-1">
+						<div class="col-2">
 							<a id="profile" href="">
-							<img class="float-start profile" src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg">
+								<img class="float-start profile" src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg" >
 							</a>
 						</div>
-						<div class="col-11">
-							<h3>호스트:덕인님</h3>
+						<div class="col-10">
+							<h4>호스트:덕인님</h4>
 							<p>회원 가입일: 2019년 12월사업자 정보</p>
 						</div>
 					</div>
@@ -425,15 +219,15 @@
 			</div>
 			<hr>
 			<div class="row mt-5">
-				<h3>알아두어야 할 사항</h3>
+				<h4>알아두어야 할 사항</h4>
 				<div class="col-4">
-					<h5>숙소 이용 규칙</h5>
+					<h6>숙소 이용 규칙</h6>
 				</div>
 				<div class="col-4">
-					<h5>건강과 안전</h5>
+					<h6>건강과 안전</h6>
 				</div>
 				<div class="col-4">
-					<h5>환불 정책</h5>
+					<h6>환불 정책</h6>
 				</div>
 			</div>
 		</div>
@@ -444,40 +238,44 @@
 	<div class="modal-dialog modal-Default">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">숙소 편의 시설</h4>
+				<h5 class="modal-title">숙소 편의 시설</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 			</div>
 			<div class="modal-body">
 				<div class="row">
+					<h6>욕실</h6>
+					<p>
+						<i class="bi bi-wifi"></i> 헤어드라이기
+					</p>
 					<hr>
-					<h5>욕실</h5>
 					<p>
 						<i class="bi bi-wifi"></i> 헤어드라이기
 					</p>
-					<p>
-						<i class="bi bi-wifi"></i> 헤어드라이기
-					</p>
+					<hr>
 				</div>
 				<div class="row">
+					<h6>욕실</h6>
+					<p>
+						<i class="bi bi-wifi"></i> 헤어드라이기
+					</p>
 					<hr>
-					<h5>욕실</h5>
 					<p>
 						<i class="bi bi-wifi"></i> 헤어드라이기
 					</p>
-					<p>
-						<i class="bi bi-wifi"></i> 헤어드라이기
-					</p>
+					<hr>
 				</div>
 				<div class="row">
+					<h6>욕실</h6>
+					<p>
+						<i class="bi bi-wifi"></i> 헤어드라이기
+					</p>
 					<hr>
-					<h5>욕실</h5>
 					<p>
 						<i class="bi bi-wifi"></i> 헤어드라이기
 					</p>
-					<p>
-						<i class="bi bi-wifi"></i> 헤어드라이기
-					</p>
+					<hr>
 				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -495,23 +293,23 @@
 			<div class="modal-body">
 				<div class="row">
 					<form action="">
-						<div>
+						<div class="mb-2">
 							부정확하거나 틀린 정보가 있어요<input class="float-end" name="report" value="1" type="radio">
 							<hr>
 						</div>
-						<div>
+						<div class="mb-2">
 							실제 숙소가 아닙니다<input class="float-end" name="report" value="2" type="radio">
 							<hr>
 						</div>
-						<div>
+						<div class="mb-2">
 							사기입니다<input class="float-end" name="report" value="3" type="radio">
 							<hr>
 						</div>
-						<div>
+						<div class="mb-2">
 							불쾌합니다<input class="float-end" name="report" value="4" type="radio">
 							<hr>
 						</div>
-						<div>
+						<div class="mb-2">
 							기타<input class="float-end" name="report" value="5" type="radio">
 							<hr>
 						</div>
@@ -535,11 +333,13 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="row mb-3">
-						<div class="col-1 rounded">
-							<img class="rounded" src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg" style="width: 40px; height: 40px;">
+						<div class="col-2 rounded">
+							<img class="rounded" src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg" style="width: 64px; height: 64px;">
 						</div>
-						<div class="col-11">
-							<h4>중앙 HTA 입니다.</h4>
+						<div class="col-10">
+							<span>
+								<p>${acc.name }</p>
+							</span>
 						</div>
 					</div>
 					<div class="col-6 mb-3 d-grid gap-2">
@@ -581,19 +381,20 @@
 	<div class="modal-dialog modal-Default">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">위시 리스트</h4>
+				<h5 class="modal-title">위시 리스트</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 			</div>
 			<div class="modal-body">
 				<div class="row">
+					<h6>욕실</h6>
+					<p>
+						<i class="bi bi-wifi"></i> 헤어드라이기
+					</p>
 					<hr>
-					<h5>욕실</h5>
 					<p>
 						<i class="bi bi-wifi"></i> 헤어드라이기
 					</p>
-					<p>
-						<i class="bi bi-wifi"></i> 헤어드라이기
-					</p>
+					<hr>
 				</div>
 			</div>
 		</div>
@@ -646,45 +447,75 @@
 		<div class="modal-dialog modal-fullscreen">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title">갤러리</h4>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
-				<div class="modal-body text-center">
-					<div class="row">
+				<div class="modal-body text-center mb-0">
 						<div class="">
-							<img
-								src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg"
-								">
+							<a href="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg" class="fresco" data-fresco-group="web">
+							<img src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg"></a>
+						</div>
+						<div class="">
+							<a href="https://a0.muscache.com/airbnb/static/destinations/o-Rome_Piazza017_480x320.jpg" class="fresco" data-fresco-group="web">
+								<img src="https://a0.muscache.com/airbnb/static/destinations/o-Rome_Piazza017_480x320.jpg">
+							</a>
+						</div>
+						<div class="">
+							<a href="https://a0.muscache.com/airbnb/static/destinations/o-Los_Angeles_480x320.jpg" class="fresco" data-fresco-group="web">
+							<img src="https://a0.muscache.com/airbnb/static/destinations/o-Los_Angeles_480x320.jpg"></a>
 						</div>
 
 						<div class="">
-							<img
-								src="https://a0.muscache.com/airbnb/static/destinations/o-Rome_Piazza017_480x320.jpg"
-								">
+							<a href="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg" class="fresco" data-fresco-group="web">
+							<img src="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg"></a>
 						</div>
-						<div class="">
-							<img
-								src="https://a0.muscache.com/airbnb/static/destinations/o-Los_Angeles_480x320.jpg"
-								">
-						</div>
-
-						<div class="">
-							<img
-								src="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg"
-								">
-						</div>
-						<div class="">
-							<img
-								src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg"
-								">
+							<a href="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg" class="fresco" data-fresco-group="web">
+							<img src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg"></a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div> 
+
+<!-- 이미지 모달 -->
+<!-- 	<div class="modal" id="modal-image-acc">
+		<div class="modal-dialog modal-fullscreen">
+			<div class="modal-content text-center">
+				<div class="modal-header">
+					<h4 class="modal-title">갤러리</h4>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+				<div class="modal-body text-center" style="width: 740px;">
+					<div class="lightbox">
+						<div class="row">
+							<div class="col-lg-6">
+								<img
+									src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg"
+									data-mdb-img="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg"
+									alt="Table Full of Spices"
+									class="w-100 mb-2 mb-md-4 shadow-1-strong rounded" /> 
+								<img
+									src="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg"
+									data-mdb-img="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg"
+									alt="Coconut with Strawberries"
+									class="w-100 shadow-1-strong rounded" />
+							</div>
+							<div class="col-lg-6">
+								<img
+									src="https://a0.muscache.com/airbnb/static/destinations/o-Los_Angeles_480x320.jpg"
+									data-mdb-img="https://a0.muscache.com/airbnb/static/destinations/o-Los_Angeles_480x320.jpg"
+									alt="Dark Roast Iced Coffee"
+									class="w-100 shadow-1-strong rounded" />
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
 	</div>
-	
-<!-- 지도 모달 -->
+ -->
+	<!-- 지도 모달 -->
 <div class="modal" id="modal-map-acc">
 	<div class="modal-dialog modal-fullscreen">
 		<div class="modal-content">
@@ -697,29 +528,15 @@
 					<div class="col-2">
 						<div>
 							<div class="box">
-								<h4>제주도 한국</h4>
+								<h4>${acc.address }</h4>
 								<div class="content">
-									<p>게으른 노을 인근에는
-										한림항(비양도선착장) 1분
-										협재해수욕장 5분
-										금능해수욕장 6분
-										성이시돌목장 15분
-										한림오일장(4일, 9일) 5분
-										금오름 10분
-										패러글라이딩장 10분
-										애월한담해변 10분
-										등 주변에 많은 관광지가 있으며,
-										유명 소품샵과 맛집, 카페들도 많이 있습니다.
-										
-										비밀스런 도민 맛집을 상세히 알려드립니다 :-)</p>
+									<p>${acc.description }</p>
 								</div>
 							</div>
 							<div class="box">
 								<h4>교통편</h4>
 								<div class="content">
-									<p>집앞 개인주차장이 구비되어 있습니다.
-									제주 특성상 개인 랜트카를 추천드리며,
-									대중교통 이용시 102번, 202번 공항버스를 이용하시면 도보 5분거리에 위치합니다.</p>
+									<p>${acc.trafficDescription }</p>
 								</div>
 							</div>
 						</div>
@@ -981,93 +798,7 @@ $(function() {
 	    전월 마지막일 날짜와 요일
 	*/
 
-	calendarInit();
 	
-	function calendarInit() {
-
-			// 날짜 정보 가져오기
-			var date = new Date(); // 현재 날짜(로컬 기준) 가져오기
-			var utc = date.getTime() + (date.getTimezoneOffset() * 60 * 1000); // uct 표준시 도출
-			var kstGap = 9 * 60 * 60 * 1000; // 한국 kst 기준시간 더하기
-			var today = new Date(utc + kstGap); // 한국 시간으로 date 객체 만들기(오늘)
-
-			var thisMonth = new Date(today.getFullYear(), today.getMonth(),
-					today.getDate());
-			// 달력에서 표기하는 날짜 객체
-
-			var currentYear = thisMonth.getFullYear(); // 달력에서 표기하는 연
-			var currentMonth = thisMonth.getMonth(); // 달력에서 표기하는 월
-			var currentDate = thisMonth.getDate(); // 달력에서 표기하는 일
-
-			// kst 기준 현재시간
-			// console.log(thisMonth);
-
-			// 캘린더 렌더링
-			renderCalender(thisMonth);
-
-			function renderCalender(thisMonth) {
-
-				// 렌더링을 위한 데이터 정리
-				currentYear = thisMonth.getFullYear();
-				currentMonth = thisMonth.getMonth();
-				currentDate = thisMonth.getDate();
-
-				// 이전 달의 마지막 날 날짜와 요일 구하기
-				var startDay = new Date(currentYear, currentMonth, 0);
-				var prevDate = startDay.getDate();
-				var prevDay = startDay.getDay();
-
-				// 이번 달의 마지막날 날짜와 요일 구하기
-				var endDay = new Date(currentYear, currentMonth + 1, 0);
-				var nextDate = endDay.getDate();
-				var nextDay = endDay.getDay();
-
-				// console.log(prevDate, prevDay, nextDate, nextDay);
-
-				// 현재 월 표기
-				$('.year-month').text(currentYear + '.' + (currentMonth + 1));
-
-				// 렌더링 html 요소 생성
-				calendar = document.querySelector('.dates')
-				calendar.innerHTML = '';
-
-				// 지난달
-				for (var i = prevDate - prevDay + 1; i <= prevDate; i++) {
-					calendar.innerHTML = calendar.innerHTML
-							+ '<div class="day prev disable">' + i + '</div>'
-				}
-				// 이번달
-				for (var i = 1; i <= nextDate; i++) {
-					calendar.innerHTML = calendar.innerHTML
-							+ '<div class="day current">' + i + '</div>'
-				}
-				// 다음달
-				for (var i = 1; i <= (7 - nextDay == 7 ? 0 : 7 - nextDay); i++) {
-					calendar.innerHTML = calendar.innerHTML
-							+ '<div class="day next disable">' + i + '</div>'
-				}
-
-				// 오늘 날짜 표기
-				if (today.getMonth() == currentMonth) {
-					todayDate = today.getDate();
-					var currentMonthDate = document
-							.querySelectorAll('.dates .current');
-					currentMonthDate[todayDate - 1].classList.add('today');
-				}
-			}
-
-			// 이전달로 이동
-			$('.go-prev').on('click', function() {
-				thisMonth = new Date(currentYear, currentMonth - 1, 1);
-				renderCalender(thisMonth);
-			});
-
-			// 다음달로 이동
-			$('.go-next').on('click', function() {
-				thisMonth = new Date(currentYear, currentMonth + 1, 1);
-				renderCalender(thisMonth);
-			});
-		}
 
 	})
 </script>
