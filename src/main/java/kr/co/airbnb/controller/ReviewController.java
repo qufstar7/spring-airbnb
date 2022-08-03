@@ -1,10 +1,7 @@
 package kr.co.airbnb.controller;
 
-import java.io.IOException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,40 +15,36 @@ import kr.co.airbnb.service.ReviewService;
 import kr.co.airbnb.vo.User;
 
 @Controller
-@CrossOrigin("*")
-//@RequestMapping("/reviews")
-//@SessionAttributes("guestReviewForm")
+// @RequestMapping("/reviews")
+// @SessionAttributes("guestReviewForm")
 public class ReviewController {
 	
 	@Autowired
 	private ReviewService reviewService;
-
+ 
 	@GetMapping(path = "/review")
 	public String review() {
-		return "review/userreview";
+		return "review/guestreview";
 	}
 	
-	@GetMapping(path = "hostreview")
-	public String review2() {
+	@GetMapping(path = "/mlist")
+	public String reviewList() {
+		return "review/modalreviewlist";
+	}
+	
+	@GetMapping(path = "/alist")
+	public String accReviewList() {
+		return "review/accreviewlist";
+	}
+	
+	@GetMapping(path = "/hostreview")
+	public String hostReview() {
 		return "review/hostreview";
 	}
 	
 	@GetMapping(path = "/comp")
-	public String comp() {
+	public String complete() {
 		return "review/reviewcomplete";
 	}
-	
-	@PostMapping(path = "/insert")
-	public String insertguestreview(@LoginUser User loginUser, @ModelAttribute("guestReviewForm") GuestReviewForm guestReviewForm, SessionStatus sessionStatus) throws IOException {
-		reviewService.addGuestReview(loginUser, guestReviewForm);
-		sessionStatus.setComplete();
-		
-		return "redirect:/review/complete";
-	}
-	
-	//@PostMapping(path = "/reviews")
-	//public 
-	
-	
 
 }

@@ -15,7 +15,7 @@
 	#star-next-btn,
 	#thumb-next-btn,
 	#public-next-btn,
-	#private-next-btn {  
+	#btn-add-guestreview {  
 			background: white;
 		    color: rgb(255, 90, 95);
 		    font-size: large;
@@ -26,7 +26,7 @@
 	#star-next-btn:hover,
 	#thumb-next-btn:hover, 
 	#public-next-btn:hover,
-	#private-next-btn:hover {
+	#btn-add-guestreview:hover {
 			background: rgb(255, 90, 95) !important;
 			color: white;
 	}
@@ -66,6 +66,11 @@
 			height: 0;
 	}
 	
+	.houseImg {
+			width: 200px;
+			height: 200px;
+	}
+	
 </style>
 </head>
 <body>
@@ -84,6 +89,7 @@
 <!-- 파라미터로 숙소 번호 받아야 한다. -->
 <form class="mb-3" name="guestReview" id="guest-review">		
 <input type="hidden" id="acc-no" name="accNo" value="101" />	
+<input type="hidden" id="user-type" name="userType" value="guest" />	
 <!-- Scrollable Modal -->
 <div class="modal fade" id="review-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   	<div class="modal-dialog modal-dialog-scrollable modal-lg">
@@ -95,7 +101,7 @@
       		<div class="modal-body">
 				<div class="row">
 					<div class="col-4">
-		      			<img scr="" /> 이미지 들어가는 곳
+		      			<img class="houseImg" src="/resources/images/acc/bridge.jpg" />
 		      			<h5>Danny의 집</h5>
 		      			<ul>
 		      				<li>집 전체</li>
@@ -289,7 +295,7 @@
 					   다음 페이지에서 에어비앤비에게 비공개로 추가 피드백을 남기실 수 있습니다.
 					   한국어로 공개 후기를 작성하세요.
 					   다른 게스트는 필요한 경우 자동 번역문을 읽을 수 있습니다. </p>
-					<textarea name="public" id="public-text" cols="100" rows="5"  maxlength="500" style="resize:vertical;" 
+					<textarea name="public" id="public-text" cols="100" rows="5"  maxlength="500" style="resize:vertical; width:100%";" 
 							  placeholder="호스트가 어떻게 회원님을 맞이하였나요? 숙소 설명은 명확하였나요? 숙소가 위치한 지역은 어떤가요?"></textarea>
 					<p align="right">남은 글자 수 : <span id="test-length">( 500 / 500 )</span>자</p>
 				</div>
@@ -315,11 +321,11 @@
 					</div>
 					<div class="mb-4">
 						<p><strong>이 숙소에서 가장 마음에 드는 점은 무엇인가요?</strong></p>
-						<textarea name="positive" id="positive-text" cols="100" rows="5"></textarea>
+						<textarea name="positive" id="positive-text" cols="100" rows="5" style="resize:vertical; width:100%;"></textarea>
 					</div>
 					<div class="mb-5">
 						<p><strong>회원님의 호스트가 더 발전하기 위한 피드백을 주세요.</strong></p>
-						<textarea name="feedback" id="feedback-text" cols="100" rows="5"></textarea>
+						<textarea name="feedback" id="feedback-text" cols="100" rows="5" style="resize:vertical; width:100%;"></textarea>
 					</div>
 				</div>
 			</div>
@@ -495,26 +501,32 @@ $(function() {
 	// 게스트 리뷰 등록
 	$("#btn-add-guestreview").click(function() {
 		let review = {
-			totalScore: $("input[name='total']").val();
-			cleanScore: $("input[name='clean']").val();
-			accuracyScore: $("input[name='accuracy']").val();
-			communicationScore: $("input[name='communication']").val();
-			locationScore: $("input[name='location']").val();
-			checkinScore: $("input[name='checkin']").val();
-			valueScore: $("input[name='valueS']").val();
-			convenienceScore: $("input[name='convenience']").val();
-			content: $("#public-text").val();
-			positiveFeedback: $("#positive-text").val();
-			nagativeFeedback: $("#feedback-text").val();
-			wantMeetAgain: $("input[name='thumb']:checked").val();
+			accNo: parseInt($("input[name='accNo']").val()),
+			userType: $("input[name='userType']").val(),
+			totalScore: parseInt($("input[name='total']").val()),
+			cleanScore: parseInt($("input[name='clean']").val()),
+			accuracyScore: parseInt($("input[name='accuracy']").val()),
+			communicationScore: parseInt($("input[name='communication']").val()),
+			locationScore: parseInt($("input[name='location']").val()),
+			checkinScore: parseInt($("input[name='checkin']").val()),
+			valueScore: parseInt($("input[name='valueS']").val()),
+			convenienceScore: parseInt($("input[name='convenience']").val()),
+			content: $("#public-text").val(),
+			positiveFeedback: $("#positive-text").val(),
+			nagativeFeedback: $("#feedback-text").val(),
+			wantMeetAgain: $("input[name='thumb']:checked").val()
 		}
+		exampleModalToggle4.hide();
 		
-		$ajax({
-			type: "POST",
-			url: 'http://localhost:80/reviews',
-			data: JSON.stringify(review),
-			contentType: "application/json",
-			dataType: 'json'
+		$.ajax({
+			type: "POST",							// HTTP 요청 방식
+			url: '/review/saveGuest',		// 요청 URL
+			data: JSON.stringify(review),			// 서버로 보내는 데이터
+			contentType: "application/json",		// 서버로 보내는 요청메세지의 컨텐츠 타입
+			dataType: 'json',						// 서버로부터 받을 것으로 예상되는 응답메세지의 컨텐츠 타입
+			success: function() {
+				location.href = "comp";
+			}
 		});
 		
 	});

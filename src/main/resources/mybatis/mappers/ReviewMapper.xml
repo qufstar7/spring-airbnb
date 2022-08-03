@@ -1,29 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="kr.co.airbnb.mapper.ReviewMapper">
+
+	<!-- resultMap? -->
+
 	<!-- void insertReview(Review review); -->
-	<insert id="insertReviewGuest" parameterType="Review">
+	<!-- 리뷰 갯수 올라갈 때마다 ACCOMMODATIONS의 리뷰 갯수가 올라가게 해야 한다. -->
+	<insert id="insertReviewGuest" parameterType="kr.co.airbnb.vo.Review">
 		<selectKey keyProperty="no" resultType="int" order="BEFORE">
-			select reviews_seq.val
+			select reviews_seq.nextval
 			from dual
 		</selectKey>
 		insert into airbnb_reviews 
 		(review_no, acc_no, user_no, review_content, total_score, cleanliness_score, accuracy_score, communication_score, 
-		location_score, checkin_score, value_score, convenience_score, positive_feedback, nagative_feedback, want_meet_again)
+		location_score, checkin_score, value_score, convenience_score, positive_feedback, nagative_feedback, want_meet_again, user_type)
 		values 
-		(#{no}, 101, 2, #{content}, #{totalScore}, #{cleanScore}, #{accuracyScore}, #{communicationScore}, 
-		#{locationScore}, #{checkinScore}, #{valueScore}, #{convenienceScore}, #{positiveFeedback}, #{nagativeFeedback}, #{wantMeetAgain}); 
+		(#{no}, #{accNo}, 2, #{content}, #{totalScore}, #{cleanScore}, #{accuracyScore}, #{communicationScore}, 
+		#{locationScore}, #{checkinScore}, #{valueScore}, #{convenienceScore}, #{positiveFeedback}, #{nagativeFeedback}, #{wantMeetAgain}, #{userType})
 	</insert>
 	
 	<!-- void insertReview(Review review); -->
 	<insert id="insertReviewHost" parameterType="Review">
 		<selectKey keyProperty="no" resultType="int" order="BEFORE">
-			select reviews_seq.val
+			select reviews_seq.nextval
 			from dual
 		</selectKey>
 		insert into airbnb_reviews 
-		(review_no, acc_no, user_no, review_content, total_score, cleanliness_score, communication_score, observance_score, private_note, want_meet_again)
+		(review_no, acc_no, user_no, review_content, total_score, cleanliness_score, communication_score, observance_score, private_note, want_meet_again, user_type)
 		values 
-		(#{no}, 101, 1, #{content}, #{totalScore}, #{cleanScore}, #{communicationScore}, #{observanceScore}, #{privateNote}, #{wantMeetAgain}); 
+		(#{no}, #{accNo}, 1, #{content}, #{totalScore}, #{cleanScore}, #{communicationScore}, #{observanceScore}, #{privateNote}, #{wantMeetAgain}, #{userType})
 	</insert>
+	
+	<resultMap type="kr.co.airbnb.vo.GuestRequest" id="GuestRequestResultMap">
+		<id column="RESERVATION_NO" property="reservationNo" />
+		<result column="CHECK_IN_DATE" property="checkIn" />
+		<result column="CHECK_OUT_DATE" property="checkOut" />
+		<result column="ACC_REVIEW_COUNT" property="reviewCount" />
+		<result column="ACC_NAME" property="accName" />
+		<result column="ACC_ADDRESS" property="address" />
+		<result column="IMAGE_COVER" property="imageCover" />
+		<result column="USER_NAME" property="guestName" />
+	</resultMap>
+	
+		<resultMap type="kr.co.airbnb.vo.HostRequest" id="HostRequestResultMap">
+		<id column="RESERVATION_NO" property="reservationNo" />
+		<result column="CHECK_IN_DATE" property="checkIn" />
+		<result column="CHECK_OUT_DATE" property="checkOut" />
+		<result column="ACC_REVIEW_COUNT" property="reviewCount" />
+		<result column="ACC_NAME" property="accName" />
+		<result column="ACC_ADDRESS" property="address" />
+		<result column="IMAGE_COVER" property="imageCover" />
+		<result column="USER_NAME" property="hostName" />
+	</resultMap>
+	
+	<!-- GuestRequest getHostInfoByReservationNo(int reservationNo); -->
+	<select id="getHostInfoByReservationNo" parameterType="int" resultMap="GuestRequestResultMap">
+		select 
+			R.CHECK_IN_DATE, R.CHECK_OUT_DATE, 
+		    A.ACC_REVIEW_COUNT, A.ACC_NAME, A.ACC_ADDRESS, A.IMAGE_COVER,
+		    U.USER_NAME
+		from 
+			AIRBNB_RESERVATIONS R, AIRBNB_ACCOMMODATIONS A, AIRBNB_USERS U
+		where
+		        A.ACC_NO = R.ACC_NO
+		    AND A.USER_NO = U.USER_NO
+		    AND R.RESERVATION_NO = 1;	
+	</select>
+		
+		
+	<!-- HostRequest getGuestInfoByReservationNo(int reservationNo); -->
+	<select id="getGuestInfoByReservationNo" parameterType="int" resultMap="HostRequestResultMap">
+		select 
+			R.CHECK_IN_DATE, R.CHECK_OUT_DATE, 
+		    A.ACC_REVIEW_COUNT, A.ACC_NAME, A.ACC_ADDRESS, A.IMAGE_COVER,
+		    U.USER_NAME
+		from 
+			AIRBNB_RESERVATIONS R, AIRBNB_ACCOMMODATIONS A, AIRBNB_USERS U
+		where
+		        A.ACC_NO = R.ACC_NO
+		    AND R.USER_NO = U.USER_NO
+		    AND R.RESERVATION_NO = 1;
+	</select>
+	
+	
+	
+	
 </mapper>

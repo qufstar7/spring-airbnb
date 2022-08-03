@@ -35,4 +35,11 @@ public class HomeController {
 		return "acc/test";
 	}
 	
+
+	@GetMapping(path = "/list")
+	public String list() {
+		
+		return "acc/list";
+	}
+
 }

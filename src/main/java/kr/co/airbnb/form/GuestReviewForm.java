@@ -9,6 +9,7 @@ import lombok.ToString;
 @ToString
 public class GuestReviewForm {
 	
+	private int accNo;
 	private int totalScore;					// 전체적인 만족도
 	private int cleanScore;					// 청결도
 	private int accuracyScore;				// 정확성
@@ -21,5 +22,6 @@ public class GuestReviewForm {
 	private String positiveFeedback;
 	private String nagativeFeedback;
 	private String wantMeetAgain;
+	private String userType;
 
 }
