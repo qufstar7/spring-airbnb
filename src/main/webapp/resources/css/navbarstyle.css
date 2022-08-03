@@ -1,0 +1,75 @@
+@charset "UTF-8";
+#userbtn{
+	display: flex;
+	justify-content: space-between;
+}
+.hostbtn {
+	background-color: transparent;
+    border: none;
+    font-size: 14px;
+    width: 130px;
+    font-weight: bold;
+}
+/* user버튼 입니다 */
+.dropbtn {
+  background-color: #FFFFFF;
+  color: black;
+  padding: 0px;
+  padding-left:12px;
+  padding-right:5px;
+  font-size: 10px;
+  border: solid 1px #E6E6E6;
+  border-radius:20px;
+  cursor: pointer;
+  width:80px;
+  height:42px;
+  
+  z-index: 0;
+  position: relative;
+}
+
+.dropbtn a {
+	z-index: -1;
+	position: relative;
+	
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  z-index: 2;
+  top:50px;
+  right:15px;
+  background-color: #ffffff;
+  min-width: 210px;
+  max-height: 250px;
+  overflow-x: auto;
+  overflow-y: scroll;
+  
+  border: none;
+  box-shadow: 0px .5rem 1rem 0px rgba(0,0,0,0.15);
+  border-radius:10px;
+  
+  padding-top:10px;
+  padding-bottom:10px;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 6px 16px;
+  text-decoration: none;
+  display: block;
+  font-size: 14px;
+}
+.dropbtn:hover {box-shadow: 1px 4px 5px 0px rgba(0,0,0,0.1);}
+.dropdown a:hover {background-color: #FAFAFA;}
+
+.show {display: block;}
