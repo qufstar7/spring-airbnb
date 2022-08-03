@@ -17,37 +17,46 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
-<!--  부트스트랩 아이콘 -->
 <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
+<!--  부트스트랩 아이콘 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 <!-- 페데리코 -->
 <script type="text/javascript" src="/resources/js/fresco.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/resources/css/fresco.css" />
 <link rel="stylesheet" type="text/css" href="/resources/css/detaile.css">
+<!-- 달력 -->
+<link rel="stylesheet" href="/resources/css/datepicker.min.css">
+<script src="/resources/js/datepicker.min.js"></script>
+<script src="/resources/js/i18n/datepicker.ko.js"></script>
+<link rel="stylesheet" href="/resources/css/rome.css">
 <style type="text/css">
 </style>
 <title>숙소 상세 페이지</title>
 </head>
 <body >
 <c:set var="menu" value="detaile"/>
-	<div class="container"> 
-	<nav class="navbar navbar-expand-lg navbar-white bg-white" id="nav-1">
-		<ul class="navbar-nav me-auto justify-content-center">
-		  <li class="nav-item">
-		    <a class="nav-link" href="#btn-open-image-modal">사진</a>
-		  </li>
-		  <li class="nav-item">
-		    <a class="nav-link" href="#con">편의 시설</a>
-		  </li>
-		  <li class="nav-item">
-		    <a class="nav-link" href="#review">후기</a>
-		  </li>
-		  <li class="nav-item">
-		    <a class="nav-link" href="#map">위치</a>
-		  </li>
-		</ul>
+	<nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom" id="nav-1">
+		<div class="col"></div>
+		<div class="col-6">
+			<ul class="navbar-nav me-auto justify-content-center">
+			  <li class="nav-item">
+			    <a class="nav-link" href="#btn-open-image-modal">사진</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" href="#con">편의 시설</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" href="#review">후기</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" href="#map">위치</a>
+			  </li>
+			</ul>
+		</div>
+		<div class="col"></div>
 	</nav>
 	<%@ include file="../common/nav2.jsp" %>
+	<div class="container"> 
 		<div class="row p-2 mb-2" id="top-div" >
 			<div>
 				<span class="title"><strong>${acc.name }</strong></span>
@@ -66,36 +75,36 @@
 		</div>
 	</div>
 	<div class="container main">
-		<div class="row mb-5">
-			<div class="col-6">
-				<div class="img-large imagebox" id="btn-open-image-modal">
+		<div class="row mb-5 flex-container">
+			<div class="flex-item1" >
+				<div class="img-large" id="btn-open-image-modal">
 					<a href="#"><img src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg" id="image-large"></a>
 				</div>
 			</div>
-			<div class="col-3">
-			
-				<div class="img-short imagebox" id="btn-open-image-modal2">
+			<div class="flex-item" id="centerimg">
+				<div class="img-short" id="btn-open-image-modal2">
 					<a href="#"><img src="https://a0.muscache.com/airbnb/static/destinations/o-Rome_Piazza017_480x320.jpg" class="short-img"></a>
 				</div>
-				<div class="img-short imagebox" id="btn-open-image-modal3">
+				<div class="img-short short-bottom" id="btn-open-image-modal3">
 					<a href="#"><img src="https://a0.muscache.com/airbnb/static/destinations/o-Los_Angeles_480x320.jpg" class="short-img"></a>
 				</div>
-			</div>
-			<div class="col-3">
-			
-				<div class="img-short imagebox" id="btn-open-image-modal4">
+				
+			</div> 
+			<div class="flex-item">
+				<div class="img-short" id="btn-open-image-modal4">
 					<a href="#"><img src="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg" class="short-img" id="image-right-top"></a>
 				</div>
-				<div class="img-short imagebox" id="btn-open-image-modal5">
+				<div class="img-short short-bottom" id="btn-open-image-modal5">
 					<a href="#"><img src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg" class="short-img" id="image-right-bottom"></a>
 				</div>
+				
 			</div>
 		</div>
 	</div>
-	<div class="container main" style="padding: 0px 40px;">
+	<div class="container main">
 		<div class="row"> 
 		
-			<div class="col-8">
+			<div class="col-8" id="main-content">
 				<div>
 					<a id="profile" href="#host">
 						<img class="float-end profile" src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg">
@@ -105,8 +114,17 @@
 				</div>
 				<hr>
 				<div>
-					<div id="">
+					<div class="mb-2">
 						<h6><i class="bi bi-door-closed"></i> 셀프 체크인</h6>
+						<span>열쇠 보관함을 이용해 체크인하세요.</span>
+					</div>
+					<div class="mb-2">
+						<h6><i class="bi bi-door-closed"></i> 셀프 체크인</h6>
+						<span>열쇠 보관함을 이용해 체크인하세요.</span>
+					</div>
+					<div class="mb-2">
+						<h6><i class="bi bi-door-closed"></i> 셀프 체크인</h6>
+						<span>열쇠 보관함을 이용해 체크인하세요.</span>
 					</div>
 				</div>
 				<hr>
@@ -133,12 +151,12 @@
 					<div class="col-6" id="btn-open-image2-modal">
 						<img class="image2 rounded mb-2" alt="" src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg" >
 						<h5>침실공간</h5>
-						<p>침대 1개</p>
+						<span>침대 1개</span>
 					</div>
 					<div class="col-6" id="btn-open-image3-modal">
 						<img class="image2 rounded mb-2" alt="" src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg" >
 						<h5>침실공간</h5>
-						<p>침대 1개</p>
+						<span>침대 1개</span>
 					</div>
 				</div>
 				<hr>
@@ -160,13 +178,48 @@
 				<hr>
 				<div class="mt-5 mb-5">
 					<h4>체크아웃 날짜를 선택하세요.</h4>
-					<input type="text" id="demo" name="demo" value="01/01/2018 - 01/15/2018" />
+					<div class="content">
+						<div class="row text-left">
+							<div class="row justify-content-center">
+								<div class="row text-center">
+									<div class="d-flex">
+										<input type="text" class="form-control m-2  mb-3"
+											id="result_from" placeholder="Check in" disabled="">
+										<input type="text" class="form-control m-2  mb-3"
+											id="result_to" placeholder="Check out" disabled="">
+									</div>
+									<form action="#" class="row">
+										<div class="col-lg-6 mb-4">
+											<div id="inline_cal_from"></div>
+										</div>
+										<div class="col-lg-6 mb-4">
+											<div id="inline_cal_to"></div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="single">
+						<h1>1개 짜리</h1>
+						<input id="datepicker" type="text">
+					</div>
+					<div class="row double">
+						<div class="col-6">
+							<input id="datepicker1" class="input-inline" type="hidden">  
+						
+						</div>
+						<div class="col-6">
+							<input id="datepicker2" class="input-inline" type="hidden">
+						
+						</div>
+					</div>
 				</div>
 				
 			</div>
-			<div class="col-4" >
-				<div class="sticky" id="box">
-					<div class="shadow-lg p-3 mb-5 bg-body rounded">
+			<div class="col-4 ps-6" id="side">
+				<div class="sticky" >
+					<div class="shadow-lg mb-5 bg-body rounded" id="box">
 						<h4><strong>₩ ${acc.price }</strong></h4><span>/박</span>
 						<button type="button" class="btn btn-link text-dark btn-sm"><i class="bi bi-star-fill"></i> ${acc.reviewScore } <span class="text-decoration-underline">후기 ${acc.reviewCount }개</span></button>
 						<img alt="" src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg" style="width: 100%;">
@@ -194,24 +247,32 @@
 			</div>
 			<hr>
 			<div class="row mt-5 mb-5">
-				<div class="col-6 mb-2" id="host">
-					<div class="row">
-						<div class="col-2">
+				<div class="row mb-2" id="host">
+					<div class="row mb-3">
+						<div class="col-1">
 							<a id="profile" href="">
 								<img class="float-start profile" src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg" >
 							</a>
 						</div>
-						<div class="col-10">
+						<div class="col-11">
 							<h4>호스트:덕인님</h4>
-							<p>회원 가입일: 2019년 12월사업자 정보</p>
+							<span>회원 가입일: 2019년 12월사업자 정보</span>
 						</div>
 					</div>
+				</div>
+				<div class="col-6">
 					<div class="row">
-						<h6><i class="bi bi-star-fill"></i> ${acc.reviewScore } <span class="text-decoration">후기 ${acc.reviewCount }개</span></h6>
-						<h6><i class="bi bi-shield-fill-check"></i> 본인인증 완료</h6>
+						<div class="col-3">
+							<p><i class="bi bi-star-fill"></i> ${acc.reviewScore } 후기 ${acc.reviewCount }개</p>
+						</div>
+						<div class="col-4">
+							<p><i class="bi bi-shield-fill-check"></i> 본인인증 완료</p>
+						</div>
 					</div>
 				</div>
 				<div class="col-6 mb-2">
+					<p>응답률: 100%</p>
+					<p>응답 시간: 1시간 이내</p>
 					<a href="">
 						<button type="button" class="btn btn-outline-dark btn-lg p-2">호스트에게 연락하기</button>
 					</a>
@@ -355,7 +416,7 @@
 						<button class="btn btn-outline-secondary btn-lg p-3"><i class="bi bi-whatsapp"></i> 왓츠앱</button>
 					</div>
 					<div class="col-6 mb-3 d-grid gap-2">
-						<button onclick="shareKakao()" id="btnKakao" class="btn btn-outline-secondary btn-lg p-3"><img src="/img/icon_kakao.png" alt="카카오톡 공유" /></button>
+						<button onclick="" id="btnKakao" class="btn btn-outline-secondary btn-lg p-3"><img src="" alt="카카오톡 공유" /></button>
 					</div>
 					<!-- <button onclick="shareKakao()">
   							<img src="/img/icon_kakao.png" alt="카카오톡 공유" />
@@ -444,77 +505,134 @@
 
 <!-- 이미지 모달 -->
 <div class="modal" id="modal-image-acc">
-		<div class="modal-dialog modal-fullscreen">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-				</div>
-				<div class="modal-body text-center mb-0">
-						<div class="">
-							<a href="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg" class="fresco" data-fresco-group="web">
-							<img src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg"></a>
-						</div>
-						<div class="">
-							<a href="https://a0.muscache.com/airbnb/static/destinations/o-Rome_Piazza017_480x320.jpg" class="fresco" data-fresco-group="web">
-								<img src="https://a0.muscache.com/airbnb/static/destinations/o-Rome_Piazza017_480x320.jpg">
-							</a>
-						</div>
-						<div class="">
-							<a href="https://a0.muscache.com/airbnb/static/destinations/o-Los_Angeles_480x320.jpg" class="fresco" data-fresco-group="web">
-							<img src="https://a0.muscache.com/airbnb/static/destinations/o-Los_Angeles_480x320.jpg"></a>
-						</div>
-
-						<div class="">
-							<a href="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg" class="fresco" data-fresco-group="web">
-							<img src="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg"></a>
-						</div>
-							<a href="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg" class="fresco" data-fresco-group="web">
-							<img src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg"></a>
-						</div>
-					</div>
-				</div>
+	<div class="modal-dialog modal-fullscreen">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 			</div>
-		</div>
-	</div> 
-
-<!-- 이미지 모달 -->
-<!-- 	<div class="modal" id="modal-image-acc">
-		<div class="modal-dialog modal-fullscreen">
-			<div class="modal-content text-center">
-				<div class="modal-header">
-					<h4 class="modal-title">갤러리</h4>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-				</div>
-				<div class="modal-body text-center" style="width: 740px;">
-					<div class="lightbox">
-						<div class="row">
-							<div class="col-lg-6">
-								<img
-									src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg"
-									data-mdb-img="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg"
-									alt="Table Full of Spices"
-									class="w-100 mb-2 mb-md-4 shadow-1-strong rounded" /> 
-								<img
-									src="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg"
-									data-mdb-img="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg"
-									alt="Coconut with Strawberries"
-									class="w-100 shadow-1-strong rounded" />
-							</div>
-							<div class="col-lg-6">
-								<img
-									src="https://a0.muscache.com/airbnb/static/destinations/o-Los_Angeles_480x320.jpg"
-									data-mdb-img="https://a0.muscache.com/airbnb/static/destinations/o-Los_Angeles_480x320.jpg"
-									alt="Dark Roast Iced Coffee"
-									class="w-100 shadow-1-strong rounded" />
-							</div>
-						</div>
+			<div class="modal-body text-center mb-0">
+				<div>
+					<div class="">
+						<a href="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg" class="fresco" data-fresco-group="web">
+						<img class="img-fluid" src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg"></a>
 					</div>
-
+					<div class="">
+						<a href="https://a0.muscache.com/airbnb/static/destinations/o-Rome_Piazza017_480x320.jpg" class="fresco" data-fresco-group="web">
+							<img class="img-fluid"  src="https://a0.muscache.com/airbnb/static/destinations/o-Rome_Piazza017_480x320.jpg">
+						</a>
+					</div>
+					<div class="">
+						<a href="https://a0.muscache.com/airbnb/static/destinations/o-Los_Angeles_480x320.jpg" class="fresco" data-fresco-group="web">
+						<img class="img-fluid"  src="https://a0.muscache.com/airbnb/static/destinations/o-Los_Angeles_480x320.jpg"></a>
+					</div>
+					<div class="">
+						<a href="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg" class="fresco" data-fresco-group="web">
+						<img class="img-fluid"  src="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg"></a>
+					</div>
+					<div class="">
+						<a href="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg" class="fresco" data-fresco-group="web">
+						<img class="img-fluid"  src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg"></a>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
- -->
+</div>
+<!-- <!-- 이미지 모달 -->
+<div class="modal" id="modal-image-acc">
+	<div class="modal-dialog modal-fullscreen">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body text-center mb-0">
+				<div class="flex-container2">
+					<div class="flex-item2"></div>
+					<div class="flex-item2">
+						<div class="flex-item3"></div>
+						<div class="flex-item3"></div>
+					</div>
+					<div class="flex-item2"></div>
+					<div class="flex-item2"></div>
+				
+				</div>
+			</div>
+		</div>
+	</div>
+</div> -->
+
+<!-- <div class="modal" id="modal-image-acc">
+	<div class="modal-dialog modal-fullscreen">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body text-center mb-0 contain">
+				 <div class="images">
+				  <div class="imageFlex1">
+				    <img src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg">
+				    <img src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg">
+				    <img src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg">
+				    <img src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg">
+				    <img src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg">
+				    <img src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg">
+				  </div>
+				</div>
+				<div class="images">
+				  <div class="imageFlex2">
+				    <img src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg">
+				    <img src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg">
+				    <img src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg">
+				    <img src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg">
+				    <img src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg">
+				  </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>  -->
+<!-- <div class="modal" id="modal-image-acc">
+	<div class="modal-dialog modal-fullscreen">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body text-center mb-0">
+					<div class="grid-container">
+
+						<article id="3685" class="location-listing">
+
+							<a class="location-title" href="#"> San Francisco </a>
+
+							<div class="location-image">
+								<a href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/san-fransisco-768x432.jpg" class="fresco" data-fresco-group="web"> <img width="300" height="169"
+									src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/san-fransisco-768x432.jpg"
+									alt="san francisco">
+								</a>
+
+							</div>
+
+						</article>
+						<article id="3685" class="location-listing">
+
+							<a class="location-title" href="#"> San Francisco </a>
+
+							<div class="location-image">
+								<a href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/san-fransisco-768x432.jpg" class="fresco" data-fresco-group="web"> <img width="300" height="169"
+									src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/san-fransisco-768x432.jpg"
+									alt="san francisco">
+								</a>
+
+							</div>
+
+						</article>
+
+					</div>
+				</div>
+		</div>
+	</div>
+</div> -->
+
 	<!-- 지도 모달 -->
 <div class="modal" id="modal-map-acc">
 	<div class="modal-dialog modal-fullscreen">
@@ -697,26 +815,96 @@ $(function() {
 	// marker.setMap(null);    
 	
 	// 달력
-	$('#demo').daterangepicker({
-	    "locale": {
-	        "format": "YYYY-MM-DD",
-	        "separator": " ~ ",
-	        "applyLabel": "확인",
-	        "cancelLabel": "취소",
-	        "fromLabel": "From",
-	        "toLabel": "To",
-	        "customRangeLabel": "Custom",
-	        "weekLabel": "W",
-	        "daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
-	        "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-	    },
-	    "alwaysShowCalendars": true,
-	    "startDate": new Date(),
-	    "endDate": new Date(),
-	    "drops": "auto"
-	 }, function (start, end, label) {
-	    console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
-	});
+	
+	$("#datepicker").datepicker({
+            language: 'ko',
+            inline: true,
+            range: true,
+            minDate: new Date()
+        });
+
+		let day = $("#datepicker").selectedDates
+		console.log(day)
+		
+
+        //두개짜리 제어 연결된거 만들어주는 함수
+        datePickerSet($("#datepicker1"), $("#datepicker2"), true); //다중은 시작하는 달력 먼저, 끝달력 2번째
+
+        
+        
+        /*
+            * 달력 생성기
+            * @param sDate 파라미터만 넣으면 1개짜리 달력 생성
+            * @example   datePickerSet($("#datepicker"));
+            * 
+            * 
+            * @param sDate, 
+            * @param eDate 2개 넣으면 연결달력 생성되어 서로의 날짜를 넘어가지 않음
+            * @example   datePickerSet($("#datepicker1"), $("#datepicker2"));
+            */
+        function datePickerSet(sDate, eDate, flag) {
+
+            //시작 ~ 종료 2개 짜리 달력 datepicker	
+            if (!isValidStr(sDate) && !isValidStr(eDate) && sDate.length > 0 && eDate.length > 0) {
+                let sDay = sDate.val();
+                let eDay = eDate.val();
+
+                console.log(sDay)
+                console.log(eDay)
+                
+                if (flag && !isValidStr(sDay) && !isValidStr(eDay)) { //처음 입력 날짜 설정, update...			
+                    var sdp = sDate.datepicker().data("datepicker");
+                    sdp.selectDate(new Date(sDay.replace(/-/g, "/")));  
+
+                    var edp = eDate.datepicker().data("datepicker");
+                    edp.selectDate(new Date(eDay.replace(/-/g, "/")));  
+                }
+				
+                
+                //시작일자 세팅하기 날짜가 없는경우엔 제한을 걸지 않음
+                if (!isValidStr(eDay)) {
+                    sDate.datepicker({
+                        maxDate: new Date(eDay.replace(/-/g, "/"))
+                    });
+                }
+                sDate.datepicker({
+                    language: 'ko',
+                    autoClose: true,
+                    inline: true,
+                    position :  'right center',
+                    onSelect: function () {
+                        datePickerSet(sDate, eDate);
+                    }
+                });
+
+                //종료일자 세팅하기 날짜가 없는경우엔 제한을 걸지 않음
+                if (!isValidStr(sDay)) {
+                    eDate.datepicker({
+                        minDate: new Date(sDay.replace(/-/g, "/"))
+                    });
+                } 
+                eDate.datepicker({
+                    language: 'ko',
+                    autoClose: true,
+                    inline: true,
+                    position :  'right center',
+                    onSelect: function () {
+                        datePickerSet(sDate, eDate);
+                        
+                    }
+                });
+
+            } 
+
+
+            function isValidStr(str) {
+                if (str == null || str == undefined || str == "")
+                    return true;
+                else
+                    return false;
+            }
+        }
+	
 
 	$("#profile").click(function() {
 		$("host").focus();
@@ -734,7 +922,7 @@ $(function() {
 			$("#nav-1").hide();
 			
 		}
-	})
+	}) 
 	
 	// 스크롤스파이
 	var scrollSpy = new bootstrap.ScrollSpy(document.body, {
@@ -797,11 +985,24 @@ $(function() {
 	    금월 마지막일 날짜와 요일
 	    전월 마지막일 날짜와 요일
 	*/
-
-	
-
+     $('#inline_cal_from').datepicker({
+        format: 'yyyy-mm-dd', //데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
+        startDate: 'd', //달력에서 선택 할 수 있는 가장 빠른 날짜. 이전으로는 선택 불가능 ( d : 일 m : 달 y : 년 w : 주)
+        endDate: 'd', //달력에서 선택 할 수 있는 가장 느린 날짜. 이후로 선택 불가 ( d : 일 m : 달 y : 년 w : 주)
+        clearBtn: true, //날짜 선택한 값 초기화 해주는 버튼 보여주는 옵션 기본값 false 보여주려면 true
+        title: '테스트', //캘린더 상단에 보여주는 타이틀
+        templates: {
+           leftArrow: '&laquo;',
+           rightArrow: '&raquo;',
+        }, //다음달 이전달로 넘어가는 화살표 모양 커스텀 마이징
+        todayHighlight: true, //오늘 날짜에 하이라이팅 기능 기본값 :false
+        language: 'ko' //달력의 언어 선택, 그에 맞는 js로 교체해줘야한다.
+     })
 	})
 </script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6ec6d52326b138f515a86c55e152676c"></script>
+<script src="/resources/js/rome.js"></script>
+<script src="/resources/js/main.js"></script>
+<script src="/resources/js/popper.min.js"></script>
 </body>
 </html>
