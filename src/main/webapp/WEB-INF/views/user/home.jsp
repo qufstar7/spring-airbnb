@@ -12,11 +12,11 @@ pageEncoding="UTF-8"%>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- 아이콘 라이브러리 -->
 <script src="https://kit.fontawesome.com/2628157b3b.js"></script>
-<!-- 구글 로그인 api -->
-<meta name="google-signin-client_id" content="">
-<!-- 구글 api 사용을 위한 스크립트 -->
-<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
-<!-- 카카오 로그인지원 자바스크립트 라이브러리를 포함시킨다. -->
+<!-- google gsi -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
+<!-- 카카오 로그인지원 자바스크립트 라이브러리 -->
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <title>Insert title here</title>
 <style type="text/css">
@@ -107,9 +107,9 @@ pageEncoding="UTF-8"%>
       		</div>
 		    <div class="d-grid gap-2">
 		    	<button type="button" class="btn btn-outline-dark" >페이스북으로 로그인하기</button>
-				<button type="button" class="btn btn-outline-dark">구글로 로그인하기</button>
+				<button type="button" class="btn btn-outline-dark" id="btn-signIn-With-Google">구글로 로그인하기</button>
 		    	<button type="button" class="btn btn-outline-dark" >Apple 계정으로 로그인하기</button>
-		    	<a id="custom-login-btn">
+		    	<a class="btn" id="custom-login-btn">
 				  <img src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg" width="242" />
 				</a> 
 		    </div>
@@ -313,16 +313,25 @@ pageEncoding="UTF-8"%>
 
 <a href="/user/wishlists">마이 위시리스트</a>
 
+<!-- 구글 로그인 폼 처리 -->
+<div>
+	<form id="form-google-login" method="post" action="sns-login">
+		<input type="text" name="loginType" value="google">
+		<input type="text" name="nickname">
+		<input type="text" name="email">
+		<input type="text" name="profileImage">
+	</form>
+
+</div>
 
 
-
+<!-- 카카로 로그인 폼 처리 -->
 <div class="border p-3 mb-4 bg-light">
 	<!-- <a id="custom-login-btn">
 	  <img src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg" width="242" />
 	</a>  -->
    	<form id="form-kakao-login" method="post" action="sns-login">
    		<input type="hidden" name="loginType" value="kakao">
-   		<input type="hidden" name="id" />
    		<input type="hidden" name="nickname" />
    		<input type="hidden" name="email" />
    		<input type="hidden" name="gender" />
@@ -342,6 +351,43 @@ pageEncoding="UTF-8"%>
 <script type="text/javascript">
 $(function () {
 	
+	// 구글 로그인
+	$("#btn-signIn-With-Google").click(function() {
+		google.accounts.id.initialize({
+	        client_id: "340808936773-p2v7dk0jtatnsjl29nnvivnol8f9rni8.apps.googleusercontent.com",
+	        callback: handleCredentialResponse
+	    });
+	    google.accounts.id.prompt();
+	})
+	function handleCredentialResponse(response) {
+	    var profile = jwt_decode(response.credential);
+	    console.log(profile);
+		console.log("ID: " + profile.sub);
+		console.log('Name: ' + profile.name);
+	    console.log("Image URL: " + profile.picture);
+	    console.log("Email: " + profile.email);    
+	    
+	    $("#form-google-login input[name=nickname]").val(profile.name);
+	    $("#form-google-login input[name=email]").val(profile.email);
+	    $("#form-google-login input[name=profileImage]").val(profile.picture);
+	    
+		$.getJSON("/user/checkEmail", "email=" + profile.email, function(result) {
+					
+			if(result.exist) {
+				// 기존 페이지 계정 이메일과 소셜 로그인 이메일이 일치하는 경우 
+				location.href = "/";
+				// 아래 모달창은 나중에 파일 통합하면 출력되게 한다
+				loginPasswordmodal.show();
+				return;
+			} else {
+				$("#form-google-login").submit();
+				return;
+			}
+		});
+	    
+		
+	}
+	
 	Kakao.init('2931d0043daf4865ac102f53587fef2c'); //발급받은 키 중 javascript키를 사용해준다.
 	console.log(Kakao.isInitialized()); // sdk초기화여부판단
 	//카카오로그인
@@ -354,10 +400,10 @@ $(function () {
 	                success: function(response) {
 	                	let account = response.kakao_account;
 	                	alert(JSON.stringify(account));
-	                	$('#form-kakao-login input[name=id]').val(response.id);
+	                	//$('#form-kakao-login input[name=id]').val(response.id);
 	                	$('#form-kakao-login input[name=email]').val(( account.email != undefined ?  account.email : ''));
 	                	$('#form-kakao-login input[name=nickname]').val(account.profile.nickname);
-	                    $('#form-kakao-login input[name=age]').val(account.age_range);
+	                    //$('#form-kakao-login input[name=age]').val(account.age_range);
 	                    $('#form-kakao-login input[name=gender]').val(account.gender);
 	                    //let properties = response.properties;
 	                    //let profile_image = properties.profile_image;
@@ -390,46 +436,6 @@ $(function () {
 		      Kakao.Auth.setAccessToken(undefined)
 		    }
 	})
-	
-	// 구글 로그인 test
-	function onSignIn(googleUser) {
-        // Useful data for your client-side scripts:
-        var profile = googleUser.getBasicProfile();
-        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-        console.log('Full Name: ' + profile.getName());
-        console.log('Given Name: ' + profile.getGivenName());
-        console.log('Family Name: ' + profile.getFamilyName());
-        console.log("Image URL: " + profile.getImageUrl());
-        console.log("Email: " + profile.getEmail());
-
-        // The ID token you need to pass to your backend:
-        var id_token = googleUser.getAuthResponse().id_token;
-        console.log("ID Token: " + id_token);
-      } 
-	/* function onSignIn(){
-		var auth2 = gapi.auth2.getAuthInstance()
-		if(auth2.isSignedIn.get()){
-		 var profile = auth2.currentUser.get().getBasicProfile();
-		 googleLoginPro(profile)
-		  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-		  console.log('Name: ' + profile.getName());
-		  console.log('Image URL: ' + profile.getImageUrl());
-		  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-		
-		}
-	}
-	
-	function signOut() {
-		if(gapi.auth2 != undefined){
-		 	var auth2 = gapi.auth2.getAuthInstance();
-	   		 auth2.signOut().then(function () {
-	    	  console.log('User signed out.');
-	    	});
-		}
-
-		
-		location.href= "/user/logOut.do"
-	} */
 	
 	let $firstName = $(":input[name=firstName]");
 	let $lastName = $(":input[name=lastName]");
@@ -586,12 +592,6 @@ $(function () {
 		}
 		
 	});
-	
-	
-	
-		
-		
-		
 	
 	// 회원가입 입력폼 제출
 	$("#btn-register").click(function() {

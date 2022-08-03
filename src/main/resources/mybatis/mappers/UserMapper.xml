@@ -41,6 +41,12 @@
 		<if test="birthDate != null">
 			, user_birth_date
 		</if>
+		<if test="profileImage != null">
+			, user_profile_image
+		</if>
+		<if test="loginType != null">
+			, user_logintype
+		</if>
 		<if test="gender != null">
 			, user_gender
 		</if>
@@ -51,6 +57,12 @@
 		</if>
 		<if test="birthDate != null">
 			, #{birthDate}
+		</if>
+		<if test="profileImage != null">
+			, #{profileImage}
+		</if>
+		<if test="loginType  != null">
+			, #{loginType }
 		</if>
 		<if test="gender != null">
 			, #{gender}

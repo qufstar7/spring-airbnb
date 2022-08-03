@@ -46,7 +46,7 @@ $(function () {
 			  xfbml      : true,  // parse social plugins on this page
 			  version    : 'v14.0' // Specify the Graph API version to use
 			});
-		
+				FB.AppEvents.logPageView();
 				console.log('check check check 11111111111111111111111111');
 			FB.getLoginStatus(function(response) {
 				console.log('check check check 2222222222222222222222222');
