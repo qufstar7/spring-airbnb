@@ -4,15 +4,15 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/navbarstyle.css">
 <nav class="navbar ${page eq 'subNav' ? '' : 'sticky-top' } py-0" >
 		<!-- 로고가 있는 navbar -->
-		<div class="container m-auto justify-content-between align-items-center" id="nav" style="height:80px; width:100%; background-color: #FFFFFF; border-bottom:1px solid #E6E6E6">
-			<div class="" id="logo-space">
+		<div class="container">
+			<div class="box">
 				<a href="/"> <!-- 임시 로고 -->
 					<img src="../../../resources/logo-home.png" alt="로고" width="100"/>
 				</a>
 			</div>
-			<div class="d-flex justify-content-center" id="search-space">
+			<div class="box d-flex justify-content-center">
 				<!-- 메인페이지에서 사용하는 검색창 -->
-				<div class="shadow p-1 position-relative" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" style="border:1px solid #E6E6E6; border-radius: 25px; width:400px; height:48px;">
+				<div class="p-1 position-relative" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" style="border:1px solid #D8D8D8; border-radius: 25px; width:400px; height:48px;box-shadow: 1px 4px 7px 0px rgba(0,0,0,0.1);">
 					<div class="d-inline-flex p-2 position-absolute top-50 start-50 translate-middle" style="width:366px;">
 						<button class="p-0" style="background-color:transparent; border: none; width:26%; font-size: 14px;">어디든지</button>
 						<span>|</span>
@@ -50,7 +50,7 @@
 					</div> 
 				</div> -->	
 			</div>
-			<div class="justify-content-between">
+			<div class="box justify-content-between">
 				<div class="row align-items-center" id="userbtn">
 					<div class="col">
 						<button class="hostbtn" type="button">호스트모드로 전환</button>
@@ -121,24 +121,24 @@
 				</div>
 			</div>
 		</div>
-	<script>
-	/* When the user clicks on the button, toggle between hiding and showing the dropdown content */
-	function myFunction() {
-	  document.getElementById("myDropdown").classList.toggle("show");
-	}
-	
-	// Close the dropdown if the user clicks outside of it
-	window.onclick = function(event) {
-	  if (!event.target.matches('.dropbtn')) {
-	    var dropdowns = document.getElementsByClassName("dropdown-content");
-	    var i;
-	    for (i = 0; i < dropdowns.length; i++) {
-	      var openDropdown = dropdowns[i];
-	      if (openDropdown.classList.contains('show')) {
-	        openDropdown.classList.remove('show');
-	      }
-	    }
-	  }
-	}
-	</script>
+<script>
+/* When the user clicks on the button, toggle between hiding and showing the dropdown content */
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+</script>
 </nav>

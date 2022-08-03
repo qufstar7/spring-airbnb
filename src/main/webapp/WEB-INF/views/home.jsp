@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../../../resources/aircnc.png">
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -52,9 +53,17 @@
 }
 
 #nav {
-	top:50px;
-
-	background-color:#FFFFFF;
+    top:0;
+    left:0;
+    z-index: 2000;
+    
+	margin:0;
+	height:100px;
+	width:98.9vw;
+	background-color: #FFFFFF;
+	padding-left:80px;
+	padding-right:80px;
+	
 }
 
 #submit {
@@ -109,9 +118,9 @@
 <body>
 <div class="sticky-top">
 	<%@ include file="common/nav.jsp"%>
-	<div class="container">
+	<div class="container m-0 p-0">
 		<!-- 태그와 필터가 있는 navbar2 -->
-		<div class="row tagFilterBar p-0 align-items-center text-center" id="nav" style="z-index: 2000; height: 78px; background-color: #FFFFFF; ">
+		<div class="row tagFilterBar align-items-center text-center" id="nav">
 			<div class="col-10">태그 나열하는 곳</div>
 			<div class="col-2 text-end">
 				<button id="filterbtn" type="button" data-bs-toggle="modal" data-bs-target="#filterModal">
