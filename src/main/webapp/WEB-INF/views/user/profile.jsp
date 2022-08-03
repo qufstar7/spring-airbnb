@@ -14,11 +14,16 @@
 	/* .col-3 * {text-align: left;		} */
 	.pop:hover { text-decoration: underline;
 				}
-	#div-language * {
+	#div-language div{
+				display: inline-block;
+				border: 1px solid;	
+				border-radius:30px;
+				padding: 10px;
+					}
+	#div-language span {
 				font-size: large;
-				border: solid;
 				padding: 10px 20px;		
-				}	
+				}	 
 	.container {margin-top: 50px;}
 </style>
 </head>
@@ -31,7 +36,7 @@
 						<img src="/resources/logo.png" alt="프로필 사진">
 					</div>
 					<div class="text-center mb-5">
-						<a href="" class="text-muted">사진 업데이트하기</a>
+						<button type="button" class="btn btn-link text-muted fw-bold fs-5" data-bs-toggle="modal" data-bs-target="#modal-change-profileImg">사진 업데이트하기</button>
 					</div>
 					<div class="mb-2 fs-4">
 						<i class="bi bi-star fw-bold"></i>
@@ -84,12 +89,18 @@
 						<label for="textarea-introduction" class="form-label fs-5">소개</label>
 						<textarea class="form-control mb-5 fs-5" rows="4" id="textarea-introduction">안녕하세요, 반갑습니다.</textarea>
 						<label for="input-location" class="form-label fs-5">위치</label>
-						<input type="text" class="form-control mb-5 fs-5" id="input-location" value="서울, 한국">
+						<input type="text" class="form-control mb-5 p-2 fs-5" id="input-location" value="서울, 한국">
 						<label for="language" class="form-label fs-5 mb-3">구사 언어</label>
-						<div id="div-language" class="mb-3">
-							<span>English</span>
-							<span>한국어</span>
-							<span>日本語</span>
+						<div class="mb-3" id="div-language">
+							<div>
+								<span>English</span><button type="button" class="btn-close" aria-label="Close"></button>
+							</div>
+							<div>
+								<span>한국어</span><button type="button" class="btn-close" aria-label="Close"></button>
+							</div>
+							<div>
+								<span>日本語</span><button type="button" class="btn-close" aria-label="Close"></button>
+							</div>
 						</div>
 						<button type="button" class="btn btn-link text-reset fw-bold fs-5" data-bs-toggle="modal" data-bs-target="#modal-change-language">추가하기</button>
 						<div class="d-flex justify-content-between mt-5">
@@ -150,21 +161,71 @@
 	</div>
 	
 	
-<!-- 구사언어 수정 모달 -->
+<!-- 프로필사진 변경 모달. airbnb는 페이지전환이 되지만 모달로 대체-->
+<!-- Modal -->
+<div class="modal fade" id="modal-change-profileImg" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">프로필 사진 변경하기</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center p-5">
+        <h4>프로필 사진</h4>
+        <div>
+	        <p>얼굴이 나온 프로필 사진을 통해서 다른 호스트와 게스트에게 나를 알릴 수 있습니다. 
+	        모든 에어비앤비 호스트는 프로필 사진이 있어야 합니다. 
+	        에어비앤비는 게스트에게 프로필 사진을 요청하지 않지만, 호스트는 요청할 수 있습니다. 
+	        호스트가 게스트에게 사진을 요청하는 경우에도, 예약이 확정된 후에만 사진을 볼 수 있습니다.
+	        </p>
+        </div>
+        <form id="form-profileImg" action="" method="post" enctype="multipart/form-data" >
+	        <div class="">"
+		        <img src="/resources/logo.png">
+	        </div>
+	        <div class="d-grid gap-2 my-4">
+	        	<input type="file" name="profileImg" id="profile-img" class="d-none" accept="image/gif, image/jpeg, image/png" />
+	        	<button type="button" class="btn btn-dark p-3 fs-5 fw-bold" id="btn-change-profileImg"><i class="bi bi-person-bounding-box"></i> 사진 변경하기</button>
+	        	<button type="button" class="btn btn-outline-dark p-3 fs-5 fw-bold" id="btn-use-facebookImg">페이스북 사진 사용</button>
+	        </div>
+        </form>
+        <div>
+        	<button type="button" class="btn btn-link text-reset fw-bold fs-5" data-bs-dismiss="modal" aria-label="Close">나중에 할게요</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 프로필 구사언어 수정 모달 -->
 <!-- Modal -->
 <div class="modal fade" id="modal-change-language" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title fw-bold text-center" id="exampleModalLabel">구사 언어</h5> <!-- text-center 왜 적용안됨?!?!?!?!?!  -->
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        ...
+        <p>에어비앤비는 전 세계 다양한 언어권의 게스트가 이용하므로 여러 언어를 구사하는 호스트의 언어 능력은 큰 장점입니다.</p>
+        <div class="form-check fs-4">
+		  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+		  <label class="form-check-label" for="flexCheckDefault">한국어</label>
+		</div>
+		<div class="form-check fs-4">
+		  <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+		  <label class="form-check-label" for="flexCheckChecked">日本語</label>
+		</div>
+		<div class="form-check fs-4">
+		  <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+		  <label class="form-check-label" for="flexCheckChecked">English</label>
+		</div>
+		<div class="form-check fs-4">
+		  <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+		  <label class="form-check-label" for="flexCheckChecked">中文</label>
+		</div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+      <div class="modal-footer justify-content-start">
+        <button type="button" class="btn btn-dark btn-lg" data-bs-dismiss="modal">완료</button>
       </div>
     </div>
   </div>
@@ -189,6 +250,9 @@ $(function () {
 		}
 	})
 	
+	$("#btn-change-profileImg").click(function() {
+		$("#profile-img").click();
+	})
 })
 
 

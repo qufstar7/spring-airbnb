@@ -10,14 +10,93 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <title>계정관리-에어씨엔씨</title>
+<style type="text/css">
+	.container {margin-top: 50px;}
+	#div-account span {font-size: x-large;}
+	#div-main span {font-size: large;}
+	#div-main span:last-child {opacity: 0.7;}
+	i {font-size: xx-large;}
+</style>
 </head>
-<body>
-<div class="align-self-center">
-	<div class="row">
-		<h1 class="fw-bold">계정</h1>
-		<span><strong>Youna Kim,</strong> dbskrltjq@gmail.com <a href="profile">프로필로 이동</a> </span>
-	</div>
 
+<body>
+<div class="container">
+	<div class="row mb-5" id="div-account">
+		<h1 class="fw-bold">계정</h1>
+		<span><strong>Youna Kim,</strong> dbskrltjq@gmail.com <a href="profile" class="text-reset">프로필로 이동</a> </span>
+	</div>
+	<div id="div-main">
+		<div class="row d-flex justify-content-between">
+			<div class="col-3 shadow p-3 mb-5 bg-body rounded ">
+				<i class="bi bi-person-lines-fill"></i>
+				<div class="mt-5 d-flex align-items-start flex-column">
+					<span class="fw-bold">개인정보</span>
+					<span>개인정보 및 연락처를 알려주세요.</span>
+				</div>
+			</div>
+			<div class="col-3 shadow p-3 mb-5 bg-body rounded ">
+				<i class="bi bi-shield-exclamation"></i>
+				<div class="mt-5 d-flex align-items-start flex-column">
+					<span class="fw-bold">개인정보</span>
+					<span>개인정보 및 연락처를 알려주세요.</span>
+				</div>
+			</div>
+			<div class="col-3 shadow p-3 mb-5 bg-body rounded ">
+				<i class="bi bi-cash-coin"></i>
+				<div class="mt-5 d-flex align-items-start flex-column">
+					<span class="fw-bold">결제 및 대금 수령</span>
+					<span>결제, 대금 수령, 쿠폰, 기프트카드 및 세금 검토하기</span>
+				</div>
+			</div>
+		</div>
+		<div class="row d-flex justify-content-between">
+			<div class="col-3 shadow p-3 mb-5 bg-body rounded ">
+				<i class="bi bi-megaphone"></i>
+				<div class="mt-5 d-flex align-items-start flex-column">
+					<span class="fw-bold">알림</span>
+					<span>알림 환경설정 및 연락 방식을 선택하세요.</span>
+				</div>
+			</div>
+			<div class="col-3 shadow p-3 mb-5 bg-body rounded ">
+				<i class="bi bi-eye"></i>
+				<div class="mt-5 d-flex align-items-start flex-column">
+					<span class="fw-bold">개인정보 및 공개 설정</span>
+					<span>연결된 앱, 공유하는 정보 및 공개 대상 관리하기</span>
+				</div>
+			</div>
+			<div class="col-3 shadow p-3 mb-5 bg-body rounded ">
+				<i class="bi bi-globe"></i>
+				<div class="mt-5 d-flex align-items-start flex-column">
+					<span class="fw-bold">글로벌 환경 설정</span>
+					<span>기본 언어, 통화, 시간대 설정하기</span>
+				</div>
+			</div>
+		</div>
+		<div class="row d-flex justify-content-between">
+			<div class="col-3 shadow p-3 mb-5 bg-body rounded ">
+				<i class="bi bi-briefcase"></i>
+				<div class="mt-5 d-flex align-items-start flex-column">
+					<span class="fw-bold">출장</span>
+					<span>회사 이메일을 입력하면 출장에서 헤택을 누리실 수 있습니다.</span>
+				</div>
+			</div>
+			<div class="col-3 shadow p-3 mb-5 bg-body rounded ">
+				<i class="bi bi-bar-chart-line"></i>
+				<div class="mt-5 d-flex align-items-start flex-column">
+					<span class="fw-bold">전문 호스팅 도구</span>
+					<span>에어비앤비에서 여러 숙소를 관리하신다면 전문도구를 이용해보세요.</span>
+				</div>
+			</div>
+			<div class="col-3 shadow p-3 mb-5 bg-body rounded ">
+				<i class="bi bi-gift"></i>
+				<div class="mt-5 d-flex align-items-start flex-column">
+					<span class="fw-bold">추천 크레딧 및 쿠폰</span>
+					<span>₩0의 추천 크레딧과 쿠폰이 있습니다. 자세히 알아보기</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 </div>
 
 </body>
