@@ -14,7 +14,7 @@
 	
 	#star-next-btn,
 	#public-next-btn,
-	#private-next-btn,
+	#btn-add-hostreview,
 	#again-next-btn {
 			background: white; 
 			color: rgb(0, 166, 153);
@@ -26,7 +26,7 @@
 	#star-next-btn:hover,
 	#again-next-btn:hover, 
 	#public-next-btn:hover,
-	#private-next-btn:hover {
+	#btn-add-hostreview:hover {
 			background: rgb(0, 166, 153) !important;
 			color: white;
 	}
@@ -58,7 +58,18 @@
 	.gray 			{
 		 	color: #323232; 
 	}
-
+	
+	[type=radio] { 
+			position: absolute;
+			opacity: 0;
+			width: 0;
+			height: 0;
+	}
+	
+		.houseImg {
+			width: 200px;
+			height: 200px;
+	}
 	
 </style>
 </head>
@@ -75,7 +86,9 @@
 </div>
 
 <!-- form 시작 -->
-<form class="mb-3" name="hostReview" id="host-review" method="post" action="reviewcomplete">			
+<form class="mb-3" name="hostReview" id="host-review">		
+<input type="hidden" id="acc-no" name="accNo" value="101" />	
+<input type="hidden" id="user-type" name="userType" value="host" />	
 <!-- Scrollable Modal -->
 <div class="modal fade" id="review-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   	<div class="modal-dialog modal-dialog-scrollable modal-lg">
@@ -87,7 +100,7 @@
       		<div class="modal-body">
 				<div class="row">
 					<div class="col-4">
-		      			<img scr="" /> 이미지 들어가는 곳
+		      			<img class="houseImg" src="/resources/images/acc/bridge.jpg" />
 		      			<h5>Danny의 집</h5>
 		      			<ul>
 		      				<li>집 전체</li>
@@ -220,7 +233,7 @@
 					<p class="mb-4">호스트의 후기는 게스트 프로필에 전체 공개됩니다.
 					   다음 페이지에서 에어비앤비에게 비공개로 추가 피드백을 남기실 수 있습니다.
 					   한국어로 공개 후기를 작성하세요.</p>
-					<textarea name="public" id="public-text" cols="100" rows="5"  maxlength="500" style="resize:vertical;" 
+					<textarea name="public" id="public-text" cols="100" rows="5"  maxlength="500" style="resize:vertical; width:100%;" 
 							  placeholder="게스트는 숙소를 어떻게 사용했나요?"></textarea>
 					<p align="right">남은 글자 수 : <span id="test-length">( 500 / 500 )</span>자</p>
 				</div>
@@ -246,12 +259,12 @@
 					</div>
 					<div class="mb-5">
 						<p><strong>피드백을 하거나 감사함을 표하세요.<strong></p>
-						<textarea name="feedback" id="feedback-text" cols="100" rows="5" onkeyup=""></textarea>
+						<textarea name="feedback" id="private-text" cols="100" rows="5" style="resize:vertical; width:100%;"></textarea>
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="submit" class="btn px-5 next" id="private-next-btn">완료</button>
+				<button type="button" class="btn px-5 next" id="btn-add-hostreview">완료</button>
 			</div>
 		</div>
 	</div>
@@ -387,7 +400,33 @@ $(function() {
 		$("#bi-emoji-frown").addClass("bi-emoji-frown").removeClass("bi-emoji-frown-fill");
 		$('#bi-emoji-smile').removeClass("bi-emoji-smile").addClass("bi-emoji-smile-fill");
 	})
-
+	
+	// 호스트 리뷰 등록
+	$("#btn-add-hostreview").click(function() {
+		let review = {
+			accNo: parseInt($("input[name='accNo']").val()),
+			userType: $("input[name='userType']").val(),
+			totalScore: parseInt($("input[name='total']").val()),
+			cleanScore: parseInt($("input[name='clean']").val()),
+			communicationScore: parseInt($("input[name='communication']").val()),
+			observanceScore: parseInt($("input[name='observance']").val()),
+			content: $("#public-text").val(),
+			privateNote: $("#private-text").val(),
+			wantMeetAgain: $("input[name='again']:checked").val()			
+		}
+		exampleModalToggle4.hide();
+		
+		$.ajax({
+			type: "POST",
+			url: '/review/saveHost',
+			data: JSON.stringify(review),
+			contentType: "application/json",
+			datatype: 'json',
+			success: function() {
+				location.href = "comp";
+			}
+		})
+	})
 })
 
 </script>
