@@ -29,7 +29,7 @@
 <body>
 <div class="container" >
 	<div class="row">
-		<div class="col-12" align="center" justify-content="center">
+		<div class="col-12 position-absolute top-50 start-50 translate-middle" align="center">
 			<div>
 				<img src="/resources/logo.png" alt="logo" style="width:130px; height:130px">
 				<br /><br />

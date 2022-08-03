@@ -3,7 +3,12 @@ package kr.co.airbnb.vo;
 import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
+import org.springframework.beans.BeanUtils;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import kr.co.airbnb.form.GuestReviewForm;
+import kr.co.airbnb.form.HostReviewForm;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,8 +22,11 @@ public class Review {
 	private int no;
 	private int accNo;
 	private User user;
+	private String userType;
 	private String content;
+	@JsonFormat(pattern = "yyyy년 M월 d일")
 	private Date createdDate;
+	@JsonFormat(pattern = "yyyy년 M월 d일")
 	private Date updatedDate;
 	private int totalScore;					// 전체적인 만족도
 	private int cleanScore;					// 청결도
@@ -35,5 +43,17 @@ public class Review {
 	private String nagativeFeedback;
 	private String wantMeetAgain;
 	private String deleted;
+	
+	public static Review createGuestReview(GuestReviewForm guestReviewForm) {
+		Review review = new Review();
+		BeanUtils.copyProperties(guestReviewForm, review);
+		return review;
+	}
+	
+	public static Review createHostReview(HostReviewForm hostReviewForm) {
+		Review review = new Review();
+		BeanUtils.copyProperties(hostReviewForm, review);
+		return review;
+	}
 
 }

@@ -1,16 +1,13 @@
 package kr.co.airbnb.service;
 
-import java.io.IOException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import kr.co.airbnb.form.GuestReviewForm;
-import kr.co.airbnb.form.HostReviewForm;
 import kr.co.airbnb.mapper.ReviewMapper;
+import kr.co.airbnb.vo.GuestRequest;
+import kr.co.airbnb.vo.HostRequest;
 import kr.co.airbnb.vo.Review;
-import kr.co.airbnb.vo.User;
 
 @Service
 @Transactional
@@ -19,9 +16,24 @@ public class ReviewService {
 	@Autowired
 	private ReviewMapper reviewMapper;
 	
+	public GuestRequest getGuestInfo(int reservationNo) {
+		return null;
+	}
 	
+	public HostRequest getHostInfo(int reservationNo) {
+		return null;
+	}
 	
-	public void addGuestReview(User loginUser, GuestReviewForm guestReviewForm) throws IOException {
+	public void saveGuestReview(Review review) {
+		reviewMapper.insertReviewGuest(review);
+	}
+	
+	public void saveHostReview(Review review) {
+		reviewMapper.insertReviewHost(review);
+	}
+	
+	/*
+	public void saveGuestReview(User loginUser, GuestReviewForm guestReviewForm) throws IOException {
 		
 		// 게스트 리뷰 저장하기
 		Review review = new Review();
@@ -41,7 +53,7 @@ public class ReviewService {
 		reviewMapper.insertReviewGuest(review);
 	}
 	
-	public void addHostReview(User loginUser, HostReviewForm hostReviewForm) throws IOException {
+	public void saveHostReview(User loginUser, HostReviewForm hostReviewForm) throws IOException {
 		
 		// 호스트 리뷰 저장하기
 		Review review = new Review();
@@ -54,5 +66,7 @@ public class ReviewService {
 		review.setUser(loginUser);
 		reviewMapper.insertReviewHost(review);
 	}
+	 */
+
 
 }
