@@ -47,7 +47,7 @@ public class UserController {
 
 	@Value("${airbnb.profile.image.save-directory}")
 	String profileImageSaveDirectory;
-	private static final String KAKAO_LOGIN_TYPE = "kakao";
+	//private static final String KAKAO_LOGIN_TYPE = "kakao";
 	
 	@Autowired
 	private UserService userService;
@@ -64,9 +64,17 @@ public class UserController {
 	public String googletest() {
 		return "user/googletest";
 	}
+	@GetMapping(path="account-settings")
+	public String account() {
+		return "user/account-settings";
+	}
+	@GetMapping(path="profile")
+	public String profile() {
+		return "user/profile";
+	}
 	
 	
-	// 카카오 로그인 요청을 처리한다.
+	// 소셜 로그인 요청을 처리한다.
 		@PostMapping("/sns-login")
 		public String loginWithSns(SocialLoginForm form) {
 			log.info("소셜 로그인 인증정보: " + form);
@@ -74,6 +82,7 @@ public class UserController {
 			User user = User.builder()
 						.name(form.getNickname())
 						.email(form.getEmail())
+						.profileImage(form.getProfileImage() != null ? form.getProfileImage() : "")
 						.gender(form.getGender() != null ? form.getGender() : "")
 						.loginType(form.getLoginType())
 						.build();
