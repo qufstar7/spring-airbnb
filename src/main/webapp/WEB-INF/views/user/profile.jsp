@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +11,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://kit.fontawesome.com/cbcad42a26.js" crossorigin="anonymous"></script>
 <title>[회원이름]님의 프로필 -에어씨앤씨</title>
 <style type="text/css">
 	/* .col-3 * {text-align: left;		} */
@@ -33,7 +36,7 @@
 			<div class="col-4">
 				<div class="border rounded-3 p-4">
 					<div class=" text-center mb-2">
-						<img src="/resources/logo.png" alt="프로필 사진">
+						<img src="/resources/images/profile/${user.profileImage}" alt="profile-img" width="200">
 					</div>
 					<div class="text-center mb-5">
 						<button type="button" class="btn btn-link text-muted fw-bold fs-5" data-bs-toggle="modal" data-bs-target="#modal-change-profileImg">사진 업데이트하기</button>
@@ -48,7 +51,7 @@
 					</div>
 					<hr />
 					<div class="mb-4">
-						<h3>Youna 인증 완료</h3>
+						<h3>${user.name} 인증 완료</h3>
 					</div>
 					<div class="d-flex justify-content-start mb-3 fs-5">
 						<i class="bi bi-check-lg fw-bold"></i>
@@ -68,44 +71,35 @@
 				</div>
 			</div>
 			<div class="col ms-5 ps-5">
-				<h1 class="fw-bold">안녕하세요. 저는 Youna입니다.</h1>
-				<p>회원가입: 2016</p>
-				<a href="" class="text-reset fw-bold fs-5">프로필 수정하기</a>
-				<div class="mt-5">
+				<h1 class="fw-bold">안녕하세요. 저는 ${user.name}입니다.</h1>
+				<p>회원가입: <fmt:formatDate value="${user.createdDate }" pattern="yyyy"/> </p>
+				<button class="btn btn-link text-reset fw-bold fs-5" id="btn-change-profile">프로필 수정하기</button>
+				<div class="mt-5" id="div-profile">
 					<h3 class="fw-bold mb-4">소개</h3>
-					<p class="fs-5 mb-4">안녕하세요, 반갑습니다.</p>
+					<p class="fs-5 mb-4"> ${user.description} </p>
 					<div class="d-flex justify-content-start mb-3 fs-5">
 						<i class="bi bi-house-door-fill"></i>
-						<span class="ms-2">거주지: 서울, 한국</span>
+						<span class="ms-2">거주지: ${not empty user.address ? user.address : "주소를 설정해주세요."}</span>
 					</div>
 					<div class="d-flex justify-content-start mb-3 fs-5">
-						<i class="bi bi-chat-square-fill"></i>
-						<span class="ms-2">구사 언어:  English, 日本語, 한국어</span>
+						<i class="bi bi-calendar-heart"></i><!-- Date 형식을 다시 String 으로 -->
+						<span class="ms-2">생일:  <fmt:formatDate value="${user.birthDate}" pattern="yyyy.MM.dd"/></span>
 					</div>
 				</div>
 				<!-- 프로필 수정하기 -->
-				<div class="mt-5">
-					<form action="">
-						<label for="textarea-introduction" class="form-label fs-5">소개</label>
-						<textarea class="form-control mb-5 fs-5" rows="4" id="textarea-introduction">안녕하세요, 반갑습니다.</textarea>
+				<div class="mt-5 d-none" id="div-update-profile">
+					<form id="form-profile" method="post" action="">
+						<label for="textarea-description" class="form-label fs-5">소개</label>
+						<textarea class="form-control mb-5 fs-5" name="description" rows="4" id="textarea-description"> ${user.description} </textarea>
 						<label for="input-location" class="form-label fs-5">위치</label>
-						<input type="text" class="form-control mb-5 p-2 fs-5" id="input-location" value="서울, 한국">
-						<label for="language" class="form-label fs-5 mb-3">구사 언어</label>
-						<div class="mb-3" id="div-language">
-							<div>
-								<span>English</span><button type="button" class="btn-close" aria-label="Close"></button>
-							</div>
-							<div>
-								<span>한국어</span><button type="button" class="btn-close" aria-label="Close"></button>
-							</div>
-							<div>
-								<span>日本語</span><button type="button" class="btn-close" aria-label="Close"></button>
-							</div>
-						</div>
-						<button type="button" class="btn btn-link text-reset fw-bold fs-5" data-bs-toggle="modal" data-bs-target="#modal-change-language">추가하기</button>
+						<input type="text" class="form-control mb-5 p-2 fs-5" name="address" id="input-address" value="${user.address }" />
+						<label for="language" class="form-label fs-5 mb-3">생일</label>
+						<input type="date" class="form-control mb-5 p-2 fs-5" name="birthDate" id="input-birthday" value="<fmt:formatDate value="${user.birthDate}" pattern="yyyy-M-d"/>" />
+						
+						
 						<div class="d-flex justify-content-between mt-5">
-							<button type="button" class="btn btn-link text-reset fs-5 fw-bold">취소</button>
-							<button type="button" class="btn btn-dark btn-lg px-4">저장</button>
+							<button type="button" class="btn btn-link text-reset fs-5 fw-bold" id="btn-cancel">취소</button>
+							<button type="button" class="btn btn-dark btn-lg px-4" id="btn-update-profile">저장</button>
 						</div>
 					</form>	
 				</div>
@@ -180,52 +174,18 @@
 	        </p>
         </div>
         <form id="form-profileImg" action="" method="post" enctype="multipart/form-data" >
-	        <div class="">"
-		        <img src="/resources/logo.png">
+	        <div class="">
+	        
+		        <img src="/resources/${user.profileImage}">
 	        </div>
 	        <div class="d-grid gap-2 my-4">
 	        	<input type="file" name="profileImg" id="profile-img" class="d-none" accept="image/gif, image/jpeg, image/png" />
 	        	<button type="button" class="btn btn-dark p-3 fs-5 fw-bold" id="btn-change-profileImg"><i class="bi bi-person-bounding-box"></i> 사진 변경하기</button>
-	        	<button type="button" class="btn btn-outline-dark p-3 fs-5 fw-bold" id="btn-use-facebookImg">페이스북 사진 사용</button>
 	        </div>
         </form>
         <div>
         	<button type="button" class="btn btn-link text-reset fw-bold fs-5" data-bs-dismiss="modal" aria-label="Close">나중에 할게요</button>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- 프로필 구사언어 수정 모달 -->
-<!-- Modal -->
-<div class="modal fade" id="modal-change-language" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title fw-bold text-center" id="exampleModalLabel">구사 언어</h5> <!-- text-center 왜 적용안됨?!?!?!?!?!  -->
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p>에어비앤비는 전 세계 다양한 언어권의 게스트가 이용하므로 여러 언어를 구사하는 호스트의 언어 능력은 큰 장점입니다.</p>
-        <div class="form-check fs-4">
-		  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-		  <label class="form-check-label" for="flexCheckDefault">한국어</label>
-		</div>
-		<div class="form-check fs-4">
-		  <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-		  <label class="form-check-label" for="flexCheckChecked">日本語</label>
-		</div>
-		<div class="form-check fs-4">
-		  <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-		  <label class="form-check-label" for="flexCheckChecked">English</label>
-		</div>
-		<div class="form-check fs-4">
-		  <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
-		  <label class="form-check-label" for="flexCheckChecked">中文</label>
-		</div>
-      </div>
-      <div class="modal-footer justify-content-start">
-        <button type="button" class="btn btn-dark btn-lg" data-bs-dismiss="modal">완료</button>
       </div>
     </div>
   </div>
@@ -250,9 +210,38 @@ $(function () {
 		}
 	})
 	
+	// 프로필 사진 수정 버튼 연결
 	$("#btn-change-profileImg").click(function() {
 		$("#profile-img").click();
 	})
+	
+	$("#btn-change-profile").click(function() {
+		$("#div-update-profile").removeClass("d-none");
+		$(this).addClass("disabled");
+		$("#div-profile").addClass("d-none");
+	})
+	
+	$("#btn-cancel").click(function() {
+		$("#div-update-profile").addClass("d-none");
+		$("#btn-change-profile").removeClass("disabled");
+		$("#div-profile").removeClass("d-none");
+	})
+	
+	// 수정된 프로필 폼 반영하기
+	$("#btn-update-profile").click(function() {
+		
+		let querystring = $("#form-profile").serialize();
+		$.post("/user/update", querystring, function(data) {
+			console.log(data);
+		}) 
+		
+	})
+	
+	
+	
+	
+	
+	
 })
 
 

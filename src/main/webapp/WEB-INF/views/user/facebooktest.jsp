@@ -28,7 +28,7 @@
 $(function () {
 	
 	
-	
+	// 페이스북 로그인 초기화 처리
 	// Load the SDK asynchronously
 	(function(d, s, id) {
 	  var js, fjs = d.getElementsByTagName(s)[0];
@@ -47,22 +47,8 @@ $(function () {
 			  version    : 'v14.0' // Specify the Graph API version to use
 			});
 				FB.AppEvents.logPageView();
-				console.log('check check check 11111111111111111111111111');
 			FB.getLoginStatus(function(response) {
-				console.log('check check check 2222222222222222222222222');
 				console.log(response.status);
-				if (response.status === 'connected') {
-					console.log("FB.getLoginStatus dddddddd get user info ...........................")
-					 FB.api('/me', {"fields":"name,email,gender,birthday"}, function(response) {
-			      		    console.log('Successful login for: ' + response.name);
-			      		    console.log(JSON.stringify(response));
-			      		    $(":input[name=name]").val(response.name);
-			      	        $(":input[name=id]").val(response.id);
-			      	        $(":input[name=email]").val(response.email);
-			      		    document.getElementById('status').innerHTML =
-			      		      'Thanks for logging in, ' + response.name + '!';
-			      		  });
-			    }
 			})
 			
 		}
@@ -94,26 +80,7 @@ $(function () {
 		  }, {scope: 'public_profile,email'});
 		
 	});
-		/* FB.getLoginStatus(function(response) {
-			 if(response.status === 'connected') {
-	             //document.querySelector('#authBtn').value = "Logout";
-	      	   FB.api('/me', {"fields":"name,email,gender,birthday"}, function(response) {
-	      		    console.log('Successful login for: ' + response.name);
-	      		    console.log(JSON.stringify(response));
-	      		    $(":input[name=name]").val(response.name);
-	      	        $(":input[name=id]").val(response.id);
-	      	        $(":input[name=email]").val(response.email);
-	      		    document.getElementById('status').innerHTML =
-	      		      'Thanks for logging in, ' + response.name + '!';
-	      		  });
-	         } else {
-	        	 alert("로그인해주세요");
-	        	 FB.login(function(response){
-	     			alert("FB.login : " + JSON.stringify(response));
-	     			}, {scope: 'public_profile,email'});
-	         }
-		    }); */
-
+	
 	
 	$("#btn-facebook-logout").click(function() {
 	    FB.getLoginStatus(function(response) {
