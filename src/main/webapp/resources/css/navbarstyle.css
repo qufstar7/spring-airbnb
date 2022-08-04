@@ -1,4 +1,21 @@
 @charset "UTF-8";
+
+nav {
+    top:0;
+    left:0;
+    
+	margin:0;
+	height:80px;
+	width:98.9vw;
+	background-color: #FFFFFF;
+	border-bottom:solid 1px #E6E6E6;}
+
+.box{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
 #userbtn{
 	display: flex;
 	justify-content: space-between;
@@ -73,3 +90,9 @@
 .dropdown a:hover {background-color: #FAFAFA;}
 
 .show {display: block;}
+
+@media screen and (max-width: 1000px) {
+	#logo{display:none;}
+	#userbtn{display:none;}
+	#search{display: table; margin-left: auto; margin-right: auto;}
+}
