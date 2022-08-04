@@ -9,7 +9,7 @@ import kr.co.airbnb.vo.AccType;
 @Mapper
 public interface HostMapper {
 
-	List<AccType> getAllAccTypes();
-	List<String> getAllAccSubTypes();
+	List<AccType> getAllAccMainTypes();
+	List<AccType> getAllAccSubTypes(int mainType);
 
 }

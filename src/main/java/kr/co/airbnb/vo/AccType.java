@@ -18,5 +18,6 @@ public class AccType {
 	private String name;
 	private int maintype;
 	private String imageName;
+	private String description;
 	
 }
