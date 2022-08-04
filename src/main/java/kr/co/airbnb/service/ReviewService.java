@@ -16,12 +16,32 @@ public class ReviewService {
 	@Autowired
 	private ReviewMapper reviewMapper;
 	
+	public String getDuplicateReview(int reservationNo, int userNo) {
+		Integer result = reviewMapper.getDuplicateReviewByNo(reservationNo, userNo);
+		
+		if (result != null) {
+			return "Y";
+		} else {
+			return "N";
+		}
+	};
+	
 	public GuestRequest getGuestInfo(int reservationNo) {
-		return null;
+		
+		GuestRequest guestRequest = reviewMapper.getGuestInfoByReservationNo(reservationNo);
+		if (guestRequest == null) {
+			throw new RuntimeException("게스트가 존재하지 않습니다.");
+		}
+		return guestRequest;
 	}
 	
 	public HostRequest getHostInfo(int reservationNo) {
-		return null;
+		
+		HostRequest hostRequest = reviewMapper.getHostInfoByReservationNo(reservationNo);
+		if (hostRequest == null) {
+			throw new RuntimeException("호스트가 존재하지 않습니다.");
+		}
+		return hostRequest;
 	}
 	
 	public void saveGuestReview(Review review) {
