@@ -267,6 +267,7 @@ input[type="range"]::-moz-range-thumb{
 		</div>
 	</div>
 </div>
+<%@ include file="user/home.jsp" %>
 	<div class="container my-3">
 		<div class="grid-main">
 			<a class="card-container" href="#" style="text-decoration-line: none; color: black">
@@ -1418,7 +1419,6 @@ input[type="range"]::-moz-range-thumb{
 				</div>
 			</div>
 		</div>
-	</div>
 	</div>
 <script type="text/javascript">
 	/* 필터-차트 부분입니다. */

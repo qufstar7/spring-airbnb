@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.co.airbnb.annotation.LoginUser;
 import kr.co.airbnb.form.SocialLoginForm;
 import kr.co.airbnb.form.UserRegisterForm;
+import kr.co.airbnb.form.UserUpdateForm;
 import kr.co.airbnb.service.UserService;
 import kr.co.airbnb.utils.SessionUtils;
 import kr.co.airbnb.vo.User;
@@ -47,7 +48,7 @@ public class UserController {
 
 	@Value("${airbnb.profile.image.save-directory}")
 	String profileImageSaveDirectory;
-	private static final String KAKAO_LOGIN_TYPE = "kakao";
+	//private static final String KAKAO_LOGIN_TYPE = "kakao";
 	
 	@Autowired
 	private UserService userService;
@@ -64,43 +65,68 @@ public class UserController {
 	public String googletest() {
 		return "user/googletest";
 	}
+	@GetMapping(path="account-settings")
+	public String account() {
+		return "user/account-settings";
+	}
+	@GetMapping(path="profile")
+	public String profile(@LoginUser User loginUser, Model model) {
+		User user = userService.getUserByNo(loginUser.getNo());
+		model.addAttribute("user", user);
+		return "user/profile";
+	}
 	
-	
-	// 카카오 로그인 요청을 처리한다.
-		@PostMapping("/sns-login")
-		public String loginWithSns(SocialLoginForm form) {
-			log.info("소셜 로그인 인증정보: " + form);
-			
-			User user = User.builder()
-						.name(form.getNickname())
-						.email(form.getEmail())
-						.gender(form.getGender() != null ? form.getGender() : "")
-						.loginType(form.getLoginType())
-						.build();
-			User savedUser = userService.loginWithSns(user);
-			
-			if (savedUser != null) {
-				SessionUtils.addAttribute("LOGIN_USER", savedUser);
-				savedUser.setLoginType(form.getLoginType());
-			} else {
-				SessionUtils.addAttribute("LOGIN_USER", user);
-			}
-			log.info("소셜 로그인 완료");
-			
-			return "redirect:/"; 
+	// 일반 로그인 요청 처리
+	@PostMapping("/normal-login")
+	@ResponseBody
+	public Map<String, Object> loginWithNormal(@RequestParam("loginEmail") String email, @RequestParam("loginPassword") String password) {
+		Map<String, Object> result = new HashMap<>();
+		
+		User user = userService.getUserByEmail(email);
+		if(password.equals(user.getPassword())) {
+			result.put("pass", true);
+			SessionUtils.addAttribute("LOGIN_USER", user);
+			System.out.println("사용자:" + user);
+		} else {
+			result.put("pass", false);
 		}
+		return result;
+	}
+	
+	
+	// 소셜 로그인 요청을 처리한다.
+	@PostMapping("/sns-login")
+	public String loginWithSns(SocialLoginForm form) {
+		log.info("소셜 로그인 인증정보: " + form);
+		
+		User user = User.builder()
+					.name(form.getNickname())
+					.email(form.getEmail())
+					.profileImage(form.getProfileImage() != null ? form.getProfileImage() : "")
+					.gender(form.getGender() != null ? form.getGender() : "")
+					.loginType(form.getLoginType())
+					.build();
+		User savedUser = userService.loginWithSns(user);
+		
+		if (savedUser != null) {
+			SessionUtils.addAttribute("LOGIN_USER", savedUser);
+			savedUser.setLoginType(form.getLoginType());
+		} else {
+			SessionUtils.addAttribute("LOGIN_USER", user);
+		}
+		log.info("소셜 로그인 완료");
+		
+		return "redirect:/"; 
+	}
 	
 	@GetMapping(path="/register")
 	public String register(Model model) {
-		
-		// 폼입력값을 담을 객체를 미리 생성해서 Model에 저장
-		model.addAttribute("userRegisterForm", new UserRegisterForm());
 		return "user/home";
 	}
 	
 	@GetMapping(path="/checkEmail")
 	@ResponseBody
-	public Map<String, Object> checkEmail(@RequestParam("email") String email) {
+	public Map<String, Object> checkEmail(@RequestParam("email") String email, Model model) {
 		Map<String, Object> result = new HashMap<>();
 		System.out.println("email: " + email);
 		User savedUser = userService.getUserByEmail(email);
@@ -108,15 +134,18 @@ public class UserController {
 		
 		if(savedUser == null) {
 			result.put("exist", false);
+			// 폼입력값을 담을 객체를 미리 생성해서 Model에 저장
+			model.addAttribute("userRegisterForm", new UserRegisterForm());
 		} else {
 			result.put("exist", true);
+			result.put("loginType", savedUser.getLoginType());
 		}
 		return result;
 	}
 	
 	@PostMapping(path="/register")
 	@ResponseBody
-	public Map<String, Object> register(@ModelAttribute("userRegisterForm") UserRegisterForm userRegisterForm, Model model, SessionStatus sessionStatus) {
+	public Map<String, Object> register(@ModelAttribute("userRegisterForm") UserRegisterForm userRegisterForm, SessionStatus sessionStatus) {
 		
 		User user = new User();
 		user.setName(userRegisterForm.getLastName() + userRegisterForm.getFirstName());
@@ -137,6 +166,7 @@ public class UserController {
 	}
 	
 	@PostMapping(path="/addProfileImg")
+	@ResponseBody
 	public Map<String, Object> uploadProfileImg(@RequestParam("profileImg") MultipartFile multipartFile, @LoginUser User loginUser) throws IOException {
 		
 		// 프로필이미지 사진 처리하기
@@ -147,6 +177,7 @@ public class UserController {
 			userService.updateUserInfo(user);
 			
 			// 이미지 파일명이 중복되는 것을 방지하기 위해 고유이미지파일명 설정? UUID.randomUUID()
+			// 유닉스타임 파일명에 붙이기
 			
 			InputStream in = multipartFile.getInputStream();	// 업로드된 첨부파일이 임시파일로 저장되는데 그 파일을 읽어오는 스트림이다.
 			FileOutputStream out = new FileOutputStream(new File(profileImageSaveDirectory, filename));
@@ -158,6 +189,34 @@ public class UserController {
 		
 		return result;
 	}
+	
+	@PostMapping(path="/update") // uploadProfileImg 요청핸들러메소드 수정 및 삭제
+	public Map<String, Object> updateProfile(UserUpdateForm form, @LoginUser User loginUser) throws IOException {
+		System.out.println("폼: " + form);
+		System.out.println("로그인: " + loginUser);
+		
+		User user = userService.getUserByNo(loginUser.getNo());
+		MultipartFile multipartFile = form.getProfileImg();
+		
+		if(multipartFile.isEmpty()) {
+			user.setDescription(form.getDescription());
+			user.setBirthDate(form.getBirthDate());
+			user.setAddress(form.getAddress());
+		} else {
+			String filename = multipartFile.getOriginalFilename();
+			user.setProfileImage(filename);
+			
+			InputStream in = multipartFile.getInputStream();	// 업로드된 첨부파일이 임시파일로 저장되는데 그 파일을 읽어오는 스트림이다.
+			FileOutputStream out = new FileOutputStream(new File(profileImageSaveDirectory, filename));
+			FileCopyUtils.copy(in, out);
+		}
+		
+		Map<String, Object> data = new HashMap<>();
+		data.put("user", user);
+		
+		return data;
+	}
+	
 	
 	@GetMapping(path="/wishlists")
 	public String wishlist(Model model) { // 추후 @LoginUser User loginUser 추가하기

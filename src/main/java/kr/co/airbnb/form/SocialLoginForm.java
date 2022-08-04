@@ -13,4 +13,6 @@ public class SocialLoginForm {
 	private String email;
 	private String gender;
 	private String loginType;
+	private String profileImage;
+	
 }

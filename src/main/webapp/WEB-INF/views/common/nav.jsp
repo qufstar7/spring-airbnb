@@ -70,19 +70,25 @@
 					  </button>
 					  </a>
 					  <div id="myDropdown" class="dropdown-content">
+					  <c:choose>
+					  	<c:when test="${empty LOGIN_USER}">
 								<!-- 로그인 하지 않았을 때 -->
-								<a class="dropdown-item" href="#">로그인</a>
-								<a class="dropdown-item" href="#">회원 가입</a>
+								<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#email-login-modal">로그인</a>
+								<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#email-login-modal">회원 가입</a>
+						</c:when>
+						<c:otherwise>
 								<!-- 로그인 했을 때 -->
 								<a class="dropdown-item" href="#"><strong>메시지</strong></a>
 								<a class="dropdown-item" href="#"><strong>알림</strong></a>
 								<a class="dropdown-item" href="#"><strong>여행</strong></a>
-								<a class="dropdown-item" href="#"><strong>위시리스트</strong></a>
+								<a class="dropdown-item" href="/user/wishlists"><strong>위시리스트</strong></a>
 								<hr style="width:180px; margin: 10px auto;">
 								<a class="dropdown-item" href="/host">숙소 호스트 되기</a>
-								<a class="dropdown-item" href="#">계정</a>
+								<a class="dropdown-item" href="/user/account-settings">계정</a>
 								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="#">로그아웃</a>
+								<a class="dropdown-item" href="/logout">로그아웃</a>
+						</c:otherwise>
+					  </c:choose>
 					  </div>
 					</div>
 					<!-- <div class="col-3 position-relative" style="border:1px solid #E6E6E6; border-radius: 25px; width:77px; height:42px;">
@@ -121,6 +127,7 @@
 				</div>
 			</div>
 		</div>
+
 <script>
 /* When the user clicks on the button, toggle between hiding and showing the dropdown content */
 function myFunction() {
@@ -142,3 +149,4 @@ window.onclick = function(event) {
 }
 </script>
 </nav>
+

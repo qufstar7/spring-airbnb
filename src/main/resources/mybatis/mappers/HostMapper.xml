@@ -2,11 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="kr.co.airbnb.mapper.HostMapper">
 
-<!-- sList<AccType> getAllAccTypes(); -->
-<select id="getAllAccTypes" resultType="accType">
-	select type_no as no, type_name as name, main_type as mainType, image_name as imageName
+<!-- sList<AccType> getAllAccMainTypes(); -->
+<select id="getAllAccMainTypes" resultType="accType">
+	select type_no as no, type_name as name, image_name as imageName
 	from airbnb_acc_types
 	where main_type is null
+	order by no
+</select>
+
+<!-- List<String> getAllAccSubTypes(); -->
+<select id="getAllAccSubTypes" parameterType="int" resultType="accType">
+	select type_no as no, type_name as name, main_type as mainType, type_description as description
+	from airbnb_acc_types
+	where main_type is not null
+	and main_type = #{value}
 	order by no
 </select>
 

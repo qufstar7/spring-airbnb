@@ -83,14 +83,152 @@ body {
 	word-break: keep-all;
 }
 
-/* become-a-host 페이지 header */
+/* 로그인 모달 */
+.modal-dialog-centered {
+	justify-content: center;
+}
+
+.modal-context-box {
+	-webkit-box-direction: normal;
+	-webkit-box-orient: vertical;
+	background: rgb(255, 255, 255);
+	position: relative;
+	width: 100vw;
+	max-width: 568px;
+	max-height: 100%;
+	display: flex;
+	flex-direction: column;
+	box-shadow: rgb(0 0 0/ 28%) 0px 8px 28px;
+	border-top-left-radius: 12px;
+	border-top-right-radius: 12px;
+	animation-duration: 400ms;
+	animation-iteration-count: 1;
+	animation-fill-mode: both;
+	animation-name: keyframe_d37zz3;
+}
+
+.modal-btn-close-box {
+	position: absolute;
+	display: flex;
+	top: 29px;
+	left: 31px;
+	z-index: 1;
+}
+
+.modal-btn-close {
+	content: "";
+	display: block;
+	position: absolute;
+	transform: translate(-50%, -50%);
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+}
+
+.modal-header {
+	justify-content: center;
+}
+
+.modal-welcome-message-box {
+	margin-top: 8px;
+	margin-bottom: 24px;
+}
+
+.modal-welcome-message {
+	font-size: 22px;
+	line-height: 26px;
+	color: black;
+	font-weight: 600;
+	margin-bottom: 8px;
+}
+
+.modal-phone-number-label {
+	color: rgb(113, 113, 113);
+	font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto,
+		"Helvetica Neue", sans-serif;
+	font-size: 16px;
+	line-height: 20px;
+	font-weight: 400;
+	transition: -ms-transform 0.15s cubic-bezier(0.455, 0.03, 0.515, 0.955)
+		0s, -webkit-transform 0.15s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s,
+		transform 0.15s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s;
+}
+
+.modal-phone-number-help-text-box {
+	margin-top: 8px;
+	color: rgb(34, 34, 34);
+	font-size: 12px;
+	line-height: 16px;
+	font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto,
+		"Helvetica Neue", sans-serif;
+	font-weight: 400;
+}
+
+.modal-continue-btn {
+	width: 100%;
+	transition: opacity 1.25s ease 0s;
+	background-image: radial-gradient(circle at center center, rgb(255, 56, 92)
+		0%, rgb(230, 30, 77) 27.5%, rgb(227, 28, 95) 40%, rgb(215, 4, 102)
+		57.5%, rgb(189, 30, 89) 75%, rgb(189, 30, 89) 100%);
+}
+
+/* 로그인모달 '또는' 라인 */
+/* 
+.modal-also-line {
+	width: 100%;
+	margin-top: 16px;
+	margin-bottom: 16px;
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 16px;
+}
+
+.modal-also-text {
+	-webkit-box-align: center;
+	display: flex;
+	align-items: center;
+	margin: 16px 0px;
+}
+
+.modal-also-text:before {
+	content: "";
+	display: block;
+	width: 100%;
+	height: 1px;
+	background-color: rgb(221, 221, 221);
+	margin-right: 16px;
+}
+
+.modal-also-text:after {
+	content: "";
+	display: block;
+	width: 100%;
+	height: 1px;
+	background-color: rgb(221, 221, 221);
+	margin-left: 16px;
+} 
+*/
+.modal-login-btn-text {
+	font-weight: 600 !important;
+	font-size: 14px !important;
+}
+
+/* become-a-host 페이지 */
+/*  header */
 .right-div-header {
 	height: 87px;
 }
 
-@media ( min-width : 744px) {
-	.nav-item:nth-child(1) {
-		display: none;
+@media (max-width: 992px) {
+	.nav-ask-superhost {
+		display: none !important;
+		font-size: 12px !important;
+		line-height: 16px !important;
+		color: #222222 !important;
+		padding: 4px 22px 4px 2px !important;
+		background: #fff !important;
+		box-shadow: 0px 0px 0px 1px #DDDDDD inset, 0px 2px 4pxrgba(0, 0, 0, 0.18)
+			!important;
 	}
 }
 
@@ -166,7 +304,7 @@ body {
 }
 
 .main-type-btn:hover {
-	box-shadow: rgb(34, 34, 34) 0px 0px 0px 2px !important;
+	box-shadow: rgb(34, 34, 34) 0px 0px 0px 2px;
 }
 
 .main-type-img {

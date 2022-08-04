@@ -14,12 +14,12 @@ public class HostService {
 	@Autowired
 	private HostMapper hostMapper;
 	
-	public List<AccType> getAllAccTypes() {
-		return hostMapper.getAllAccTypes();
+	public List<AccType> getAllAccMainTypes() {
+		return hostMapper.getAllAccMainTypes();
 	}
 
-//	public List<String> getAllAccSubTypes() {
-//		return hostMapper.getAllAccSubTypes();
-//	}
+	public List<AccType> getAllAccSubTypes(int mainType) {
+		return hostMapper.getAllAccSubTypes(mainType);
+	}
 	
 }

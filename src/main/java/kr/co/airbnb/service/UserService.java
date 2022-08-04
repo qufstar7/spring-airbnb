@@ -56,4 +56,9 @@ public class UserService {
 		}
 		return savedUser;
 	}
+
+	public User getUserByNo(int userNo) {
+		User savedUser = userMapper.getUserByNo(userNo);
+		return savedUser;
+	}
 }

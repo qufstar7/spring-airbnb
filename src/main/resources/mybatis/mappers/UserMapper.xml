@@ -34,6 +34,10 @@
 	</select>
 	
 	<insert id="insertUser" parameterType="User">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select users_seq.nextval
+			from dual
+		</selectKey>
 		insert into airbnb_users(user_no, user_name, user_email
 		<if test="password != null">
 			, user_password
@@ -41,16 +45,28 @@
 		<if test="birthDate != null">
 			, user_birth_date
 		</if>
+		<if test="profileImage != null">
+			, user_profile_image
+		</if>
+		<if test="loginType != null">
+			, user_logintype
+		</if>
 		<if test="gender != null">
 			, user_gender
 		</if>
 		)
-		values(users_seq.nextval, #{name}, #{email}
+		values(#{no}, #{name}, #{email}
 		<if test="password != null">
 			, #{password}
 		</if>
 		<if test="birthDate != null">
 			, #{birthDate}
+		</if>
+		<if test="profileImage != null">
+			, #{profileImage}
+		</if>
+		<if test="loginType  != null">
+			, #{loginType }
 		</if>
 		<if test="gender != null">
 			, #{gender}

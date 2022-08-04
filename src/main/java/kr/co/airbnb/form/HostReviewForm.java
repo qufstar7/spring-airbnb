@@ -9,6 +9,7 @@ import lombok.ToString;
 @ToString
 public class HostReviewForm {
 	
+	private int accNo;
 	private int totalScore;					// 전체적인 만족도
 	private int cleanScore;					// 청결도
 	private int communicationScore;			// 커뮤니케이션
@@ -16,5 +17,6 @@ public class HostReviewForm {
 	private String wantMeetAgain;
 	private String content;
 	private String privateNote;
+	private String userType;
 	
 }
