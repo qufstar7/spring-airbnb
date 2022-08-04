@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../common/tags.jsp" %>
+<%@ include file="../common/tags.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,53 +10,120 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<title>계정관리-에어씨엔씨</title>
 <style type="text/css">
-	/* #div-wishlists {
-					width: auto;
-				} */
-	#div-wishlists {width: auto;}
-	.wishlist {
-				float: left;
-				margin-left: 10px;
-				margin-right: 10px;
-				text-align: center;
-	} 
-	
+	.container-fluid {margin-top: 50px;}
+	#div-main div {height: 200px;}
 </style>
-<title>Insert title here</title>
 </head>
+
 <body>
-<div class="border">
-	<div class="row mb-5">
+<div class="container-fluid" style="width: 85%;">
+	<div class="row my-5" id="div-account">
 		<h1 class="fw-bold">위시리스트</h1>
 	</div>
-	<div>
-	<%-- <c:choose>
-		<c:when test="${empty wishlists}">
-			<h3 class="fw-bold">첫 번째 위시리스트 만들기</h3>
-		<p>검색 중에 마음에 드는 숙소나 즐길 거리를 위시리스트에 저장하려면 하트 아이콘을 누르세요.</p>
-		</c:when>
-		<c:otherwise>
-			<c:forEach var="wishlist" items="${wishlists}">
-			
-			</c:forEach>
-		</c:otherwise>
-	</c:choose> --%>
-	<div id="div-wishlists" class="">
-		<img class="wishlist" alt="숙소이미지" src="/resources/images/acc/sample-home.jpg" >
-		<img class="wishlist" alt="숙소이미지" src="/resources/images/acc/sample-home.jpg" >
-		<img class="wishlist" alt="숙소이미지" src="/resources/images/acc/sample-home.jpg" >
-		<img class="wishlist" alt="숙소이미지" src="/resources/images/acc/sample-home.jpg" >
-		<img class="wishlist" alt="숙소이미지" src="/resources/images/acc/sample-home.jpg" >
-		<img class="wishlist" alt="숙소이미지" src="/resources/images/acc/sample-home.jpg" >
-		<img class="wishlist" alt="숙소이미지" src="/resources/images/acc/sample-home.jpg" >
-		<img class="wishlist" alt="숙소이미지" src="/resources/images/acc/sample-home.jpg" >
-		<img class="wishlist" alt="숙소이미지" src="/resources/images/acc/sample-home.jpg" >
-		<img class="wishlist" alt="숙소이미지" src="/resources/images/acc/sample-home.jpg" >
-		<img class="wishlist" alt="숙소이미지" src="/resources/images/acc/sample-home.jpg" >
-		<img class="wishlist" alt="숙소이미지" src="/resources/images/acc/sample-home.jpg" >
+	<div id="div-main">
+		<div class="row">
+			<div class="col-lg-4 col-sm-6 col-sx-12 mb-3">
+				<div class="col-8">
+					<img  src="/resources/images/acc/bridge.jpg" alt="sample">
+				</div>
+				<div class="col-4">
+					<img  src="/resources/images/acc/sample-home.jpg" alt="sample">
+					<img  src="/resources/images/acc/park.jpg" alt="sample">
+				</div>
+			</div>
+			<div class="col-lg-4 col-sm-6 col-sx-12 mb-3">
+				<a href="">
+					<div class="shadow p-3 mb-5 bg-body rounded ">
+						<i class="bi bi-shield-exclamation"></i>
+						<div class="mt-5 d-flex align-items-start flex-column">
+							<span class="fw-bold">로그인 및 보안</span>
+							<span>비밀번호를 변경하고 계정을 안전하게 보호하세요</span>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-lg-4 col-sm-6 col-sx-12 mb-3">
+				<a href="">
+					<div class="shadow p-3 mb-5 bg-body rounded ">
+						<i class="bi bi-cash-coin"></i>
+						<div class="mt-5 d-flex align-items-start flex-column">
+							<span class="fw-bold">결제 및 대금 수령</span>
+							<span>결제, 대금 수령, 쿠폰, 기프트카드 및 세금 검토하기</span>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-lg-4 col-sm-6 col-sx-12 mb-3">
+				<a href="">
+					<div class="shadow p-3 mb-5 bg-body rounded ">
+						<i class="bi bi-megaphone"></i>
+						<div class="mt-5 d-flex align-items-start flex-column">
+							<span class="fw-bold">알림</span>
+							<span>알림 환경설정 및 연락 방식을 선택하세요.</span>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-lg-4 col-sm-6 col-sx-12 mb-3">
+				<a href="">
+					<div class="shadow p-3 mb-5 bg-body rounded ">
+						<i class="bi bi-eye"></i>
+						<div class="mt-5 d-flex align-items-start flex-column">
+							<span class="fw-bold">개인정보 및 공개 설정</span>
+							<span>연결된 앱, 공유하는 정보 및 공개 대상 관리하기</span>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-lg-4 col-sm-6 col-sx-12 mb-3">
+				<a href="">
+					<div class="shadow p-3 mb-5 bg-body rounded ">
+						<i class="bi bi-globe"></i>
+						<div class="mt-5 d-flex align-items-start flex-column">
+							<span class="fw-bold">글로벌 환경 설정</span>
+							<span>기본 언어, 통화, 시간대 설정하기</span>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-lg-4 col-sm-6 col-sx-12 mb-3">
+				<a href="">
+					<div class="shadow p-3 mb-5 bg-body rounded ">
+						<i class="bi bi-briefcase"></i>
+						<div class="mt-5 d-flex align-items-start flex-column">
+							<span class="fw-bold">출장</span>
+							<span>회사 이메일을 입력하면 출장에서 헤택을 누리실 수 있습니다.</span>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-lg-4 col-sm-6 col-sx-12 mb-3">
+				<a href="">
+					<div class="shadow p-3 mb-5 bg-body rounded ">
+						<i class="bi bi-bar-chart-line"></i>
+						<div class="mt-5 d-flex align-items-start flex-column">
+							<span class="fw-bold">전문 호스팅 도구</span>
+							<span>에어비앤비에서 여러 숙소를 관리하신다면 전문도구를 이용해보세요.</span>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-lg-4 col-sm-6 col-sx-12 mb-3">
+				<a href="">
+					<div class="shadow p-3 mb-5 bg-body rounded ">
+						<i class="bi bi-gift"></i>
+						<div class="mt-5 d-flex align-items-start flex-column">
+							<span class="fw-bold">추천 크레딧 및 쿠폰</span>
+							<span>₩0의 추천 크레딧과 쿠폰이 있습니다. 자세히 알아보기</span>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
 	</div>
-	</div>
+	
 </div>
 
 </body>

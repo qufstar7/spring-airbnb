@@ -1,24 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <!-- 아이콘 라이브러리 -->
 <script src="https://kit.fontawesome.com/2628157b3b.js"></script>
 <!-- google gsi -->
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
 <!-- 카카오 로그인지원 자바스크립트 라이브러리 -->
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-<title>Insert title here</title>
+<!-- 페이스북 -->
 <style type="text/css">
 	#btn-login-register, 
 	#btn-register,
@@ -65,20 +56,19 @@ pageEncoding="UTF-8"%>
 	height: inherit;} */
 	
 </style>
-</head>
-<body>
 
 
 
 
 
+<div >
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#email-login-modal">
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#email-login-modal">
   로그인/회원가입
-</button>
+</button> -->
 
 <!-- 이메일 입력 모달1 -->
-<div class="modal fade" id="email-login-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div style="z-index: 5000;" class="modal fade" id="email-login-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -106,8 +96,8 @@ pageEncoding="UTF-8"%>
       			또는
       		</div>
 		    <div class="d-grid gap-2">
-		    	<button type="button" class="btn btn-outline-dark" >페이스북으로 로그인하기</button>
-				<button type="button" class="btn btn-outline-dark" id="btn-signIn-With-Google">구글로 로그인하기</button>
+		    	<button type="button" class="btn btn-outline-dark" id="btn-signIn-with-facebook">페이스북으로 로그인하기</button>
+				<button type="button" class="btn btn-outline-dark" id="btn-signIn-with-google">구글로 로그인하기</button>
 		    	<button type="button" class="btn btn-outline-dark" >Apple 계정으로 로그인하기</button>
 		    	<a class="btn" id="custom-login-btn">
 				  <img src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg" width="242" />
@@ -120,9 +110,9 @@ pageEncoding="UTF-8"%>
 </div>
 
 <!-- Button trigger modal  나중에 삭제-->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#login-password-modal">
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#login-password-modal">
   로그인-비밀번호
-</button>
+</button> -->
 
 
 <!-- 로그인의 경우 비밀번호 입력 모달2 -->
@@ -134,7 +124,7 @@ pageEncoding="UTF-8"%>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body m-2">
-      	<div class="row rounded-3  d-none">
+      	<div class="row rounded-3  d-none" id="div-invalid">
       		<div class="col-1">
       			<i class="fa-solid fa-3x fa-circle-exclamation"></i>
       		</div>
@@ -144,10 +134,14 @@ pageEncoding="UTF-8"%>
       		</div>
       	</div>
       	<div>
-      		<form action="" method="post">
+      		<form id="form-login" action="" method="post" class="needs-validation" novalidate>
 	      		<div class="form-floating  position-relative my-4 ">
-			     	<input type="password" class="form-control outline" name="loginPassword" placeholder="비밀번호"  >
+	      			<input type="hidden" name="loginEmail">
+			     	<input type="password" class="form-control outline" name="loginPassword" placeholder="비밀번호" required>
 			     	<label for="floatingInput">비밀번호</label>
+			     	<div class="invalid-feedback">
+			     		<i class="fa-solid fa-circle-exclamation"></i>  비밀번호를 입력해주세요.
+			     	</div>
 			     	<button type="button" class="text-reset btn btn-link position-absolute top-50 end-0 translate-middle" id="btn-login-expose-password">표시</button>
 		    	</div>
 			    <div class="d-grid gap-2 my-4">
@@ -164,15 +158,15 @@ pageEncoding="UTF-8"%>
 </div>
 
 <!-- 회원가입입력 모달 -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#email-register-modal">
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#email-register-modal">
   회원가입
-</button>
+</button> -->
 
 <!-- Modal -->
 <div class="modal fade" id="email-register-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header">
+       <div class="modal-header">
         <h5 class="modal-title fw-bold" id="exampleModalLabel">회원 가입 완료하기</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
@@ -256,9 +250,9 @@ pageEncoding="UTF-8"%>
 <!-- 회원가입 완료 모달 -->
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#register-complete-modal">
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#register-complete-modal">
   회원가입 완료 모달
-</button>
+</button> -->
 
 <div class="modal fade" id="register-complete-modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -298,61 +292,182 @@ pageEncoding="UTF-8"%>
 	        <div class="d-grid gap-2 my-4">
 	        	<input type="file" name="profileImg" id="profile-img" class="d-none" accept="image/gif, image/jpeg, image/png" />
 	        	<button type="button" class="btn btn-dark p-3 fs-5 fw-bold" id="btn-add-profileImg"><i class="fa-solid fa-cloud-arrow-up text-start"></i> 사진 업로드하기</button>
-	        	<button type="button" class="btn btn-dark p-3 fs-5 fw-bold d-none" id="btn-add-complete" data-bs-dismiss="modal" aria-label="Close">완료</button>
+	        	<button type="button" class="btn btn-dark p-3 fs-5 fw-bold d-none" id="btn-add-complete" onclick="window.location.reload()" data-bs-dismiss="modal" aria-label="Close">완료</button>
 	        	<button type="button" class="btn btn-outline-dark p-3 fs-5 fw-bold" id="btn-use-facebookImg">페이스북 사진 사용</button>
 	        	<button type="button" class="btn btn-outline-dark p-3 fs-5 fw-bold d-none" id="btn-change-profileImg">사진 변경</button>
 	        </div>
         </form>
         <div>
-        	<button type="button" class="btn btn-link text-reset fw-bold fs-5" data-bs-dismiss="modal" aria-label="Close">나중에 할게요</button>
+        	<button type="button" class="btn btn-link text-reset fw-bold fs-5" onclick="window.location.reload()" data-bs-dismiss="modal" aria-label="Close">나중에 할게요</button>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<a href="/user/wishlists">마이 위시리스트</a>
-
-<!-- 구글 로그인 폼 처리 -->
-<div>
-	<form id="form-google-login" method="post" action="sns-login">
-		<input type="text" name="loginType" value="google">
-		<input type="text" name="nickname">
-		<input type="text" name="email">
-		<input type="text" name="profileImage">
+	<!-- 페이스북 로그인폼 처리 -->
+	<form id="form-facebook-login" method="post" action="/user/sns-login">
+		<input type="hidden" name="loginType" value="facebook">
+		<input type="hidden" name="nickname" /> 
+		<input type="hidden" name="email" />
 	</form>
 
-</div>
-
-
-<!-- 카카로 로그인 폼 처리 -->
-<div class="border p-3 mb-4 bg-light">
-	<!-- <a id="custom-login-btn">
-	  <img src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg" width="242" />
-	</a>  -->
-   	<form id="form-kakao-login" method="post" action="sns-login">
-   		<input type="hidden" name="loginType" value="kakao">
-   		<input type="hidden" name="nickname" />
-   		<input type="hidden" name="email" />
-   		<input type="hidden" name="gender" />
-   	</form>
-</div>
-<button class="api-btn" id="btn-kakaoLogout">카카오 로그아웃</button>
-
-
-<div class="g-signin2" data-onsuccess="onSignIn"></div>
-<div id="logout" style="display: none;">
-		<input type="button" onclick="signOut();" value="로그아웃" /><br>
-		
-		<img id="upic" src=""><br>
-		<span id="uname"></span>
-	</div>
+	<!-- 구글 로그인폼 처리 -->
+	<div>
+		<form id="form-google-login" method="post" action="/user/sns-login">
+			<input type="hidden" name="loginType" value="google">
+			<input type="hidden" name="nickname">
+			<input type="hidden" name="email">
+			<input type="hidden" name="profileImage">
+		</form>
 	
+	</div>
+
+	<!-- 카카로 로그인폼 처리 -->
+	<div class="border p-3 mb-4 bg-light">
+		<!-- <a id="custom-login-btn">
+		  <img src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg" width="242" />
+		</a>  -->
+	   	<form id="form-kakao-login" method="post" action="/user/sns-login">
+	   		<input type="hidden" name="loginType" value="kakao">
+	   		<input type="hidden" name="nickname" />
+	   		<input type="hidden" name="email" />
+	   		<input type="hidden" name="gender" />
+	   	</form>
+	</div>
+
+</div>
 <script type="text/javascript">
+// 페이스북 로그인 초기화 처리
+//Load the SDK asynchronously
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "https://connect.facebook.net/en_US/sdk.js";
+  fjs.parentNode.insertBefore(js, fjs);
+  
+  window.fbAsyncInit = function() {
+	 console.log('FB.init', FB.init)
+		FB.init({
+		  appId      : '785083306180197',
+		  cookie     : true,  // enable cookies to allow the server to access 
+		                      // the session
+		  xfbml      : true,  // parse social plugins on this page
+		  version    : 'v14.0' // Specify the Graph API version to use
+		});
+			FB.AppEvents.logPageView();
+		FB.getLoginStatus(function(response) {
+			console.log(response.status);
+		})
+	}
+}(document, 'script', 'facebook-jssdk'));	
+
+
 $(function () {
 	
+	let $firstName = $(":input[name=firstName]");
+	let $lastName = $(":input[name=lastName]");
+	let $birthDate = $(":input[name=birthDate]");
+	let $email = $(":input[name=email]");
+	let $registerEmail = $(":input[name=registerEmail]");
+	let $loginPassword = $(":input[name=loginPassword]");
+	let $password = $(":input[name=password]");
+	
+	let loginPasswordmodal = new bootstrap.Modal(document.getElementById("login-password-modal")); 
+	let registerModal = new bootstrap.Modal(document.getElementById("email-register-modal")); 
+	let loginEmailModal = new bootstrap.Modal(document.getElementById("email-login-modal")); 
+	
+	// input안에서 enter를 치면 자동으로 폼이 제출되는 것을 방지한다.
+	// enter 키번호는 13번이다.
+	$email.keydown(function(event) {
+		if (event.which === 13) {
+			$("#btn-login-register").click();
+			return false;
+		}
+		return true;
+	});
+	$loginPassword.keydown(function(event) {
+		if (event.which === 13) {
+			$("#btn-login").click();
+			return false;
+		}
+		return true;
+	});
+	
+	
+	// normal 로그인
+	$("#btn-login").click(function() {
+		let $password = $(":input[name=loginPassword]");
+		if($password.val().trim() === "" ) {
+			$password.removeClass("is-valid").addClass("is-invalid");
+			return;
+		}
+		let querystring = $("#form-login").serialize();
+		$.post("/user/normal-login", querystring, function(result) {
+			if(result.pass) {
+				location.href = "/";
+			} else {
+				$("#div-invalid").removeClass("d-none");
+			}
+		})
+	})
+	
+	// 페이스북 로그인
+	$("#btn-signIn-with-facebook").click(function() {
+
+	   	 FB.login(function(response){
+	   		
+	   		if (response.status === 'connected') {
+	   		console.log("FB.login  get user info ...........................")
+	   		 FB.api('/me', {"fields":"name,email,gender"}, function(response) {
+	      		    console.log('Successful login for: ' + response.name);
+	      		    console.log(JSON.stringify(response));
+	      		    $("#form-facebook-login :input[name=nickname]").val(response.name);
+	      	        $("#form-facebook-login :input[name=email]").val(response.email);
+	      	        
+	      	      $.getJSON("/user/checkEmail", "email=" + response.email, function(result) {
+						
+	      			if(result.exist) {
+	      				// 기존 페이지 계정 이메일과 소셜 로그인 이메일이 일치하는 경우 
+	      				console.log("sns이메일 존재");
+	      				// 아래 모달창은 나중에 파일 통합하면 출력되게 한다
+	      				loginEmailModal.hide();
+	      				loginPasswordmodal.show();
+	      				return;
+	      			} else {
+	      				$("#form-facebook-login").submit();
+	      				return;
+	      			}
+	      		});
+	      		    
+	      		  });
+	   			
+	   		  } else {
+	   		    // The person is not logged into your webpage or we are unable to tell. 
+	   			
+	   		  }
+			   		
+		     			
+		  }, {scope: 'public_profile,email'});
+		
+	});
+	$("#btn-facebook-logout").click(function() {
+	    FB.getLoginStatus(function(response) {
+	        if (response && response.status === 'connected') {
+	            console.log("logout: connected 일 때");
+	            FB.logout(function(response) {
+	                document.location.reload();
+	            });
+	        } else {
+	            console.log("logout: connected 아닐 때");
+	        }
+	    });
+		
+	});
+	
 	// 구글 로그인
-	$("#btn-signIn-With-Google").click(function() {
+	$("#btn-signIn-with-google").click(function() {
 		google.accounts.id.initialize({
 	        client_id: "340808936773-p2v7dk0jtatnsjl29nnvivnol8f9rni8.apps.googleusercontent.com",
 	        callback: handleCredentialResponse
@@ -373,9 +488,9 @@ $(function () {
 	    
 		$.getJSON("/user/checkEmail", "email=" + profile.email, function(result) {
 					
-			if(result.exist) {
-				// 기존 페이지 계정 이메일과 소셜 로그인 이메일이 일치하는 경우 
-				location.href = "/";
+			if(result.exist && result.loginType === "") {
+				// 기존 페이지 계정 이메일과 소셜 로그인 이메일이 일치하는 경우 	// loginType이 없는 유저들만?
+				loginEmailModal.hide();
 				// 아래 모달창은 나중에 파일 통합하면 출력되게 한다
 				loginPasswordmodal.show();
 				return;
@@ -437,13 +552,6 @@ $(function () {
 		    }
 	})
 	
-	let $firstName = $(":input[name=firstName]");
-	let $lastName = $(":input[name=lastName]");
-	let $birthDate = $(":input[name=birthDate]");
-	let $email = $(":input[name=email]");
-	let $registerEmail = $(":input[name=registerEmail]");
-	let $password = $(":input[name=password]");
-	
 	
 	let emailRegExp = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 	let passwordRegExp =  /^(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/;
@@ -465,8 +573,7 @@ $(function () {
 		validEmail = true;
 	});
 	
-	let loginPasswordmodal = new bootstrap.Modal(document.getElementById("login-password-modal")); 
-	let registerModal = new bootstrap.Modal(document.getElementById("email-register-modal")); 
+	
 	// 로그인 및 회원가입 모달창에서 이메일 입력폼 제출
 	$("#btn-login-register").click(function() {
 		if(!validEmail) {
@@ -483,6 +590,7 @@ $(function () {
 			
 			// 사용자가 입력한 이메일이 db에 존재하면 비밀번호입력모달(로그인), 그렇지 않으면 회원가입모달창을 띄운다.
 			if(result.exist) {
+				$(":input[name=loginEmail]").val(email);
 				loginPasswordmodal.show();
 				return;
 			} else {
@@ -637,12 +745,6 @@ $(function () {
 			} 
 			
 		});
-		
-		/* $.post("/user/addProfileImg", form, function(data) {
-			
-		}); */
-		
-		
 	});
 	
 	
@@ -650,6 +752,3 @@ $(function () {
 })
 
 </script>
-
-</body>
-</html>
