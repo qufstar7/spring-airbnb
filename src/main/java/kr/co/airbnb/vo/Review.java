@@ -43,6 +43,7 @@ public class Review {
 	private String nagativeFeedback;
 	private String wantMeetAgain;
 	private String deleted;
+	private int reservationNo;
 	
 	public static Review createGuestReview(GuestReviewForm guestReviewForm) {
 		Review review = new Review();

@@ -100,22 +100,16 @@
       		</div>			      
       		<div class="modal-body">
 				<div class="row">
-					<div class="col-4">
-		      			<img class="houseImg" src="/resources/images/acc/bridge.jpg" />
-		      			<h5>Danny의 집</h5>
-		      			<ul>
-		      				<li>집 전체</li>
-		      				<li>후기 34개</li>
-		      				<li>산 호세(San hose)</li>
-		      			</ul>
-		      			<h5>호스트: Danny</h5>
-		      			<p>2016년 1월 1일~2016년 1월 5일</p>
+					<div class="col-4" id= "box-show-hostinfo">
+						<!-- 호스트 정보 들어온다. -->
 		     		</div>
 		     		<div class="col-8">		
 		     			<div class="row">
 		     				<div class="col-12">
-		      					<div class="mt-3 mb-5">
-					      			<h3 class="mb-3 gray"><strong>Danny님에 대한 후기를 쓰세요.</strong></h3>
+ 							    <div class="mt-3 mb-3" id="review-host-name">
+					      			<!-- Jon님에 대한 후기를 쓰세요. -->
+					    		</div>
+					    		<div>
 					      			<p class="gray">14일 동안 후기를 작성할 수 있습니다. 후기 작성 기간 동안에는 호스트도 회원님에 대한 후기를 작성해야 회원님의 피드백을 읽을 수 있습니다. 
 					      	   			후기 작성 기간이 종료되면, 회원님의 피드백이 공개됩니다. 후기 작성 가이드 라인을 살펴보세요.
 					      				<br /><br />
@@ -340,12 +334,48 @@
 <script type="text/javascript">
 $(function() {
 	
+	let $hostInfoBox = $("#box-show-hostinfo");
+	let $hostName = $("#review-host-name");
+	
 	let exampleModalToggle1 = new bootstrap.Modal(document.getElementById("review-modal"));
 	let exampleModalToggle2 = new bootstrap.Modal(document.getElementById("exampleModalToggle2"));
 	let exampleModalToggle3 = new bootstrap.Modal(document.getElementById("exampleModalToggle3"));
 	let exampleModalToggle4 = new bootstrap.Modal(document.getElementById("exampleModalToggle4"));
 	
 	$("#btn-exampleModalToggle").click(function() {
+		// 자바스크립트에서 쿼리스트링의 요청파라미터값 조회하기
+		let params = new URLSearchParams(document.location.search);
+		let reservationNo = params.get("reservationNo");
+		
+		$.ajax({
+			type: 'GET',
+			url: "review/getHost/" + reservationNo,				// reservationNo 들어간다.
+			contentType: 'application/json',
+			dataType: 'json',
+			success: function(data) {
+				let item = data.item;
+				let image = item.imageCover;
+				
+				let content = '';
+				content += '<img src="/resources/images/acc/'+ (item.imageCover ? item.imageCover : "no-image.jpg") +'" class="houseImg mb-3">';
+				content += '<p class="mb-0 fs-5"><strong>' + item.accName + '</strong></h5>';
+				content += '<p class="mb-0">후기 ' + item.reviewCount + '개</p>';
+				content += '<p class="mb-3">' + item.address + '</p>';
+				content += '<p class="mb-0 fs-5"><strong>호스트 : ' + item.hostName + '</strong></h5>';
+				content += '<p class="mb-0">체크인: ' + item.checkIn + '</p>';
+				content += '<p>체크아웃: ' + item.checkOut + '</p>';
+				
+				$hostInfoBox.html(content);
+				
+				let content2 = '';
+				content2 += '<h3 class="mb-3 gray">';
+				content2 += '	<strong><span>'+ item.hostName +'</span></strong>님에 대한 후기를 쓰세요.';
+				content2 += '</h3>';
+				
+				$hostName.html(content2);
+			}
+		})
+
 		exampleModalToggle1.show();
 	})
 	

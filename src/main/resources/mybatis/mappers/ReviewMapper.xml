@@ -54,7 +54,7 @@
 	</resultMap>
 	
 	<!-- GuestRequest getHostInfoByReservationNo(int reservationNo); -->
-	<select id="getHostInfoByReservationNo" parameterType="int" resultMap="GuestRequestResultMap">
+	<select id="getHostInfoByReservationNo" parameterType="int" resultMap="HostRequestResultMap">
 		select 
 			R.CHECK_IN_DATE, R.CHECK_OUT_DATE, 
 		    A.ACC_REVIEW_COUNT, A.ACC_NAME, A.ACC_ADDRESS, A.IMAGE_COVER,
@@ -64,12 +64,12 @@
 		where
 		        A.ACC_NO = R.ACC_NO
 		    AND A.USER_NO = U.USER_NO
-		    AND R.RESERVATION_NO = 1;	
+		    AND R.RESERVATION_NO = 1
 	</select>
 		
 		
 	<!-- HostRequest getGuestInfoByReservationNo(int reservationNo); -->
-	<select id="getGuestInfoByReservationNo" parameterType="int" resultMap="HostRequestResultMap">
+	<select id="getGuestInfoByReservationNo" parameterType="int" resultMap="GuestRequestResultMap">
 		select 
 			R.CHECK_IN_DATE, R.CHECK_OUT_DATE, 
 		    A.ACC_REVIEW_COUNT, A.ACC_NAME, A.ACC_ADDRESS, A.IMAGE_COVER,
@@ -79,10 +79,15 @@
 		where
 		        A.ACC_NO = R.ACC_NO
 		    AND R.USER_NO = U.USER_NO
-		    AND R.RESERVATION_NO = 1;
+		    AND R.RESERVATION_NO =#{reservationNo}
 	</select>
 	
-	
+	<!-- getDuplicateReviewByNo -->
+	<select id="getDuplicateReviewByNo" resultType="integer">
+		SELECT RESERVATION_NO
+		FROM AIRBNB_REVIEWS 
+		WHERE RESERVATION_NO = #{reservationNo} AND USER_NO = #{userNo}
+	</select>
 	
 	
 </mapper>
