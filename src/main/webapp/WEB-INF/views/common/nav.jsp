@@ -5,12 +5,12 @@
 <nav class="navbar ${page eq 'subNav' ? '' : 'sticky-top' } py-0" >
 		<!-- 로고가 있는 navbar -->
 		<div class="container">
-			<div class="box">
+			<div class="box" id="logo">
 				<a href="/"> <!-- 임시 로고 -->
 					<img src="../../../resources/logo-home.png" alt="로고" width="100"/>
 				</a>
 			</div>
-			<div class="box d-flex justify-content-center">
+			<div class="box d-flex justify-content-center" id="search">
 				<!-- 메인페이지에서 사용하는 검색창 -->
 				<div class="p-1 position-relative" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" style="border:1px solid #D8D8D8; border-radius: 25px; width:400px; height:48px;box-shadow: 1px 4px 7px 0px rgba(0,0,0,0.1);">
 					<div class="d-inline-flex p-2 position-absolute top-50 start-50 translate-middle" style="width:366px;">

@@ -13,6 +13,7 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css">
 </head>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -20,6 +21,40 @@
 <title>Applied Coding & Computer - aircnc</title>
 
 <style type="text/css">
+
+#building-st button {
+	border:solid 1px #D8D8D8;
+	border-radius:10px;
+	width: 168px;
+	height: 118px;
+	padding: 6px 12px;
+}
+#building-st button .img{
+	vertical-align:top;
+}
+#building-st button .text{
+	vertical-align:bottom;
+}
+/* 필터 모달창 */
+.modal-content {
+	border-radius: 12px;
+	box-shadow: 0px 21px 21px rgb(0 0 0 / 15%)
+}
+.modal-content h5{
+	padding-left: 24px;
+	padding-right: 24px;	
+}
+.modal-content .form-check-input {
+	width: 1.55rem;
+    height: 1.55rem;
+    padding-top: 13px;
+    padding-left: 6px;
+}
+.modal-content hr {
+	margin: 24px 20px;
+	color:#BDBDBD;
+}
+/* 슬라이드쇼 */
 .grid-main {
   width: 100%;
   display: grid;
@@ -52,6 +87,7 @@
 	font-size: 14px;
 }
 
+/* nav */
 #nav {
     top:0;
     left:0;
@@ -69,14 +105,6 @@
 #submit {
 	width: 163px;
 	height: 48px;
-}
-
-#accCheck, #convenience-required, #convenience-feature,
-	#guest-Accessibility, #bedroom, #bathroom, #disabled-Accessibility {
-	width: 1.55rem;
-	height: 1.55rem;
-	padding-top: 13px;
-	padding-left: 6px;
 }
 
 #book-option, #super-book-option {
@@ -112,6 +140,114 @@
   height: 100%;
   overflow: hidden;
 }
+
+@media screen and (max-width: 745px) {
+	#filterbtn{display:none;}
+	#tags{display: table; margin-left: auto; margin-right: auto;}
+}
+
+/* filter-차트 */
+::selection{
+  color: #fff;
+  background: #17A2B8;
+}
+.wrapper{
+  	top: 0px;
+    left: 50px;
+    position: relative;
+    width: 660px;
+    background: transparent;
+    padding: 0px;
+}
+header h2{
+  font-size: 24px;
+  font-weight: 600;
+}
+header p{
+  margin-top: 5px;
+  font-size: 16px;
+}
+.price-input{
+	width: 98%;
+    display: flex;
+    margin: 25px auto;
+}
+.price-input .field{
+  display: flex;
+  width: 100%;
+  height: 45px;
+  align-items: center;
+}
+.field input{
+  width: 100%;
+  height: 100%;
+  outline: none;
+  font-size: 19px;
+  margin-left: 12px;
+  border-radius: 5px;
+  text-align: center;
+  border: 1px solid #999;
+  -moz-appearance: textfield;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+.price-input .separator{
+  width: 130px;
+  display: flex;
+  font-size: 19px;
+  align-items: center;
+  justify-content: center;
+}
+.slider{
+  height: 1px;
+  position: relative;
+  background: transparent;
+  border-radius: 5px;
+}
+.slider .progress{
+  height: 100%;
+  left: 25%;
+  right: 25%;
+  position: absolute;
+  border-radius: 5px;
+  background: transparent;
+}
+.range-input{
+  position: relative;
+  top: 5px;
+}
+.range-input input{
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  top: -8px;
+  background: none;
+  pointer-events: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+input[type="range"]::-webkit-slider-thumb{
+  height: 25px;
+  width: 25px;
+  border: solid 1px gray;
+  border-radius: 50%;
+  background: #fff;
+  pointer-events: auto;
+  -webkit-appearance: none;
+  box-shadow: 0 0 6px rgba(0,0,0,0.05);
+}
+input[type="range"]::-moz-range-thumb{
+  height: 25px;
+  width: 25px;
+  border: none;
+  border-radius: 50%;
+  background: #fff;
+  pointer-events: auto;
+  -moz-appearance: none;
+  box-shadow: 0 0 6px rgba(0,0,0,0.05);
+}
 </style>
 </head>
 <c:set var="page" value="subNav" />
@@ -121,7 +257,7 @@
 	<div class="container m-0 p-0">
 		<!-- 태그와 필터가 있는 navbar2 -->
 		<div class="row tagFilterBar align-items-center text-center" id="nav">
-			<div class="col-10">태그 나열하는 곳</div>
+			<div class="col-10" id="tags">태그 나열하는 곳</div>
 			<div class="col-2 text-end">
 				<button id="filterbtn" type="button" data-bs-toggle="modal" data-bs-target="#filterModal">
 					<i class="bi bi-sliders"></i>
@@ -662,7 +798,7 @@
 	<div class="modal fade" id="filterModal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-scrollable modal-lg">
-			<div class="modal-content">
+			<div class="modal-content"> 
 				<div class="modal-header d-flex justify-content-between" style="height:63px">
 					<div>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -671,27 +807,46 @@
 					<h6 class="modal-title text-center" id="exampleModalLabel">필터</h6>
 					<div></div>
 				</div>
-				<div class="modal-body p-4">
+				<div class="modal-body p-0" style="padding:0; overflow-x:hidden;">
 					<form action="">
-						<h5>
+						<h5 class="pt-4">
 							<strong>가격 범위</strong>
 						</h5>
-						<p class="text-muted">평균 1박 요금은 ₩413,410
+						<p class="text-muted" style="padding:10px 25px;">평균 1박 요금은 ₩413,410
 						
 					
 						입니다.</p>
-						<div class="p-3">
-							<div id="chart_div" style="width: 640px; height: 200px;">차트</div>
-							
-							<div>가격 범위</div>
-							
+						<div class="p-0">
+							<div id="number_format_chart"></div>
+							<div>
+							    <div class="wrapper">
+									<div class="slider">
+									  <div class="progress"></div>
+									</div>
+									<div class="range-input">
+									  <input type="range" class="range-min" min="0" max="10000" value="2500" step="100">
+									  <input type="range" class="range-max" min="0" max="10000" value="7500" step="100">
+									</div>
+									<div class="price-input">
+									  <div class="field">
+									    <label for="">Min</label>
+									    <input type="number" class="input-min" value="2500" style="padding-left:15px; padding-bottom:5px;">
+								      </div>
+								      <div class="separator">-</div>
+								      <div class="field">
+								        <label>Max</label>
+								        <input type="number" class="input-max" value="7500">
+								      </div>
+								    </div>
+								</div>
+							</div>
 						</div>
 						<hr class="my-4">
 						<h5>
 							<strong>숙소 유형</strong>
 						</h5>
 						
-						<div class="row p-3">
+						<div class="row" style="padding:25px 35px;">
 							<div class="form-check col-6">
 								<input class="form-check-input" type="checkbox" value=""
 									id="accCheck"> <label class="form-check-label px-2"
@@ -719,7 +874,7 @@
 						<h5>
 							<strong>침실과 침대</strong>
 						</h5>
-						<div class="p-3 ps-0">
+						<div class="" style="padding:25px;">
 							<p>침실</p>
 							<p class="pb-3">
 								<button type="button" class="btn btn-dark">
@@ -824,12 +979,12 @@
 						<h5>
 							<strong>건물 유형</strong>
 						</h5>
-						<div class="d-flex justify-content-around p-3"></div>
+						<div id="building-st" class="d-flex justify-content-around p-3">
 						
 						
 						<button class="btn btn-outline-dark " id="btn-house-1">
 						<input type="hidden" name="houses" id="house-1" value="단독 또는 다세대 주택" disabled />
-							<div class="">
+							<div class="img text-start">
 								<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
 									fill="currentColor" class="bi bi-house-door"
 									viewBox="0 0 16 16">
@@ -837,12 +992,12 @@
 										d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
 								</svg>
 							</div>
-							<div class="pt-4">단독 또는 다세대 주택</div>
+							<div class="text text-start pt-4">단독 또는 다세대 주택</div>
 						</button>
 						
 						<button class="btn btn-outline-dark" id="btn-house-2">
 						<input type="hidden" name="houses" id="house-1" value="아파트" disabled />
-							<div class="">
+							<div class="img text-start">
 								<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
 									fill="currentColor" class="bi bi-building" viewBox="0 0 16 16">
 						  			<path fill-rule="evenodd"
@@ -851,23 +1006,23 @@
 										d="M2 11h1v1H2v-1zm2 0h1v1H4v-1zm-2 2h1v1H2v-1zm2 0h1v1H4v-1zm4-4h1v1H8V9zm2 0h1v1h-1V9zm-2 2h1v1H8v-1zm2 0h1v1h-1v-1zm2-2h1v1h-1V9zm0 2h1v1h-1v-1zM8 7h1v1H8V7zm2 0h1v1h-1V7zm2 0h1v1h-1V7zM8 5h1v1H8V5zm2 0h1v1h-1V5zm2 0h1v1h-1V5zm0-2h1v1h-1V3z" />
 								</svg>
 							</div>
-							<div class="pt-4">아파트</div>
+							<div class="text text-start pt-4">아파트</div>
 							
 						</button>
 						<button class="btn btn-outline-dark" id="btn-house-3">
 						<input type="hidden" name="houses" id="house-1" value="게스트용 별채" disabled />
-							<div class="">
+							<div class="img text-start">
 								<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
 									fill="currentColor" class="bi bi-bank" viewBox="0 0 16 16">
 						  <path
 										d="m8 0 6.61 3h.89a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v7a.5.5 0 0 1 .485.38l.5 2a.498.498 0 0 1-.485.62H.5a.498.498 0 0 1-.485-.62l.5-2A.501.501 0 0 1 1 13V6H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 3h.89L8 0ZM3.777 3h8.447L8 1 3.777 3ZM2 6v7h1V6H2Zm2 0v7h2.5V6H4Zm3.5 0v7h1V6h-1Zm2 0v7H12V6H9.5ZM13 6v7h1V6h-1Zm2-1V4H1v1h14Zm-.39 9H1.39l-.25 1h13.72l-.25-1Z" />
 						</svg>
 							</div>
-							<div class="pt-4">게스트용 별채</div>
+							<div class="text text-start pt-4">게스트용 별채</div>
 						</button>
 						<button class="btn btn-outline-dark" id="btn-house-4">
 						<input type="hidden" name="houses" id="house-1" value="호텔" disabled />
-							<div class="pt-4">
+							<div class="img text-start">
 								<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
 									fill="currentColor" class="bi bi-hospital" viewBox="0 0 16 16">
 						    		<path
@@ -876,15 +1031,15 @@
 										d="M5 1a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1a1 1 0 0 1 1 1v4h3a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h3V3a1 1 0 0 1 1-1V1Zm2 14h2v-3H7v3Zm3 0h1V3H5v12h1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3Zm0-14H6v1h4V1Zm2 7v7h3V8h-3Zm-8 7V8H1v7h3Z" />
 					    		</svg>
 							</div>
-							<div class="pt-4">호텔</div>
+							<div class="text text-start pt-4">호텔</div>
 						</button>
-						
+						</div>
 						<hr class="my-4">
 						<h5>
 							<strong>편의시설</strong>
 						</h5>
-						<div>
-							<div class="row p-3">
+						<div  style="padding:10px 35px;">
+							<div class="row">
 								<div class="col-12 pb-3 ps-0">
 									<strong>필수</strong>
 								</div>
@@ -1056,14 +1211,15 @@
 								<a class="btn btn-link ps-0 text-start"
 									data-bs-toggle="collapse" href="#collapseExample" role="button"
 									aria-expanded="false" aria-controls="collapseExample"
-									style="color: black"> <strong>더 표시</strong>
+									style="color: black; padding:10px 35px;"> <strong>더 표시</strong>
 								</a>
+							</div>
 							</div>
 							<hr class="my-4">
 							<h5>
 								<strong>예약옵션</strong>
 							</h5>
-							<div class="p-3">
+							<div class="" style="padding:25px;">
 								<div
 									class="form-check form-switch pb-3 ps-0 d-flex justify-content-between">
 									<div>
@@ -1078,7 +1234,7 @@
 									</div>
 								</div>
 								<div
-									class="form-check form-switch pb-3 ps-0 d-flex justify-content-between">
+									class="form-check form-switch ps-0 d-flex justify-content-between">
 									<div>
 										<label class="form-check-label" for="flexSwitchCheckDefault">
 											셀프 체크인
@@ -1095,11 +1251,11 @@
 							<h5>
 								<strong>접근성 편의</strong>
 							</h5>
-							<div>
+							<div style="padding:10px 25px;">
 								<p class="text-muted">호스트가 제공하고 에어비앤비에서 검토한 정보 입니다.</p>
 							</div>
-							<div class="">
-								<div class="row p-3">
+							<div class="" style="padding:0px 35px;">
+								<div class="row">
 									<div class="col-12 pb-3 ps-0">
 										<strong>필수</strong>
 									</div>
@@ -1198,19 +1354,18 @@
 										</div>
 									</div>
 								</div>
-							</div>
-						</div>
-						<a class="btn btn-link ps-0 text-start" data-bs-toggle="collapse"
-							href="#collapseExample" role="button" aria-expanded="false"
-							aria-controls="collapseExample" style="color: black"> <strong>더
-								표시</strong>
-						</a>
-
+								</div>
+							<a class="btn btn-link text-start" data-bs-toggle="collapse"
+								href="#collapseExample" role="button" aria-expanded="false"
+								aria-controls="collapseExample" style="color: black; padding:10px 25px"> <strong>더
+									표시</strong>
+							</a>
+						
 						<hr class="my-4">
 						<h5>
 							<strong>최고 수준의 숙소</strong>
 						</h5>
-						<div class="p-3">
+						<div class="" style="padding:25px;">
 							<div
 									class="form-check form-switch pb-3 ps-0 d-flex justify-content-between">
 									<div>
@@ -1228,7 +1383,7 @@
 									</div>
 								</div>
 								<div
-									class="form-check form-switch pb-3 ps-0 d-flex justify-content-between">
+									class="form-check form-switch ps-0 d-flex justify-content-between">
 									<div>
 										<label class="form-check-label" for="flexSwitchCheckDefault">
 											셀프 체크인
@@ -1267,9 +1422,105 @@
 	</div>
 <script type="text/javascript">
 	/* 필터-차트 부분입니다. */
-	
+     google.charts.load('current', {packages:['corechart']});
+     google.charts.setOnLoadCallback(drawStuff);
+
+       function drawStuff() {
+         var data = new google.visualization.DataTable();
+         
+         data.addColumn('string', 'Country');
+         data.addColumn('number', 'GDP');
+         data.addRows([
+           ['', 1],
+           ['', 4],
+           ['', 4],
+           ['', 3],
+           ['', 2],
+           ['', 10],
+           ['', 9],
+           ['', 4],
+           ['', 7],
+           ['', 6],
+           ['', 8],
+           ['', 9],
+           ['', 4],
+           ['', 2],
+           ['', 5],
+           ['', 16],
+           ['', 12],
+           ['', 2],
+           ['', 3],
+           ['', 2],
+           ['', 16],
+           ['', 18],
+           ['', 5],
+           ['', 3],
+           ['', 2],
+           ['', 1],
+         ]);
+
+        var options = {
+          title: '',
+          width: 710,
+          height: 100,
+          padding:0,
+          colors: ['#BDBDBD'],
+          backgroundColor: 'transparent',
+          
+          legend: 'none',
+          bar: {groupWidth: '95%'},
+          vAxis: { 
+        	  gridlines: { count: 4, color: 'transparent' }, format: '', baselineColor:'#BDBDBD'
+          },
+          
+          chartArea: {left:50,top:0, width: '100%', height: '100%'},
+          legend: {position: 'top', right:0},
+         
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('number_format_chart'));
+        chart.draw(data, options);
+
+     };
 	/* 필터-범위 부분입니다*/
-	
+	const rangeInput = document.querySelectorAll(".range-input input"),
+	priceInput = document.querySelectorAll(".price-input input"),
+	range = document.querySelector(".slider .progress");
+	let priceGap = 10;	// 최소 갭은 여기서 수정
+	priceInput.forEach(input =>{
+	    input.addEventListener("input", e =>{
+	        let minPrice = parseInt(priceInput[0].value),
+	        maxPrice = parseInt(priceInput[1].value);
+	        
+	        if((maxPrice - minPrice >= priceGap) && maxPrice <= rangeInput[1].max){
+	            if(e.target.className === "input-min"){
+	                rangeInput[0].value = minPrice;
+	                range.style.left = ((minPrice / rangeInput[0].max) * 100) + "%";
+	            }else{
+	                rangeInput[1].value = maxPrice;
+	                range.style.right = 100 - (maxPrice / rangeInput[1].max) * 100 + "%";
+	            }
+	        }
+	    });
+	});
+	rangeInput.forEach(input =>{
+	    input.addEventListener("input", e =>{
+	        let minVal = parseInt(rangeInput[0].value),
+	        maxVal = parseInt(rangeInput[1].value);
+	        if((maxVal - minVal) < priceGap){
+	            if(e.target.className === "range-min"){
+	                rangeInput[0].value = maxVal - priceGap
+	            }else{
+	                rangeInput[1].value = minVal + priceGap;
+	            }
+	        }else{
+	            priceInput[0].value = minVal;
+	            priceInput[1].value = maxVal;
+	            range.style.left = ((minVal / rangeInput[0].max) * 100) + "%";
+	            range.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
+	        }
+	    });
+	});
 	/* 필터-건물유형 버튼 부분 */
 	$('#btn-house-1').click(function() {
 		let currentDisabled = $('#house-1').prop('disabled');
