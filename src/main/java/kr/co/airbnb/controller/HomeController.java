@@ -22,19 +22,6 @@ public class HomeController {
 	
 	// 정수민 // 김유나 유나
 	
-	@GetMapping(path = "/detail")
-	public String detail(@RequestParam("no") int no,Model model) {
-		model.addAttribute("acc",accommodationService.getAccommodation(no));
-		
-		
-		return "acc/detail";
-	}
-	@GetMapping(path = "/test")
-	public String test() {
-		
-		return "acc/test";
-	}
-	
 
 	@GetMapping(path = "/list")
 	public String list() {

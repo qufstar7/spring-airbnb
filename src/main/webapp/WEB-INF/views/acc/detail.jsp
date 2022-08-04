@@ -18,17 +18,16 @@
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
-<!--  부트스트랩 아이콘 -->
+<!-- 아이콘 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 <!-- 페데리코 -->
 <script type="text/javascript" src="/resources/js/fresco.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/resources/css/fresco.css" />
 <link rel="stylesheet" type="text/css" href="/resources/css/detaile.css">
 <!-- 달력 -->
-<link rel="stylesheet" href="/resources/css/datepicker.min.css">
 <script src="/resources/js/datepicker.min.js"></script>
+<link rel="stylesheet" href="/resources/css/datepicker.min.css">
 <script src="/resources/js/i18n/datepicker.ko.js"></script>
-<link rel="stylesheet" href="/resources/css/rome.css">
 <style type="text/css">
 </style>
 <title>숙소 상세 페이지</title>
@@ -139,9 +138,7 @@
 				</div>
 				<hr>
 				<div class="box mt-5 mb-5">
-					<h4>숙소설명</h4>
 					<div class="content mb-2">
-					
 						<p>${acc.description }</p>
 					</div>
 				</div>
@@ -178,32 +175,11 @@
 				<hr>
 				<div class="mt-5 mb-5">
 					<h4>체크아웃 날짜를 선택하세요.</h4>
-					<div class="content">
-						<div class="row text-left">
-							<div class="row justify-content-center">
-								<div class="row text-center">
-									<div class="d-flex">
-										<input type="text" class="form-control m-2  mb-3"
-											id="result_from" placeholder="Check in" disabled="">
-										<input type="text" class="form-control m-2  mb-3"
-											id="result_to" placeholder="Check out" disabled="">
-									</div>
-									<form action="#" class="row">
-										<div class="col-lg-6 mb-4">
-											<div id="inline_cal_from"></div>
-										</div>
-										<div class="col-lg-6 mb-4">
-											<div id="inline_cal_to"></div>
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="single">
+					<!-- <div class="single">
 						<h1>1개 짜리</h1>
 						<input id="datepicker" type="text">
-					</div>
+					</div> -->
+					
 					<div class="row double">
 						<div class="col-6">
 							<input id="datepicker1" class="input-inline" type="hidden">  
@@ -217,13 +193,91 @@
 				</div>
 				
 			</div>
-			<div class="col-4 ps-6" id="side">
+			<div class="col-4" id="side">
 				<div class="sticky" >
-					<div class="shadow-lg mb-5 bg-body rounded" id="box">
-						<h4><strong>₩ ${acc.price }</strong></h4><span>/박</span>
-						<button type="button" class="btn btn-link text-dark btn-sm"><i class="bi bi-star-fill"></i> ${acc.reviewScore } <span class="text-decoration-underline">후기 ${acc.reviewCount }개</span></button>
-						<img alt="" src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg" style="width: 100%;">
+					<div class="row shadow-lg bg-body rounded" id="box">
+						<div class="col-7 boxhd" >
+							<h4><strong>₩ ${acc.price }</strong>
+								<span class="box-acc">/박</span>
+							</h4>
+						</div>
+						<div class="col-5 boxhd">
+							<button type="button" class="btn btn-link text-dark btn-sm"><i class="bi bi-star-fill"></i> ${acc.reviewScore } <span class="text-decoration-underline">후기 ${acc.reviewCount }개</span></button>
+						</div>
+						<div class="col-6 start" >
+							<span>체크인</span>
+							<span id="start"></span>
+						</div>
+						<div class="col-6 end" >
+							<span>체크아웃</span>
+							<span id="end"></span>
+						</div>
+						<button type="button" class="btn btn-outline-dark p-2 mb-2" id="guest-btn">인원:<span id="adultCount"> 0</span> 어린이:<span id="childrenCount"> 0</span> 유아:<span id="infantCount"> 0</span> 반려동물:<sapn id="petCount"> 0</sapn></button>
+						<div class="rounded" id="guest">
+							<div class="mb-4 row justify-content-between align-middle guest-box" >
+								<div class="col-4">
+									성인
+								</div>
+								<div class="col-4 " id="adult">
+										<button class="btn m_btn guestbtn">-</button>
+										<span class="adultCount">0</span>
+										<button class="btn p_btn guestbtn">+</button>
+								</div>
+							</div>
+							<div class="mb-4 row justify-content-between align-middle guest-box" >
+								<div class="col-4">
+									어린이
+								</div>
+								<div class="col-4 " id="adult">
+										<button class="btn m_btn guestbtn">-</button>
+										<span class="childrenCount">0</span>
+										<button class="btn p_btn guestbtn">+</button>
+								</div>
+							</div>
+							<div class="mb-4 row justify-content-between align-middle guest-box" >
+								<div class="col-4">
+									유아
+								</div>
+								<div class="col-4 " id="adult">
+										<button class="btn m_btn guestbtn">-</button>
+										<span class="infantCount">0</span>
+										<button class="btn p_btn guestbtn">+</button>
+								</div>
+							</div>
+							<div class="mb-4 row justify-content-between align-middle guest-box" >
+								<div class="col-4">
+									반려
+								</div>
+								<div class="col-4 " id="adult">
+										<button class="btn m_btn guestbtn">-</button>
+										<span class="petCount ">0</span>
+										<button class="btn p_btn guestbtn">+</button>
+								</div>
+							</div>
+						</div>
+						
+						<button type="button" class="btn btn-outline-dark p-2 mb-2" id="guest-btn">예약하기</button>
+
+						<div class="row justify-content-between">
+							<div class="col-6"><p>W ${acc.price } x 1박</p></div>
+							<div class="col-4"><p>${acc.price } 원</div>
+						</div>
+						<div class="row justify-content-between">
+							<div class="col-6"><p>서비스 수수료</p></div>
+							<div class="col-4"><p>${acc.price } 원</div>
+						</div>
+						<div class="row justify-content-between">
+							<div class="col-6"><p>W ${acc.price } x 1박</p></div>
+							<div class="col-4"><p>${acc.price } 원</p></div>
+						</div>
+						<hr>
+						<div class="row justify-content-between">
+							<div class="col-5"><h6>총합계</h6></div>
+							<div class="col-4"><h6>${acc.price } 원</h6></div>
+						</div>
+						
 					</div>
+					
 					<div class="text-center">
 						<button type="button" class="btn btn-link text-decoration-underline text-dark" id="btn-open-report-modal"><i class="bi bi-flag-fill"></i> 숙소 신고하기</button>
 					</div>
@@ -240,9 +294,12 @@
 					<h4>호스팅 지역</h4>
 				</div>
 				<div class="mb-2" id="map"></div>
-				<div class="mb-2">
+				<div class="mb-2 content">
 					<h5>${acc.address }</h1>
-					<p>조용한 어쩌구</p>
+					<div class="content">
+						<p>${acc.description }</p>
+					</div>
+					<button type="button" class="btn btn-link text-decoration-underline text-dark btn-sm" id="btn-open-map-modal2">더보기 <i class="bi bi-chevron-right"></i></button>
 				</div>
 			</div>
 			<hr>
@@ -538,7 +595,7 @@
 		</div>
 	</div>
 </div>
-<!-- <!-- 이미지 모달 -->
+<!-- 
 <div class="modal" id="modal-image-acc">
 	<div class="modal-dialog modal-fullscreen">
 		<div class="modal-content">
@@ -684,6 +741,11 @@ $(function() {
 	// 지도 모달
 	$("#btn-open-map-modal").click(function() {
 		accMapModal.show();
+		relayout()
+	});
+	$("#btn-open-map-modal2").click(function() {
+		accMapModal.show();
+		relayout()
 	});
 	
 	// 신고 모달
@@ -762,13 +824,14 @@ $(function() {
         }
     });
 	
-	let latitude = '${acc.longitude}'
-	let longitude = '${acc.latitude}'
-	
 	/* console.log(latitude);
 	console.log(longitude); */
 	
 	// 카카오 맵
+	// 불러올 숙소 위치
+	let latitude = '${acc.longitude}'
+	let longitude = '${acc.latitude}'
+	
 	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = { 
         center: new kakao.maps.LatLng(longitude,latitude), // 지도의 중심좌표
@@ -795,7 +858,7 @@ $(function() {
 	var mapContainer2 = document.getElementById('map2'), // 지도를 표시할 div 
     mapOption2 = { 
         center: new kakao.maps.LatLng(longitude,latitude), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
+        level: 5	 // 지도의 확대 레벨
     };
 
 	var map2 = new kakao.maps.Map(mapContainer2, mapOption2); // 지도를 생성합니다
@@ -811,27 +874,23 @@ $(function() {
 	// 마커가 지도 위에 표시되도록 설정합니다
 	marker.setMap(map2);
 	
+	// 모달창 등에 지도사용시 다시불러오기 필요
+	function relayout() {    
+	    
+	    // 지도를 표시하는 div 크기를 변경한 이후 지도가 정상적으로 표출되지 않을 수도 있습니다
+	    // 크기를 변경한 이후에는 반드시  map.relayout 함수를 호출해야 합니다 
+	    // window의 resize 이벤트에 의한 크기변경은 map.relayout 함수가 자동으로 호출됩니다
+	    map2.relayout();
+	}
+	
 	// 아래 코드는 지도 위의 마커를 제거하는 코드입니다
 	// marker.setMap(null);    
 	
 	// 달력
-	
-	$("#datepicker").datepicker({
-            language: 'ko',
-            inline: true,
-            range: true,
-            minDate: new Date()
-        });
-
-		let day = $("#datepicker").selectedDates
-		console.log(day)
-		
 
         //두개짜리 제어 연결된거 만들어주는 함수
         datePickerSet($("#datepicker1"), $("#datepicker2"), true); //다중은 시작하는 달력 먼저, 끝달력 2번째
 
-        
-        
         /*
             * 달력 생성기
             * @param sDate 파라미터만 넣으면 1개짜리 달력 생성
@@ -846,21 +905,17 @@ $(function() {
 
             //시작 ~ 종료 2개 짜리 달력 datepicker	
             if (!isValidStr(sDate) && !isValidStr(eDate) && sDate.length > 0 && eDate.length > 0) {
-                let sDay = sDate.val();
-                let eDay = eDate.val();
+                var sDay = sDate.val();
+                var eDay = eDate.val();
 
-                console.log(sDay)
-                console.log(eDay)
-                
                 if (flag && !isValidStr(sDay) && !isValidStr(eDay)) { //처음 입력 날짜 설정, update...			
                     var sdp = sDate.datepicker().data("datepicker");
-                    sdp.selectDate(new Date(sDay.replace(/-/g, "/")));  
+                    sdp.selectDate(new Date(sDay.replace(/-/g, "/"))); 
 
                     var edp = eDate.datepicker().data("datepicker");
                     edp.selectDate(new Date(eDay.replace(/-/g, "/")));  
                 }
-				
-                
+
                 //시작일자 세팅하기 날짜가 없는경우엔 제한을 걸지 않음
                 if (!isValidStr(eDay)) {
                     sDate.datepicker({
@@ -871,7 +926,6 @@ $(function() {
                     language: 'ko',
                     autoClose: true,
                     inline: true,
-                    position :  'right center',
                     onSelect: function () {
                         datePickerSet(sDate, eDate);
                     }
@@ -882,21 +936,25 @@ $(function() {
                     eDate.datepicker({
                         minDate: new Date(sDay.replace(/-/g, "/"))
                     });
-                } 
+                }
                 eDate.datepicker({
                     language: 'ko',
                     autoClose: true,
                     inline: true,
-                    position :  'right center',
                     onSelect: function () {
                         datePickerSet(sDate, eDate);
-                        
                     }
                 });
-
+                
             } 
-
-
+            $("#start").text(sDay);
+            $("#end").text(eDay);
+            
+            let diff = eDay - sDay;
+            let currDay = 24 * 60 * 60 * 1000;// 시 * 분 * 초 * 밀리세컨
+            let between = parseInt(diff/currDay);
+            console.log(between);
+			
             function isValidStr(str) {
                 if (str == null || str == undefined || str == "")
                     return true;
@@ -904,62 +962,71 @@ $(function() {
                     return false;
             }
         }
-	
 
-	$("#profile").click(function() {
-		$("host").focus();
-	})
-	
-	$("#nav-1").hide();
-	
-	$(window).scroll(function() {
-		let scrollTop = $(document).scrollTop();
-		if (scrollTop > 600) {
-			
-			$("#nav-1").show();
-		} else {
-			
-			$("#nav-1").hide();
-			
-		}
-	}) 
-	
-	// 스크롤스파이
-	var scrollSpy = new bootstrap.ScrollSpy(document.body, {
-  		target: '#nav-1'
-	})
-	
-	// 공유
-	
-	$("#btnTwitter").click(function() {
-		var sendText = "개발새발"; // 전달할 텍스트
-	    var sendUrl = "devpad.tistory.com/"; // 전달할 URL
-	    window.open("https://twitter.com/intent/tweet?text=" + sendText + "&url=" + sendUrl);
-	})
-	$("#btnFacebook").click(function() {
-		var sendUrl = "devpad.tistory.com/"; // 전달할 URL
-	    window.open("http://www.facebook.com/sharer/sharer.php?u=" + sendUrl);
-	})
-	/* $("#btnKakao").click(function() {
-		 
-		  // 사용할 앱의 JavaScript 키 설정
-		  Kakao.init('6ec6d52326b138f515a86c55e152676c');
-		 
-		  // 카카오링크 버튼 생성
-		  Kakao.Link.createDefaultButton({
-		    container: '#btnKakao', // 카카오공유버튼ID
-		    objectType: 'feed',
-		    content: {
-		      title: "개발새발", // 보여질 제목
-		      description: "개발새발 블로그입니다", // 보여질 설명
-		      imageUrl: "devpad.tistory.com/", // 콘텐츠 URL
-		      link: {
-		         mobileWebUrl: "devpad.tistory.com/",
-		         webUrl: "devpad.tistory.com/"
-		      }
-		    }
-		  });
-		} */
+		$("#profile").click(function() {
+			$("host").focus();
+		})
+
+		$("#nav-1").hide();
+
+		$(window).scroll(function() {
+			let scrollTop = $(document).scrollTop();
+			if (scrollTop > 600) {
+
+				$("#nav-1").show();
+			} else {
+
+				$("#nav-1").hide();
+
+			}
+		})
+
+		$("#guest").hide();
+		
+		$("#guest-btn").click(function() {
+			$("#guest").toggle();
+		})
+		
+		// 스크롤스파이
+		var scrollSpy = new bootstrap.ScrollSpy(document.body, {
+			target : '#nav-1'
+		})
+
+		// 공유
+
+		$("#btnTwitter").click(
+				function() {
+					var sendText = "aircnc"; // 전달할 텍스트
+					var sendUrl = "devpad.tistory.com/"; // 전달할 URL
+					window.open("https://twitter.com/intent/tweet?text="
+							+ sendText + "&url=" + sendUrl);
+				})
+		$("#btnFacebook").click(
+				function() {
+					var sendUrl = "devpad.tistory.com/"; // 전달할 URL
+					window.open("http://www.facebook.com/sharer/sharer.php?u="
+							+ sendUrl);
+				})
+		/* $("#btnKakao").click(function() {
+			 
+			  // 사용할 앱의 JavaScript 키 설정
+			  Kakao.init('6ec6d52326b138f515a86c55e152676c');
+			 
+			  // 카카오링크 버튼 생성
+			  Kakao.Link.createDefaultButton({
+			    container: '#btnKakao', // 카카오공유버튼ID
+			    objectType: 'feed',
+			    content: {
+			      title: "개발새발", // 보여질 제목
+			      description: "개발새발 블로그입니다", // 보여질 설명
+			      imageUrl: "devpad.tistory.com/", // 콘텐츠 URL
+			      link: {
+			         mobileWebUrl: "devpad.tistory.com/",
+			         webUrl: "devpad.tistory.com/"
+			      }
+			    }
+			  });
+			} */
 
 		/* if (!Kakao.isInitialized()) {
 			  Kakao.init('6ec6d52326b138f515a86c55e152676c');
@@ -977,32 +1044,47 @@ $(function() {
 		    },
 		  });
 		}; */
-		
-		/*
-	    달력 렌더링 할 때 필요한 정보 목록 
 
-	    현재 월(초기값 : 현재 시간)
-	    금월 마지막일 날짜와 요일
-	    전월 마지막일 날짜와 요일
-	*/
-     $('#inline_cal_from').datepicker({
-        format: 'yyyy-mm-dd', //데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
-        startDate: 'd', //달력에서 선택 할 수 있는 가장 빠른 날짜. 이전으로는 선택 불가능 ( d : 일 m : 달 y : 년 w : 주)
-        endDate: 'd', //달력에서 선택 할 수 있는 가장 느린 날짜. 이후로 선택 불가 ( d : 일 m : 달 y : 년 w : 주)
-        clearBtn: true, //날짜 선택한 값 초기화 해주는 버튼 보여주는 옵션 기본값 false 보여주려면 true
-        title: '테스트', //캘린더 상단에 보여주는 타이틀
-        templates: {
-           leftArrow: '&laquo;',
-           rightArrow: '&raquo;',
-        }, //다음달 이전달로 넘어가는 화살표 모양 커스텀 마이징
-        todayHighlight: true, //오늘 날짜에 하이라이팅 기능 기본값 :false
-        language: 'ko' //달력의 언어 선택, 그에 맞는 js로 교체해줘야한다.
-     })
-	})
+		
+		$(".guestbtn").click(function() {
+			
+			
+			$("#adultCount").text($(".adultCount").text());		
+			$("#childrenCount").text($(".childrenCount").text());		
+			$("#infantCount").text($(".infantCount").text());		
+			$("#petCount").text($(".petCount").text());		
+			$(function() {
+				$("#adultCount").text($(".adultCount").text());		
+				$("#childrenCount").text($(".childrenCount").text());		
+				$("#infantCount").text($(".infantCount").text());		
+				$("#petCount").text($(".petCount").text());		
+			})
+		})
+		
+		$(function() {
+		            
+            $(".p_btn").click(function() {
+                var $this = $(this);
+                var target = $this.prev();
+                var num = parseInt(target.text());
+                num++;
+				
+                target.text(num);
+                
+            });
+
+            $(".m_btn").click(function() {
+                var $this = $(this);
+                var target = $this.next();
+                var num = parseInt(target.text());
+                num -= ( (num === 0) ? 0 : 1 ); //0이하로는 못내려가게 한다 
+				
+                
+                target.text(num);
+            });
+		});
+})
 </script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6ec6d52326b138f515a86c55e152676c"></script>
-<script src="/resources/js/rome.js"></script>
-<script src="/resources/js/main.js"></script>
-<script src="/resources/js/popper.min.js"></script>
 </body>
 </html>
