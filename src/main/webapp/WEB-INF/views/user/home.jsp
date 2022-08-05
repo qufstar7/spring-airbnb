@@ -120,19 +120,12 @@ pageEncoding="UTF-8"%>
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title fw-bold" id="exampleModalLabel">로그인</h5>
+        <h5 class="modal-title fw-bold">로그인</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body m-2">
-      	<div class="row rounded-3  d-none" id="div-invalid">
-      		<div class="col-1">
-      			<i class="fa-solid fa-3x fa-circle-exclamation"></i>
-      		</div>
-      		<div class="col-11">
-      			<strong>다시 시도해주세요.</strong>
-      			<p>올바르지 않은 비밀번호입니다.다시 시도하거나 다른 로그인 방법을 선택하세요.</p>
-      		</div>
-      	</div>
+      	<!-- 기존사용자의 이메일과 소셜로그인 이메일이 같은 경우 프로필 출력 -->
+      	<div class="text-center" id="div-login-again"></div>
       	<div>
       		<form id="form-login" action="" method="post" class="needs-validation" novalidate>
 	      		<div class="form-floating  position-relative my-4 ">
@@ -140,7 +133,7 @@ pageEncoding="UTF-8"%>
 			     	<input type="password" class="form-control outline" name="loginPassword" placeholder="비밀번호" required>
 			     	<label for="floatingInput">비밀번호</label>
 			     	<div class="invalid-feedback">
-			     		<i class="fa-solid fa-circle-exclamation"></i>  비밀번호를 입력해주세요.
+			     		<i class="fa-solid fa-circle-exclamation"></i> <span>비밀번호를 입력해주세요.</span>
 			     	</div>
 			     	<button type="button" class="text-reset btn btn-link position-absolute top-50 end-0 translate-middle" id="btn-login-expose-password">표시</button>
 		    	</div>
@@ -408,7 +401,7 @@ $(function () {
 			if(result.pass) {
 				location.href = "/";
 			} else {
-				$("#div-invalid").removeClass("d-none");
+				$("#form-login span").text("유효하지 않은 비밀번호입니다. 다시 시도하여 주세요.");
 			}
 		})
 	})
@@ -433,6 +426,7 @@ $(function () {
 	      				console.log("sns이메일 존재");
 	      				// 아래 모달창은 나중에 파일 통합하면 출력되게 한다
 	      				loginEmailModal.hide();
+	      				$("#login-password-modal .modal-title").text("계정이 이미 존재합니다.");
 	      				loginPasswordmodal.show();
 	      				return;
 	      			} else {
@@ -486,21 +480,32 @@ $(function () {
 	    $("#form-google-login input[name=email]").val(profile.email);
 	    $("#form-google-login input[name=profileImage]").val(profile.picture);
 	    
-		$.getJSON("/user/checkEmail", "email=" + profile.email, function(result) {
-					
-			if(result.exist && result.loginType === "") {
+	    $.getJSON("/user/checkEmail", "email=" + profile.email)
+	     .done(function(result) {
+			if(result.exist && !result.user.loginType) {
 				// 기존 페이지 계정 이메일과 소셜 로그인 이메일이 일치하는 경우 	// loginType이 없는 유저들만?
 				loginEmailModal.hide();
 				// 아래 모달창은 나중에 파일 통합하면 출력되게 한다
+				$("#login-password-modal .modal-title").text("계정이 이미 존재합니다.");
+				let content = '<p class="fs-5">회원님 소유의 계정이 존재합니다. 계정으로 로그인하시기 바랍니다.</p>';
+					content += '<div class="my-4">';
+					content += '<img class="rounded-circle" src="/resources/images/profile/' + result.user.profileImage + '" alt="profile-img" width="150">';
+					content += '</div>';
+					content += '<div>';
+					content += '<span>' + result.user.name + '</span>';
+					content += '</div>';
+					content += '<div>';
+					content += '<span>' + result.user.email + '</span>';
+					content += '</div>';
+				$("#div-login-again").append(content);		
+				$("#form-login :input[name=loginEmail]").val(result.user.email);
 				loginPasswordmodal.show();
 				return;
 			} else {
 				$("#form-google-login").submit();
 				return;
 			}
-		});
-	    
-		
+		})
 	}
 	
 	Kakao.init('2931d0043daf4865ac102f53587fef2c'); //발급받은 키 중 javascript키를 사용해준다.

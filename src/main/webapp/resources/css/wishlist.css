@@ -1,0 +1,72 @@
+@charset "UTF-8";
+
+	
+	.container-fluid {padding: 0px 140px; }
+
+
+
+/* 사진 */
+
+
+
+	.flex-container{
+            display: flex;
+            justify-content: center;
+        }
+    .flex-item{
+        padding: 0px 0px 0px 3px;
+    }
+    .short-bottom {
+    	padding-top: 2px;
+    }
+	
+	#image-large {
+		width: 360px; 
+		height: 280px;
+		border-top-left-radius: 2em;
+		border-bottom-left-radius: 2em;
+		overflow: hidden;
+		
+	}
+	/* #image-large:hover {
+		width: 280x; 
+		height: 216px;
+		border-top-left-radius: 1em;
+		border-bottom-left-radius: 1em;
+	 	transition: transform 1s;
+	  	filter: brightness(70%);
+		
+	} */
+	#image-right-top {
+		border-top-right-radius: 2em;
+		overflow: hidden;
+	}
+	/* #image-right-top:hover {
+		border-top-right-radius: 1em;
+		overflow: hidden;
+		transition: transform 1s;
+	  	filter: brightness(70%);
+	} */
+	#image-right-bottom {
+		border-bottom-right-radius: 2em;
+		overflow: hidden;
+	}
+	/* #image-right-bottom:hover {
+		border-bottom-right-radius: 1em;
+		overflow: hidden;
+		transition: transform 1s;
+	  	filter: brightness(70%);
+	} */
+	.short-img {
+		width: 160px; 
+		height: 140px;
+		overflow: hidden;
+	}
+	/* .short-img:hover {
+		width: 136px; 
+		height: 107px;
+		transition: transform 1s;
+	  	filter: brightness(70%);
+	} */
+	
+	

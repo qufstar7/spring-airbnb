@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,6 +28,7 @@ public class User {
 	// 사용자의 이름 - 회원가입할 때 입력한 사용자 이름, 카카오 로그인에서 제공하는 사용자 닉네임
 	private String name;
 	private String email;
+	@JsonIgnore
 	private String password;
 	private String phone;
 	private String profileImage;
