@@ -25,6 +25,7 @@ public class ReservationController {
 		return "reservation/book";
 	}
 	
+	
 	@GetMapping(path = "/register")
 	public String registerform(Model model) {
 		
@@ -42,7 +43,11 @@ public class ReservationController {
 		
 		reservationService.addNewCard(cardRegisterForm);
 				
-		return "redirect:/reservaion/book";
+		return "redirect:/reservation/completed";
 	}
 
+	@GetMapping(path = "/completed")
+	public String completed() {
+		return"reservation/completed";
+	}
 }

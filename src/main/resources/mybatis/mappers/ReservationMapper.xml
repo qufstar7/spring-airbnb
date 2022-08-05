@@ -5,7 +5,7 @@
 	<!-- void insertCard (Card card); -->
 	<insert id="insertCard" parameterType="Card">
 		<selectKey keyProperty="no" resultType="int" order="BEFORE">
-			select card_seq.nextval
+			select cards_seq.nextval
 			from dual
 		</selectKey>
 		insert into airbnb_cards
