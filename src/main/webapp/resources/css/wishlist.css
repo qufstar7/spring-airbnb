@@ -2,11 +2,12 @@
 
 	
 	.container-fluid {padding: 0px 140px; }
+	a {color: black; text-decoration: none;}
+	a:hover {color: black;}
 
 
 
-/* 사진 */
-
+	/* 사진 */
 
 
 	.flex-container{

@@ -28,45 +28,28 @@
 	<c:if test="${not empty wishlists}">
 		<c:forEach var="wishlist" items="${wishlists}">
 			<div class="col-xl-4 col-lg-3 col-md-6 col-sm-12 col-xs-12">
-				<div class="mb-5 flex-container">
-					<div class="flex-item1" >
-						<div class="img-large" id="btn-open-image-modal">
-							<a href="#"><img src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg" id="image-large"></a>
-							<h3 class="mt-2 fw-bold">${wishlist.name}</h3>
+					<a href="/wishlists/detail?no=${wishlist.no}">
+						<div class="mb-5 flex-container">
+							<div class="flex-item1" >
+								<div class="img-large" id="btn-open-image-modal">
+									<img src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg" id="image-large">
+									<h3 class="mt-2 fw-bold">${wishlist.name}</h3>
+								</div>
+							</div>
+							<div class="flex-item">
+								<div class="img-short" id="btn-open-image-modal4">
+									<img src="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg" class="short-img" id="image-right-top">
+								</div>
+								<div class="img-short short-bottom" id="btn-open-image-modal5">
+									<img src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg" class="short-img" id="image-right-bottom">
+								</div>
+							</div>
 						</div>
-					</div>
-					<div class="flex-item">
-						<div class="img-short" id="btn-open-image-modal4">
-							<a href="#"><img src="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg" class="short-img" id="image-right-top"></a>
-						</div>
-						<div class="img-short short-bottom" id="btn-open-image-modal5">
-							<a href="#"><img src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg" class="short-img" id="image-right-bottom"></a>
-						</div>
-					</div>
-				</div>
+					</a>
 			</div>
 		</c:forEach>
 	</c:if>
 	</div>
-	
-		<!-- <div class="col-4 p-2 mb-5">
-			<div class="d-flex justify-content-start">
-				<div class="me-1">
-					<img alt="" src="/resources/images/acc/sample-home.jpg" style="width: 340px; height:360px">
-				</div>
-				<div >
-					<div class="mb-1">
-						<img alt="" src="/resources/images/acc/sample-home.jpg" style="width: 168px; height:178px;">
-					</div>
-					<div>
-						<img alt="" src="/resources/images/acc/sample-home.jpg" style="width: 168px; height:178px;">
-					</div>	
-				</div>
-			</div>
-		</div> -->
-		
-	
 </div>
-
 </body>
 </html>
