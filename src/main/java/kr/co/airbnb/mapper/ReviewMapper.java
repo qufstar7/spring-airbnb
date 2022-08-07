@@ -3,6 +3,7 @@ package kr.co.airbnb.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import kr.co.airbnb.vo.Accommodation;
 import kr.co.airbnb.vo.GuestRequest;
 import kr.co.airbnb.vo.HostRequest;
 import kr.co.airbnb.vo.Review;

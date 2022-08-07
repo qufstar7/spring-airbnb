@@ -90,6 +90,7 @@
 <form class="mb-3" name="guestReview" id="guest-review">		
 <input type="hidden" id="acc-no" name="accNo" value="101" />	
 <input type="hidden" id="user-type" name="userType" value="guest" />	
+<input type="hidden" id="reservation-no" name="reservationNo" value="" />	
 <!-- Scrollable Modal -->
 <div class="modal fade" id="review-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   	<div class="modal-dialog modal-dialog-scrollable modal-lg">
@@ -342,42 +343,64 @@ $(function() {
 	let exampleModalToggle3 = new bootstrap.Modal(document.getElementById("exampleModalToggle3"));
 	let exampleModalToggle4 = new bootstrap.Modal(document.getElementById("exampleModalToggle4"));
 	
+	let params = new URLSearchParams(document.location.search);
+	let reservationNo = params.get("reservationNo");
+	let userNo = params.get("userNo");
+	
 	$("#btn-exampleModalToggle").click(function() {
 		// 자바스크립트에서 쿼리스트링의 요청파라미터값 조회하기
-		let params = new URLSearchParams(document.location.search);
-		let reservationNo = params.get("reservationNo");
-		
 		$.ajax({
-			type: 'GET',
-			url: "review/getHost/" + reservationNo,				// reservationNo 들어간다.
-			contentType: 'application/json',
-			dataType: 'json',
+			type: "GET",
+			url: "review/check",
+			data: {reservationNo:reservationNo},
+			datatype: "json",
 			success: function(data) {
-				let item = data.item;
-				let image = item.imageCover;
-				
-				let content = '';
-				content += '<img src="/resources/images/acc/'+ (item.imageCover ? item.imageCover : "no-image.jpg") +'" class="houseImg mb-3">';
-				content += '<p class="mb-0 fs-5"><strong>' + item.accName + '</strong></h5>';
-				content += '<p class="mb-0">후기 ' + item.reviewCount + '개</p>';
-				content += '<p class="mb-3">' + item.address + '</p>';
-				content += '<p class="mb-0 fs-5"><strong>호스트 : ' + item.hostName + '</strong></h5>';
-				content += '<p class="mb-0">체크인: ' + item.checkIn + '</p>';
-				content += '<p>체크아웃: ' + item.checkOut + '</p>';
-				
-				$hostInfoBox.html(content);
-				
-				let content2 = '';
-				content2 += '<h3 class="mb-3 gray">';
-				content2 += '	<strong><span>'+ item.hostName +'</span></strong>님에 대한 후기를 쓰세요.';
-				content2 += '</h3>';
-				
-				$hostName.html(content2);
+				let duplication = data.item;
+				console.log(duplication);
+				if (duplication === 'Y') {
+					alert("이미 작성한 리뷰입니다.");
+					return;
+				} else {
+					$.ajax({
+						type: 'GET',
+						url: "review/getHost",				// reservationNo 들어간다.
+						data: {reservationNo:reservationNo},
+						dataType: 'json',
+						success: function(data) {
+							let item = data.item;
+							let image = item.imageCover;
+							
+							if (item === 'null') {
+								alert("호스트 정보가 없습니다.");
+								return;
+							}
+							
+							let content = '';
+							content += '<img src="/resources/images/acc/'+ (item.imageCover ? item.imageCover : "no-image.jpg") +'" class="houseImg mb-3">';
+							content += '<p class="mb-0 fs-5"><strong>' + item.accName + '</strong></h5>';
+							content += '<p class="mb-0">후기 ' + item.reviewCount + '개</p>';
+							content += '<p class="mb-3">' + item.address + '</p>';
+							content += '<p class="mb-0 fs-5"><strong>호스트 : ' + item.hostName + '</strong></h5>';
+							content += '<p class="mb-0">체크인: ' + item.checkIn + '</p>';
+							content += '<p>체크아웃: ' + item.checkOut + '</p>';
+							
+							$hostInfoBox.html(content);
+							
+							let content2 = '';
+							content2 += '<h3 class="mb-3 gray">';
+							content2 += '	<strong><span>'+ item.hostName +'</span></strong>님에 대한 후기를 쓰세요.';
+							content2 += '</h3>';
+							
+							$hostName.html(content2);
+						}
+					})
+			
+					exampleModalToggle1.show();
+				}
 			}
 		})
-
-		exampleModalToggle1.show();
 	})
+	
 	
 	// form 1 - 별점
 	$("#box-total i").click(function() {
@@ -544,23 +567,27 @@ $(function() {
 			content: $("#public-text").val(),
 			positiveFeedback: $("#positive-text").val(),
 			nagativeFeedback: $("#feedback-text").val(),
-			wantMeetAgain: $("input[name='thumb']:checked").val()
+			wantMeetAgain: $("input[name='thumb']:checked").val(),
+			reservationNo: reservationNo
 		}
+		
+		let accommodation = {
+			no: parseInt($("input[name='accNo']").val())
+		}
+		
 		exampleModalToggle4.hide();
 		
 		$.ajax({
 			type: "POST",							// HTTP 요청 방식
-			url: '/review/saveGuest',		// 요청 URL
+			url: '/review/saveGuest',				// 요청 URL
 			data: JSON.stringify(review),			// 서버로 보내는 데이터
 			contentType: "application/json",		// 서버로 보내는 요청메세지의 컨텐츠 타입
 			dataType: 'json',						// 서버로부터 받을 것으로 예상되는 응답메세지의 컨텐츠 타입
 			success: function() {
-				location.href = "comp";
+				location.href = "comp";			
 			}
 		});
-		
 	});
-
 })
 
 </script>

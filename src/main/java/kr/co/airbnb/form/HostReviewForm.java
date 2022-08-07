@@ -18,5 +18,6 @@ public class HostReviewForm {
 	private String content;
 	private String privateNote;
 	private String userType;
+	private int reservationNo;
 	
 }

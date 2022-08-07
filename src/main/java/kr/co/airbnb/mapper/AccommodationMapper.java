@@ -8,4 +8,6 @@ import kr.co.airbnb.vo.Accommodation;
 public interface AccommodationMapper {
 
 	Accommodation getAcc(int no);
+
+	void updateReviewCount(Accommodation accommodation);
 }
