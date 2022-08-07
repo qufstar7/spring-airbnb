@@ -31,11 +31,11 @@ public class WishlistController {
 	}
 	
 	@GetMapping(path="/detail")
-	public String detail(@RequestParam(name="no") int wishlistNo, Model model) {
+	public String detail(@RequestParam(name="no") int wishlistNo, Model model) {	// @LocalHost추가
 		
-		List<Accommodation> accs = wishlistService.getWishlistAccsByNo(wishlistNo);
-		model.addAttribute("accs", accs);
+		Wishlist wishlist = wishlistService.getWishlistByNo(wishlistNo);
+		model.addAttribute("wishlist", wishlist);
 		
-		return "home";
+		return "wishlist/detail";
 	}
 }

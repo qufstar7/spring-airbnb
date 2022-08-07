@@ -13,9 +13,6 @@
 <script type="text/javascript" src="/resources/js/fresco.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/resources/css/wishlist.css">
 <title>위시리스트-에어씨엔씨</title>
-<style type="text/css">
-	
-</style>
 </head>
 
 <body>
