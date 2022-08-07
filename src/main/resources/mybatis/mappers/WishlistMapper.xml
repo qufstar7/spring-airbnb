@@ -8,7 +8,7 @@
 		<result column="wishlist_created_datE" property="createdDate"/>
 		<result column="wishlist_updated_date" property="updatedDate"/>
 		<association column="user_no" property= "user" select="kr.co.airbnb.mapper.UserMapper.getUserByNo" />
-		<!-- <association column="acc_no" property="acc" select=""/>  나중에 추가하기-->
+		<collection column="acc_no" property="accs" select="kr.co.airbnb.mapper.AccommodationMapper.getAcc"/>
 	</resultMap> 
  
  	<!-- List<Wishlist> getWishlistsByUserNo(int userNo); -->
@@ -19,10 +19,56 @@
  		order by wishlist_no desc
  	</select>
  	
+ 	<!-- Wishlist getWishlistByNo(int wishlistNo); -->
+ 	<select id="getWishlistByNo" parameterType="int" resultMap="WishlistResultMap">
+ 		select *
+ 		from airbnb_wishlists
+ 		where wishlist_no = #{value}
+ 	</select>
+ 	
+ 	<resultMap type="Accommodation" id="AccResultMap">
+		<id column="ACC_NO" property="no"/>
+		<result column="TYPE_NO" property="typeNo"/>
+		<result column="USER_NO" property="userNo"/>
+		<result column="ACC_REVIEW_COUNT" property="reviewCount"/>
+		<result column="ACC_REVIEW_SCORE" property="reviewScore"/>
+		<result column="ACC_NAME" property="name"/>
+		<result column="ACC_DESCRIPTION" property="description"/>
+		<result column="ACC_address" property="address"/>
+		<result column="ACC_LATITUDE" property="latitude"/>
+		<result column="ACC_LONGITUDE" property="longitude"/>
+		<result column="ACC_PRICE" property="price"/>
+		<result column="ACC_GUEST" property="guest"/>
+		<result column="ACC_PET" property="pet"/>
+		<result column="ACC_CHECK_IN" property="checkIn"/>
+		<result column="ACC_CHECK_OUT" property="checkOut"/>
+		<result column="ACC_CHECK_IN_TYPE" property="checkInType"/>
+		<result column="ACC_STATUS" property="status"/>
+		<result column="ACC_CREATED_DATE" property="createdDate"/>
+		<result column="ACC_UPDATED_DATE" property="updatedDate"/>
+		<result column="ACC_VIEW_COUNT" property="viewCount"/>
+		<result column="ACC_MIN_DAY" property="minDay"/>
+		<result column="ACC_MAX_DAY" property="maxDay"/>
+		<result column="ACC_RENT" property="rent"/>
+		<result column="ACC_TRAFFIC_DESCRIPTION" property="trafficDescription"/>
+		<result column="ACC_REFOUND_DESCRIPTION" property="refoundDescription"/>
+		<result column="ACC_CLEANING_PRICE" property="cleaningPrice"/>
+		<result column="IMAGE_COVER" property="imageCover"/>
+	</resultMap>
+ 	
+ 	<!-- List<Accommodation> getWishlistAccsByNo:(List<Integer> wishlistNo); -->
+ 	<select id="getWishlistAccsByNo" parameterType="int" resultMap="AccResultMap">
+ 		select *
+ 		from airbnb_accommodations
+ 		where acc_no in (select acc_no
+ 		                 from airbnb_wishlist_accommodations
+ 		                 where wishlist_no = #{value})
+ 	</select>
+ 	
  	<!-- void insertWishlist(Wishlist wishlist); -->
  	<insert id="insertWishlist" parameterType="Wishlist">
- 		insert into airbnb_wishlists (wishlist_no, wishlist_name, user_no, acc_no)
- 		values (wishlists_seq.nextval, #{name},  #{user.no}, #{acc.no})
+ 		insert into airbnb_wishlists (wishlist_no, wishlist_name, user_no)
+ 		values (wishlists_seq.nextval, #{name},  #{user.no})
  	</insert>
  
  

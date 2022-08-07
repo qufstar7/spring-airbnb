@@ -178,6 +178,8 @@
 				
 			</div>
 			<hr>
+			
+			<!-- 리뷰 파트 시작 -->			
 			<div class="mt-5 mb-5" id="review">
 				<h4><i class="bi bi-star-fill"></i> <span>4.96</span>${acc.reviewScore } 
 					<span class="text-decoration">후기 128${acc.reviewCount }개</span></h4>
@@ -204,6 +206,7 @@
 					<p><span>------</span><span>4.9</span></p>
 				</div>
 			</div>
+			<!-- 리뷰 파트 끝 -->
 			<hr>
 			<div class="mt-5 mb-5">
 				<div class="">

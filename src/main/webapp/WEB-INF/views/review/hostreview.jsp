@@ -288,21 +288,26 @@ $(function() {
 			data: {reservationNo:reservationNo},
 			datatype: "json",
 			success: function(data) {
-				let item = data.item;
-				console.log(item);
-				if (item === 'Y') {
+				let duplication = data.item;
+				console.log(duplication);
+				if (duplication === 'Y') {
 					alert("이미 작성한 리뷰입니다.");
 					return;
 				} else {
 					$.ajax({
 						type: 'GET',
-						url: "review/getGuest/" + reservationNo,				// reservationNo 들어간다.
-						contentType: 'application/json',
+						url: "review/getGuest",		
+						data: {reservationNo:reservationNo},
 						dataType: 'json',
 						success: function(data) {
 							let item = data.item;
 							console.log(item);
 							let image = item.imageCover;
+							
+							if (item === 'null') {
+								alert("게스트 정보가 없습니다.");
+								return;
+							}
 							
 							let content = '';
 							content += '<img src="/resources/images/acc/'+ (item.imageCover ? item.imageCover : "no-image.jpg") +'" class="houseImg mb-3">';

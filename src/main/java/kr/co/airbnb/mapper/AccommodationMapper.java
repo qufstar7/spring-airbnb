@@ -12,6 +12,7 @@ import kr.co.airbnb.vo.Convenience;
 @Mapper
 public interface AccommodationMapper {
 
+
 	// 숙소 상세 정보
 	Accommodation getAcc(int accNo);
 	
@@ -22,4 +23,5 @@ public interface AccommodationMapper {
 	// 숙소 사진 리스트
 	List<AccPhoto> getAccPhotosByAccNo(int accNo);
 	
+
 }

@@ -67,5 +67,13 @@
 		where acc_no = #{value}
 	</select>
 	
+
+	<!-- void updateAccommodation(Review review) -->
+	<update id="updateReviewCount" parameterType="kr.co.airbnb.vo.Accommodation">
+		update AIRBNB_ACCOMMODATIONS
+	    set    ACC_REVIEW_COUNT = ACC_REVIEW_COUNT + 1
+		where  acc_no = #{no}
+	</update>
+
 	
 </mapper>

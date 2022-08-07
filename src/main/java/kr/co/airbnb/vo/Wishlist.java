@@ -1,6 +1,7 @@
 package kr.co.airbnb.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +17,7 @@ public class Wishlist {
 	private Date createdDate;
 	private Date updatedDate;
 	private User user;
-	private Accommodation acc;
+	private List<Accommodation> accs;
 	
 	
 }
