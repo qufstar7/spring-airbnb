@@ -22,7 +22,7 @@ public class ReviewController {
 	@Autowired
 	private ReviewService reviewService;
  
-	@GetMapping(path = "/review")
+	@GetMapping(path = "/guestreview")
 	public String review() {
 		return "review/guestreview";
 	}
@@ -31,10 +31,16 @@ public class ReviewController {
 	public String reviewList() {
 		return "review/modalreviewlist";
 	}
-	
+	/*
 	@GetMapping(path = "/alist")
 	public String accReviewList() {
 		return "review/accreviewlist";
+	}
+	*/
+	
+	@GetMapping(path = "/alist")
+	public String accReviewList() {
+		return "review/avgscore";
 	}
 	
 	@GetMapping(path = "/hostreview")

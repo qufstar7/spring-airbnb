@@ -12,11 +12,11 @@
 			from dual
 		</selectKey>
 		insert into airbnb_reviews 
-		(review_no, acc_no, user_no, review_content, total_score, cleanliness_score, accuracy_score, communication_score, 
-		location_score, checkin_score, value_score, convenience_score, positive_feedback, nagative_feedback, want_meet_again, user_type)
+		(review_no, acc_no, user_no, review_content, total_score, cleanliness_score, accuracy_score, communication_score, location_score, 
+		checkin_score, value_score, convenience_score, positive_feedback, nagative_feedback, want_meet_again, user_type, reservation_no)
 		values 
-		(#{no}, #{accNo}, 2, #{content}, #{totalScore}, #{cleanScore}, #{accuracyScore}, #{communicationScore}, 
-		#{locationScore}, #{checkinScore}, #{valueScore}, #{convenienceScore}, #{positiveFeedback}, #{nagativeFeedback}, #{wantMeetAgain}, #{userType})
+		(#{no}, #{accNo}, 3, #{content}, #{totalScore}, #{cleanScore}, #{accuracyScore}, #{communicationScore}, #{locationScore}, 
+		#{checkinScore}, #{valueScore}, #{convenienceScore}, #{positiveFeedback}, #{nagativeFeedback}, #{wantMeetAgain}, #{userType}, #{reservationNo})
 	</insert>
 	
 	<!-- void insertReview(Review review); -->
@@ -26,9 +26,9 @@
 			from dual
 		</selectKey>
 		insert into airbnb_reviews 
-		(review_no, acc_no, user_no, review_content, total_score, cleanliness_score, communication_score, observance_score, private_note, want_meet_again, user_type)
+		(review_no, acc_no, user_no, review_content, total_score, cleanliness_score, communication_score, observance_score, private_note, want_meet_again, user_type, reservation_no)
 		values 
-		(#{no}, #{accNo}, 1, #{content}, #{totalScore}, #{cleanScore}, #{communicationScore}, #{observanceScore}, #{privateNote}, #{wantMeetAgain}, #{userType})
+		(#{no}, #{accNo}, 1, #{content}, #{totalScore}, #{cleanScore}, #{communicationScore}, #{observanceScore}, #{privateNote}, #{wantMeetAgain}, #{userType}, #{reservationNo})
 	</insert>
 	
 	<resultMap type="kr.co.airbnb.vo.GuestRequest" id="GuestRequestResultMap">
@@ -42,7 +42,7 @@
 		<result column="USER_NAME" property="guestName" />
 	</resultMap>
 	
-		<resultMap type="kr.co.airbnb.vo.HostRequest" id="HostRequestResultMap">
+	<resultMap type="kr.co.airbnb.vo.HostRequest" id="HostRequestResultMap">
 		<id column="RESERVATION_NO" property="reservationNo" />
 		<result column="CHECK_IN_DATE" property="checkIn" />
 		<result column="CHECK_OUT_DATE" property="checkOut" />
@@ -64,9 +64,8 @@
 		where
 		        A.ACC_NO = R.ACC_NO
 		    AND A.USER_NO = U.USER_NO
-		    AND R.RESERVATION_NO = 1
+		    AND R.RESERVATION_NO = #{reservationNo}
 	</select>
-		
 		
 	<!-- HostRequest getGuestInfoByReservationNo(int reservationNo); -->
 	<select id="getGuestInfoByReservationNo" parameterType="int" resultMap="GuestRequestResultMap">
@@ -84,10 +83,9 @@
 	
 	<!-- getDuplicateReviewByNo -->
 	<select id="getDuplicateReviewByNo" resultType="integer">
-		SELECT RESERVATION_NO
-		FROM AIRBNB_REVIEWS 
-		WHERE RESERVATION_NO = #{reservationNo} AND USER_NO = #{userNo}
+		select RESERVATION_NO
+		from   AIRBNB_REVIEWS 
+		where  RESERVATION_NO = #{reservationNo} AND USER_NO = #{userNo}
 	</select>
-	
 	
 </mapper>
