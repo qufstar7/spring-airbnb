@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="tags.jsp"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/navbarstyle.css">
-<nav class="navbar py-0" >
+<nav class="navbar py-0" id="nav">
 		<!-- 로고가 있는 navbar -->
 		<div class="container m-auto justify-content-between align-items-center" id="nav" style="height:80px; width:100%; background-color: #FFFFFF; border-bottom:1px solid #E6E6E6">
 			<div class="" id="logo-space">

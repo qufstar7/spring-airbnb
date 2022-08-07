@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import kr.co.airbnb.mapper.AccommodationMapper;
 import kr.co.airbnb.vo.Accommodation;
+import kr.co.airbnb.vo.Convenience;
 
 @Service
 public class AccommodationService {
@@ -16,4 +17,5 @@ public class AccommodationService {
 		
 		return accommodationMapper.getAcc(no);
 	}
+	
 }

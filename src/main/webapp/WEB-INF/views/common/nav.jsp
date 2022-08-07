@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="tags.jsp"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/navbarstyle.css">
-<nav class="navbar ${page eq 'subNav' ? '' : 'sticky-top' } py-0" >
+<nav class="navbar ${page eq 'subNav' ? '' : 'sticky-top' } py-0" id="nav">
 		<!-- 로고가 있는 navbar -->
 		<div class="container">
 			<div class="box" id="logo">
