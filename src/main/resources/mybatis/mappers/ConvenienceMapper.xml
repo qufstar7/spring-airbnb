@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="kr.co.airbnb.mapper.ConvenienceMapper">
+
+	<!-- 상세페이지에 들어갈 편의시설 메인타입 -->
+	<!-- List<Convenience> getMainConbeniences(); -->
+	<select id="getMainConbeniences" resultType="Convenience">
+		select DISTINCT b.convenience_no as no, 
+						b.convenience_name as name
+		from AIRBNB_CONVENIENCES A , AIRBNB_CONVENIENCES B, AIRBNB_ACC_CONVENIENCES C
+		where a.convenience_type = b.convenience_no
+		and a.convenience_no = c.convenience_no
+	</select>					
+
+
+</mapper>

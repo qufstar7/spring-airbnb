@@ -1,6 +1,7 @@
 package kr.co.airbnb.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.ibatis.type.Alias;
 
@@ -14,32 +15,36 @@ import lombok.ToString;
 @Alias("Accommodation")
 public class Accommodation {
 
-	int no;
-	int typeNo;
-	int userNo;
-	int reviewCount;
-	int reviewScore;
-	String name;
-	String description;
-	String address;
-	String latitude;
-	String longitude;
-	int price;
-	int guest;
-	int pet;
-	Date checkIn;
-	Date checkOut;
-	String checkInType;
-	String status;
-	Date createdDate;
-	Date updatedDate;
-	int viewCount;
-	int minDay;
-	int maxDay;
-	String rent;
-	String trafficDescription;
-	String refoundDescription;
-	int cleaningPrice;
-	String imageCover;
+	private int accNo;
+	private int typeNo;
+	private User user;
+	private int reviewCount;
+	private int reviewScore;
+	private String name;
+	private String description;
+	private String address;
+	private String latitude;
+	private String longitude;
+	private int price;
+	private int guest;
+	private int pet;
+	private Date checkIn;
+	private Date checkOut;
+	private String checkInType;
+	private String status;
+	private Date createdDate;
+	private Date updatedDate;
+	private int viewCount;
+	private int minDay;
+	private int maxDay;
+	private String rent;
+	private String trafficDescription;
+	private String refoundDescription;
+	private int cleaningPrice;
+	private String imageCover;
 	
+	private List<AccConvenience> conveniences;
+	private List<AccPhoto> photos;
+	
+
 }

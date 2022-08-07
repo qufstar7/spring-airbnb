@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.airbnb.service.AccommodationService;
+import kr.co.airbnb.service.ConvenienceService;
 
 @Controller
 public class AccommodationController {
@@ -14,10 +15,13 @@ public class AccommodationController {
 	@Autowired
 	AccommodationService accommodationService;
 	
+	@Autowired
+	ConvenienceService ConvenienceService;
+	
 	@GetMapping(path = "/detail")
 	public String detail(@RequestParam("no") int no,Model model) {
 		model.addAttribute("acc",accommodationService.getAccommodation(no));
-		
+		model.addAttribute("cons", ConvenienceService.getMainConveniences());
 		
 		return "acc/detail";
 	}

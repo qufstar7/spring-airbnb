@@ -88,7 +88,7 @@
 		height: 557px;
 	}
 	
-	.box {margin:20px auto;}
+	.contentbox {margin:20px auto;}
     .content {
         width: auto;
     }
@@ -135,10 +135,6 @@
 		margin-bottom: 24px;
 	}
 	
-	.box-acc {
-		font-size: 16px;
-		font-weight: normal;
-	}
 	
 
 	

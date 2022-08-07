@@ -20,16 +20,16 @@
 <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
 <!-- 아이콘 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
-<!-- 페데리코 -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+<!-- 페레스코 -->
 <script type="text/javascript" src="/resources/js/fresco.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/resources/css/fresco.css" />
 <link rel="stylesheet" type="text/css" href="/resources/css/detaile.css">
 <!-- 달력 -->
-<script src="/resources/js/datepicker.min.js"></script>
-<link rel="stylesheet" href="/resources/css/datepicker.min.css">
-<script src="/resources/js/i18n/datepicker.ko.js"></script>
-<style type="text/css">
-</style>
+<link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_orange.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
 <title>숙소 상세 페이지</title>
 </head>
 <body >
@@ -137,7 +137,7 @@
 					</div>
 				</div>
 				<hr>
-				<div class="box mt-5 mb-5">
+				<div class="contentbox mt-5 mb-5">
 					<div class="content mb-2">
 						<p>${acc.description }</p>
 					</div>
@@ -157,28 +157,26 @@
 					</div>
 				</div>
 				<hr>
-				<div class="row mt-5" id="con">
+				<div class="row mt-5 mb-5" id="con">
 					<span class="mb-3">
 						<h4>숙소 편의시설</h4>
 					</span>
-					
-					<div class="col-6 mb-2"><p><i class="bi bi-wifi"></i> 무선인터넷</p></div>
-					<div class="col-6 mb-2"><p><i class="bi bi-wifi"></i> 수영장</p></div>
-					<div class="col-6 mb-2"><p><i class="bi bi-wifi"></i> 바베큐그릴</p></div>
-					<div class="col-6 mb-2"><p><i class="bi bi-wifi"></i> 어쩌구</p></div>
-					<div class="col-6 mb-2"><p><i class="bi bi-wifi"></i> 저쩌구</p></div>
-					<div class="col-6 mb-2"><p><i class="bi bi-wifi"></i> 저쩌구리</p></div>
+					<c:forEach items="${acc.conveniences }" var="accConvenience">
+						<div class="col-6 mb-2"><p><span class="material-symbols-outlined"> ${accConvenience.convenience.iconName }</span> ${accConvenience.convenience.name }</p></div>
+					</c:forEach>
 					<div class="col-6 mb-2">
 						<button class="btn btn-outline-dark btn-lg" id="btn-open-con-modal">편의시설 xx개 더보기</button>
 					</div>
 				</div>
-				<hr>
+				<!-- <hr>
 				<div class="mt-5 mb-5">
 					<h4>체크아웃 날짜를 선택하세요.</h4>
-					<!-- <div class="single">
+					<input type="text" name="sdate" id="sdate" value="" />
+					<input type="text" name="edate" id="edate" value="" />
+					<div class="single">
 						<h1>1개 짜리</h1>
 						<input id="datepicker" type="text">
-					</div> -->
+					</div>
 					
 					<div class="row double">
 						<div class="col-6">
@@ -190,28 +188,29 @@
 						
 						</div>
 					</div>
-				</div>
-				
+				</div> -->
 			</div>
 			<div class="col-4" id="side">
 				<div class="sticky" >
 					<div class="row shadow-lg bg-body rounded" id="box">
 						<div class="col-7 boxhd" >
-							<h4><strong>₩ ${acc.price }</strong>
-								<span class="box-acc">/박</span>
+							<h4><strong><fmt:formatNumber value="${acc.price }"/></strong>/
+								<span class="day"></span>박
 							</h4>
 						</div>
 						<div class="col-5 boxhd">
 							<button type="button" class="btn btn-link text-dark btn-sm"><i class="bi bi-star-fill"></i> ${acc.reviewScore } <span class="text-decoration-underline">후기 ${acc.reviewCount }개</span></button>
 						</div>
-						<div class="col-6 start" >
-							<span>체크인</span>
-							<span id="start"></span>
+						<div class="col-12 start" >
+							<label>체크인 체크아웃</label>
+							<input placeholder="ex) 2020-09-01" id="days"/>
+							<!-- <span>체크인</span>
+							<span id="start"></span> -->
 						</div>
-						<div class="col-6 end" >
+						<!-- <div class="col-6 end" >
 							<span>체크아웃</span>
 							<span id="end"></span>
-						</div>
+						</div> -->
 						<button type="button" class="btn btn-outline-dark p-2 mb-2" id="guest-btn">인원:<span id="adultCount"> 0</span> 어린이:<span id="childrenCount"> 0</span> 유아:<span id="infantCount"> 0</span> 반려동물:<sapn id="petCount"> 0</sapn></button>
 						<div class="rounded" id="guest">
 							<div class="mb-4 row justify-content-between align-middle guest-box" >
@@ -255,29 +254,25 @@
 								</div>
 							</div>
 						</div>
-						
 						<button type="button" class="btn btn-outline-dark p-2 mb-2" id="guest-btn">예약하기</button>
-
 						<div class="row justify-content-between">
-							<div class="col-6"><p>W ${acc.price } x 1박</p></div>
-							<div class="col-4"><p>${acc.price } 원</div>
+							<div class="col-6"><p>₩<fmt:formatNumber value="${acc.price }"/> x <span class="day"></span>박</p></div>
+							<div class="col-5"><p>₩<span id="day-price"></span> 원</div>
 						</div>
 						<div class="row justify-content-between">
-							<div class="col-6"><p>서비스 수수료</p></div>
-							<div class="col-4"><p>${acc.price } 원</div>
+							<div class="col-6"><p>청소비</p></div>
+							<div class="col-5"><p>₩<fmt:formatNumber value="${acc.cleaningPrice }"/> 원</div>
 						</div>
 						<div class="row justify-content-between">
 							<div class="col-6"><p>W ${acc.price } x 1박</p></div>
-							<div class="col-4"><p>${acc.price } 원</p></div>
+							<div class="col-5"><p>${acc.price } 원</p></div>
 						</div>
 						<hr>
 						<div class="row justify-content-between">
-							<div class="col-5"><h6>총합계</h6></div>
-							<div class="col-4"><h6>${acc.price } 원</h6></div>
+							<div class="col-6"><h6>총합계</h6></div>
+							<div class="col-5"><h6>₩${acc.price } 원</h6></div>
 						</div>
-						
 					</div>
-					
 					<div class="text-center">
 						<button type="button" class="btn btn-link text-decoration-underline text-dark" id="btn-open-report-modal"><i class="bi bi-flag-fill"></i> 숙소 신고하기</button>
 					</div>
@@ -313,7 +308,7 @@
 						</div>
 						<div class="col-11">
 							<h4>호스트:덕인님</h4>
-							<span>회원 가입일: 2019년 12월사업자 정보</span>
+							<span>회원 가입일: <fmt:formatDate value="${acc.user.createdDate }"/> </span>
 						</div>
 					</div>
 				</div>
@@ -350,7 +345,6 @@
 			</div>
 		</div>
 	</div>
-	
 <!-- 편의시설 모달 -->
 <div class="modal" id="modal-con-acc">
 	<div class="modal-dialog modal-Default">
@@ -360,40 +354,21 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 			</div>
 			<div class="modal-body">
-				<div class="row">
-					<h6>욕실</h6>
-					<p>
-						<i class="bi bi-wifi"></i> 헤어드라이기
-					</p>
-					<hr>
-					<p>
-						<i class="bi bi-wifi"></i> 헤어드라이기
-					</p>
-					<hr>
-				</div>
-				<div class="row">
-					<h6>욕실</h6>
-					<p>
-						<i class="bi bi-wifi"></i> 헤어드라이기
-					</p>
-					<hr>
-					<p>
-						<i class="bi bi-wifi"></i> 헤어드라이기
-					</p>
-					<hr>
-				</div>
-				<div class="row">
-					<h6>욕실</h6>
-					<p>
-						<i class="bi bi-wifi"></i> 헤어드라이기
-					</p>
-					<hr>
-					<p>
-						<i class="bi bi-wifi"></i> 헤어드라이기
-					</p>
-					<hr>
-				</div>
-				
+				<c:forEach items="${cons }" var="con">
+					<div class="row">
+						<h6 class="mb-3">${con.name }</h6>
+						<c:forEach items="${acc.conveniences }" var="accConvenience">
+							<c:choose>
+								<c:when test="${accConvenience.convenience.type eq con.no }">
+									<p><span class="material-symbols-outlined"> ${accConvenience.convenience.iconName }</span>  ${accConvenience.convenience.name }</p>
+									<hr>
+								</c:when>
+								<c:otherwise>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</div>
+				</c:forEach>
 			</div>
 		</div>
 	</div>
@@ -702,13 +677,13 @@
 				<div class="row">
 					<div class="col-2">
 						<div>
-							<div class="box">
+							<div class="contentbox">
 								<h4>${acc.address }</h4>
 								<div class="content">
 									<p>${acc.description }</p>
 								</div>
 							</div>
-							<div class="box">
+							<div class="contentbox">
 								<h4>교통편</h4>
 								<div class="content">
 									<p>${acc.trafficDescription }</p>
@@ -723,6 +698,8 @@
 	</div>
 </div>
 <script type="text/javascript">
+
+
 $(function() {
 	// 모달 객체
 	let accConvenienceModal = new bootstrap.Modal(document.getElementById("modal-con-acc"));
@@ -790,7 +767,7 @@ $(function() {
 	});
 	
 	// 글 긴거 더보기
-	$('.box').each(function(){
+	$('.contentbox').each(function(){
         var content = $(this).children('.content');
         var content_txt = content.text();
         var content_txt_short = content_txt.substring(0,100)+"...";
@@ -837,7 +814,7 @@ $(function() {
         center: new kakao.maps.LatLng(longitude,latitude), // 지도의 중심좌표
         level: 3 // 지도의 확대 레벨
     };
-
+	
 	var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 	
 	// 마커가 표시될 위치입니다 
@@ -887,82 +864,138 @@ $(function() {
 	// marker.setMap(null);    
 	
 	// 달력
-
-        //두개짜리 제어 연결된거 만들어주는 함수
-        datePickerSet($("#datepicker1"), $("#datepicker2"), true); //다중은 시작하는 달력 먼저, 끝달력 2번째
-
-        /*
-            * 달력 생성기
-            * @param sDate 파라미터만 넣으면 1개짜리 달력 생성
-            * @example   datePickerSet($("#datepicker"));
-            * 
-            * 
-            * @param sDate, 
-            * @param eDate 2개 넣으면 연결달력 생성되어 서로의 날짜를 넘어가지 않음
-            * @example   datePickerSet($("#datepicker1"), $("#datepicker2"));
-            */
-        function datePickerSet(sDate, eDate, flag) {
-
-            //시작 ~ 종료 2개 짜리 달력 datepicker	
-            if (!isValidStr(sDate) && !isValidStr(eDate) && sDate.length > 0 && eDate.length > 0) {
-                var sDay = sDate.val();
-                var eDay = eDate.val();
-
-                if (flag && !isValidStr(sDay) && !isValidStr(eDay)) { //처음 입력 날짜 설정, update...			
-                    var sdp = sDate.datepicker().data("datepicker");
-                    sdp.selectDate(new Date(sDay.replace(/-/g, "/"))); 
-
-                    var edp = eDate.datepicker().data("datepicker");
-                    edp.selectDate(new Date(eDay.replace(/-/g, "/")));  
-                }
-
-                //시작일자 세팅하기 날짜가 없는경우엔 제한을 걸지 않음
-                if (!isValidStr(eDay)) {
-                    sDate.datepicker({
-                        maxDate: new Date(eDay.replace(/-/g, "/"))
-                    });
-                }
-                sDate.datepicker({
-                    language: 'ko',
-                    autoClose: true,
-                    inline: true,
-                    onSelect: function () {
-                        datePickerSet(sDate, eDate);
-                    }
-                });
-
-                //종료일자 세팅하기 날짜가 없는경우엔 제한을 걸지 않음
-                if (!isValidStr(sDay)) {
-                    eDate.datepicker({
-                        minDate: new Date(sDay.replace(/-/g, "/"))
-                    });
-                }
-                eDate.datepicker({
-                    language: 'ko',
-                    autoClose: true,
-                    inline: true,
-                    onSelect: function () {
-                        datePickerSet(sDate, eDate);
-                    }
-                });
-                
-            } 
-            $("#start").text(sDay);
-            $("#end").text(eDay);
-            
-            let diff = eDay - sDay;
-            let currDay = 24 * 60 * 60 * 1000;// 시 * 분 * 초 * 밀리세컨
-            let between = parseInt(diff/currDay);
-            console.log(between);
-			
-            function isValidStr(str) {
-                if (str == null || str == undefined || str == "")
-                    return true;
-                else
-                    return false;
-            }
-        }
-
+	
+	var fp1 = $("#days").flatpickr({
+		minDate: new Date(),
+		defaultDate : new Date(),
+		mode: "range",
+		dateFormat: "Y-m-d",
+		disable : ["2022-08-16", "2022-08-17"],
+		"locale": "ko" 
+	  	
+	   });  
+	  	fp1.config.onChange.push(function(selectedDates) {
+	  		if (selectedDates[1]==null || selectedDates[0]==null){
+	  			return;
+	  		}
+	  		let diffDate = Date.parse(selectedDates[1])-Date.parse(selectedDates[0])
+	  		let day = Math.floor(diffDate / (1000 * 60 * 60 * 24))
+	  		$(".day").text(day)
+	  		let sum = ${acc.price } * day
+	  		$("#day-price").text(sum.toLocaleString())
+	}) 
+	
+	/* $("#edate").flatpickr({
+		minDate: new Date(),
+		defaultDate : new Date(),
+		inline: true,	
+		 mode: "range",
+		 disable : ["2022-08-16", "2022-08-17"],
+		"locale": "ko" 
+	}); */
+	/* let disabledDays = ["2022-8-9","2022-8-24","2022-8-26"];
+       function disableAllTheseDays(date) {
+    	    var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
+    	    for (i = 0; i < disabledDays.length; i++) {
+    	        if($.inArray(y + '-' +(m+1) + '-' + d,disabledDays) != -1) {
+    	            return [false];
+    	        }
+    	    }
+    	    return [true];
+    	}
+		$(document).ready(function(){       
+	       $( "#sdate" ).datepicker({
+	            changeMonth: true,
+	            changeYear: true,
+	            showMonthAfterYear: true,
+	            minDate: new Date(),
+	            dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+	            monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	            dateFormat:'yy-mm-dd',
+	            beforeShowDay: disableAllTheseDays,
+	            onSelect: function(dateText, inst) {
+	                var date = $(this).val();
+	                $("#start").text(date);
+	           }
+	        });
+	       $( "#edate" ).datepicker({
+	            changeMonth: true,
+	            changeYear: true,
+	            showMonthAfterYear: true,
+	            minDate: new Date(),
+	            dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+	            monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	            dateFormat:'yy-mm-dd',
+	            beforeShowDay: disableAllTheseDays,
+	            onSelect: function(dateText, inst) {
+	                var date = $(this).val();
+	 	            $("#end").text(date);
+	 	            
+	           }
+	        });
+	       
+	       $('#sdate').datepicker("option", "maxDate", $("#edate").val());
+	       $('#sdate').datepicker("option", "onClose", function (selectedDate){
+	           $("#edate").datepicker( "option", "minDate", selectedDate );
+	           });
+	       
+	       $('#edate').datepicker();
+	       $('#edate').datepicker("option", "minDate", $("#sdate").val());
+	       $('#edate').datepicker("option", "onClose", function (selectedDate){
+	           $("#sdate").datepicker( "option", "maxDate", selectedDate );
+	          });
+		       
+		});
+		
+		$("#edate").on(function(){    
+			alert("이벤트발생");
+			let sdd = $("#sdate").val;
+		   	let edd = $("#edate").val;
+		   	let date1 = new Date(sdd);
+			let date2 = new Date(edd);
+			let diffDate = date1.getTime() - date2.getTime();
+			  
+			let day = Math.abs(diffDate / (1000 * 60 * 60 * 24)); // 밀리세컨 * 초 * 분 * 시 = 일
+			console.log(day);
+			if(sdd && edd){
+		   		$("#day").text(day); 
+			}
+		}) */
+		
+		
+		/* function call(){
+		    let sdd = $("#sdate").val;
+		    let edd = $("#edate").val;
+		    let date1 = new Date(sdd);
+			let date2 = new Date(edd);
+			let diffDate = date1.getTime() - date2.getTime();
+			  
+			let day = Math.abs(diffDate / (1000 * 60 * 60 * 24)); // 밀리세컨 * 초 * 분 * 시 = 일
+		 if(sdd && edd){
+		    $("#day").text(day);
+		 }
+		}  */
+		/* function call(){
+		    var sdd = $("#sdate").val;
+		    var edd = $("#edate").val;
+		    console.log(sdd);
+		    console.log(sdd);
+		    var ar1 = sdd.split('-');
+		    var ar2 = edd.split('-');
+		    var da1 = new Date(ar1[0], ar1[1], ar1[2]);
+		    var da2 = new Date(ar2[0], ar2[1], ar2[2]);
+		    var dif = da2 - da1;
+		    var cDay = 24 * 60 * 60 * 1000;// 시 * 분 * 초 * 밀리세컨
+		    var cMonth = cDay * 30;// 월 만듬
+		    var cYear = cMonth * 12; // 년 만듬
+		 if(sdd && edd){
+		    document.getElementById('day').value = parseInt(dif/cDay)
+		 }
+		} 
+		 */
+		
+		
+		
 		$("#profile").click(function() {
 			$("host").focus();
 		})
@@ -1079,11 +1112,16 @@ $(function() {
                 var num = parseInt(target.text());
                 num -= ( (num === 0) ? 0 : 1 ); //0이하로는 못내려가게 한다 
 				
-                
                 target.text(num);
             });
 		});
+		
+       
+		
+		       
 })
+
+
 </script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6ec6d52326b138f515a86c55e152676c"></script>
 </body>
