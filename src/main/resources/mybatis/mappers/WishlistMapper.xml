@@ -19,7 +19,12 @@
  		order by wishlist_no desc
  	</select>
  	
- 	
+ 	<!-- Wishlist getWishlistByNo(int wishlistNo); -->
+ 	<select id="getWishlistByNo" parameterType="int" resultMap="WishlistResultMap">
+ 		select *
+ 		from airbnb_wishlists
+ 		where wishlist_no = #{value}
+ 	</select>
  	
  	<resultMap type="Accommodation" id="AccResultMap">
 		<id column="ACC_NO" property="no"/>

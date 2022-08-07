@@ -1,6 +1,7 @@
 package kr.co.airbnb.service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,18 @@ public class WishlistService {
 	@Autowired
 	private WishlistMapper wishlistMapper;
 	
-	public List<Wishlist> getMyWishlists(int userNo) {
-		return wishlistMapper.getWishlistsByUserNo(userNo);
+	public Wishlist getWishlistByNo(int wishlistNo) {
+		Wishlist wishlist = wishlistMapper.getWishlistByNo(wishlistNo);
+		wishlist.setAccs(wishlistMapper.getWishlistAccsByNo(wishlistNo));
+		
+		return wishlist;
 	}
 	
-	public List<Accommodation> getWishlistAccsByNo(int wishlistNo) {
-		
-		return null;
+	public List<Wishlist> getMyWishlists(int userNo) {
+		List<Wishlist> wishlists = wishlistMapper.getWishlistsByUserNo(userNo);
+		for (Wishlist wishlist : wishlists) {
+			wishlist.setAccs(wishlistMapper.getWishlistAccsByNo(wishlist.getNo()));
+		}
+		return wishlists;
 	}
 }
