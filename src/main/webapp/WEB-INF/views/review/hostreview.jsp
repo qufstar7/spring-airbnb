@@ -74,6 +74,7 @@
 </style>
 </head>
 <body>
+<%@ include file="../common/nav.jsp"%>
 <div class="container">
 	<div class="row mb-4">
 		<div class="col-12">
@@ -81,6 +82,7 @@
 			<button type="button" class="btn btn-primary" id="btn-exampleModalToggle">
 			  리뷰 작성하기
 			</button>		
+			<p>호스트와 게스트는 숙박이 종료된 후 14일 이내에 후기를 작성할 수 있습니다.</p>
 		</div>
 	</div>
 </div>
@@ -281,6 +283,22 @@ $(function() {
 		// 자바스크립트에서 쿼리스트링의 요청파라미터값 조회하기
 		let params = new URLSearchParams(document.location.search);
 		let reservationNo = params.get("reservationNo");
+		
+		$("#btn-exampleModalToggle").ready(function() {
+			$.ajax({
+				type: "GET",
+				url: "review/checkOverdue",
+				data: {reservationNo:reservationNo},
+				datatype: "json",
+				success: function(data) {
+					let overdue = data.item;
+					console.log(overdue);
+					if (overdue === 'Y') {
+						$('#btn-exampleModalToggle').prop("disabled", true);
+					} 
+				}
+			})
+		})
 		
 		$.ajax({
 			type: "GET",

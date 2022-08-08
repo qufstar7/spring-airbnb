@@ -3,6 +3,20 @@
 <mapper namespace="kr.co.airbnb.mapper.ReviewMapper">
 
 	<!-- resultMap? -->
+	<resultMap type="kr.co.airbnb.vo.Review" id="SimpleReviewResultMap">
+		<id column="REVIEW_NO" property="no" />
+		<result column="ACC_NO" property="accNo"/>
+		<result column="REVIEW_CONTENT" property="content"/>
+		<result column="REVIEW_CREATED_DATE" property="createdDate"/>
+		<result column="RESERVATION_NO" property="reservationNo"/>
+	</resultMap>
+	
+	<!-- List<Review> getReviews(@Param("accNo") int accNo); -->
+	<select id="getReviews" parameterType="int" resultMap="SimpleReviewResultMap">
+		select *
+		from AIRBNB_REVIEWS
+		order by REVIEW_CREATED_DATE asc;
+	</select>
 
 	<!-- void insertReview(Review review); -->
 	<!-- 리뷰 갯수 올라갈 때마다 ACCOMMODATIONS의 리뷰 갯수가 올라가게 해야 한다. -->
@@ -18,6 +32,14 @@
 		(#{no}, #{accNo}, 3, #{content}, #{totalScore}, #{cleanScore}, #{accuracyScore}, #{communicationScore}, #{locationScore}, 
 		#{checkinScore}, #{valueScore}, #{convenienceScore}, #{positiveFeedback}, #{nagativeFeedback}, #{wantMeetAgain}, #{userType}, #{reservationNo})
 	</insert>
+	
+	<!-- void updateAccAvgScore(Review review); -->
+	<update id="updateAccAvgScore" parameterType="kr.co.airbnb.vo.Review">
+	
+	</update>
+	
+	<!-- void updateUserAvgScore(Review review); -->
+	
 	
 	<!-- void insertReview(Review review); -->
 	<insert id="insertReviewHost" parameterType="Review">
@@ -86,6 +108,14 @@
 		select RESERVATION_NO
 		from   AIRBNB_REVIEWS 
 		where  RESERVATION_NO = #{reservationNo} AND USER_NO = #{userNo}
+	</select>
+	
+	<!-- getOverdueReviewByNo -->
+	<select id="getOverdueReviewByNo" resultType="integer">
+		select *
+		from   AIRBNB_RESERVATIONS
+		where  CHECK_OUT_DATE > SYSDATE - 14
+        and    RESERVATION_NO = #{reservationNo} AND USER_NO = #{userNo}
 	</select>
 	
 </mapper>
