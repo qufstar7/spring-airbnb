@@ -44,20 +44,38 @@
 	</select>
 	
 	<!-- List<AccPhoto> getAccPhotosByAccNo(int accNo); -->
-	<select id="getAccPhotosByAccNo" parameterType="int" resultType="AccPhoto">
+	<!-- <select id="getAccPhotosByAccNo" parameterType="int" resultType="AccPhoto">
 		select 
-			IMAGE_NO as imageNo,
-			ACC_NO as accNo,
-			IMAGE_NAME as name,
-			IMAGE_DESCRIPTION as description,
-			IMAGE_COVER as cover
-		from AIRBNB_ACC_PHOTOS
+			ROW_NUMBER() OVER (PARTITION BY A.acc_no ORDER BY A.image_no) as num,
+			A.IMAGE_NO as imageNo,
+			A.ACC_NO as accNo,
+			A.IMAGE_NAME as name,
+			A.IMAGE_DESCRIPTION as description,
+			A.IMAGE_COVER as cover
+		from AIRBNB_ACC_PHOTOS A
 		where ACC_NO = #{value}
+	</select> -->
+	<select id="getAccPhotosByAccNo" parameterType="int" resultType="AccPhoto">
+		select 	ROWNUM as num, 
+				A.IMAGE_NO as imageNo,
+				A.ACC_NO as accNo,
+				A.IMAGE_NAME as name,
+				A.IMAGE_DESCRIPTION as description,
+				A.IMAGE_COVER as cover
+ 		from
+ 		(
+ 			select 
+        	A.*
+   			FROM AIRBNB_ACC_PHOTOS A
+  			where acc_no = #{value}
+    		ORDER BY CASE WHEN A.IMAGE_COVER = 'Y' THEN 1 ELSE 2 END,
+        	A.image_no ASC
+		) A
 	</select>
 	
 	<resultMap type="Accommodation" id="AccDetailResultMap" extends="AccResultMap">
 		<collection property="conveniences" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccConveniencesByAccNo"></collection>
-		<collection property="photos" column="ACC_NO" select="kr.co.airbnb.mapper.getAccPhotosByAccNo"></collection>
+   		<collection property="photos" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccPhotosByAccNo"></collection>
 	</resultMap>
 	
 	<!-- Accommodation getAccommodation(int no); -->

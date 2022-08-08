@@ -1,11 +1,11 @@
 package kr.co.airbnb.service;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.co.airbnb.mapper.AccommodationMapper;
 import kr.co.airbnb.vo.Accommodation;
-import kr.co.airbnb.vo.Convenience;
 
 @Service
 public class AccommodationService {
@@ -18,4 +18,20 @@ public class AccommodationService {
 		return accommodationMapper.getAcc(no);
 	}
 	
+	/*
+	 * public Image getImage(int no) { Image image = new Image(); List<AccPhoto>
+	 * photos = accommodationMapper.getAccPhotosByAccNo(no);
+	 * 
+	 * for (AccPhoto photo : photos) { if(photo.getCover().equals("Y")) {
+	 * image.setCover(photo); } else { image.getThumbnails().add(photo); } }
+	 * 
+	 * 
+	 * 
+	 * if (image.getCover() == null) { image.setCover(photos.get(0));
+	 * photos.remove(0); image.setThumbnails(photos); }
+	 * 
+	 * 
+	 * 
+	 * return image; }
+	 */
 }
