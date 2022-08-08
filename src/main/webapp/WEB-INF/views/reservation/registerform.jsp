@@ -48,7 +48,7 @@
                 	<form:errors path="region" class="text-danger small fst-italic"></form:errors>
                 </div>
                 <div class="text-end">
-                	<a href="/book" class="btn btn-secondary">취소</a>
+                	<a href="/" class="btn btn-secondary">취소</a>
                 	<button type="submit" class="btn btn-primary">회원가입</button>
                 </div>
             </form:form>

@@ -17,6 +17,7 @@
 <title>확인 및 결제</title>
 </head>
 <body>
+<%@ include file="../common/nav2.jsp" %>
 <div class="container my-3">
 	<!-- 왼쪽 -->
 	<div class='left-box'>
@@ -35,25 +36,25 @@
 					<span>날짜</span>
 					<button type ="button" class="btn btn-sm" style="background-color:white; border-color:white; float:right;"><u>수정</u></button>
 					<br>
-					<p class ="small">2022-</p>	
+					<p class ="small">${accommodation.checkIn } - ${accommodation.checkOut }</p>	
 				</div>
 				<div>
 					<span>게스트</span>
 					<button type ="button" class="btn btn-sm" style="background-color:white; border-color:white; float:right;"><u>수정</u></button>
 					<br>	
-					<span>게스트 1명</span>
+					<span>게스트 ${accommodation.guest }명</span>
 				</div>
 			</div>
 			<hr/>
 			<h5>결제 방식 선택하기</h5>
 			<div class="divide">
-				<div class ="row border" id="entire-payment">
+				<div class ="row border  bg-white rounded-top" id="entire-payment">
 					<div class="row p-3">
 						<div class="col-6">
 							<strong>전액결재</strong>
 						</div>
 						<div class="col-6 text-end">
-							<strong>23,000 원</strong>
+							<strong>￦${accommodation.price } 원</strong>
 							<input class="form-check-input"  type="radio" name="payment" id="radio-entire" checked="checked" >
 						</div>
 						<div class="row p-3">
@@ -63,13 +64,13 @@
 						</div>
 					</div>
 				</div>
-				<div class ="row border" id="left-payment">
+				<div class ="row border bg-white rounded-bottom" id="left-payment">
 					<div class="row p-3">
 						<div class="col-8">
 							<strong>요금 일부는 지금 결제, 나머지는 나중에 결제</strong>
 						</div>
 						<div class="col-4 text-end">
-							<strong>23,000 원</strong>
+							<strong>￦${accommodation.price / 2} 원</strong>
 							<input class="form-check-input"  type="radio" name="payment"  id="radio-left">
 						</div>
 					</div>
@@ -109,6 +110,32 @@
 			  		</div>
 				</div>
 			</div>
+			<div class="modal" id="modal-how-to-use" tabindex="-1">
+				<div class="modal-dialog">
+			 		<div class="modal-content">
+			      		<div class="modal-header">
+			        		<button type="button" data-bs-dismiss="modal" ><</button>
+			        		<h5 class="col modal-title">이용방법</h5>
+			      		</div>
+			      		<div class="modal-body">
+			        		<p>요금의 일부만 지금 결제하고 잔액은 나중에 결제할 수 있습니다.</p>
+			        		<p>별도의 수수료가 부과되지 않습니다.</p>
+			        		<br>
+			        		<p><strong>총 요금의 일부만 지금 결제하세요</strong></p>
+			        		<p>총 요금의 일부만 결제하여 예약을 확정하세요</p>
+			        		<br>
+			        		<p><strong>잔액은 체크인 전에 결제하세요</strong></p>
+			        		<p>2회차 결제일에 잔액이 기존의 결제 수단으로 부과됩니다.</p>
+			        		<br>
+			        		<p><strong>자동으로 결제됩니다.</strong></p>
+			        		<p>잔액 결제일 3일 전에 알림을 보내드리니 걱정하지 마세요.</p>
+			      		</div>
+			      		<div class="modal-footer">
+			        		<button type="button" class="btn btn-sm" style="background-color:white; border-color:white;" data-bs-dismiss="modal"><u>취소</u></button>
+			      		</div>
+			  		</div>
+				</div>
+			</div>
 			<hr/>
 			<h5>결제 수단</h5>
 			<a href="/book/register" class="btn btn-outline-primary">카드등록</a>
@@ -117,10 +144,61 @@
 				<option value="1" disabled>결제 수단 추가하기</option>
 				<option value="카드추가">신용카드 또는 체크카드</option>
 				<option value="2" disabled>이용 불가</option>
-				<option value="카카오 결제" disabled>카카오 결제 </option>
+				<option value="카카오 결제">카카오 결제 </option>
 			</select>
 			<div class="insertCard">
-				
+				<div class="row" style="padding:20px">
+					<div class="col border bg-white rounded">
+						<form class="col p">
+							<div class="mb-3">
+								<label class="form-label">카드 번호</label>
+								<input class="form-control " type="text" placeholder="카드 번호">
+							</div>
+							<div class ="row"> 
+								<div class="col">
+									<label class="form-label">만료일 </label>
+									<input class="form-control " type="text" placeholder="MM/YY">
+								</div>
+								<div class="col">
+									<label class="form-label">이런 분들에게 추천해요</label>
+									<input class="form-control " type="text" placeholder="CVV">
+								</div>
+							</div>
+							<div class="mb-3">
+								<label class="form-label">이런 선수지식이 필요해요</label>
+								<input class="form-control " type="text">
+							</div>
+						</form>
+							<div class="mb-3">
+								<div class="modal" id="modal-how-to-use" tabindex="-1">
+									<div class="modal-dialog">
+								 		<div class="modal-content">
+								      		<div class="modal-header">
+								        		<button type="button" data-bs-dismiss="modal" ><</button>
+								        		<h5 class="col modal-title">이용방법</h5>
+								      		</div>
+								      		<div class="modal-body">
+								        		<p>요금의 일부만 지금 결제하고 잔액은 나중에 결제할 수 있습니다.</p>
+								        		<p>별도의 수수료가 부과되지 않습니다.</p>
+								        		<br>
+								        		<p><strong>총 요금의 일부만 지금 결제하세요</strong></p>
+								        		<p>총 요금의 일부만 결제하여 예약을 확정하세요</p>
+								        		<br>
+								        		<p><strong>잔액은 체크인 전에 결제하세요</strong></p>
+								        		<p>2회차 결제일에 잔액이 기존의 결제 수단으로 부과됩니다.</p>
+								        		<br>
+								        		<p><strong>자동으로 결제됩니다.</strong></p>
+								        		<p>잔액 결제일 3일 전에 알림을 보내드리니 걱정하지 마세요.</p>
+								      		</div>
+								      		<div class="modal-footer">
+								        		<button type="button" class="btn btn-sm" style="background-color:white; border-color:white;" data-bs-dismiss="modal"><u>취소</u></button>
+								      		</div>
+								  		</div>
+									</div>
+								</div>
+							</div>
+					</div>
+	</div>
 			</div>
 			<hr>
 			<div class="divide">
@@ -136,7 +214,7 @@
 						</div>
 					</div>
 					<div class="col">
-					    <span>호스트 이름</span>
+					    <span>${accommodation.userNo }</span>
 					    <p><small class="text-muted">가입일</small></p>
 					</div>
 				</div>
@@ -172,7 +250,7 @@
 							</div>
 						</div>
 						<div class="col">
-						    <span>캠핑카</span>
+						    <span>${accommodation.name }</span>
 						    <p>숙소 이름</p>
 					        <p><small class="text-muted">★$4.75(후기 $106개)</small></p>
 						</div>
@@ -223,7 +301,12 @@ $(function(){
 	});
 	
 	$("#card-select").on('change',function(){
-		alert(this.value);
+		var result = $("#card-select option:selected").val();
+		if( result == "카드추가") {
+			$(".insertCard").show();
+		}else {
+			$(".insertCard").hide();
+		}
 	});
 
 })
