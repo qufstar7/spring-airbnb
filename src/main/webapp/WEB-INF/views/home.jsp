@@ -23,7 +23,7 @@
 <title>Applied Coding & Computer - aircnc</title>
 
 <style type="text/css">
-
+/* commit 되어라 얍*/
 /* 필터 모달창 */
 .modal-content {
 	border-radius: 12px;
