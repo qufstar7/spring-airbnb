@@ -18,6 +18,7 @@ public class Card {
 	private String cvv;
 	private String zipCode;
 	private String region;
+	private int balance;
 	private String availability;
 	private User user;
 	
