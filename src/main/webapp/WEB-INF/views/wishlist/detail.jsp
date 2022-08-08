@@ -22,17 +22,17 @@
 	#div-sub button {border: none;}
 	.card {border:none;}
 	hr {opacity: 0.1;}
-/* /* 	#div-map img {
+	#googleMap .bi {color: #FF385C;}
+	.labels {
 	  position: absolute;
 	  top: 0;
 	  left: 0;
-	  transform: translate(-50%, -100%);
+	  /* transform: translate(-50%, -100%); */
 	  background-color: white;
-	  padding: 0 8px;
+	  padding: 0 10px;
 	  border-radius: 28px;
 	  box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 0px 1px,
 	    rgba(0, 0, 0, 0.18) 0px 1px 2px;
-	  color: #222;
 	  overflow-y: auto;
 	  height: 28px;
 	  line-height: 28px;
@@ -40,7 +40,13 @@
 	  cursor: pointer;
 	  transition: transform 0.15s ease-in-out;
 	  font-size: 14px;
-	} */ */
+	  vertical-align: middle;
+	} 
+	
+	.marker-label:hover {
+		color:red;
+		transform: scale(1.5);
+	}
 </style>
 </head>
 <body>
@@ -136,7 +142,7 @@
 	
 	let accs = new Array();
 	<c:forEach var="acc" items="${wishlist.accs}" >
-		accs.push({accNo: ${acc.accNo}, lat: ${acc.latitude}, lng: ${acc.longitude}})
+		accs.push({accNo: ${acc.accNo}, lat: ${acc.latitude}, lng: ${acc.longitude}, price:${acc.price}})
 	</c:forEach>
 		
 	let markers = [];
@@ -150,11 +156,11 @@
 		      let marker = new markerWithLabel.MarkerWithLabel({
 		        position: {lat: acc.lat, lng: acc.lng},
 		        map: map,
-		      //  icon: ' ',  //마커의 기본 아이콘을 없에려면 공백을 넣으면 된다.
-		        title: acc.accNo,
-		        labelContent: '<div class="test">test'+(i+1)+'</div>', //이런식으로 div 추가 가능
-		        labelAnchor: new google.maps.Point(40, 40),  //라벨의 상대적 위치를 지정함(px단위)이며 google map api의 anchor와 같은 개념이다.
-		        labelClass: "labels",      //추가할 클래스
+		        icon: ' ',  //마커의 기본 아이콘을 없에려면 공백을 넣으면 된다.
+		        //title: acc.accNo,
+		        labelContent: '<div class="test"> ₩' + acc.price.toLocaleString() +' <i class="bi bi-heart-fill ps-1"></i></div>', //이런식으로 div 추가 가능
+		        labelAnchor: new google.maps.Point(-30, -30),  //라벨의 상대적 위치를 지정함(px단위)이며 google map api의 anchor와 같은 개념이다.
+		        labelClass: "labels",      // the CSS class for the label
 		        labelStyle: {opacity: 0.75},
 		        labelInBackground: false,
 		        draggable: false,   //마커 드래그할때 필요
@@ -162,10 +168,26 @@
 		        optimized: false    //gif사용할때 필요
 		      });
 		      
-		      marker.addListener('click', function() {
-		    	 	alert('clicked');
-		      })
+		      marker.addListener('mouseover', function() {
+		      	console.log("test");
+		      }); 
 		      
+		      // google.maps.event.addListener(marker, "click", function (e) { iw.open(map, this); });
+		      marker.addListener('click', function () {
+		    	  let infowindow = new google.maps.InfoWindow();
+		         // alert(acc.price);
+		    	  let infoWindow_content = '<div class="card border" style="width: 15rem;">';
+		    		  infoWindow_content += 	'<img src="/resources/images/acc/sample-home.jpg" class="card-img-top" alt="...">';
+		    		  infoWindow_content += 	'<div class="card-body d-flex flex-column">';
+	    			  infoWindow_content += 		'<span class="card-text"><i class="bi bi-star-fill"></i>5.0(11)</span>';
+	    			  infoWindow_content += 		'<span class="card-text">레지던스 전체 중구</span>';
+	    			  infoWindow_content +=  		'<span class="card-text">₩ ' + acc.price.toLocaleString() +  '</span>';
+	    			  infoWindow_content += 	'</div>';
+	    			  infoWindow_content += '</div>';
+			    	infowindow.setContent(infoWindow_content);
+	                //인포윈도우가 표시될 위치
+	                infowindow.open(map, this);
+			}); 
 		      markers.push(marker);
 		    }
 		    return markers;
@@ -186,31 +208,9 @@
             //mapTypeId: 'terrain'
             };
        let map = new google.maps.Map(document.getElementById('googleMap'), defaultOptions);
-        
-         // 지도에 마커추가
-        /* <c:forEach var="acc" items="${wishlist.accs}" >
-	        var marker = new google.maps.Marker({
-				position: {lat: ${acc.latitude}, lng: ${acc.longitude}}, 
-				map: map,		// 마커를 표시할 지도
-				title: "Hello",
-				labelContent: '<div class="test">test'+(i+1)+'</div>'
-				// icon : 마커아이콘 커스텀
-				});
-        </c:forEach> */
-        createMarker(map, accs);
+       
+       createMarker(map, accs);
     	
-    	/* google.maps.event.addListener(marker, 'click', function(event) {
-                
-	    	let infowindow = new google.maps.InfoWindow();
-                //html로 표시될 인포 윈도우의 내용
-                infowindow.setContent();
-                infowindow.setPosition(event.latLng);
-                
-                //인포윈도우가 표시될 위치
-                infowindow.open(map, marker);
-        }); */
-    
-        
         
       /*   // 마커에 hover 하면 팝업
         marker.addListener('mouseover', function() {
@@ -222,6 +222,8 @@
             infowindow.close();
         }); */
     }
+    
+    
     
     /* let infowindow_contents = [];
     let info_cnt = 0;
@@ -249,7 +251,6 @@
 		
 		}
 	}
-    
 $(function () {
 	 $("#div-map").on('scroll touchmove mousewheel', function(e){
 		e.preventDefault();
@@ -258,14 +259,14 @@ $(function () {
 		});
 	 
 	 $(".card").hover(function() {
-	 	console.log($(":input[name=accNo]", this).val());
+	 	let index = $(this).data("index");
+	 	let marker = markers[index];
+	 	
+	 	google.maps.event.trigger(marker, 'mouseover');
+	 })
 		 
+	 
 	 });
-	 
-	 
-})
-	 
-	 
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFv4fJk64OcpfSgmByfKOlwHndkuSa0kk&callback=initMap&region=kr"></script>
 </body>
