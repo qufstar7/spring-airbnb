@@ -75,28 +75,42 @@
 	</div>
 	<div class="container main">
 		<div class="row mb-5 flex-container">
-			<div class="flex-item1" >
-				<div class="img-large" id="btn-open-image-modal">
-					<a href="#"><img src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg" id="image-large"></a>
-				</div>
-			</div>
+			<c:forEach items="${acc.photos }" var="photo">
+				<c:if test="${photo.num eq '1' }">
+					<div class="flex-item1" >
+						<div class="img-large" id="btn-open-image-modal">
+							<a href="#"><img src="/resources/images/acc/${photo.name }" id="image-large"></a>
+						</div>
+					</div>
+				</c:if>
+			</c:forEach>
 			<div class="flex-item" id="centerimg">
-				<div class="img-short" id="btn-open-image-modal2">
-					<a href="#"><img src="https://a0.muscache.com/airbnb/static/destinations/o-Rome_Piazza017_480x320.jpg" class="short-img"></a>
-				</div>
-				<div class="img-short short-bottom" id="btn-open-image-modal3">
-					<a href="#"><img src="https://a0.muscache.com/airbnb/static/destinations/o-Los_Angeles_480x320.jpg" class="short-img"></a>
-				</div>
-				
+				<c:forEach items="${acc.photos }" var="photo">
+					<c:if test="${photo.num eq '2' }"> 
+						<div class="img-short" id="btn-open-image-modal2">
+							<a href="#"><img src="/resources/images/acc/${photo.name }" class="short-img"></a>
+						</div>
+					</c:if> 
+					<c:if test="${photo.num eq '3' }">
+						<div class="img-short short-bottom" id="btn-open-image-modal3">
+							<a href="#"><img src="/resources/images/acc/${photo.name }" class="short-img"></a>
+						</div>
+					</c:if>
+				</c:forEach>
 			</div> 
 			<div class="flex-item">
-				<div class="img-short" id="btn-open-image-modal4">
-					<a href="#"><img src="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg" class="short-img" id="image-right-top"></a>
-				</div>
-				<div class="img-short short-bottom" id="btn-open-image-modal5">
-					<a href="#"><img src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg" class="short-img" id="image-right-bottom"></a>
-				</div>
-				
+				<c:forEach items="${acc.photos }" var="photo">
+					<c:if test="${photo.num eq '4' }"> 
+						<div class="img-short" id="btn-open-image-modal4">
+							<a href="#"><img src="/resources/images/acc/${photo.name }" class="short-img" id="image-right-top"></a>
+						</div>
+					</c:if>
+					<c:if test="${photo.num eq '5' }"> 
+						<div class="img-short short-bottom" id="btn-open-image-modal5">
+							<a href="#"><img src="/resources/images/acc/${photo.name }" class="short-img" id="image-right-bottom"></a>
+						</div>
+					</c:if>
+				</c:forEach>
 			</div>
 		</div>
 	</div>
@@ -108,7 +122,7 @@
 					<a id="profile" href="#host">
 						<img class="float-end profile" src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg">
 					</a>
-					<h4>덕인님이 호스팅하는 ${acc.name }</h4>
+					<h4>${acc.user.name }님이 호스팅하는 ${acc.name }</h4>
 					<p>최대 인원 ${acc.guest }명<i class="bi bi-dot"></i>침실 1개<i class="bi bi-dot"></i>침대 1개<i class="bi bi-dot"></i>욕실 1개</p>
 				</div>
 				<hr>
@@ -161,11 +175,11 @@
 					<span class="mb-3">
 						<h4>숙소 편의시설</h4>
 					</span>
-					<c:forEach items="${acc.conveniences }" var="accConvenience">
-						<div class="col-6 mb-2"><p><span class="material-symbols-outlined"> ${accConvenience.convenience.iconName }</span> ${accConvenience.convenience.name }</p></div>
+					<c:forEach items="${acc.conveniences }" var="accConvenience" end="5">
+						<div class="col-6 mb-2 align-middle"><p><span class="material-symbols-outlined"> ${accConvenience.convenience.iconName }</span> ${accConvenience.convenience.name }</p></div>
 					</c:forEach>
 					<div class="col-6 mb-2">
-						<button class="btn btn-outline-dark btn-lg" id="btn-open-con-modal">편의시설 xx개 더보기</button>
+						<button class="btn btn-outline-dark btn-lg" id="btn-open-con-modal">편의시설 전체보기</button>
 					</div>
 				</div>
 				<!-- <hr>
@@ -202,8 +216,8 @@
 							<button type="button" class="btn btn-link text-dark btn-sm"><i class="bi bi-star-fill"></i> ${acc.reviewScore } <span class="text-decoration-underline">후기 ${acc.reviewCount }개</span></button>
 						</div>
 						<div class="col-12 start" >
-							<label>체크인 체크아웃</label>
-							<input placeholder="ex) 2020-09-01" id="days"/>
+							<label class="mb-2 p-2">체크인 체크아웃</label>
+							<input class="mb-2" id="days"/>
 							<!-- <span>체크인</span>
 							<span id="start"></span> -->
 						</div>
@@ -218,9 +232,9 @@
 									성인
 								</div>
 								<div class="col-4 " id="adult">
-										<button class="btn m_btn guestbtn">-</button>
+										<button class="btn m_btn guestbtn adultM">-</button>
 										<span class="adultCount">0</span>
-										<button class="btn p_btn guestbtn">+</button>
+										<button class="btn p_btn guestbtn hu_p_btn">+</button>
 								</div>
 							</div>
 							<div class="mb-4 row justify-content-between align-middle guest-box" >
@@ -228,9 +242,9 @@
 									어린이
 								</div>
 								<div class="col-4 " id="adult">
-										<button class="btn m_btn guestbtn">-</button>
+										<button class="btn m_btn guestbtn childrenM">-</button>
 										<span class="childrenCount">0</span>
-										<button class="btn p_btn guestbtn">+</button>
+										<button class="btn p_btn guestbtn hu_p_btn">+</button>
 								</div>
 							</div>
 							<div class="mb-4 row justify-content-between align-middle guest-box" >
@@ -238,9 +252,9 @@
 									유아
 								</div>
 								<div class="col-4 " id="adult">
-										<button class="btn m_btn guestbtn">-</button>
+										<button class="btn m_btn guestbtn infantM">-</button>
 										<span class="infantCount">0</span>
-										<button class="btn p_btn guestbtn">+</button>
+										<button class="btn p_btn guestbtn hu_p_btn">+</button>
 								</div>
 							</div>
 							<div class="mb-4 row justify-content-between align-middle guest-box" >
@@ -248,29 +262,34 @@
 									반려
 								</div>
 								<div class="col-4 " id="adult">
-										<button class="btn m_btn guestbtn">-</button>
-										<span class="petCount ">0</span>
-										<button class="btn p_btn guestbtn">+</button>
+										<button class="btn m_btn guestbtn petM">-</button>
+										<span class="petCount">0</span>
+										<button class="btn p_btn guestbtn pet_p_btn">+</button>
 								</div>
 							</div>
+							<div class="mb-4 row justify-content-between align-middle guest-box" >
+								<div class="col">
+									<span>이 숙소의 최대 숙박 인원은 ${acc.guest }명(유아 포함)입니다. 반려동물을 3마리 이상 동반하는 경우, 호스트에게 알려주세요.</span>
+								</div>
+								
+							</div>
 						</div>
-						<button type="button" class="btn btn-outline-dark p-2 mb-2" id="guest-btn">예약하기</button>
+						<button type="button" class="btn btn-outline-dark p-2 mb-3" id="guest-btn">예약하기</button>
+						<div class="mb-3 text-center">
+							<span>예약 확정 전에는 요금이 청구되지 않습니다.</span>
+						</div>
 						<div class="row justify-content-between">
-							<div class="col-6"><p>₩<fmt:formatNumber value="${acc.price }"/> x <span class="day"></span>박</p></div>
-							<div class="col-5"><p>₩<span id="day-price"></span> 원</div>
+							<div class="col-6 text-left"><p>₩<fmt:formatNumber value="${acc.price }"/> x <span class="day"></span>박</p></div>
+							<div class="col-5 text-right"><p>₩<span id="day-price"></span> 원</div>
 						</div>
 						<div class="row justify-content-between">
 							<div class="col-6"><p>청소비</p></div>
 							<div class="col-5"><p>₩<fmt:formatNumber value="${acc.cleaningPrice }"/> 원</div>
 						</div>
-						<div class="row justify-content-between">
-							<div class="col-6"><p>W ${acc.price } x 1박</p></div>
-							<div class="col-5"><p>${acc.price } 원</p></div>
-						</div>
 						<hr>
 						<div class="row justify-content-between">
 							<div class="col-6"><h6>총합계</h6></div>
-							<div class="col-5"><h6>₩${acc.price } 원</h6></div>
+							<div class="col-5"><h6 >₩<span id="totalPrice"></sapn>원</h6></div>
 						</div>
 					</div>
 					<div class="text-center">
@@ -289,13 +308,20 @@
 					<h4>호스팅 지역</h4>
 				</div>
 				<div class="mb-2" id="map"></div>
-				<div class="mb-2 content">
+				<div class="contentbox2 mt-5 mb-5">
+					<h5>${acc.address }</h1>
+					<div class="content2 mb-2">
+						<p>${acc.description }</p>
+					</div>
+					<button type="button" class="btn btn-link text-decoration-underline text-dark btn-sm" id="btn-open-map-modal2">더보기 <i class="bi bi-chevron-right"></i></button>
+				</div>
+				<%-- <div class="mb-2 content">
 					<h5>${acc.address }</h1>
 					<div class="content">
 						<p>${acc.description }</p>
 					</div>
 					<button type="button" class="btn btn-link text-decoration-underline text-dark btn-sm" id="btn-open-map-modal2">더보기 <i class="bi bi-chevron-right"></i></button>
-				</div>
+				</div> --%>
 			</div>
 			<hr>
 			<div class="row mt-5 mb-5">
@@ -307,7 +333,7 @@
 							</a>
 						</div>
 						<div class="col-11">
-							<h4>호스트:덕인님</h4>
+							<h4>호스트: ${acc.user.name }님</h4>
 							<span>회원 가입일: <fmt:formatDate value="${acc.user.createdDate }"/> </span>
 						</div>
 					</div>
@@ -544,27 +570,12 @@
 			</div>
 			<div class="modal-body text-center mb-0">
 				<div>
-					<div class="">
-						<a href="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg" class="fresco" data-fresco-group="web">
-						<img class="img-fluid" src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg"></a>
-					</div>
-					<div class="">
-						<a href="https://a0.muscache.com/airbnb/static/destinations/o-Rome_Piazza017_480x320.jpg" class="fresco" data-fresco-group="web">
-							<img class="img-fluid"  src="https://a0.muscache.com/airbnb/static/destinations/o-Rome_Piazza017_480x320.jpg">
-						</a>
-					</div>
-					<div class="">
-						<a href="https://a0.muscache.com/airbnb/static/destinations/o-Los_Angeles_480x320.jpg" class="fresco" data-fresco-group="web">
-						<img class="img-fluid"  src="https://a0.muscache.com/airbnb/static/destinations/o-Los_Angeles_480x320.jpg"></a>
-					</div>
-					<div class="">
-						<a href="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg" class="fresco" data-fresco-group="web">
-						<img class="img-fluid"  src="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg"></a>
-					</div>
-					<div class="">
-						<a href="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg" class="fresco" data-fresco-group="web">
-						<img class="img-fluid"  src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg"></a>
-					</div>
+					<c:forEach items="${acc.photos }" var="photo">
+						<div class="">
+							<a href="/resources/images/acc/${photo.name }" class="fresco" data-fresco-group="web">
+							<img id="img-${photo.num }" src="/resources/images/acc/${photo.name }" class="modal-img"></a>
+						</div>
+					</c:forEach>
 				</div>
 			</div>
 		</div>
@@ -746,18 +757,23 @@ $(function() {
 	// 이미지 모달
 	$("#btn-open-image-modal").click(function() {
 		accImageModal.show();
+		$("#img-1").focus();
 	});
 	$("#btn-open-image-modal2").click(function() {
 		accImageModal.show();
+		$("#img-2").focus();
 	});
 	$("#btn-open-image-modal3").click(function() {
 		accImageModal.show();
+		$("#img-3").focus();
 	});
 	$("#btn-open-image-modal4").click(function() {
 		accImageModal.show();
+		$("#img-4").focus();
 	});
 	$("#btn-open-image-modal5").click(function() {
 		accImageModal.show();
+		$("#img-5").focus();
 	});
 	$("#btn-open-image2-modal").click(function() {
 		accImageModal.show();
@@ -800,6 +816,18 @@ $(function() {
             }
         }
     });
+	$('.contentbox2').each(function(){
+        var content = $(this).children('.content2');
+        var content_txt = content.text();
+        var content_txt_short = content_txt.substring(0,200)+"...";
+        
+        if(content_txt.length >= 150){
+            content.html(content_txt_short)
+            
+        }
+    });
+	
+	
 	
 	/* console.log(latitude);
 	console.log(longitude); */
@@ -883,6 +911,8 @@ $(function() {
 	  		$(".day").text(day)
 	  		let sum = ${acc.price } * day
 	  		$("#day-price").text(sum.toLocaleString())
+	  		let totalPrice = ${acc.cleaningPrice} + sum
+	  		$("#totalPrice").text(totalPrice.toLocaleString())
 	}) 
 	
 	/* $("#edate").flatpickr({
@@ -1014,11 +1044,7 @@ $(function() {
 			}
 		})
 
-		$("#guest").hide();
 		
-		$("#guest-btn").click(function() {
-			$("#guest").toggle();
-		})
 		
 		// 스크롤스파이
 		var scrollSpy = new bootstrap.ScrollSpy(document.body, {
@@ -1078,43 +1104,98 @@ $(function() {
 		  });
 		}; */
 
+	$("#guest").hide();
+	
+	$("#guest-btn").click(function() {
+		$("#guest").toggle();
+	})
+	
+	$(".adultM").addClass("disabled")
+	$(".childrenM").addClass("disabled")
+	$(".infantM").addClass("disabled")
+	$(".petM").addClass("disabled")
+	
+	$(".guestbtn").click(function() {
 		
-		$(".guestbtn").click(function() {
-			
-			
+		$(function() {
 			$("#adultCount").text($(".adultCount").text());		
 			$("#childrenCount").text($(".childrenCount").text());		
 			$("#infantCount").text($(".infantCount").text());		
-			$("#petCount").text($(".petCount").text());		
-			$(function() {
-				$("#adultCount").text($(".adultCount").text());		
-				$("#childrenCount").text($(".childrenCount").text());		
-				$("#infantCount").text($(".infantCount").text());		
-				$("#petCount").text($(".petCount").text());		
-			})
+			$("#petCount").text($(".petCount").text());	
+			
+			let adult = parseInt($(".adultCount").text())
+			let children = parseInt($(".childrenCount").text())
+			let infant = parseInt($(".infantCount").text())
+			let pet = parseInt($(".petCount").text())
+			
+			let limit = parseInt(${acc.guest})
+			let petLimit = parseInt(${acc.pet})
+			let total = adult + children + infant
+			console.log(total)
+			
+			if (limit === total) {
+				$(".hu_p_btn").addClass("disabled")	
+			} else {
+				$(".hu_p_btn").removeClass("disabled")
+			}
+			
+			if (petLimit === pet) {
+				$(".pet_p_btn").addClass("disabled")	
+			} else {
+				$(".pet_p_btn").removeClass("disabled")
+			}
+			
+			
+				
+			if (adult === 0){
+				$(".adultM").addClass("disabled")	
+			} else {
+				$(".adultM").removeClass("disabled")
+			}
+			
+			if (children === 0){
+				$(".childrenM").addClass("disabled")	
+			} else {
+				$(".childrenM").removeClass("disabled")
+			}
+			
+			if (infant === 0){
+				$(".infantM").addClass("disabled")	
+			} else {
+				$(".infantM").removeClass("disabled")
+			}
+			
+			if (pet === 0){
+				$(".petM").addClass("disabled")	
+			} else {
+				$(".petM").removeClass("disabled")
+			}
+			
 		})
 		
-		$(function() {
-		            
-            $(".p_btn").click(function() {
-                var $this = $(this);
-                var target = $this.prev();
-                var num = parseInt(target.text());
-                num++;
-				
-                target.text(num);
-                
-            });
+	})
+	
+	$(function() {
+	            
+           $(".p_btn").click(function() {
+               var $this = $(this);
+               var target = $this.prev();
+               var num = parseInt(target.text());
+               num++;
+			
+               target.text(num);
+               
+           });
 
-            $(".m_btn").click(function() {
-                var $this = $(this);
-                var target = $this.next();
-                var num = parseInt(target.text());
-                num -= ( (num === 0) ? 0 : 1 ); //0이하로는 못내려가게 한다 
-				
-                target.text(num);
-            });
-		});
+           $(".m_btn").click(function() {
+               var $this = $(this);
+               var target = $this.next();
+               var num = parseInt(target.text());
+               num -= ( (num === 0) ? 0 : 1 ); //0이하로는 못내려가게 한다 
+			
+               target.text(num);
+           });
+	});
 		
        
 		

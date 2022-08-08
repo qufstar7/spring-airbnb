@@ -22,6 +22,8 @@ public interface AccommodationMapper {
 	List<Convenience> getMainConveniencesByAccNo(int accNo);
 	// 숙소 사진 리스트
 	List<AccPhoto> getAccPhotosByAccNo(int accNo);
+
+	void updateReviewCount(Accommodation accommodation);
 	
 
 }

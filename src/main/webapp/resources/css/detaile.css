@@ -62,7 +62,7 @@
 		position: absolute;
 		background: rgb(255, 255, 255);
 		width: 332px;
-		top: 175px;
+		top: 220px;
 		border: 1px solid;
 		padding: 16px;
 		z-index: 1000;
@@ -72,6 +72,17 @@
 		border:1px solid;
 		width: 320px;
 		height: 56px;
+	}
+	
+	input {
+	  width: 300px;
+	  height: 32px;
+	  font-size: 15px;
+	  border: 0;
+	  border-radius: 15px;
+	  outline: none;
+	  padding-left: 10px;
+	  background-color: rgb(233, 233, 233);
 	}
 	
 	#adult{
@@ -228,7 +239,12 @@
 	  	filter: brightness(70%);
 	}
 	
-	
+	.modal-img:hover {
+		border-top-right-radius: 1em;
+		overflow: hidden;
+		transition: transform 1s;
+	  	filter: brightness(70%);
+	}
 	
 .card-columns img {
   object-fit: cover;
