@@ -27,9 +27,8 @@
  	</select>
  	
  	<resultMap type="Accommodation" id="AccResultMap">
-		<id column="ACC_NO" property="no"/>
+		<id column="ACC_NO" property="accNo"/>
 		<result column="TYPE_NO" property="typeNo"/>
-		<result column="USER_NO" property="userNo"/>
 		<result column="ACC_REVIEW_COUNT" property="reviewCount"/>
 		<result column="ACC_REVIEW_SCORE" property="reviewScore"/>
 		<result column="ACC_NAME" property="name"/>
@@ -54,6 +53,7 @@
 		<result column="ACC_REFOUND_DESCRIPTION" property="refoundDescription"/>
 		<result column="ACC_CLEANING_PRICE" property="cleaningPrice"/>
 		<result column="IMAGE_COVER" property="imageCover"/>
+		<association property="user" column="USER_NO" select="kr.co.airbnb.mapper.UserMapper.getUserByNo"/>
 	</resultMap>
  	
  	<!-- List<Accommodation> getWishlistAccsByNo:(List<Integer> wishlistNo); -->
