@@ -20,4 +20,5 @@ public class AccType {
 	private String imageName;
 	private String description;
 	
+	
 }

@@ -293,23 +293,29 @@ body {
 }
 
 /* 숙소 메인 유형 */
-.main-type-box {
-	height: 100%;
+.main-box {
+    height: 100%;
+    overflow: scroll;
 }
 
-.main-type-btn {
+.btn-types {
 	max-width: 464px;
 	border-radius: 12px;
 	border: 1px solid rgb(221, 221, 221);
+	background-color: white;
 }
 
-.main-type-btn:hover {
-	box-shadow: rgb(34, 34, 34) 0px 0px 0px 2px;
+.btn-types:hover {
+	box-shadow: rgb(34, 34, 34) 0px 0px 0px 2px !important;
 }
+
+.btn-type-checked {
+	border: 2px solid black !important;
+	background-color: rgb(247, 247, 247) !important;
+}
+
 
 .main-type-img {
-	width: 56px;
-	height: 56px;
 	object-fit: cover;
 }
 
@@ -317,10 +323,22 @@ body {
 	font-size: 18px;
 }
 
+/* 숙소 서브 유형 */
+.sub-type-description {
+	font-size: 14px !important;
+    line-height: 20px !important;
+    color: rgb(113, 113, 113) !important;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
 /* 호스트 등록 페이지 footer */
 .progress {
 	height: 2px;
 }
+
 
 #back-btn:hover {
 	

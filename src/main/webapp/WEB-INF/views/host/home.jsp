@@ -67,8 +67,7 @@
 								xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
 								role="presentation" focusable="false"
 								style="display: block; height: 16px; width: 16px; fill: white;">
-								<path
-									d="M27.024 14.273L6.008 2.013c-.461-.268-1-.342-1.517-.206A2 2 0 0 0 3 3.741V28.26a2.002 2.002 0 0 0 3.008 1.728l21.015-12.26a2.003 2.003 0 0 0 .001-3.454z"></path></svg></span>
+								<path d="M27.024 14.273L6.008 2.013c-.461-.268-1-.342-1.517-.206A2 2 0 0 0 3 3.741V28.26a2.002 2.002 0 0 0 3.008 1.728l21.015-12.26a2.003 2.003 0 0 0 .001-3.454z"></path></svg></span>
 					</button>
 				</div>
 
@@ -395,7 +394,8 @@
 					</span>
 				</div>
 				<div class="mt-3">
-					<button type="button"  onclick="" class="modal-continue-btn btn text-white" style="background-color: #FF385C;">계속</button>
+					<button type="button"  onclick="" class="modal-continue-btn btn text-white" 
+					        style="background-color: #FF385C;">계속</button>
 				</div>
 			</div>
 <!-- 			
@@ -407,7 +407,9 @@
 				<div class="container-fluid">
 					<div class="row m-3">
 						<button type="button" class="btn btn-light border-dark p-2 bg-white">
-							<svg class="ms-2 float-start" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="presentation" aria-hidden="true" focusable="false" style="height: 20px; width: 20px; fill: currentcolor;">
+							<svg class="ms-2 float-start" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" 
+							     xmlns:xlink="http://www.w3.org/1999/xlink" role="presentation" aria-hidden="true" 
+							     focusable="false" style="height: 20px; width: 20px; fill: currentcolor;">
 								<defs>
 									<path id="a" d="M.001 0H24v23.854H.001z"></path>
 								</defs>
@@ -424,7 +426,8 @@
 					</div>
 					<div class="row m-3">
 						<button type="button" class="btn btn-light border-dark p-2 bg-white">
-							<svg class="ms-2 float-start" viewBox="0 0 18 18" role="presentation" aria-hidden="true" focusable="false" style="height: 20px; width: 20px;">
+							<svg class="ms-2 float-start" viewBox="0 0 18 18" role="presentation" aria-hidden="true" 
+							     focusable="false" style="height: 20px; width: 20px;">
 								<g fill="none" fill-rule="evenodd">
 									<path d="M9 3.48c1.69 0 2.83.73 3.48 1.34l2.54-2.48C13.46.89 11.43 0 9 0 5.48 0 2.44 2.02.96 4.96l2.91 2.26C4.6 5.05 6.62 3.48 9 3.48z" fill="#EA4335"></path>
 									<path d="M17.64 9.2c0-.74-.06-1.28-.19-1.84H9v3.34h4.96c-.1.83-.64 2.08-1.84 2.92l2.84 2.2c1.7-1.57 2.68-3.88 2.68-6.62z" fill="#4285F4"></path>
@@ -438,7 +441,9 @@
 					</div>
 					<div class="row m-3">
 						<button type="button" class="btn btn-light border-dark p-2 bg-white">
-							<svg class="ms-2 float-start" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="presentation" aria-hidden="true" focusable="false" style="height: 20px; width: 20px; fill: currentcolor;">
+							<svg class="ms-2 float-start" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" 
+							     role="presentation" aria-hidden="true" focusable="false" style="height: 20px; width: 20px; 
+							     fill: currentcolor;">
 								<path d="m13.3 2.1a5.1 5.1 0 0 1 3.8-2.1 5.1 5.1 0 0 1 -1.2 3.8 4.1 4.1 0 0 1 -3.6 1.7 4.5 4.5 0 0 1 1-3.4zm-5 3.7c-2.8 0-5.8 2.5-5.8 7.3 0 4.9 3.5 10.9 6.3 10.9 1 0 2.5-1 4-1s2.6.9 4 .9c3.1 0 5.3-6.4 5.3-6.4a5.3 5.3 0 0 1 -3.2-4.9 5.2 5.2 0 0 1 2.6-4.5 5.4 5.4 0 0 0 -4.7-2.4c-2 0-3.5 1.1-4.3 1.1-.9 0-2.4-1-4.2-1z"></path>
 							</svg>
 		                	<div class="modal-login-btn-text">Apple 계정으로 계속하기</div>
@@ -446,7 +451,8 @@
 					</div>
 					<div class="row m-3">
 						<button type="button" class="btn btn-light border-dark p-2 bg-white">
-			                <svg class="ms-2 float-start" viewBox="0 0 24 24" role="presentation" aria-hidden="true" focusable="false" style="height: 20px; width: 20px; fill: currentcolor;">
+			                <svg class="ms-2 float-start" viewBox="0 0 24 24" role="presentation" aria-hidden="true" 
+			                     focusable="false" style="height: 20px; width: 20px; fill: currentcolor;">
 			                	<path d="m22.5 4h-21c-.83 0-1.5.67-1.5 1.51v12.99c0 .83.67 1.5 1.5 1.5h20.99a1.5 1.5 0 0 0 1.51-1.51v-12.98c0-.84-.67-1.51-1.5-1.51zm.5 14.2-6.14-7.91 6.14-4.66v12.58zm-.83-13.2-9.69 7.36c-.26.2-.72.2-.98 0l-9.67-7.36h20.35zm-21.17.63 6.14 4.67-6.14 7.88zm.63 13.37 6.3-8.1 2.97 2.26c.62.47 1.57.47 2.19 0l2.97-2.26 6.29 8.1z" fill-rule="evenodd"></path>
 			                </svg>
 		                	<div class="modal-login-btn-text">이메일로 로그인하기</div>
