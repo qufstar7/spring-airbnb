@@ -30,30 +30,129 @@
 <body>
 <div class="container">
 	<div class="mt-5 mb-5" id="review">
-		<h4><i class="bi bi-star-fill"></i> <span>4.96</span>${acc.reviewScore } 
-			<span class="text-decoration">후기 128${acc.reviewCount }개</span></h4>
-	</div>
-	<div class="row">
-		<div class="col-4">
-			<p>청결도</p>
-		</div>
-		<div class="col-2 barBox">
-			<div class="scoreBarleft">
-				<div id="bar-clean-avg" style="width: 70%;">
+		<div class="row">
+			<div class="col-4">
+				<div class="mb-3" id="box-score">
+					<i class="bi bi-star-fill"></i>
+					<span><strong>4.96</span></strong>
+					<span><strong>후기 128개</strong></span>
+					<h4><i class="bi bi-star-fill"></i> <span>4.96</span>${acc.reviewScore } 
+					<span class="text-decoration">후기 128${acc.reviewCount }개</span></h4>
 				</div>
-			</div>
-		</div>
-		<div class="col-4">
-			<p>정확성</p>
-			<p>위치</p>
-			<p>가격 대비 만족도</p>
-		</div>
-		<div class="col-2">
-			<p><span>------</span><span>5.0</span></p>
-			<p><span>------</span><span>5.0</span></p>
-			<p><span>------</span><span>4.9</span></p>
-		</div>
+				<div class="row">
+					<div class="col-4">
+						<p>청결도</p>
+					</div>
+					<div class="col-4 barBox">
+						<div class="scoreBarleft">
+							<div id="bar-clean-avg" style="width: 70%;">
+							</div>
+						</div>
+					</div>
+				</div>
+     		</div>
+     		<div class="col-8">		
+     			<div class="row">
+     				<div class="col-12">
+						<div class="row mb-5">
+							<div class="col-12">
+								<div id="box-review">
+									<div>
+										<form>
+											<div class="search-box mb-3">
+												<i class="bi bi-search"></i>
+												<input type="search" placeHolder="후기 검색" class="searchKeyword" id="search-keyword" name="keyword"/> 
+											</div>
+										</form>
+									</div>
+									<div id="box-show-reviews">
+										<div class="row-4 mb-3">
+											<p class="noMargin">Martin</p>
+											<p class="noMargin">2017년 12월</p>
+										</div>
+										<div class="row-8 mb-5">
+											<p>친한 친구들과 함께 향후 몇 년간의 진행 상황을 확인할 ...
+											</p>
+											<span><strong>더 보기 ></strong></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+      		</div>
+     	</div>
 	</div>
 </div>
+<script type="text/javascript">
+$(function() {
+	
+	let $scoreBox = $("#box-score");
+	let $reviewBox = $("#box-review");
+	
+	$.ajax({
+		type: "GET",
+		url: "review/alist",
+		data: {accNo:accNo},
+		dataType: 'json',
+		success: function(data) {
+			let item = data.item;
+			// let image = user.image;
+			
+			if (item.length == 0) {
+					let content1 = '';
+					content1 += '<p>이 호스트의 다른 숙소에 대한 후기가 763개 있습니다. 다른 숙소 후기 보기</p>';
+					$scoreBox.html(content1);
+					
+					let content2 = '';
+					content2 += '<p>여행에 차질이 없도록 최선을 다해 도와드리겠습니다. 모든 예약은 에어비앤비의 게스트 환불 정책에 따라 보호를 받습니다.</p>';
+					$reviewBox.html(content2);
+				})
+				
+			} else {
+				$.each(reviews, function(index, review) {
+					let content3 = '';
+					content3 += '<i class="bi bi-star-fill"></i>';
+					content3 += '<span><strong>4.96</span></strong>';
+					content3 += '<span><strong>후기 128개</strong></span>';
+					content3 += '<h4><i class="bi bi-star-fill"></i> <span>4.96</span>${acc.reviewScore } ';
+					content3 += '<span class="text-decoration">후기 128${acc.reviewCount }개</span></h4>';
+					
+					
+					
+					
+					
+					
+					let content4 = '';
+					content4 += '<div>';
+					content4 += '	<form>';
+					content4 += '		<div class="search-box mb-3">';
+					content4 += '			<i class="bi bi-search"></i>';
+					content4 += '			<input type="search" placeHolder="후기 검색" class="searchKeyword" id="search-keyword" name="keyword"/> ';
+					content4 += '		</div>';
+					content4 += '	</form>';
+					content4 += '</div>';
+					content4 += '<div id="box-show-reviews">';
+					content4 += '	<div class="row-4 mb-3">';
+					content4 += '		<p class="noMargin">Martin</p>';
+					content4 += '		<p class="noMargin">2017년 12월</p>';
+					content4 += '	</div>';
+					content4 += '	<div class="row-8 mb-5">';
+					content4 += '		<p>친한 친구들과 함께 향후 몇 년간의 진행 상황을 확인할 ...';
+					content4 += '		</p>';
+					content4 += '		<span><strong>더 보기 >> </strong></span>';
+					content4 += '	</div>';
+					content4 += '</div>';
+				
+					$reviewBox.append(content4);
+			}
+			
+		}
+	})
+	
+})
+
+</script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package kr.co.airbnb.controller.rest;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.airbnb.form.GuestReviewForm;
 import kr.co.airbnb.form.HostReviewForm;
+import kr.co.airbnb.reponse.ListResponseData;
 import kr.co.airbnb.reponse.ResponseData;
 import kr.co.airbnb.reponse.SingleResponseData;
 import kr.co.airbnb.service.ReviewService;
@@ -36,7 +38,6 @@ public class ReviewRestController {
 	public SingleResponseData<GuestRequest> guestRequest(@PathVariable("reservationNo") int reservationNo) {
 		GuestRequest guestRequest = reviewService.getGuestInfo(reservationNo);
 		
-		return SingleResponseData.create(guestRequest);
 	}
 	
 	@GetMapping(path = "/review/getHost/{reservationNo}")
@@ -50,8 +51,15 @@ public class ReviewRestController {
 	@GetMapping(path = "/check")
 	public SingleResponseData<String> duplicateCheck(@RequestParam("reservationNo") int reservationNo) {
 		
-		String isDuplicated = reviewService.getDuplicateReview(reservationNo, 3);		// "Y" or "N" 나온다. Y가 나오면 이미 리뷰를 달았다는 뜻이다.
+		String isDuplicated = reviewService.getDuplicateReview(reservationNo, 2);		// "Y" or "N" 나온다. Y가 나오면 이미 리뷰를 달았다는 뜻이다.
 		return SingleResponseData.create(isDuplicated);
+	}
+	
+	@GetMapping(path = "/checkOverdue")
+	public SingleResponseData<String> overdueCheck(@RequestParam("reservationNo") int reservationNo) {
+		
+		String isOverdue = reviewService.getCheckoutDate(reservationNo, 2);				// "Y" or "N" 나온다. Y가 나오면 체크아웃한지 14일이 지났다는 뜻이다.
+		return SingleResponseData.create(isOverdue);
 	}
 	
 	@GetMapping(path = "/getGuest")
@@ -71,7 +79,7 @@ public class ReviewRestController {
 	@PostMapping(path = "/saveGuest")
 	public ResponseData saveReview(@RequestBody GuestReviewForm guestReviewForm)  {
 		Review review = Review.createGuestReview(guestReviewForm);
-		reviewService.saveGuestReview(review);
+	//	reviewService.saveGuestReview(review);
 		
 		return ResponseData.create(true, "리뷰가 등록되었습니다.");
 	}
@@ -84,13 +92,10 @@ public class ReviewRestController {
 		return ResponseData.create(true, "리뷰가 등록되었습니다.");
 	}
 	
-	/*
-	@PutMapping(path = "/updateCount")
-	public ResponseData updateCount(@RequestParam("accNo") int accNo) {
-		Accommodation accommodation = new Accommodation();
-		reviewService.updateReviewCount(accommodation);
+	@GetMapping(path = "/getReviews")
+	public ListResponseData<Review> reviews(@RequestParam("accNo") int accNo) {
+		List<Review> reviews = reviewService.getReviews(accNo);
 		
-		return ResponseData.create(true, "");
-	}
-*/
+		return ListResponseData.create(reviews);
+	} 
 }
