@@ -53,13 +53,45 @@
 	}
 	
 	.sticky {
-	   position: -webkit-sticky; /* 사파리 브라우저 지원 */
 	   position: sticky;
-	   top: 50px;
+	   top: 80px;
 	   padding: 0;
 	   width: 372px;
 	}
+	#guest{
+		position: absolute;
+		background: rgb(255, 255, 255);
+		width: 332px;
+		top: 220px;
+		border: 1px solid;
+		padding: 16px;
+		z-index: 1000;
+	}
 	
+	.guest{
+		border:1px solid;
+		width: 320px;
+		height: 56px;
+	}
+	
+	input {
+	  width: 300px;
+	  height: 32px;
+	  font-size: 15px;
+	  border: 0;
+	  border-radius: 15px;
+	  outline: none;
+	  padding-left: 10px;
+	  background-color: rgb(233, 233, 233);
+	}
+	
+	#adult{
+		display: inline-flex;
+		align-items: center;
+	}
+	.adult{
+		align-items: center;
+	}
 	
 	
 	#box {
@@ -67,7 +99,7 @@
 		height: 557px;
 	}
 	
-	.box {margin:20px auto;}
+	.contentbox {margin:20px auto;}
     .content {
         width: auto;
     }
@@ -106,9 +138,17 @@
     }
 	 
 	#box {
-		width: 370;
-		height: 460;
+		width: 380px;
+		height: 496px;
 	}
+	.boxhd {
+		height: 27px;
+		margin-bottom: 24px;
+	}
+	
+	
+
+	
 	.profile {
 		border-radius: 70%;
 		width: 64px; 
@@ -199,7 +239,12 @@
 	  	filter: brightness(70%);
 	}
 	
-	
+	.modal-img:hover {
+		border-top-right-radius: 1em;
+		overflow: hidden;
+		transition: transform 1s;
+	  	filter: brightness(70%);
+	}
 	
 .card-columns img {
   object-fit: cover;

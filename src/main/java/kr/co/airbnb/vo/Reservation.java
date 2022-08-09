@@ -14,7 +14,7 @@ import lombok.ToString;
 @Alias("Reservation")
 public class Reservation {
 
-	private int no;
+	private int reservatioNo;
 	private Date checkInDate;
 	private Date checkOutDate;
 	private int adultNum;

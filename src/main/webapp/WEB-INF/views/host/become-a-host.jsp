@@ -17,6 +17,8 @@
 <body>
 <!-- 숙소유형 선택 메인 -->
 <div class="host-box">
+
+	<!-- 왼쪽 영역 -->
 	<div id="left-div">
 		<!-- leftDiv text -->
 		<div class="align-self-center m-5">
@@ -35,15 +37,22 @@
 							<li class="nav-item nav-ask-superhost">
 								<a class="profile-btn right-nav-btn nav-link active border rounded-pill" href="">
 									<div>
-										<img class="sm-profile-img front-img" src="/resources/images/host/julian-wan.jpg" aria-hidden="true"> 
-										<img class="sm-profile-img middle-img" src="/resources/images/host/jurica-koletic.jpg" aria-hidden="true"> 
-										<img class="sm-profile-img back-img" src="/resources/images/host/michael-dam.jpg" aria-hidden="true">
+										<img class="sm-profile-img front-img" 
+										     src="/resources/images/host/julian-wan.jpg" aria-hidden="true"> 
+										<img class="sm-profile-img middle-img" 
+										     src="/resources/images/host/jurica-koletic.jpg" aria-hidden="true"> 
+										<img class="sm-profile-img back-img" 
+										     src="/resources/images/host/michael-dam.jpg" aria-hidden="true">
 									</div> 
 									<span class="profile-text">슈퍼호스트에게 물어보기</span>
 								</a>
 							</li>
-							<li class="nav-item"><a class="right-nav-btn nav-link active border rounded-pill" href="">도움말</a></li>
-							<li class="nav-item"><a class="right-nav-btn nav-link active border rounded-pill" href="">저장 및 나가기</a></li>
+							<li class="nav-item">
+								<a class="right-nav-btn nav-link active border rounded-pill" href="">도움말</a>
+							</li>
+							<li class="nav-item">
+								<a class="right-nav-btn nav-link active border rounded-pill" href="">저장 및 나가기</a>
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -51,34 +60,34 @@
 		</div>
 
 		<!-- rightDiv main -->
-		<div class="main-type-box align-self-center bg-white">
-
+		<div class="main-box align-self-center bg-white">
+		<form id="form-select-type">
 			<!--일반숙소유형선택 -->
-			<div class="bd-highlight m-5">
-
+			<div id="box-buttons" class="bd-highlight">
 				<!-- 일반숙소유형 선택버튼 -->
-				<c:forEach var="type" items="${accMainTypes }">
-					<div class="p-2 text-center">
-						<button 
-							class="main-type-btn btn btn-outline-dark bg-white container p-3"
-							type="button" role="radio" data-type="${type.no }">
+				<div id="right-content-box" class="text-center">
+					<div class="py-3">
+						<c:forEach var="type" items="${accMainTypes }">
+						<button	class="btn btn-types bg-white container p-3 m-2" 
+						        type="button" role="radio" data-type="${type.no }">
 							<div class="float-start m-3">
 								<div class="text-lg-center fw-bolder text-dark">${type.name }</div>
 							</div>
 							<div class="float-end">
 								<div>
-									<img
-										src="/resources/images/acctype/maintype/${type.imageName }.jpg"
-										class="main-type-img img-fluid rounded float-end"
-										alt="숙소유형사진">
+									<img src="/resources/images/acctype/maintype/${type.imageName }.jpg" 
+										 alt="type image"
+										 style="width: 56px; height: 56px;"
+										 class="main-type-img img-fluid rounded float-end">
 								</div>
 							</div>
 						</button>
+						</c:forEach>
 					</div>
-				</c:forEach>
-
+				</div>
+				<input class="hiddenField" type="hidden" name="typeno" value="1">
 			</div>
-
+		</form>
 		</div>
 
 		<!-- rightDiv footer -->
@@ -86,18 +95,19 @@
 			<div class="container-fluid">
 				<!-- 진행상황 bar -->
 				<div class="progress mb-2">
-			    	<div class="progress-bar bg-dark" style="width:10%;" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+			    	<div class="progress-bar bg-dark" style="width:10%;" role="progressbar" 
+			    	     aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
 				</div>
 				<!-- 뒤로/다음버튼 -->
 				<div class="">
 					<button id="back-btn"
 						class="float-start btn btn-none ms-4 fs-6 text-decoration-underline text-black border-0"
-						type="button" onclick="location.href='/host';">뒤로</button>
+						type="button" onclick="location.href='/host/become-a-host'" style="padding-top:14px">뒤로</button>
 				</div>
 				<div class="">
 					<button id="next-btn"
 						class="float-start btn btn-dark float-end me-5" type="button"
-						onclick="location.href='/host/become-a-host2/${type}'">
+						onclick="" style="width:80px;height:48px;">
 						다음</a>
 				</div>
 			</div>
@@ -108,26 +118,82 @@
 </div>
 
 <script type="text/javascript">
-/* ajax로 become-a-host 숙소 등록 페이지 구성, 데이터 처리하기 */
 $(function(){
-	let queryString = $("").serialize();
+	
+	// 타입을 선택할 때	
+	$("#right-content-box").on("click", '.btn-types', function() {
+		// 버튼 체크 중 속성 추가
+		$(".btn-types").removeClass("btn-type-checked");
+		$(this).addClass("btn-type-checked");
+		
+		// 클릭한 버튼의 data-type 속성값 저장
+		let type = $(this).attr("data-type");	
+		console.log(type);
+		
+		// 기존의 히든필드 삭제
+ 		if ($(".hiddenField")) {
+			$(".hiddenField").remove();
+		}		
+		// 히든필드 생성 및 추가
+		let hiddenField = '<input class="hiddenField" type="hidden" name="typeno" value="' + Number(type) + '">';
+		$("#box-buttons").append(hiddenField);
+	});
+	
+	// 다음 버튼 클릭시
+	$("#next-btn").click(function() {
+		let intType = Number($("input[name=typeno]").val());
+		console.log("type: " + intType + " typeof type: " + typeof(intType));
+		if (intType < 7) {
+			searchSubTypes();			
+		}
+		goToPrivacyType();
+	});
+	
+	// 뒤로가기 버튼 클릭시
+/* 	$("#next-btn").click(function() {
+		goBack();
+	});	
+	
+	function goBack() {
+		
+	} */
+	
+	// 서브타입 조회
+	function searchSubTypes() {
+		/* let queryString = */
+		let $box = $("#right-content-box").empty();
+		
+		$.getJSON("/host/search?mainType=" + $("input[name=typeno]").val() , function(subTypes) {
+			if (subTypes.length == 0) {
+				let content = `
+					<div class="col-12">
+						<p class="text-center">검색결과가 존재하지 않습니다.</p>
+					</div>
+				`;
+				$box.append(content);
+			} else {
+	            $.each(subTypes, function(index, subType) {
+	            	let content = '';
+	            	content += '<div class="">';
+	            	content += '	<button	class="btn btn-types bg-white container m-2" type="button" role="radio" data-type='+ subType.no +'">';
+	            	content += '		<div class="m-3 mb-0 text-lg-start fw-bolder text-dark" style="font-size:18px;">'+ subType.name +'</div>';
+            		content += '		<div class="m-3 mt-2 text-start sub-type-description">'+subType.description+'</div>';
+	            	content += '	</button>';
+	            	content += '</div>';
+ 	            	
+	                $box.append(content);
+                }) 
+			}
+		})
+	}
+	
+	// 개인실-다인실여부 페이지로
+	function goToPrivacyType() {
+		
+	}
+	
 })
 
-
-/* var type = 0;
-$(".main-type-btn").click(function() {
-    type = $(this).attr("data-type");
-
-	var types = {
-		"mainTypeNo" : type
-	};
-	localStorage.setItem("types", JSON.stringify(types));
-});
-
-let jsonSet= JSON.parse(localStorage.getItem("types"));
-console.log(jsonSet); */
-
 </script>
-
 </body>
 </html>

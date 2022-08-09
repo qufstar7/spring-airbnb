@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="tags.jsp"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/navbarstyle.css">
-<nav class="navbar ${page eq 'subNav' ? '' : 'sticky-top' } py-0" >
+<nav class="navbar ${page eq 'subNav' ? '' : 'sticky-top' } py-0" id="nav">
 		<!-- 로고가 있는 navbar -->
 		<div class="container">
 			<div class="box" id="logo">
@@ -81,7 +81,7 @@
 								<a class="dropdown-item" href="#"><strong>메시지</strong></a>
 								<a class="dropdown-item" href="#"><strong>알림</strong></a>
 								<a class="dropdown-item" href="#"><strong>여행</strong></a>
-								<a class="dropdown-item" href="/user/wishlists"><strong>위시리스트</strong></a>
+								<a class="dropdown-item" href="/wishlists"><strong>위시리스트</strong></a>
 								<hr style="width:180px; margin: 10px auto;">
 								<a class="dropdown-item" href="/host">숙소 호스트 되기</a>
 								<a class="dropdown-item" href="/user/account-settings">계정</a>

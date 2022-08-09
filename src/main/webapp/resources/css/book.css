@@ -1,0 +1,56 @@
+.left-box {
+	float: left;
+	width: 50%;
+}
+
+.right-box {
+	float: right;
+	width: 50%;
+	height: 600px;
+}
+.divide {
+	padding : 15px;
+}
+.divide2 {
+	padding : 5px;
+}
+.container-fixed {
+	position : fixed;
+	top : 30px;
+}
+.modal-title {
+	text-align : center;
+}
+.box {
+    width: 50px;
+    height: 50px; 
+    border-radius: 70%;
+    overflow: hidden;
+}
+.profile {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.box2 {
+     width: 120px;
+    height: 105px; 
+    border-radius: 10%;
+    overflow: hidden;
+}
+.acc {
+    width: 100%;
+    height: 100%;
+    object-fit: full;
+}
+#entire-payment {
+	border: 3px black;
+	border-top: rounded;
+}
+#left-payment {
+	border: 3px black;
+	border-bottom: rounded;
+}
+.insertCard{
+	display:none;
+}

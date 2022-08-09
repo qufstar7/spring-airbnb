@@ -1,10 +1,8 @@
 package kr.co.airbnb.form;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.Length;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +23,7 @@ public class CardRegisterForm {
 	private String expiryDate;
 	
 	@NotBlank(message = "CVV 값 입력은 필수 입니다.")
-	@Pattern(regexp = "^\\d{3}$", message = "")
+	@Pattern(regexp = "^\\d{3}$", message = "CVV 코드를 확인하세요.")
 	private String cvv;
 	
 	@NotBlank(message = "필수 정보입니다.")

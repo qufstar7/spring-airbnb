@@ -3,7 +3,6 @@ package kr.co.airbnb.vo;
 import org.apache.ibatis.type.Alias;
 
 import lombok.Getter;
-
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,18 +11,14 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Alias("Convenience")
+@Alias("AccConvenience")
+public class AccConvenience {
 
-public class Convenience {
-
-	private int no;
-	private String name;
-	private String iconName;
-	private int type;
-
+	private int accNo;
+	private Convenience convenience;
 	
-	public Convenience(int no) {
-		this.no = no;
+	public AccConvenience(int accNo, int no) {
+		this.accNo = accNo;
+		this.convenience = new Convenience(no);
 	}
-
 }

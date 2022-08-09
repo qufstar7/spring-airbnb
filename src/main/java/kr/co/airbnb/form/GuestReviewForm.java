@@ -23,5 +23,6 @@ public class GuestReviewForm {
 	private String nagativeFeedback;
 	private String wantMeetAgain;
 	private String userType;
+	private int reservationNo;
 
 }

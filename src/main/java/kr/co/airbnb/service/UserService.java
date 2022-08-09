@@ -19,8 +19,6 @@ public class UserService {
 
 	@Autowired
 	private UserMapper userMapper;
-	@Autowired
-	private WishlistMapper wishlistMapper;
 	
 	public User getUserByEmail(String email) {
 		
@@ -33,10 +31,6 @@ public class UserService {
 	
 	public void updateUserInfo(User user) {
 		userMapper.updateUser(user);
-	}
-	
-	public List<Wishlist> getMyWishlists(int userNo) {
-		return wishlistMapper.getWishlistsByUserNo(userNo);
 	}
 	
 	/**

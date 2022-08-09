@@ -15,9 +15,10 @@ public class Card {
 	private int no;
 	private String id;
 	private String expiryDate;
-	private int cvv;
+	private String cvv;
 	private String zipCode;
 	private String region;
+	private int balance;
 	private String availability;
 	private User user;
 	

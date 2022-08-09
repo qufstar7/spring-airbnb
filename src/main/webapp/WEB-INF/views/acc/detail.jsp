@@ -18,19 +18,18 @@
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
-<!--  부트스트랩 아이콘 -->
+<!-- 아이콘 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
-<!-- 페데리코 -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+<!-- 페레스코 -->
 <script type="text/javascript" src="/resources/js/fresco.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/resources/css/fresco.css" />
 <link rel="stylesheet" type="text/css" href="/resources/css/detaile.css">
 <!-- 달력 -->
-<link rel="stylesheet" href="/resources/css/datepicker.min.css">
-<script src="/resources/js/datepicker.min.js"></script>
-<script src="/resources/js/i18n/datepicker.ko.js"></script>
-<link rel="stylesheet" href="/resources/css/rome.css">
-<style type="text/css">
-</style>
+<link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_orange.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
 <title>숙소 상세 페이지</title>
 </head>
 <body >
@@ -76,28 +75,42 @@
 	</div>
 	<div class="container main">
 		<div class="row mb-5 flex-container">
-			<div class="flex-item1" >
-				<div class="img-large" id="btn-open-image-modal">
-					<a href="#"><img src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg" id="image-large"></a>
-				</div>
-			</div>
+			<c:forEach items="${acc.photos }" var="photo">
+				<c:if test="${photo.num eq '1' }">
+					<div class="flex-item1" >
+						<div class="img-large" id="btn-open-image-modal">
+							<a href="#"><img src="/resources/images/acc/${photo.name }" id="image-large"></a>
+						</div>
+					</div>
+				</c:if>
+			</c:forEach>
 			<div class="flex-item" id="centerimg">
-				<div class="img-short" id="btn-open-image-modal2">
-					<a href="#"><img src="https://a0.muscache.com/airbnb/static/destinations/o-Rome_Piazza017_480x320.jpg" class="short-img"></a>
-				</div>
-				<div class="img-short short-bottom" id="btn-open-image-modal3">
-					<a href="#"><img src="https://a0.muscache.com/airbnb/static/destinations/o-Los_Angeles_480x320.jpg" class="short-img"></a>
-				</div>
-				
+				<c:forEach items="${acc.photos }" var="photo">
+					<c:if test="${photo.num eq '2' }"> 
+						<div class="img-short" id="btn-open-image-modal2">
+							<a href="#"><img src="/resources/images/acc/${photo.name }" class="short-img"></a>
+						</div>
+					</c:if> 
+					<c:if test="${photo.num eq '3' }">
+						<div class="img-short short-bottom" id="btn-open-image-modal3">
+							<a href="#"><img src="/resources/images/acc/${photo.name }" class="short-img"></a>
+						</div>
+					</c:if>
+				</c:forEach>
 			</div> 
 			<div class="flex-item">
-				<div class="img-short" id="btn-open-image-modal4">
-					<a href="#"><img src="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg" class="short-img" id="image-right-top"></a>
-				</div>
-				<div class="img-short short-bottom" id="btn-open-image-modal5">
-					<a href="#"><img src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg" class="short-img" id="image-right-bottom"></a>
-				</div>
-				
+				<c:forEach items="${acc.photos }" var="photo">
+					<c:if test="${photo.num eq '4' }"> 
+						<div class="img-short" id="btn-open-image-modal4">
+							<a href="#"><img src="/resources/images/acc/${photo.name }" class="short-img" id="image-right-top"></a>
+						</div>
+					</c:if>
+					<c:if test="${photo.num eq '5' }"> 
+						<div class="img-short short-bottom" id="btn-open-image-modal5">
+							<a href="#"><img src="/resources/images/acc/${photo.name }" class="short-img" id="image-right-bottom"></a>
+						</div>
+					</c:if>
+				</c:forEach>
 			</div>
 		</div>
 	</div>
@@ -109,7 +122,7 @@
 					<a id="profile" href="#host">
 						<img class="float-end profile" src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg">
 					</a>
-					<h4>덕인님이 호스팅하는 ${acc.name }</h4>
+					<h4>${acc.user.name }님이 호스팅하는 ${acc.name }</h4>
 					<p>최대 인원 ${acc.guest }명<i class="bi bi-dot"></i>침실 1개<i class="bi bi-dot"></i>침대 1개<i class="bi bi-dot"></i>욕실 1개</p>
 				</div>
 				<hr>
@@ -138,10 +151,8 @@
 					</div>
 				</div>
 				<hr>
-				<div class="box mt-5 mb-5">
-					<h4>숙소설명</h4>
+				<div class="contentbox mt-5 mb-5">
 					<div class="content mb-2">
-					
 						<p>${acc.description }</p>
 					</div>
 				</div>
@@ -160,50 +171,27 @@
 					</div>
 				</div>
 				<hr>
-				<div class="row mt-5" id="con">
+				<div class="row mt-5 mb-5" id="con">
 					<span class="mb-3">
 						<h4>숙소 편의시설</h4>
 					</span>
-					
-					<div class="col-6 mb-2"><p><i class="bi bi-wifi"></i> 무선인터넷</p></div>
-					<div class="col-6 mb-2"><p><i class="bi bi-wifi"></i> 수영장</p></div>
-					<div class="col-6 mb-2"><p><i class="bi bi-wifi"></i> 바베큐그릴</p></div>
-					<div class="col-6 mb-2"><p><i class="bi bi-wifi"></i> 어쩌구</p></div>
-					<div class="col-6 mb-2"><p><i class="bi bi-wifi"></i> 저쩌구</p></div>
-					<div class="col-6 mb-2"><p><i class="bi bi-wifi"></i> 저쩌구리</p></div>
+					<c:forEach items="${acc.conveniences }" var="accConvenience" end="5">
+						<div class="col-6 mb-2 align-middle"><p><span class="material-symbols-outlined"> ${accConvenience.convenience.iconName }</span> ${accConvenience.convenience.name }</p></div>
+					</c:forEach>
 					<div class="col-6 mb-2">
-						<button class="btn btn-outline-dark btn-lg" id="btn-open-con-modal">편의시설 xx개 더보기</button>
+						<button class="btn btn-outline-dark btn-lg" id="btn-open-con-modal">편의시설 전체보기</button>
 					</div>
 				</div>
-				<hr>
+				<!-- <hr>
 				<div class="mt-5 mb-5">
 					<h4>체크아웃 날짜를 선택하세요.</h4>
-					<div class="content">
-						<div class="row text-left">
-							<div class="row justify-content-center">
-								<div class="row text-center">
-									<div class="d-flex">
-										<input type="text" class="form-control m-2  mb-3"
-											id="result_from" placeholder="Check in" disabled="">
-										<input type="text" class="form-control m-2  mb-3"
-											id="result_to" placeholder="Check out" disabled="">
-									</div>
-									<form action="#" class="row">
-										<div class="col-lg-6 mb-4">
-											<div id="inline_cal_from"></div>
-										</div>
-										<div class="col-lg-6 mb-4">
-											<div id="inline_cal_to"></div>
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
+					<input type="text" name="sdate" id="sdate" value="" />
+					<input type="text" name="edate" id="edate" value="" />
 					<div class="single">
 						<h1>1개 짜리</h1>
 						<input id="datepicker" type="text">
 					</div>
+					
 					<div class="row double">
 						<div class="col-6">
 							<input id="datepicker1" class="input-inline" type="hidden">  
@@ -214,15 +202,95 @@
 						
 						</div>
 					</div>
-				</div>
-				
+				</div> -->
 			</div>
-			<div class="col-4 ps-6" id="side">
+			<div class="col-4" id="side">
 				<div class="sticky" >
-					<div class="shadow-lg mb-5 bg-body rounded" id="box">
-						<h4><strong>₩ ${acc.price }</strong></h4><span>/박</span>
-						<button type="button" class="btn btn-link text-dark btn-sm"><i class="bi bi-star-fill"></i> ${acc.reviewScore } <span class="text-decoration-underline">후기 ${acc.reviewCount }개</span></button>
-						<img alt="" src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg" style="width: 100%;">
+					<div class="row shadow-lg bg-body rounded" id="box">
+						<div class="col-7 boxhd" >
+							<h4><strong><fmt:formatNumber value="${acc.price }"/></strong>/
+								<span class="day"></span>박
+							</h4>
+						</div>
+						<div class="col-5 boxhd">
+							<button type="button" class="btn btn-link text-dark btn-sm"><i class="bi bi-star-fill"></i> ${acc.reviewScore } <span class="text-decoration-underline">후기 ${acc.reviewCount }개</span></button>
+						</div>
+						<div class="col-12 start" >
+							<label class="mb-2 p-2">체크인 체크아웃</label>
+							<input class="mb-2" id="days"/>
+							<!-- <span>체크인</span>
+							<span id="start"></span> -->
+						</div>
+						<!-- <div class="col-6 end" >
+							<span>체크아웃</span>
+							<span id="end"></span>
+						</div> -->
+						<button type="button" class="btn btn-outline-dark p-2 mb-2" id="guest-btn">인원:<span id="adultCount"> 0</span> 어린이:<span id="childrenCount"> 0</span> 유아:<span id="infantCount"> 0</span> 반려동물:<sapn id="petCount"> 0</sapn></button>
+						<div class="rounded" id="guest">
+							<div class="mb-4 row justify-content-between align-middle guest-box" >
+								<div class="col-4">
+									성인
+								</div>
+								<div class="col-4 " id="adult">
+										<button class="btn m_btn guestbtn adultM">-</button>
+										<span class="adultCount">0</span>
+										<button class="btn p_btn guestbtn hu_p_btn">+</button>
+								</div>
+							</div>
+							<div class="mb-4 row justify-content-between align-middle guest-box" >
+								<div class="col-4">
+									어린이
+								</div>
+								<div class="col-4 " id="adult">
+										<button class="btn m_btn guestbtn childrenM">-</button>
+										<span class="childrenCount">0</span>
+										<button class="btn p_btn guestbtn hu_p_btn">+</button>
+								</div>
+							</div>
+							<div class="mb-4 row justify-content-between align-middle guest-box" >
+								<div class="col-4">
+									유아
+								</div>
+								<div class="col-4 " id="adult">
+										<button class="btn m_btn guestbtn infantM">-</button>
+										<span class="infantCount">0</span>
+										<button class="btn p_btn guestbtn hu_p_btn">+</button>
+								</div>
+							</div>
+							<div class="mb-4 row justify-content-between align-middle guest-box" >
+								<div class="col-4">
+									반려
+								</div>
+								<div class="col-4 " id="adult">
+										<button class="btn m_btn guestbtn petM">-</button>
+										<span class="petCount">0</span>
+										<button class="btn p_btn guestbtn pet_p_btn">+</button>
+								</div>
+							</div>
+							<div class="mb-4 row justify-content-between align-middle guest-box" >
+								<div class="col">
+									<span>이 숙소의 최대 숙박 인원은 ${acc.guest }명(유아 포함)입니다. 반려동물을 3마리 이상 동반하는 경우, 호스트에게 알려주세요.</span>
+								</div>
+								
+							</div>
+						</div>
+						<button type="button" class="btn btn-outline-dark p-2 mb-3" id="guest-btn">예약하기</button>
+						<div class="mb-3 text-center">
+							<span>예약 확정 전에는 요금이 청구되지 않습니다.</span>
+						</div>
+						<div class="row justify-content-between">
+							<div class="col-6 text-left"><p>₩<fmt:formatNumber value="${acc.price }"/> x <span class="day"></span>박</p></div>
+							<div class="col-5 text-right"><p>₩<span id="day-price"></span> 원</div>
+						</div>
+						<div class="row justify-content-between">
+							<div class="col-6"><p>청소비</p></div>
+							<div class="col-5"><p>₩<fmt:formatNumber value="${acc.cleaningPrice }"/> 원</div>
+						</div>
+						<hr>
+						<div class="row justify-content-between">
+							<div class="col-6"><h6>총합계</h6></div>
+							<div class="col-5"><h6 >₩<span id="totalPrice"></sapn>원</h6></div>
+						</div>
 					</div>
 					<div class="text-center">
 						<button type="button" class="btn btn-link text-decoration-underline text-dark" id="btn-open-report-modal"><i class="bi bi-flag-fill"></i> 숙소 신고하기</button>
@@ -240,10 +308,20 @@
 					<h4>호스팅 지역</h4>
 				</div>
 				<div class="mb-2" id="map"></div>
-				<div class="mb-2">
+				<div class="contentbox2 mt-5 mb-5">
 					<h5>${acc.address }</h1>
-					<p>조용한 어쩌구</p>
+					<div class="content2 mb-2">
+						<p>${acc.description }</p>
+					</div>
+					<button type="button" class="btn btn-link text-decoration-underline text-dark btn-sm" id="btn-open-map-modal2">더보기 <i class="bi bi-chevron-right"></i></button>
 				</div>
+				<%-- <div class="mb-2 content">
+					<h5>${acc.address }</h1>
+					<div class="content">
+						<p>${acc.description }</p>
+					</div>
+					<button type="button" class="btn btn-link text-decoration-underline text-dark btn-sm" id="btn-open-map-modal2">더보기 <i class="bi bi-chevron-right"></i></button>
+				</div> --%>
 			</div>
 			<hr>
 			<div class="row mt-5 mb-5">
@@ -255,8 +333,8 @@
 							</a>
 						</div>
 						<div class="col-11">
-							<h4>호스트:덕인님</h4>
-							<span>회원 가입일: 2019년 12월사업자 정보</span>
+							<h4>호스트: ${acc.user.name }님</h4>
+							<span>회원 가입일: <fmt:formatDate value="${acc.user.createdDate }"/> </span>
 						</div>
 					</div>
 				</div>
@@ -293,7 +371,6 @@
 			</div>
 		</div>
 	</div>
-	
 <!-- 편의시설 모달 -->
 <div class="modal" id="modal-con-acc">
 	<div class="modal-dialog modal-Default">
@@ -303,40 +380,21 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 			</div>
 			<div class="modal-body">
-				<div class="row">
-					<h6>욕실</h6>
-					<p>
-						<i class="bi bi-wifi"></i> 헤어드라이기
-					</p>
-					<hr>
-					<p>
-						<i class="bi bi-wifi"></i> 헤어드라이기
-					</p>
-					<hr>
-				</div>
-				<div class="row">
-					<h6>욕실</h6>
-					<p>
-						<i class="bi bi-wifi"></i> 헤어드라이기
-					</p>
-					<hr>
-					<p>
-						<i class="bi bi-wifi"></i> 헤어드라이기
-					</p>
-					<hr>
-				</div>
-				<div class="row">
-					<h6>욕실</h6>
-					<p>
-						<i class="bi bi-wifi"></i> 헤어드라이기
-					</p>
-					<hr>
-					<p>
-						<i class="bi bi-wifi"></i> 헤어드라이기
-					</p>
-					<hr>
-				</div>
-				
+				<c:forEach items="${cons }" var="con">
+					<div class="row">
+						<h6 class="mb-3">${con.name }</h6>
+						<c:forEach items="${acc.conveniences }" var="accConvenience">
+							<c:choose>
+								<c:when test="${accConvenience.convenience.type eq con.no }">
+									<p><span class="material-symbols-outlined"> ${accConvenience.convenience.iconName }</span>  ${accConvenience.convenience.name }</p>
+									<hr>
+								</c:when>
+								<c:otherwise>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</div>
+				</c:forEach>
 			</div>
 		</div>
 	</div>
@@ -512,33 +570,18 @@
 			</div>
 			<div class="modal-body text-center mb-0">
 				<div>
-					<div class="">
-						<a href="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg" class="fresco" data-fresco-group="web">
-						<img class="img-fluid" src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg"></a>
-					</div>
-					<div class="">
-						<a href="https://a0.muscache.com/airbnb/static/destinations/o-Rome_Piazza017_480x320.jpg" class="fresco" data-fresco-group="web">
-							<img class="img-fluid"  src="https://a0.muscache.com/airbnb/static/destinations/o-Rome_Piazza017_480x320.jpg">
-						</a>
-					</div>
-					<div class="">
-						<a href="https://a0.muscache.com/airbnb/static/destinations/o-Los_Angeles_480x320.jpg" class="fresco" data-fresco-group="web">
-						<img class="img-fluid"  src="https://a0.muscache.com/airbnb/static/destinations/o-Los_Angeles_480x320.jpg"></a>
-					</div>
-					<div class="">
-						<a href="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg" class="fresco" data-fresco-group="web">
-						<img class="img-fluid"  src="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg"></a>
-					</div>
-					<div class="">
-						<a href="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg" class="fresco" data-fresco-group="web">
-						<img class="img-fluid"  src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg"></a>
-					</div>
+					<c:forEach items="${acc.photos }" var="photo">
+						<div class="">
+							<a href="/resources/images/acc/${photo.name }" class="fresco" data-fresco-group="web">
+							<img id="img-${photo.num }" src="/resources/images/acc/${photo.name }" class="modal-img"></a>
+						</div>
+					</c:forEach>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<!-- <!-- 이미지 모달 -->
+<!-- 
 <div class="modal" id="modal-image-acc">
 	<div class="modal-dialog modal-fullscreen">
 		<div class="modal-content">
@@ -645,13 +688,13 @@
 				<div class="row">
 					<div class="col-2">
 						<div>
-							<div class="box">
+							<div class="contentbox">
 								<h4>${acc.address }</h4>
 								<div class="content">
 									<p>${acc.description }</p>
 								</div>
 							</div>
-							<div class="box">
+							<div class="contentbox">
 								<h4>교통편</h4>
 								<div class="content">
 									<p>${acc.trafficDescription }</p>
@@ -666,6 +709,8 @@
 	</div>
 </div>
 <script type="text/javascript">
+
+
 $(function() {
 	// 모달 객체
 	let accConvenienceModal = new bootstrap.Modal(document.getElementById("modal-con-acc"));
@@ -684,6 +729,11 @@ $(function() {
 	// 지도 모달
 	$("#btn-open-map-modal").click(function() {
 		accMapModal.show();
+		relayout()
+	});
+	$("#btn-open-map-modal2").click(function() {
+		accMapModal.show();
+		relayout()
 	});
 	
 	// 신고 모달
@@ -707,18 +757,23 @@ $(function() {
 	// 이미지 모달
 	$("#btn-open-image-modal").click(function() {
 		accImageModal.show();
+		$("#img-1").focus();
 	});
 	$("#btn-open-image-modal2").click(function() {
 		accImageModal.show();
+		$("#img-2").focus();
 	});
 	$("#btn-open-image-modal3").click(function() {
 		accImageModal.show();
+		$("#img-3").focus();
 	});
 	$("#btn-open-image-modal4").click(function() {
 		accImageModal.show();
+		$("#img-4").focus();
 	});
 	$("#btn-open-image-modal5").click(function() {
 		accImageModal.show();
+		$("#img-5").focus();
 	});
 	$("#btn-open-image2-modal").click(function() {
 		accImageModal.show();
@@ -728,7 +783,7 @@ $(function() {
 	});
 	
 	// 글 긴거 더보기
-	$('.box').each(function(){
+	$('.contentbox').each(function(){
         var content = $(this).children('.content');
         var content_txt = content.text();
         var content_txt_short = content_txt.substring(0,100)+"...";
@@ -761,20 +816,33 @@ $(function() {
             }
         }
     });
+	$('.contentbox2').each(function(){
+        var content = $(this).children('.content2');
+        var content_txt = content.text();
+        var content_txt_short = content_txt.substring(0,200)+"...";
+        
+        if(content_txt.length >= 150){
+            content.html(content_txt_short)
+            
+        }
+    });
 	
-	let latitude = '${acc.longitude}'
-	let longitude = '${acc.latitude}'
+	
 	
 	/* console.log(latitude);
 	console.log(longitude); */
 	
 	// 카카오 맵
+	// 불러올 숙소 위치
+	let latitude = '${acc.longitude}'
+	let longitude = '${acc.latitude}'
+	
 	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = { 
         center: new kakao.maps.LatLng(longitude,latitude), // 지도의 중심좌표
         level: 3 // 지도의 확대 레벨
     };
-
+	
 	var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 	
 	// 마커가 표시될 위치입니다 
@@ -795,7 +863,7 @@ $(function() {
 	var mapContainer2 = document.getElementById('map2'), // 지도를 표시할 div 
     mapOption2 = { 
         center: new kakao.maps.LatLng(longitude,latitude), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
+        level: 5	 // 지도의 확대 레벨
     };
 
 	var map2 = new kakao.maps.Map(mapContainer2, mapOption2); // 지도를 생성합니다
@@ -811,155 +879,213 @@ $(function() {
 	// 마커가 지도 위에 표시되도록 설정합니다
 	marker.setMap(map2);
 	
+	// 모달창 등에 지도사용시 다시불러오기 필요
+	function relayout() {    
+	    
+	    // 지도를 표시하는 div 크기를 변경한 이후 지도가 정상적으로 표출되지 않을 수도 있습니다
+	    // 크기를 변경한 이후에는 반드시  map.relayout 함수를 호출해야 합니다 
+	    // window의 resize 이벤트에 의한 크기변경은 map.relayout 함수가 자동으로 호출됩니다
+	    map2.relayout();
+	}
+	
 	// 아래 코드는 지도 위의 마커를 제거하는 코드입니다
 	// marker.setMap(null);    
 	
 	// 달력
 	
-	$("#datepicker").datepicker({
-            language: 'ko',
-            inline: true,
-            range: true,
-            minDate: new Date()
-        });
-
-		let day = $("#datepicker").selectedDates
-		console.log(day)
-		
-
-        //두개짜리 제어 연결된거 만들어주는 함수
-        datePickerSet($("#datepicker1"), $("#datepicker2"), true); //다중은 시작하는 달력 먼저, 끝달력 2번째
-
-        
-        
-        /*
-            * 달력 생성기
-            * @param sDate 파라미터만 넣으면 1개짜리 달력 생성
-            * @example   datePickerSet($("#datepicker"));
-            * 
-            * 
-            * @param sDate, 
-            * @param eDate 2개 넣으면 연결달력 생성되어 서로의 날짜를 넘어가지 않음
-            * @example   datePickerSet($("#datepicker1"), $("#datepicker2"));
-            */
-        function datePickerSet(sDate, eDate, flag) {
-
-            //시작 ~ 종료 2개 짜리 달력 datepicker	
-            if (!isValidStr(sDate) && !isValidStr(eDate) && sDate.length > 0 && eDate.length > 0) {
-                let sDay = sDate.val();
-                let eDay = eDate.val();
-
-                console.log(sDay)
-                console.log(eDay)
-                
-                if (flag && !isValidStr(sDay) && !isValidStr(eDay)) { //처음 입력 날짜 설정, update...			
-                    var sdp = sDate.datepicker().data("datepicker");
-                    sdp.selectDate(new Date(sDay.replace(/-/g, "/")));  
-
-                    var edp = eDate.datepicker().data("datepicker");
-                    edp.selectDate(new Date(eDay.replace(/-/g, "/")));  
-                }
-				
-                
-                //시작일자 세팅하기 날짜가 없는경우엔 제한을 걸지 않음
-                if (!isValidStr(eDay)) {
-                    sDate.datepicker({
-                        maxDate: new Date(eDay.replace(/-/g, "/"))
-                    });
-                }
-                sDate.datepicker({
-                    language: 'ko',
-                    autoClose: true,
-                    inline: true,
-                    position :  'right center',
-                    onSelect: function () {
-                        datePickerSet(sDate, eDate);
-                    }
-                });
-
-                //종료일자 세팅하기 날짜가 없는경우엔 제한을 걸지 않음
-                if (!isValidStr(sDay)) {
-                    eDate.datepicker({
-                        minDate: new Date(sDay.replace(/-/g, "/"))
-                    });
-                } 
-                eDate.datepicker({
-                    language: 'ko',
-                    autoClose: true,
-                    inline: true,
-                    position :  'right center',
-                    onSelect: function () {
-                        datePickerSet(sDate, eDate);
-                        
-                    }
-                });
-
-            } 
-
-
-            function isValidStr(str) {
-                if (str == null || str == undefined || str == "")
-                    return true;
-                else
-                    return false;
-            }
-        }
-	
-
-	$("#profile").click(function() {
-		$("host").focus();
-	})
-	
-	$("#nav-1").hide();
-	
-	$(window).scroll(function() {
-		let scrollTop = $(document).scrollTop();
-		if (scrollTop > 600) {
-			
-			$("#nav-1").show();
-		} else {
-			
-			$("#nav-1").hide();
-			
-		}
+	var fp1 = $("#days").flatpickr({
+		minDate: new Date(),
+		defaultDate : new Date(),
+		mode: "range",
+		dateFormat: "Y-m-d",
+		disable : ["2022-08-16", "2022-08-17"],
+		"locale": "ko" 
+	  	
+	   });  
+	  	fp1.config.onChange.push(function(selectedDates) {
+	  		if (selectedDates[1]==null || selectedDates[0]==null){
+	  			return;
+	  		}
+	  		let diffDate = Date.parse(selectedDates[1])-Date.parse(selectedDates[0])
+	  		let day = Math.floor(diffDate / (1000 * 60 * 60 * 24))
+	  		$(".day").text(day)
+	  		let sum = ${acc.price } * day
+	  		$("#day-price").text(sum.toLocaleString())
+	  		let totalPrice = ${acc.cleaningPrice} + sum
+	  		$("#totalPrice").text(totalPrice.toLocaleString())
 	}) 
 	
-	// 스크롤스파이
-	var scrollSpy = new bootstrap.ScrollSpy(document.body, {
-  		target: '#nav-1'
-	})
-	
-	// 공유
-	
-	$("#btnTwitter").click(function() {
-		var sendText = "개발새발"; // 전달할 텍스트
-	    var sendUrl = "devpad.tistory.com/"; // 전달할 URL
-	    window.open("https://twitter.com/intent/tweet?text=" + sendText + "&url=" + sendUrl);
-	})
-	$("#btnFacebook").click(function() {
-		var sendUrl = "devpad.tistory.com/"; // 전달할 URL
-	    window.open("http://www.facebook.com/sharer/sharer.php?u=" + sendUrl);
-	})
-	/* $("#btnKakao").click(function() {
-		 
-		  // 사용할 앱의 JavaScript 키 설정
-		  Kakao.init('6ec6d52326b138f515a86c55e152676c');
-		 
-		  // 카카오링크 버튼 생성
-		  Kakao.Link.createDefaultButton({
-		    container: '#btnKakao', // 카카오공유버튼ID
-		    objectType: 'feed',
-		    content: {
-		      title: "개발새발", // 보여질 제목
-		      description: "개발새발 블로그입니다", // 보여질 설명
-		      imageUrl: "devpad.tistory.com/", // 콘텐츠 URL
-		      link: {
-		         mobileWebUrl: "devpad.tistory.com/",
-		         webUrl: "devpad.tistory.com/"
-		      }
-		    }
-		  });
-		} */
+	/* $("#edate").flatpickr({
+		minDate: new Date(),
+		defaultDate : new Date(),
+		inline: true,	
+		 mode: "range",
+		 disable : ["2022-08-16", "2022-08-17"],
+		"locale": "ko" 
+	}); */
+	/* let disabledDays = ["2022-8-9","2022-8-24","2022-8-26"];
+       function disableAllTheseDays(date) {
+    	    var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
+    	    for (i = 0; i < disabledDays.length; i++) {
+    	        if($.inArray(y + '-' +(m+1) + '-' + d,disabledDays) != -1) {
+    	            return [false];
+    	        }
+    	    }
+    	    return [true];
+    	}
+		$(document).ready(function(){       
+	       $( "#sdate" ).datepicker({
+	            changeMonth: true,
+	            changeYear: true,
+	            showMonthAfterYear: true,
+	            minDate: new Date(),
+	            dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+	            monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	            dateFormat:'yy-mm-dd',
+	            beforeShowDay: disableAllTheseDays,
+	            onSelect: function(dateText, inst) {
+	                var date = $(this).val();
+	                $("#start").text(date);
+	           }
+	        });
+	       $( "#edate" ).datepicker({
+	            changeMonth: true,
+	            changeYear: true,
+	            showMonthAfterYear: true,
+	            minDate: new Date(),
+	            dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+	            monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	            dateFormat:'yy-mm-dd',
+	            beforeShowDay: disableAllTheseDays,
+	            onSelect: function(dateText, inst) {
+	                var date = $(this).val();
+	 	            $("#end").text(date);
+	 	            
+	           }
+	        });
+	       
+	       $('#sdate').datepicker("option", "maxDate", $("#edate").val());
+	       $('#sdate').datepicker("option", "onClose", function (selectedDate){
+	           $("#edate").datepicker( "option", "minDate", selectedDate );
+	           });
+	       
+	       $('#edate').datepicker();
+	       $('#edate').datepicker("option", "minDate", $("#sdate").val());
+	       $('#edate').datepicker("option", "onClose", function (selectedDate){
+	           $("#sdate").datepicker( "option", "maxDate", selectedDate );
+	          });
+		       
+		});
+		
+		$("#edate").on(function(){    
+			alert("이벤트발생");
+			let sdd = $("#sdate").val;
+		   	let edd = $("#edate").val;
+		   	let date1 = new Date(sdd);
+			let date2 = new Date(edd);
+			let diffDate = date1.getTime() - date2.getTime();
+			  
+			let day = Math.abs(diffDate / (1000 * 60 * 60 * 24)); // 밀리세컨 * 초 * 분 * 시 = 일
+			console.log(day);
+			if(sdd && edd){
+		   		$("#day").text(day); 
+			}
+		}) */
+		
+		
+		/* function call(){
+		    let sdd = $("#sdate").val;
+		    let edd = $("#edate").val;
+		    let date1 = new Date(sdd);
+			let date2 = new Date(edd);
+			let diffDate = date1.getTime() - date2.getTime();
+			  
+			let day = Math.abs(diffDate / (1000 * 60 * 60 * 24)); // 밀리세컨 * 초 * 분 * 시 = 일
+		 if(sdd && edd){
+		    $("#day").text(day);
+		 }
+		}  */
+		/* function call(){
+		    var sdd = $("#sdate").val;
+		    var edd = $("#edate").val;
+		    console.log(sdd);
+		    console.log(sdd);
+		    var ar1 = sdd.split('-');
+		    var ar2 = edd.split('-');
+		    var da1 = new Date(ar1[0], ar1[1], ar1[2]);
+		    var da2 = new Date(ar2[0], ar2[1], ar2[2]);
+		    var dif = da2 - da1;
+		    var cDay = 24 * 60 * 60 * 1000;// 시 * 분 * 초 * 밀리세컨
+		    var cMonth = cDay * 30;// 월 만듬
+		    var cYear = cMonth * 12; // 년 만듬
+		 if(sdd && edd){
+		    document.getElementById('day').value = parseInt(dif/cDay)
+		 }
+		} 
+		 */
+		
+		
+		
+		$("#profile").click(function() {
+			$("host").focus();
+		})
+
+		$("#nav-1").hide();
+
+		$(window).scroll(function() {
+			let scrollTop = $(document).scrollTop();
+			if (scrollTop > 600) {
+
+				$("#nav-1").show();
+			} else {
+
+				$("#nav-1").hide();
+
+			}
+		})
+
+		
+		
+		// 스크롤스파이
+		var scrollSpy = new bootstrap.ScrollSpy(document.body, {
+			target : '#nav-1'
+		})
+
+		// 공유
+
+		$("#btnTwitter").click(
+				function() {
+					var sendText = "aircnc"; // 전달할 텍스트
+					var sendUrl = "devpad.tistory.com/"; // 전달할 URL
+					window.open("https://twitter.com/intent/tweet?text="
+							+ sendText + "&url=" + sendUrl);
+				})
+		$("#btnFacebook").click(
+				function() {
+					var sendUrl = "devpad.tistory.com/"; // 전달할 URL
+					window.open("http://www.facebook.com/sharer/sharer.php?u="
+							+ sendUrl);
+				})
+		/* $("#btnKakao").click(function() {
+			 
+			  // 사용할 앱의 JavaScript 키 설정
+			  Kakao.init('6ec6d52326b138f515a86c55e152676c');
+			 
+			  // 카카오링크 버튼 생성
+			  Kakao.Link.createDefaultButton({
+			    container: '#btnKakao', // 카카오공유버튼ID
+			    objectType: 'feed',
+			    content: {
+			      title: "개발새발", // 보여질 제목
+			      description: "개발새발 블로그입니다", // 보여질 설명
+			      imageUrl: "devpad.tistory.com/", // 콘텐츠 URL
+			      link: {
+			         mobileWebUrl: "devpad.tistory.com/",
+			         webUrl: "devpad.tistory.com/"
+			      }
+			    }
+			  });
+			} */
 
 		/* if (!Kakao.isInitialized()) {
 			  Kakao.init('6ec6d52326b138f515a86c55e152676c');
@@ -977,32 +1103,107 @@ $(function() {
 		    },
 		  });
 		}; */
-		
-		/*
-	    달력 렌더링 할 때 필요한 정보 목록 
 
-	    현재 월(초기값 : 현재 시간)
-	    금월 마지막일 날짜와 요일
-	    전월 마지막일 날짜와 요일
-	*/
-     $('#inline_cal_from').datepicker({
-        format: 'yyyy-mm-dd', //데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
-        startDate: 'd', //달력에서 선택 할 수 있는 가장 빠른 날짜. 이전으로는 선택 불가능 ( d : 일 m : 달 y : 년 w : 주)
-        endDate: 'd', //달력에서 선택 할 수 있는 가장 느린 날짜. 이후로 선택 불가 ( d : 일 m : 달 y : 년 w : 주)
-        clearBtn: true, //날짜 선택한 값 초기화 해주는 버튼 보여주는 옵션 기본값 false 보여주려면 true
-        title: '테스트', //캘린더 상단에 보여주는 타이틀
-        templates: {
-           leftArrow: '&laquo;',
-           rightArrow: '&raquo;',
-        }, //다음달 이전달로 넘어가는 화살표 모양 커스텀 마이징
-        todayHighlight: true, //오늘 날짜에 하이라이팅 기능 기본값 :false
-        language: 'ko' //달력의 언어 선택, 그에 맞는 js로 교체해줘야한다.
-     })
+	$("#guest").hide();
+	
+	$("#guest-btn").click(function() {
+		$("#guest").toggle();
 	})
+	
+	$(".adultM").addClass("disabled")
+	$(".childrenM").addClass("disabled")
+	$(".infantM").addClass("disabled")
+	$(".petM").addClass("disabled")
+	
+	$(".guestbtn").click(function() {
+		
+		$(function() {
+			$("#adultCount").text($(".adultCount").text());		
+			$("#childrenCount").text($(".childrenCount").text());		
+			$("#infantCount").text($(".infantCount").text());		
+			$("#petCount").text($(".petCount").text());	
+			
+			let adult = parseInt($(".adultCount").text())
+			let children = parseInt($(".childrenCount").text())
+			let infant = parseInt($(".infantCount").text())
+			let pet = parseInt($(".petCount").text())
+			
+			let limit = parseInt(${acc.guest})
+			let petLimit = parseInt(${acc.pet})
+			let total = adult + children + infant
+			console.log(total)
+			
+			if (limit === total) {
+				$(".hu_p_btn").addClass("disabled")	
+			} else {
+				$(".hu_p_btn").removeClass("disabled")
+			}
+			
+			if (petLimit === pet) {
+				$(".pet_p_btn").addClass("disabled")	
+			} else {
+				$(".pet_p_btn").removeClass("disabled")
+			}
+			
+			
+				
+			if (adult === 0){
+				$(".adultM").addClass("disabled")	
+			} else {
+				$(".adultM").removeClass("disabled")
+			}
+			
+			if (children === 0){
+				$(".childrenM").addClass("disabled")	
+			} else {
+				$(".childrenM").removeClass("disabled")
+			}
+			
+			if (infant === 0){
+				$(".infantM").addClass("disabled")	
+			} else {
+				$(".infantM").removeClass("disabled")
+			}
+			
+			if (pet === 0){
+				$(".petM").addClass("disabled")	
+			} else {
+				$(".petM").removeClass("disabled")
+			}
+			
+		})
+		
+	})
+	
+	$(function() {
+	            
+           $(".p_btn").click(function() {
+               var $this = $(this);
+               var target = $this.prev();
+               var num = parseInt(target.text());
+               num++;
+			
+               target.text(num);
+               
+           });
+
+           $(".m_btn").click(function() {
+               var $this = $(this);
+               var target = $this.next();
+               var num = parseInt(target.text());
+               num -= ( (num === 0) ? 0 : 1 ); //0이하로는 못내려가게 한다 
+			
+               target.text(num);
+           });
+	});
+		
+       
+		
+		       
+})
+
+
 </script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6ec6d52326b138f515a86c55e152676c"></script>
-<script src="/resources/js/rome.js"></script>
-<script src="/resources/js/main.js"></script>
-<script src="/resources/js/popper.min.js"></script>
 </body>
 </html>

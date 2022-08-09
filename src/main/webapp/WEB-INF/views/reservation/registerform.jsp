@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="../common/tags.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,7 +34,7 @@
                 </div>
                 <div class="mb-3">
                 	<label for="cvv-field" class="form-label">CVV</label>
-                	<form:input class="form-control" path="cvv" id="cvv-field" placeholder="123."/>
+                	<form:input class="form-control" path="cvv" id="cvv-field" placeholder="123"/>
                 	<form:errors path="cvv" class="text-danger small fst-italic"></form:errors>
                 </div>
                 <div class="mb-3">

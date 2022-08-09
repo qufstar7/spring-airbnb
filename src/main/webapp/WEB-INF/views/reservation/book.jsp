@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ include file="../common/tags.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,57 +13,11 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link href="../resources/aircnc.png" rel="icon" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="/resources/css/book.css" />
 <title>확인 및 결제</title>
-<style>
-.left-box {
-	float: left;
-	width: 50%;
-}
-
-.right-box {
-	float: right;
-	width: 50%;
-	height: 600px;
-}
-.divide {
-	padding : 15px;
-}
-.divide2 {
-	padding : 5px;
-}
-.container-fixed {
-	position : fixed;
-	top : 30px;
-}
-.modal-title {
-	text-align : center;
-}
-.box {
-    width: 50px;
-    height: 50px; 
-    border-radius: 70%;
-    overflow: hidden;
-}
-.profile {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-.box2 {
-     width: 120px;
-    height: 105px; 
-    border-radius: 10%;
-    overflow: hidden;
-}
-.acc {
-    width: 100%;
-    height: 100%;
-    object-fit: full;
-}
-
-</style>
 </head>
 <body>
+<%@ include file="../common/nav2.jsp" %>
 <div class="container my-3">
 	<!-- 왼쪽 -->
 	<div class='left-box'>
@@ -81,43 +36,78 @@
 					<span>날짜</span>
 					<button type ="button" class="btn btn-sm" style="background-color:white; border-color:white; float:right;"><u>수정</u></button>
 					<br>
-					<p class ="small">2022-</p>	
+					<p class ="small">${accommodation.checkIn } - ${accommodation.checkOut }</p>	
 				</div>
 				<div>
 					<span>게스트</span>
 					<button type ="button" class="btn btn-sm" style="background-color:white; border-color:white; float:right;"><u>수정</u></button>
 					<br>	
-					<span>게스트 1명</span>
+					<span>게스트 ${accommodation.guest }명</span>
 				</div>
 			</div>
 			<hr/>
 			<h5>결제 방식 선택하기</h5>
 			<div class="divide">
-				<div class ="row border border-black bg-white rounded-top">
-					<div class="row">
-					    <div class="col">전액 결제</div>
-					    <div class="col-md-auto">₩$entirePayment</div>
-					    <div class="col col-lg-1 form-check">
-					    	<input class="form-check-input" type="radio" name="entirePayment" checked="checked" >
-					  		<label class="form-check-label"> </label>
-					    </div>
+				<div class ="row border  bg-white rounded-top" id="entire-payment">
+					<div class="row p-3">
+						<div class="col-6">
+							<strong>전액결재</strong>
+						</div>
+						<div class="col-6 text-end">
+							<strong>￦${accommodation.price } 원</strong>
+							<input class="form-check-input"  type="radio" name="payment" id="radio-entire" checked="checked" >
+						</div>
+						<div class="row p-3">
+							<div class-col-9>
+								총액을 결제하시면 모든 절차가 완료됩니다.
+							</div>
+						</div>
 					</div>
 				</div>
-				<div class ="row border border-black bg-white rounded-bottom">
-					<div class="row">
-					   <div class="col">요금 일부는 지금 결제, 나머지는 나중에 결제</div>
-					   <div class="col-md-auto" style="float:right">₩$leftPayment</div>
-					   <div class="col col-lg-1 form-check" style="float:right">
-					    	<input class="form-check-input" type="radio" name="entirePayment" >
-					  		<label class="form-check-label" style="width:1px"> </label>
-					   </div>
+				<div class ="row border bg-white rounded-bottom" id="left-payment">
+					<div class="row p-3">
+						<div class="col-8">
+							<strong>요금 일부는 지금 결제, 나머지는 나중에 결제</strong>
+						</div>
+						<div class="col-4 text-end">
+							<strong>￦${accommodation.price / 2} 원</strong>
+							<input class="form-check-input"  type="radio" name="payment"  id="radio-left">
+						</div>
 					</div>
-					<div class ="border border-white bg-white">
-						지금 ₩110,909을(를) 결제하시면, 나머지 금액(₩443,632)은 동일한 결제수단으로 
-						2022년 11월 18일 자동 청구됩니다. 추가 수수료는 없습니다.
-						<br>
-						<button type ="button" class="btn btn-sm" id="btn-howtouse" style="background-color:white; border-color:white;"><u>상세정보</u></button>
+					<div class="row p-3">
+						<div class-col-9>
+							지금 ₩110,909을(를) 결제하시면, 나머지 금액(₩443,632)은 동일한 결제수단으로 
+							2022년 11월 18일 자동 청구됩니다. 추가 수수료는 없습니다.
+							<br>
+							<button type ="button" class="btn btn-sm" id="btn-howtouse" style="background-color:white; border-color:white;"><u>상세정보</u></button>
+						</div>
 					</div>
+				</div>
+			</div>
+			<div class="modal" id="modal-how-to-use" tabindex="-1">
+				<div class="modal-dialog">
+			 		<div class="modal-content">
+			      		<div class="modal-header">
+			        		<button type="button" data-bs-dismiss="modal" ><</button>
+			        		<h5 class="col modal-title">이용방법</h5>
+			      		</div>
+			      		<div class="modal-body">
+			        		<p>요금의 일부만 지금 결제하고 잔액은 나중에 결제할 수 있습니다.</p>
+			        		<p>별도의 수수료가 부과되지 않습니다.</p>
+			        		<br>
+			        		<p><strong>총 요금의 일부만 지금 결제하세요</strong></p>
+			        		<p>총 요금의 일부만 결제하여 예약을 확정하세요</p>
+			        		<br>
+			        		<p><strong>잔액은 체크인 전에 결제하세요</strong></p>
+			        		<p>2회차 결제일에 잔액이 기존의 결제 수단으로 부과됩니다.</p>
+			        		<br>
+			        		<p><strong>자동으로 결제됩니다.</strong></p>
+			        		<p>잔액 결제일 3일 전에 알림을 보내드리니 걱정하지 마세요.</p>
+			      		</div>
+			      		<div class="modal-footer">
+			        		<button type="button" class="btn btn-sm" style="background-color:white; border-color:white;" data-bs-dismiss="modal"><u>취소</u></button>
+			      		</div>
+			  		</div>
 				</div>
 			</div>
 			<div class="modal" id="modal-how-to-use" tabindex="-1">
@@ -149,25 +139,67 @@
 			<hr/>
 			<h5>결제 수단</h5>
 			<a href="/book/register" class="btn btn-outline-primary">카드등록</a>
-			<div class="dropdown">
-			  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-			   기본 결제 수단 (카드 번호)
-			  </button>
-			  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-			    <li><a class="dropdown-item" href="#">기본 결제 수단(카드)</a></li>
-			    <li><a class="dropdown-item" href="#" disabled>결제 수단 추가하기</a></li>
-			    <li><a class="dropdown-item" href="#">신용카드 또는 체크카드</a></li>
-			    <li><a class="dropdown-item" href="#" disabled>이용 불가</a></li>
-			    <li><a class="dropdown-item" href="#">만료된 카드</a></li>
-			  </ul>
-			</div>
-			<select class="form-select" aria-label="Default select example">
-				<option value="1" selected>기본 결제 수단(카드)</option>
-				<option value="2" disabled>결제 수단 추가하기</option>
-				<option value="2">신용카드 또는 체크카드</option>
-				<option value="3" disabled>이용 불가</option>
-				<option value="3" disabled>만료된 카드 </option>
+			<select id="card-select" class="form-select" aria-label="Default select example">
+				<option value="기본카드" selected>기본 결제 수단(카드)</option>
+				<option value="1" disabled>결제 수단 추가하기</option>
+				<option value="카드추가">신용카드 또는 체크카드</option>
+				<option value="2" disabled>이용 불가</option>
+				<option value="카카오 결제">카카오 결제 </option>
 			</select>
+			<div class="insertCard">
+				<div class="row" style="padding:20px">
+					<div class="col border bg-white rounded">
+						<form class="col p">
+							<div class="mb-3">
+								<label class="form-label">카드 번호</label>
+								<input class="form-control " type="text" placeholder="카드 번호">
+							</div>
+							<div class ="row"> 
+								<div class="col">
+									<label class="form-label">만료일 </label>
+									<input class="form-control " type="text" placeholder="MM/YY">
+								</div>
+								<div class="col">
+									<label class="form-label">이런 분들에게 추천해요</label>
+									<input class="form-control " type="text" placeholder="CVV">
+								</div>
+							</div>
+							<div class="mb-3">
+								<label class="form-label">이런 선수지식이 필요해요</label>
+								<input class="form-control " type="text">
+							</div>
+						</form>
+							<div class="mb-3">
+								<div class="modal" id="modal-how-to-use" tabindex="-1">
+									<div class="modal-dialog">
+								 		<div class="modal-content">
+								      		<div class="modal-header">
+								        		<button type="button" data-bs-dismiss="modal" ><</button>
+								        		<h5 class="col modal-title">이용방법</h5>
+								      		</div>
+								      		<div class="modal-body">
+								        		<p>요금의 일부만 지금 결제하고 잔액은 나중에 결제할 수 있습니다.</p>
+								        		<p>별도의 수수료가 부과되지 않습니다.</p>
+								        		<br>
+								        		<p><strong>총 요금의 일부만 지금 결제하세요</strong></p>
+								        		<p>총 요금의 일부만 결제하여 예약을 확정하세요</p>
+								        		<br>
+								        		<p><strong>잔액은 체크인 전에 결제하세요</strong></p>
+								        		<p>2회차 결제일에 잔액이 기존의 결제 수단으로 부과됩니다.</p>
+								        		<br>
+								        		<p><strong>자동으로 결제됩니다.</strong></p>
+								        		<p>잔액 결제일 3일 전에 알림을 보내드리니 걱정하지 마세요.</p>
+								      		</div>
+								      		<div class="modal-footer">
+								        		<button type="button" class="btn btn-sm" style="background-color:white; border-color:white;" data-bs-dismiss="modal"><u>취소</u></button>
+								      		</div>
+								  		</div>
+									</div>
+								</div>
+							</div>
+					</div>
+	</div>
+			</div>
 			<hr>
 			<div class="divide">
 				<h5>필수 입력 정보</h5>
@@ -182,7 +214,7 @@
 						</div>
 					</div>
 					<div class="col">
-					    <span>호스트 이름</span>
+					    <span>${accommodation.userNo }</span>
 					    <p><small class="text-muted">가입일</small></p>
 					</div>
 				</div>
@@ -203,8 +235,8 @@
 				피해에 대한 책임이 본인에게 있을 경우 에어비앤비가 결제 수단으로 청구의 조치를 취할 수 있다는 사실에 동의하는 것입니다.
 				</small></p>
 				<p><small class="text-muted">또한, 개정된 이용 약관과 결제 서비스 약관 및 개인정보 처리방침에도 동의합니다.</small></p>
-				<button type="button" class="btn btn-lg" style="background-color:#d80765; color:white;">확인 및 결제</button>
 			</div>
+				<a href="/completed" class="btn btn-lg" style="background-color:#d80765; color:white;">확인 및 결제</a>
 	</div>
 	<!-- 오른쪽 -->
 	<div class='right-box'>
@@ -218,7 +250,7 @@
 							</div>
 						</div>
 						<div class="col">
-						    <span>캠핑카</span>
+						    <span>${accommodation.name }</span>
 						    <p>숙소 이름</p>
 					        <p><small class="text-muted">★$4.75(후기 $106개)</small></p>
 						</div>
@@ -256,6 +288,27 @@ $(function(){
 	$("#btn-howtouse").click(function(){
 		modalHowToUse.show();
 	});
+	
+	$("#entire-payment").click(function(){
+		$("input:radio[name='payment']:radio[id='radio-entire']").prop('checked', true);
+		$("#entire-payment").css({
+			"border":"4px dark"
+		});
+	});
+	$("#left-payment").click(function(){
+		$("input:radio[name='payment']:radio[id='radio-left']").prop('checked', true);
+
+	});
+	
+	$("#card-select").on('change',function(){
+		var result = $("#card-select option:selected").val();
+		if( result == "카드추가") {
+			$(".insertCard").show();
+		}else {
+			$(".insertCard").hide();
+		}
+	});
+
 })
 </script>
 </body>

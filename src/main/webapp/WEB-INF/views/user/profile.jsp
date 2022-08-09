@@ -36,7 +36,7 @@
 			<div class="col-4">
 				<div class="border rounded-3 p-4">
 					<div class=" text-center mb-2">
-						<img src="/resources/images/profile/${user.profileImage}" alt="profile-img" width="200">
+						<img class="rounded-circle" src="/resources/images/profile/${user.profileImage}" alt="profile-img" width="180">
 					</div>
 					<div class="text-center mb-5">
 						<button type="button" class="btn btn-link text-muted fw-bold fs-5" data-bs-toggle="modal" data-bs-target="#modal-change-profileImg">사진 업데이트하기</button>

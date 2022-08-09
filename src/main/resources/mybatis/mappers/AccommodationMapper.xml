@@ -2,9 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="kr.co.airbnb.mapper.AccommodationMapper">
 	<resultMap type="Accommodation" id="AccResultMap">
-		<id column="ACC_NO" property="no"/>
+		<id column="ACC_NO" property="accNo"/>
 		<result column="TYPE_NO" property="typeNo"/>
-		<result column="USER_NO" property="userNo"/>
 		<result column="ACC_REVIEW_COUNT" property="reviewCount"/>
 		<result column="ACC_REVIEW_SCORE" property="reviewScore"/>
 		<result column="ACC_NAME" property="name"/>
@@ -29,13 +28,70 @@
 		<result column="ACC_REFOUND_DESCRIPTION" property="refoundDescription"/>
 		<result column="ACC_CLEANING_PRICE" property="cleaningPrice"/>
 		<result column="IMAGE_COVER" property="imageCover"/>
+		<association property="user" column="USER_NO" select="kr.co.airbnb.mapper.UserMapper.getUserByNo"/>
 	</resultMap>
 	
+	<!-- List<AccConvenience> getAccConveniencesByAccNo(int accNo); -->
+	<select id="getAccConveniencesByAccNo" parameterType="int" resultType="AccConvenience">
+		select A.ACC_NO as accNo, 
+			   A.CONVENIENCE_NO as "convenience.no",
+			   B.CONVENIENCE_NAME as "convenience.name",	       
+			   B.CONVENIENCE_ICON_NAME as "convenience.iconName",		       
+			   B.CONVENIENCE_TYPE as "convenience.type"		       
+		from AIRBNB_ACC_CONVENIENCES A, AIRBNB_CONVENIENCES B
+		where A.ACC_NO = #{value}
+		and A.CONVENIENCE_NO = B.CONVENIENCE_NO
+	</select>
+	
+	<!-- List<AccPhoto> getAccPhotosByAccNo(int accNo); -->
+	<!-- <select id="getAccPhotosByAccNo" parameterType="int" resultType="AccPhoto">
+		select 
+			ROW_NUMBER() OVER (PARTITION BY A.acc_no ORDER BY A.image_no) as num,
+			A.IMAGE_NO as imageNo,
+			A.ACC_NO as accNo,
+			A.IMAGE_NAME as name,
+			A.IMAGE_DESCRIPTION as description,
+			A.IMAGE_COVER as cover
+		from AIRBNB_ACC_PHOTOS A
+		where ACC_NO = #{value}
+	</select> -->
+	<select id="getAccPhotosByAccNo" parameterType="int" resultType="AccPhoto">
+		select 	ROWNUM as num, 
+				A.IMAGE_NO as imageNo,
+				A.ACC_NO as accNo,
+				A.IMAGE_NAME as name,
+				A.IMAGE_DESCRIPTION as description,
+				A.IMAGE_COVER as cover
+ 		from
+ 		(
+ 			select 
+        	A.*
+   			FROM AIRBNB_ACC_PHOTOS A
+  			where acc_no = #{value}
+    		ORDER BY CASE WHEN A.IMAGE_COVER = 'Y' THEN 1 ELSE 2 END,
+        	A.image_no ASC
+		) A
+	</select>
+	
+	<resultMap type="Accommodation" id="AccDetailResultMap" extends="AccResultMap">
+		<collection property="conveniences" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccConveniencesByAccNo"></collection>
+   		<collection property="photos" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccPhotosByAccNo"></collection>
+	</resultMap>
 	
 	<!-- Accommodation getAccommodation(int no); -->
-	<select id="getAcc" parameterType="int" resultMap="AccResultMap">
+	<select id="getAcc" parameterType="int" resultMap="AccDetailResultMap">
 		select *
 		from AIRBNB_ACCOMMODATIONS
 		where acc_no = #{value}
 	</select>
+	
+
+	<!-- void updateAccommodation(Review review) -->
+	<update id="updateReviewCount" parameterType="kr.co.airbnb.vo.Accommodation">
+		update AIRBNB_ACCOMMODATIONS
+	    set    ACC_REVIEW_COUNT = ACC_REVIEW_COUNT + 1
+		where  acc_no = #{no}
+	</update>
+
+	
 </mapper>

@@ -81,7 +81,7 @@ public class UserController {
 	@ResponseBody
 	public Map<String, Object> loginWithNormal(@RequestParam("loginEmail") String email, @RequestParam("loginPassword") String password) {
 		Map<String, Object> result = new HashMap<>();
-		
+		System.out.println("로그인 이메일 : " + email);
 		User user = userService.getUserByEmail(email);
 		if(password.equals(user.getPassword())) {
 			result.put("pass", true);
@@ -128,17 +128,16 @@ public class UserController {
 	@ResponseBody
 	public Map<String, Object> checkEmail(@RequestParam("email") String email, Model model) {
 		Map<String, Object> result = new HashMap<>();
-		System.out.println("email: " + email);
 		User savedUser = userService.getUserByEmail(email);
-		System.out.println(savedUser);
 		
 		if(savedUser == null) {
+			System.out.println("실패");
 			result.put("exist", false);
 			// 폼입력값을 담을 객체를 미리 생성해서 Model에 저장
 			model.addAttribute("userRegisterForm", new UserRegisterForm());
 		} else {
 			result.put("exist", true);
-			result.put("loginType", savedUser.getLoginType());
+			result.put("user", savedUser);
 		}
 		return result;
 	}
@@ -218,11 +217,5 @@ public class UserController {
 	}
 	
 	
-	@GetMapping(path="/wishlists")
-	public String wishlist(Model model) { // 추후 @LoginUser User loginUser 추가하기
-		
-		// List<Wishlist> wishlists = userService.getMyWishlists(loginUser.getNo());
-		// model.addAttribute("wishlists", wishlists);
-		return "user/wishlist";
-	}
+	
 }
