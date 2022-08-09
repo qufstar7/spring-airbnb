@@ -13,10 +13,7 @@ import kr.co.airbnb.vo.Review;
 @Mapper
 public interface ReviewMapper {
 	void insertReviewGuest(Review review);
-	void updateAccAvgScore(Review review);
-	
 	void insertReviewHost(Review review);
-	void updateUserAvgScore(Review review);
 	
 	GuestRequest getGuestInfoByReservationNo(int reservationNo);
 	HostRequest getHostInfoByReservationNo(int reservationNo);

@@ -16,7 +16,12 @@
 		<result column="USER_HOST" property="isHost"/>
 		<result column="USER_CREATED_DATE" property="createdDate"/>
 		<result column="USER_UPDATED_DATE" property="updatedDate"/>
-		<result column="USER_GENDER" property="gender"/>
+		<result column="USER_REVIEW_COUNT" property="reviewCount"/>
+		<result column="USER_REVIEW_SCORE" property="reviewScore"/>
+		<result column="AVG_TOTAL" property="totalScore"/>
+		<result column="AVG_CLEANLINESS" property="cleanScore"/>
+		<result column="AVG_COMMUNICATION" property="communicationScore"/>
+		<result column="AVG_OBSERVANCE" property="observanceScore"/>
 	</resultMap>
 
 	<!-- User getUserByEmail(String email); -->
@@ -92,4 +97,15 @@
 		where user_no = #{no}
 	</update>
 
+	<update id="updateAvgScore" parameterType="kr.co.airbnb.vo.User">
+		update airbnb_users
+		 set
+	 		USER_REVIEW_COUNT = ACC_REVIEW_COUNT + 1,
+	 		USER_REVIEW_SCORE = #{reviewScore},
+		 	AVG_TOTAL = #{totalScore},
+		 	AVG_CLEANLINESS = #{cleanScore},
+		 	AVG_COMMUNICATION = #{communicationScore},
+		 	AVG_OBSERVANCE = #{observanceScore}
+		where user_no = #{no}
+	</update>
 </mapper>

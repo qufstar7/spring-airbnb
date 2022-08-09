@@ -7,12 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kr.co.airbnb.annotation.LoginUser;
 import kr.co.airbnb.mapper.AccommodationMapper;
 import kr.co.airbnb.mapper.ReviewMapper;
+import kr.co.airbnb.mapper.UserMapper;
 import kr.co.airbnb.vo.Accommodation;
 import kr.co.airbnb.vo.GuestRequest;
 import kr.co.airbnb.vo.HostRequest;
 import kr.co.airbnb.vo.Review;
+import kr.co.airbnb.vo.User;
 
 @Service
 @Transactional
@@ -24,10 +27,11 @@ public class ReviewService {
 	@Autowired
 	private AccommodationMapper accommodationMapper;
 	
-	
+	@Autowired
+	private UserMapper userMapper;
 
-	public String getCheckoutDate(int reservationNo, int userNo) {
-		Integer result = reviewMapper.getOverdueReviewByNo(reservationNo, userNo);
+	public String getCheckoutDate(int reservationNo, int no) {
+		Integer result = reviewMapper.getOverdueReviewByNo(reservationNo, no);
 		
 		if (result == null) {
 			return "Y";
@@ -36,8 +40,8 @@ public class ReviewService {
 		}
 	}
 	
-	public String getDuplicateReview(int reservationNo, int userNo) {
-		Integer result = reviewMapper.getDuplicateReviewByNo(reservationNo, userNo);
+	public String getDuplicateReview(int reservationNo, int no) {
+		Integer result = reviewMapper.getDuplicateReviewByNo(reservationNo, no);
 		// Integer는 null도 담을 수 있어서 사용했다.
 		if (result != null) {
 			return "Y";
@@ -47,29 +51,26 @@ public class ReviewService {
 	};
 
 	public GuestRequest getGuestInfo(int reservationNo) {
-		
-		GuestRequest guestRequest = reviewMapper.getGuestInfoByReservationNo(reservationNo);
-		return guestRequest;
+		return reviewMapper.getGuestInfoByReservationNo(reservationNo);
 	}
 	
 	public HostRequest getHostInfo(int reservationNo) {
 		return reviewMapper.getHostInfoByReservationNo(reservationNo);
 	}
-	/*
-	public void saveGuestReview(Review review) {
-		// 리뷰를 업데이트하면 리뷰 등록, 리뷰 갯수 1 추가, 별점 평균 변경이 동시에 이루어져야 한다.
-		// 게스트 리뷰 등록
+
+	public void saveGuestReview(Review review, int no, int accNo) {
+		// 게스트 리뷰 등록 : 리뷰를 등록하면 리뷰 등록, 리뷰 갯수 1 추가, 별점 평균 변경이 동시에 이루어져야 한다.
+		review.setUser(userMapper.getUserByNo(no));
+		review.setAccNo(accNo);
 		reviewMapper.insertReviewGuest(review);
 		
-		 DecimalFormat form = new DecimalFormat("#.#");
-		// string으로 출력됨
-		// double a = Double.parseDouble(form.format(totalScore/(accommodation.getReviewCount() + 1)));
+		DecimalFormat form = new DecimalFormat("#.#");		// string으로 출력됨
 		
-		// 숙소 별점 평균 변경 (총점, 청결, 정확, 소통, 위치, 체크인, 가치, 편의시설 총 8가지)
+		// 숙소 별점 평균 변경 (총점, 청결, 정확, 소통, 위치, 체크인, 가치, 편의시설)
 		Accommodation accommodation = accommodationMapper.getAcc(review.getAccNo());
-		double totalScore = accommodation.getReviewScore() * accommodation.getReviewCount() + review.getTotalScore();
+		double totalScore = accommodation.getTotalScore() * accommodation.getReviewCount() + review.getTotalScore();
 		double avgTotal = Double.parseDouble(form.format(totalScore/(accommodation.getReviewCount() + 1)));
-		accommodation.setReviewScore(avgTotal);
+		accommodation.setTotalScore(avgTotal);
 		
 		double cleanScore = accommodation.getCleanScore() * accommodation.getReviewCount() + review.getCleanScore();
 		double avgClean = Double.parseDouble(form.format(cleanScore/(accommodation.getReviewCount() + 1)));
@@ -87,11 +88,11 @@ public class ReviewService {
 		double avgLocation = Double.parseDouble(form.format(locationScore/(accommodation.getReviewCount() + 1)));
 		accommodation.setLocationScore(avgLocation);
 		
-		double checkinScore = accommodation.getCleanScore() * accommodation.getReviewCount() + review.getCleanScore();
+		double checkinScore = accommodation.getCheckinScore() * accommodation.getReviewCount() + review.getCheckinScore();
 		double avgCheckin = Double.parseDouble(form.format(checkinScore/(accommodation.getReviewCount() + 1)));
 		accommodation.setCheckinScore(avgCheckin);
 		
-		double valueScore = accommodation.getCheckinScore() * accommodation.getReviewCount() + review.getCheckinScore();
+		double valueScore = accommodation.getValueScore() * accommodation.getReviewCount() + review.getValueScore();
 		double avgValue = Double.parseDouble(form.format(valueScore/(accommodation.getReviewCount() + 1)));
 		accommodation.setValueScore(avgValue);
 		
@@ -99,23 +100,52 @@ public class ReviewService {
 		double avgConvenience = Double.parseDouble(form.format(convenienceScore/(accommodation.getReviewCount() + 1)));
 		accommodation.setConvenienceScore(avgConvenience);
 		System.out.println("avgConvenience");
+
+		double avgAllScore = ((avgTotal + avgClean + avgAccuracy + avgCommunication + avgLocation + avgCheckin + avgValue + avgConvenience)/8);
+		double totalReviewScore = accommodation.getReviewScore() * accommodation.getReviewCount() + avgAllScore;
+		accommodation.setReviewScore(Double.parseDouble(form.format(totalReviewScore/(accommodation.getReviewCount() + 1))));
 		
-	//	double convenienceScore = accommodation.getConvenienceScore() * accommodation.getReviewCount() + review.getConvenienceScore();
-	//	accommodation.setConvenienceScore(convenienceScore/(accommodation.getReviewCount() + 1));
-		
-		// 숙소 리뷰 갯수 추가
-		accommodation.setReviewCount(accommodation.getReviewCount() + 1);
-		accommodationMapper.updateReview(accommodation);
+		accommodationMapper.updateAvgScore(accommodation);
 		
 	}
-	*/
-	public void saveHostReview(Review review) {
+	
+	public void saveHostReview(Review review, int no) {
+		// 호스트 리뷰 등록 : 리뷰를 등록하면 리뷰 등록, 유저(게스트)별점 평균 변경이 동시에 이루어져야 한다.
+		// review.setUser(loginUser);
+		review.setUser(userMapper.getUserByNo(no));
 		reviewMapper.insertReviewHost(review);
+		
+		DecimalFormat form = new DecimalFormat("#.#");
+		
+		// 게스트 별점 평균 변경 (총점, 청결, 소통, 규칙 준수)
+		User user = userMapper.getUserByNo(review.getUser().getNo());
+		double totalScore = user.getTotalScore() * user.getReviewCount() + review.getTotalScore();
+		double avgTotal = Double.parseDouble(form.format(totalScore/(user.getReviewCount() + 1)));
+		user.setTotalScore(avgTotal);
+		
+		double cleanScore = user.getCleanScore() * user.getReviewCount() + review.getCleanScore();
+		double avgClaen = Double.parseDouble(form.format(cleanScore/(user.getReviewCount() + 1)));
+		user.setCleanScore(avgClaen);
+		
+		double communicationScore = user.getCommunicationScore() * user.getReviewCount() + review.getCommunicationScore();
+		double avgCommunication = Double.parseDouble(form.format(communicationScore/(user.getReviewCount() + 1)));
+		user.setCommunicationScore(avgCommunication);
+		
+		double observanceScore = user.getObservanceScore() * user.getReviewCount() + review.getObservanceScore();
+		double avgObservance = Double.parseDouble(form.format(observanceScore/(user.getReviewCount() + 1)));
+		user.setObservanceScore(avgObservance);
+		
+		double avgAllScore = ((avgTotal + avgClaen + avgCommunication + avgObservance)/4);
+		double totalReviewScore = user.getReviewScore() * user.getReviewCount() + avgAllScore;
+		user.setReviewScore(Double.parseDouble(form.format(totalReviewScore/(user.getReviewCount() + 1))));
+		
+		user.setReviewScore(avgAllScore);
+		
+		userMapper.updateAvgScore(user);
 	}
 
 	public List<Review> getReviews(int accNo) {
 		return reviewMapper.getReviews(accNo);
 	}
-
 	
 }

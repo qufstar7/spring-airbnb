@@ -29,17 +29,9 @@
 		(review_no, acc_no, user_no, review_content, total_score, cleanliness_score, accuracy_score, communication_score, location_score, 
 		checkin_score, value_score, convenience_score, positive_feedback, nagative_feedback, want_meet_again, user_type, reservation_no)
 		values 
-		(#{no}, #{accNo}, 3, #{content}, #{totalScore}, #{cleanScore}, #{accuracyScore}, #{communicationScore}, #{locationScore}, 
+		(#{no}, #{accNo}, #{user.no}, #{content}, #{totalScore}, #{cleanScore}, #{accuracyScore}, #{communicationScore}, #{locationScore}, 
 		#{checkinScore}, #{valueScore}, #{convenienceScore}, #{positiveFeedback}, #{nagativeFeedback}, #{wantMeetAgain}, #{userType}, #{reservationNo})
 	</insert>
-	
-	<!-- void updateAccAvgScore(Review review); -->
-	<update id="updateAccAvgScore" parameterType="kr.co.airbnb.vo.Review">
-	
-	</update>
-	
-	<!-- void updateUserAvgScore(Review review); -->
-	
 	
 	<!-- void insertReview(Review review); -->
 	<insert id="insertReviewHost" parameterType="Review">
@@ -50,7 +42,7 @@
 		insert into airbnb_reviews 
 		(review_no, acc_no, user_no, review_content, total_score, cleanliness_score, communication_score, observance_score, private_note, want_meet_again, user_type, reservation_no)
 		values 
-		(#{no}, #{accNo}, 1, #{content}, #{totalScore}, #{cleanScore}, #{communicationScore}, #{observanceScore}, #{privateNote}, #{wantMeetAgain}, #{userType}, #{reservationNo})
+		(#{no}, #{accNo}, #{user.no}, #{content}, #{totalScore}, #{cleanScore}, #{communicationScore}, #{observanceScore}, #{privateNote}, #{wantMeetAgain}, #{userType}, #{reservationNo})
 	</insert>
 	
 	<resultMap type="kr.co.airbnb.vo.GuestRequest" id="GuestRequestResultMap">
@@ -78,7 +70,7 @@
 	<!-- GuestRequest getHostInfoByReservationNo(int reservationNo); -->
 	<select id="getHostInfoByReservationNo" parameterType="int" resultMap="HostRequestResultMap">
 		select 
-			R.CHECK_IN_DATE, R.CHECK_OUT_DATE, 
+			R.CHECK_IN_DATE, R.CHECK_OUT_DATE, R.RESERVATION_NO,
 		    A.ACC_REVIEW_COUNT, A.ACC_NAME, A.ACC_ADDRESS, A.IMAGE_COVER,
 		    U.USER_NAME
 		from 
