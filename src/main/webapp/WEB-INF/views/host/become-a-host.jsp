@@ -68,7 +68,7 @@
 				<div id="right-content-box" class="text-center">
 					<div class="py-3">
 						<c:forEach var="type" items="${accMainTypes }">
-						<button	class="btn btn-types bg-white container p-3 m-2" 
+						<button	class="btn btn-types btn-maintypes bg-white container p-3 m-2" 
 						        type="button" role="radio" data-type="${type.no }">
 							<div class="float-start m-3">
 								<div class="text-lg-center fw-bolder text-dark">${type.name }</div>
@@ -85,7 +85,8 @@
 						</c:forEach>
 					</div>
 				</div>
-				<input class="hiddenField" type="hidden" name="typeno" value="1">
+				<input class="hiddenField1" type="hidden" name="typeno" value="0">
+				<input class="hiddenField2" type="hidden" name="typeno" value="0">
 			</div>
 		</form>
 		</div>
@@ -119,34 +120,66 @@
 
 <script type="text/javascript">
 $(function(){
+	// 페이지 단계를 저장하는 전역변수
+	let step = 0;
 	
-	// 타입을 선택할 때	
-	$("#right-content-box").on("click", '.btn-types', function() {
+	// 페이지에 접속시 서버에서 저장된 번호의 유형이 선택되어 있게 한다.
+	//$("#right-content-box>div>button:first").addClass("btn-type-checked");
+	
+	// 메인 타입을 선택할 때	
+	$("#right-content-box").on("click", '.btn-maintypes', function() {
 		// 버튼 체크 중 속성 추가
-		$(".btn-types").removeClass("btn-type-checked");
+		$(".btn-maintypes").removeClass("btn-type-checked");
 		$(this).addClass("btn-type-checked");
 		
 		// 클릭한 버튼의 data-type 속성값 저장
-		let type = $(this).attr("data-type");	
-		console.log(type);
+		let type1 = $(this).attr("data-type");	
 		
 		// 기존의 히든필드 삭제
- 		if ($(".hiddenField")) {
-			$(".hiddenField").remove();
+ 		if ($(".hiddenField1")) {
+			$(".hiddenField1").remove();
 		}		
 		// 히든필드 생성 및 추가
-		let hiddenField = '<input class="hiddenField" type="hidden" name="typeno" value="' + Number(type) + '">';
-		$("#box-buttons").append(hiddenField);
+		let hiddenField1 = '<input class="hiddenField1" type="hidden" name="typeno" value="' + Number(type1) + '">';
+		$("#box-buttons").append(hiddenField1);
+	});
+	
+	// 서브 타입을 선택할 때
+	$("#right-content-box").on("click", '.btn-subtypes', function() {
+		// 버튼 체크 중 속성 추가
+		$(".btn-subtypes").removeClass("btn-type-checked");
+		$(this).addClass("btn-type-checked");
+		
+		// 클릭한 버튼의 data-type 속성값 저장
+		let type2 = $(this).attr("data-type");
+
+		// 기존의 히든필드 삭제
+ 		if ($(".hiddenField2")) {
+			$(".hiddenField2").remove();
+		}		
+		// 히든필드 생성 및 추가
+		let hiddenField2 = '<input class="hiddenField2" type="hidden" name="typeno" value="' + Number(type2) + '">';
+		$("#box-buttons").append(hiddenField2);
 	});
 	
 	// 다음 버튼 클릭시
 	$("#next-btn").click(function() {
-		let intType = Number($("input[name=typeno]").val());
-		console.log("type: " + intType + " typeof type: " + typeof(intType));
-		if (intType < 7) {
-			searchSubTypes();			
+		let hf1 = Number($(".hiddenField1").val());
+		let hf2 = Number($(".hiddenField2").val());
+		let hf3 = Number($(".hiddenFiled3").val());
+		
+		if (step == 0 && hf1 == 0 || step == 1 && hf2 == 0 || step == 3  && hf3 == 0) {
+			alert("숙소 유형을 선택해주세요.");
+		} 
+		
+		if (step == 0 && hf1 != 0) {
+			searchSubTypes();
 		}
-		goToPrivacyType();
+		
+		if (step == 1 && hf2 != 0) {
+			goToPrivacyType();
+		}
+		
 	});
 	
 	// 뒤로가기 버튼 클릭시
@@ -158,12 +191,12 @@ $(function(){
 		
 	} */
 	
-	// 서브타입 조회
+	// 서브 타입 조회
 	function searchSubTypes() {
-		/* let queryString = */
+		step = 1;
 		let $box = $("#right-content-box").empty();
 		
-		$.getJSON("/host/search?mainType=" + $("input[name=typeno]").val() , function(subTypes) {
+		$.getJSON("/host/search?mainType=" + $(".hiddenField1").val() , function(subTypes) {
 			if (subTypes.length == 0) {
 				let content = `
 					<div class="col-12">
@@ -175,7 +208,7 @@ $(function(){
 	            $.each(subTypes, function(index, subType) {
 	            	let content = '';
 	            	content += '<div class="">';
-	            	content += '	<button	class="btn btn-types bg-white container m-2" type="button" role="radio" data-type='+ subType.no +'">';
+	            	content += '	<button	class="btn btn-types btn-subtypes bg-white container m-2" type="button" role="radio" data-type='+ subType.no +'>';
 	            	content += '		<div class="m-3 mb-0 text-lg-start fw-bolder text-dark" style="font-size:18px;">'+ subType.name +'</div>';
             		content += '		<div class="m-3 mt-2 text-start sub-type-description">'+subType.description+'</div>';
 	            	content += '	</button>';
@@ -187,8 +220,33 @@ $(function(){
 		})
 	}
 	
-	// 개인실-다인실여부 페이지로
+	// 프라이버시 타입 조회
 	function goToPrivacyType() {
+		let $box = $("#right-content-box").empty();
+		
+		$.getJSON("/host/search2", function(privacyTypes) {
+			if (privacyTypes.length == 0) {
+				let content = `
+					<div class="col-12">
+						<p class="text-center">검색결과가 존재하지 않습니다.</p>
+					</div>
+				`;
+				$box.append(content);
+			} else {
+	            $.each(privacyTypes, function(index, privacyType) {
+	            	let content = '';
+	            	content += '<div class="">';
+	            	content += '	<button	class="btn btn-types btn-subtypes bg-white container m-2" type="button" role="radio" data-type='+ privacyType.no +'>';
+	            	content += '		<div class="m-3 text-lg-start fw-bolder text-dark" style="font-size:18px;">'+ privacyType.name +'</div>';
+	            	content += '	</button>';
+	            	content += '</div>';
+ 	            	
+	                $box.append(content);
+                }) 
+			}
+		})
+		
+		$("#next-btn").attr("onclick","location.href='/host/location'");
 		
 	}
 	

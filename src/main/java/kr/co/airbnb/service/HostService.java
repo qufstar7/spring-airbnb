@@ -22,4 +22,7 @@ public class HostService {
 		return hostMapper.getAllSubTypes(mainType);
 	}
 	
+	public List<AccType> getAllPrivacyTypes() {
+		return hostMapper.getAllPrivacyTypes();
+	}
 }

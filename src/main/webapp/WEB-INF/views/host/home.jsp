@@ -384,7 +384,7 @@
 					</div>
 					<div class="form-floating">
 						<input type="phoneNumber" class="form-control" id="floatingPhoneNumber" placeholder="전화번호">
-						<label class="modal-phone-number-label" for="floatingPhoneNumber">전화번호</label>
+						<label class="input-form-label" for="floatingPhoneNumber">전화번호</label>
 					</div>
 				</form>
 				<div class="modal-phone-number-help-text-box">
