@@ -34,6 +34,7 @@
 </head>
 <body >
 <c:set var="menu" value="detaile"/>
+	<!-- 스파이스크롤 -->
 	<nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom" id="nav-1">
 		<div class="col"></div>
 		<div class="col-6">
@@ -56,6 +57,7 @@
 	</nav>
 	<%@ include file="../common/nav2.jsp" %>
 	<div class="container"> 
+		<!-- 타이틀 -->
 		<div class="row p-2 mb-2" id="top-div" >
 			<div>
 				<span class="title"><strong>${acc.name }</strong></span>
@@ -74,6 +76,7 @@
 		</div>
 	</div>
 	<div class="container main">
+		<!-- 커버사진 -->
 		<div class="row mb-5 flex-container">
 			<c:forEach items="${acc.photos }" var="photo">
 				<c:if test="${photo.num eq '1' }">
@@ -116,11 +119,15 @@
 	</div>
 	<div class="container main">
 		<div class="row"> 
-		
 			<div class="col-8" id="main-content">
-				<div>
+				<div class="pb-1">
 					<a id="profile" href="#host">
-						<img class="float-end profile" src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg">
+						<c:if test="${empty acc.user.profileImage }">
+							<img class="float-end profile" src="/resources/images/profile/profile-default-img.png">
+						</c:if>
+						<c:if test="${not empty acc.user.profileImage }">
+							<img class="float-end profile" src="/resources/images/profile/${acc.user.profileImage }">
+						</c:if>
 					</a>
 					<h4>${acc.user.name }님이 호스팅하는 ${acc.name }</h4>
 					<p>최대 인원 ${acc.guest }명<i class="bi bi-dot"></i>침실 1개<i class="bi bi-dot"></i>침대 1개<i class="bi bi-dot"></i>욕실 1개</p>
@@ -153,13 +160,22 @@
 				<hr>
 				<div class="contentbox mt-5 mb-5">
 					<div class="content mb-2">
-						<p>${acc.description }</p>
+						<span>${acc.description }</span>
 					</div>
 				</div>
 				<hr>
 				<div class="row mt-5">
 					<h4>숙박장소</h4>
-					<div class="col-6" id="btn-open-image2-modal">
+					<div class="col-4 mt-3 mb-3 rounded place-box" >
+						<span>침실</span>
+					</div>
+					<div class="col-4 mt-3 mb-3 rounded place-box" >
+						<span>어쩌구 저쩌구</span>
+					</div>
+					<div class="col-4 mt-3 mb-3 rounded place-box" >
+						<span>어쩌구 저쩌구</span>
+					</div>
+					<!-- <div class="col-6" id="btn-open-image2-modal">
 						<img class="image2 rounded mb-2" alt="" src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg" >
 						<h5>침실공간</h5>
 						<span>침대 1개</span>
@@ -168,15 +184,17 @@
 						<img class="image2 rounded mb-2" alt="" src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg" >
 						<h5>침실공간</h5>
 						<span>침대 1개</span>
-					</div>
+					</div> -->
 				</div>
 				<hr>
 				<div class="row mt-5 mb-5" id="con">
-					<span class="mb-3">
+					<span class="mb-3 ">
 						<h4>숙소 편의시설</h4>
 					</span>
 					<c:forEach items="${acc.conveniences }" var="accConvenience" end="5">
-						<div class="col-6 mb-2 align-middle"><p><span class="material-symbols-outlined"> ${accConvenience.convenience.iconName }</span> ${accConvenience.convenience.name }</p></div>
+						<div class="col-6 mb-2 convenience">
+							<p><span class="material-symbols-outlined"> ${accConvenience.convenience.iconName }</span> ${accConvenience.convenience.name }</p>
+						</div>
 					</c:forEach>
 					<div class="col-6 mb-2">
 						<button class="btn btn-outline-dark btn-lg" id="btn-open-con-modal">편의시설 전체보기</button>
@@ -207,9 +225,13 @@
 			<div class="col-4" id="side">
 				<div class="sticky" >
 					<div class="row shadow-lg bg-body rounded" id="box">
-						<div class="col-7 boxhd" >
+						<div class="col-7 boxhd reservation" >
 							<h4><strong><fmt:formatNumber value="${acc.price }"/></strong>/
 								<span class="day"></span>박
+							</h4>
+						</div>
+						<div class="row boxhd not-reservation" >
+							<h4><strong>요금을 확인하려면 날짜를 입력하세요.</strong>
 							</h4>
 						</div>
 						<div class="col-5 boxhd">
@@ -217,7 +239,15 @@
 						</div>
 						<div class="col-12 start" >
 							<label class="mb-2 p-2">체크인 체크아웃</label>
-							<input class="mb-2" id="days"/>
+							<div class="" id="days-box">
+								<input type="text" class="text-center" placeholder="체크인 체크아웃을 설정하시오" data-input id="days" name="checkInOut">
+								<!-- <a class="input-button" title="toggle" data-toggle> <i
+									class="icon-calendar"></i>
+								</a> <a class="input-button" title="clear" data-clear> X
+								<i class="icon-close"></i>
+								</a> -->
+							</div>
+							<!-- <input class="mb-2" id="days" placeholder="체크인 체크아웃을 설정하시오" name="checkInOut"/> -->
 							<!-- <span>체크인</span>
 							<span id="start"></span> -->
 						</div>
@@ -225,71 +255,78 @@
 							<span>체크아웃</span>
 							<span id="end"></span>
 						</div> -->
-						<button type="button" class="btn btn-outline-dark p-2 mb-2" id="guest-btn">인원:<span id="adultCount"> 0</span> 어린이:<span id="childrenCount"> 0</span> 유아:<span id="infantCount"> 0</span> 반려동물:<sapn id="petCount"> 0</sapn></button>
-						<div class="rounded" id="guest">
-							<div class="mb-4 row justify-content-between align-middle guest-box" >
-								<div class="col-4">
-									성인
+						<div class="m-0 p-0 text-center">
+							<button type="button" class="btn btn-outline-dark p-2" id="guest-btn">
+								인원: <span id="adultCount">0</span> 유아: <span id="infantCount">0</span> 반려동물: <sapn id="petCount"> 0</sapn>
+								<i class="bi bi-caret-down-fill float-end" id="down"></i>
+								<i class="bi bi-caret-up-fill float-end" id="up"></i>
+							</button>
+							<div class="rounded" id="guest">
+								<div class="mb-4 row justify-content-between align-middle guest-box" >
+									<div class="col-4">
+										<p>성인
+									</div>
+									<div class="col-4 adult">
+											<button class="btn btn-outline-dark btn-sm m_btn guestbtn adultM">-</button>
+											<span class="m-2 adultCount">0</span>
+											<button class="btn btn-outline-dark btn-sm p_btn guestbtn hu_p_btn">+</button>
+									</div>
 								</div>
-								<div class="col-4 " id="adult">
-										<button class="btn m_btn guestbtn adultM">-</button>
-										<span class="adultCount">0</span>
-										<button class="btn p_btn guestbtn hu_p_btn">+</button>
+								<div class="mb-4 row justify-content-between align-middle guest-box" >
+									<div class="col-4">
+										어린이
+									</div>
+									<div class="col-4 adult">
+											<button class="btn btn-outline-dark btn-sm m_btn guestbtn childrenM">-</button>
+											<span class="m-2 childrenCount">0</span>
+											<button class="btn btn-outline-dark btn-sm p_btn guestbtn hu_p_btn">+</button>
+									</div>
+								</div>
+								<div class="mb-4 row justify-content-between align-middle guest-box" >
+									<div class="col-4">
+										유아
+									</div>
+									<div class="col-4 adult">
+											<button class="btn btn-outline-dark btn-sm m_btn guestbtn infantM">-</button>
+											<span class="m-2 infantCount">0</span>
+											<button class="btn btn-outline-dark btn-sm p_btn guestbtn hu_p_btn">+</button>
+									</div>
+								</div>
+								<div class="mb-4 row justify-content-between align-middle guest-box" >
+									<div class="col-4">
+										반려
+									</div>
+									<div class="col-4 adult">
+											<button class="btn btn-outline-dark btn-sm m_btn guestbtn petM">-</button>
+											<span class="m-2 petCount">0</span>
+											<button class="btn btn-outline-dark btn-sm p_btn guestbtn pet_p_btn">+</button>
+									</div>
+								</div>
+								<div class="mb-4 row justify-content-between align-middle guest-box" >
+									<div class="col">
+										<span>이 숙소의 최대 숙박 인원은 ${acc.guest }명(유아 포함)입니다. 반려동물을 3마리 이상 동반하는 경우, 호스트에게 알려주세요.</span>
+									</div>
+									
 								</div>
 							</div>
-							<div class="mb-4 row justify-content-between align-middle guest-box" >
-								<div class="col-4">
-									어린이
-								</div>
-								<div class="col-4 " id="adult">
-										<button class="btn m_btn guestbtn childrenM">-</button>
-										<span class="childrenCount">0</span>
-										<button class="btn p_btn guestbtn hu_p_btn">+</button>
-								</div>
-							</div>
-							<div class="mb-4 row justify-content-between align-middle guest-box" >
-								<div class="col-4">
-									유아
-								</div>
-								<div class="col-4 " id="adult">
-										<button class="btn m_btn guestbtn infantM">-</button>
-										<span class="infantCount">0</span>
-										<button class="btn p_btn guestbtn hu_p_btn">+</button>
-								</div>
-							</div>
-							<div class="mb-4 row justify-content-between align-middle guest-box" >
-								<div class="col-4">
-									반려
-								</div>
-								<div class="col-4 " id="adult">
-										<button class="btn m_btn guestbtn petM">-</button>
-										<span class="petCount">0</span>
-										<button class="btn p_btn guestbtn pet_p_btn">+</button>
-								</div>
-							</div>
-							<div class="mb-4 row justify-content-between align-middle guest-box" >
-								<div class="col">
-									<span>이 숙소의 최대 숙박 인원은 ${acc.guest }명(유아 포함)입니다. 반려동물을 3마리 이상 동반하는 경우, 호스트에게 알려주세요.</span>
-								</div>
-								
-							</div>
+						
 						</div>
-						<button type="button" class="btn btn-outline-dark p-2 mb-3" id="guest-btn">예약하기</button>
-						<div class="mb-3 text-center">
+						<button type="button" class="btn btn-outline-dark p-2 mt-2 reservation" >예약하기</button>
+						<div class="mb-3 text-center mt-2">
 							<span>예약 확정 전에는 요금이 청구되지 않습니다.</span>
 						</div>
-						<div class="row justify-content-between">
+						<div class="row reservation">
 							<div class="col-6 text-left"><p>₩<fmt:formatNumber value="${acc.price }"/> x <span class="day"></span>박</p></div>
-							<div class="col-5 text-right"><p>₩<span id="day-price"></span> 원</div>
+							<div class="col-6 text-end"><p>₩<span id="day-price"></span>원</div>
 						</div>
-						<div class="row justify-content-between">
+						<div class="row reservation">
 							<div class="col-6"><p>청소비</p></div>
-							<div class="col-5"><p>₩<fmt:formatNumber value="${acc.cleaningPrice }"/> 원</div>
+							<div class="col-6 text-end"><p>₩<fmt:formatNumber value="${acc.cleaningPrice }"/>원</div>
 						</div>
 						<hr>
-						<div class="row justify-content-between">
+						<div class="row reservation">
 							<div class="col-6"><h6>총합계</h6></div>
-							<div class="col-5"><h6 >₩<span id="totalPrice"></sapn>원</h6></div>
+							<div class="col-6 text-end"><h6 >₩<span id="totalPrice"></span>원</h6></div>
 						</div>
 					</div>
 					<div class="text-center">
@@ -329,7 +366,12 @@
 					<div class="row mb-3">
 						<div class="col-1">
 							<a id="profile" href="">
-								<img class="float-start profile" src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg" >
+								<c:if test="${empty acc.user.profileImage }">
+									<img class="float-end profile" src="/resources/images/profile/profile-default-img.png">
+								</c:if>
+								<c:if test="${not empty acc.user.profileImage }">
+									<img class="float-end profile" src="/resources/images/profile/${acc.user.profileImage }">
+								</c:if>
 							</a>
 						</div>
 						<div class="col-11">
@@ -347,6 +389,11 @@
 							<p><i class="bi bi-shield-fill-check"></i> 본인인증 완료</p>
 						</div>
 					</div>
+					<div class="contentbox mt-2 mb-2">
+					<div class="content mb-2">
+						<p>${acc.user.description }</p>
+					</div>
+				</div>
 				</div>
 				<div class="col-6 mb-2">
 					<p>응답률: 100%</p>
@@ -787,7 +834,7 @@ $(function() {
         var content = $(this).children('.content');
         var content_txt = content.text();
         var content_txt_short = content_txt.substring(0,100)+"...";
-        var btn_more = $('<a href="javascript:void(0)" class="more">더보기</a>');
+        var btn_more = $('<a href="javascript:void(0)" class="more link-dark">더보기 <i class="bi bi-chevron-right"></i></a>');
 
         
         $(this).append(btn_more);
@@ -893,14 +940,13 @@ $(function() {
 	
 	// 달력
 	
-	var fp1 = $("#days").flatpickr({
+	var fp1 = $("#days-box").flatpickr({
 		minDate: new Date(),
-		defaultDate : new Date(),
 		mode: "range",
 		dateFormat: "Y-m-d",
 		disable : ["2022-08-16", "2022-08-17"],
-		"locale": "ko" 
-	  	
+		"locale": "ko" ,
+		wrap: true
 	   });  
 	  	fp1.config.onChange.push(function(selectedDates) {
 	  		if (selectedDates[1]==null || selectedDates[0]==null){
@@ -914,7 +960,19 @@ $(function() {
 	  		let totalPrice = ${acc.cleaningPrice} + sum
 	  		$("#totalPrice").text(totalPrice.toLocaleString())
 	}) 
+    	  $(".reservation").hide();
 	
+	$("#days").on('input',function(){
+      if (!$("#days").empty()){
+    	  $(".reservation").hide();
+    	  $(".not-reservation").show();
+      } else {
+    	  $(".reservation").show();
+    	  $(".not-reservation").hide();
+      }
+
+   })
+
 	/* $("#edate").flatpickr({
 		minDate: new Date(),
 		defaultDate : new Date(),
@@ -1024,8 +1082,6 @@ $(function() {
 		} 
 		 */
 		
-		
-		
 		$("#profile").click(function() {
 			$("host").focus();
 		})
@@ -1035,16 +1091,12 @@ $(function() {
 		$(window).scroll(function() {
 			let scrollTop = $(document).scrollTop();
 			if (scrollTop > 600) {
-
 				$("#nav-1").show();
 			} else {
 
 				$("#nav-1").hide();
-
 			}
 		})
-
-		
 		
 		// 스크롤스파이
 		var scrollSpy = new bootstrap.ScrollSpy(document.body, {
@@ -1052,7 +1104,6 @@ $(function() {
 		})
 
 		// 공유
-
 		$("#btnTwitter").click(
 				function() {
 					var sendText = "aircnc"; // 전달할 텍스트
@@ -1105,9 +1156,12 @@ $(function() {
 		}; */
 
 	$("#guest").hide();
+	$("#up").hide();
 	
 	$("#guest-btn").click(function() {
 		$("#guest").toggle();
+		$("#up").toggle();
+		$("#down").toggle();
 	})
 	
 	$(".adultM").addClass("disabled")
@@ -1115,68 +1169,59 @@ $(function() {
 	$(".infantM").addClass("disabled")
 	$(".petM").addClass("disabled")
 	
+	let petLimit = parseInt(${acc.pet})
+	let limit = parseInt(${acc.guest})
+	
+	if (petLimit === 0) {
+		$(".pet_p_btn").addClass("disabled")
+	}
+	
 	$(".guestbtn").click(function() {
 		
 		$(function() {
-			$("#adultCount").text($(".adultCount").text());		
-			$("#childrenCount").text($(".childrenCount").text());		
-			$("#infantCount").text($(".infantCount").text());		
-			$("#petCount").text($(".petCount").text());	
 			
 			let adult = parseInt($(".adultCount").text())
 			let children = parseInt($(".childrenCount").text())
 			let infant = parseInt($(".infantCount").text())
 			let pet = parseInt($(".petCount").text())
 			
-			let limit = parseInt(${acc.guest})
-			let petLimit = parseInt(${acc.pet})
+			$("#adultCount").text(adult + children);		
+			$("#infantCount").text(infant);		
+			$("#petCount").text(pet);	
+			
 			let total = adult + children + infant
 			console.log(total)
 			
-			if (limit === total) {
-				$(".hu_p_btn").addClass("disabled")	
-			} else {
-				$(".hu_p_btn").removeClass("disabled")
-			}
-			
-			if (petLimit === pet) {
-				$(".pet_p_btn").addClass("disabled")	
-			} else {
-				$(".pet_p_btn").removeClass("disabled")
-			}
+			limitDisabled(petLimit,pet,$(".pet_p_btn"));
+			limitDisabled(limit,total,$(".hu_p_btn"));
 			
 			
-				
-			if (adult === 0){
-				$(".adultM").addClass("disabled")	
-			} else {
-				$(".adultM").removeClass("disabled")
-			}
-			
-			if (children === 0){
-				$(".childrenM").addClass("disabled")	
-			} else {
-				$(".childrenM").removeClass("disabled")
-			}
-			
-			if (infant === 0){
-				$(".infantM").addClass("disabled")	
-			} else {
-				$(".infantM").removeClass("disabled")
-			}
-			
-			if (pet === 0){
-				$(".petM").addClass("disabled")	
-			} else {
-				$(".petM").removeClass("disabled")
-			}
+			disabled(adult,$(".adultM"));
+			disabled(children,$(".childrenM"));
+			disabled(infant,$(".infantM"));
+			disabled(pet,$(".petM"));
 			
 		})
 		
 	})
 	
+	function disabled(num ,select) {
+		if (num === 0){
+			select.addClass("disabled")	
+		} else {
+			select.removeClass("disabled")
+		}
+	}
+	
+	function limitDisabled(limit,num,select) {
+		if (limit === num) {
+			select.addClass("disabled")	
+		} else {
+			select.removeClass("disabled")
+		}
+	}
+	
 	$(function() {
-	            
            $(".p_btn").click(function() {
                var $this = $(this);
                var target = $this.prev();
@@ -1196,10 +1241,6 @@ $(function() {
                target.text(num);
            });
 	});
-		
-       
-		
-		       
 })
 
 

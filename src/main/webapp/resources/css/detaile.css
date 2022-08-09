@@ -62,10 +62,23 @@
 		position: absolute;
 		background: rgb(255, 255, 255);
 		width: 332px;
-		top: 220px;
 		border: 1px solid;
 		padding: 16px;
 		z-index: 1000;
+	}
+	
+	
+	hr {
+		z-index: 100;
+	}
+	
+	.place-box{
+		width: 207px;
+		height: 143px;
+		padding: 24px;
+		border: 1px solid rgb(221, 221, 221);
+		margin-left: 8px;
+		
 	}
 	
 	.guest{
@@ -74,22 +87,40 @@
 		height: 56px;
 	}
 	
-	input {
-	  width: 300px;
-	  height: 32px;
-	  font-size: 15px;
-	  border: 0;
-	  border-radius: 15px;
-	  outline: none;
-	  padding-left: 10px;
-	  background-color: rgb(233, 233, 233);
+	
+	.start {
+		padding: 0;
 	}
 	
-	#adult{
-		display: inline-flex;
-		align-items: center;
+	#guest-btn {
+		height: 56px;
+		width: 332px;
+		border: 1px solid rgb(113, 113, 113);
+		
+		cursor: pointer;
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0.5em;
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0.5em;
 	}
+	
+	#days {
+	  	width: 332px;
+	  	height: 56px;
+	  	font-size: 15px;
+	 	border: 1px solid rgb(113, 113, 113);
+	  	border-radius: 10px;
+	  	outline: none;
+	  	cursor: pointer;
+	  	border-top-right-radius: 0.5em;
+	 	border-bottom-right-radius: 0;
+		border-top-left-radius: 0.5em;
+		border-bottom-left-radius: 0;
+		border-bottom: 0px;
+	} 
+	
 	.adult{
+		display: inline-flex;
 		align-items: center;
 	}
 	
@@ -102,7 +133,13 @@
 	.contentbox {margin:20px auto;}
     .content {
         width: auto;
+        font-size: 16px;
     }
+    
+	.convenience {
+  		align-items: center;
+	}
+    
     #map {
 	    width:1120px;
 	    height:480px;
@@ -139,7 +176,7 @@
 	 
 	#box {
 		width: 380px;
-		height: 496px;
+		height: auto;
 	}
 	.boxhd {
 		height: 27px;
