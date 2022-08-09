@@ -1560,7 +1560,6 @@ $(function() {
 		$("input:checkbox[name='convenience']").prop("checked", false);	
 		$("input:checkbox[name='Accessibility']").prop("checked", false);	
 		$("input:checkbox[id='super-book-option']").prop("checked", false);	
-		
 	});
 	
 	/* 필터-'건물유형' 버튼 복수개 선택 */
@@ -1657,7 +1656,7 @@ $(function() {
 	function searchForm() {
 		let queryString = $("#filter-search").serialize();
 		
-		// 숙소 test
+		// 숙소
 		let xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === 4 && xhr.status === 200) {
