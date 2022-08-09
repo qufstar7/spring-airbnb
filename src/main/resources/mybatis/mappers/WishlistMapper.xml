@@ -70,6 +70,13 @@
  		insert into airbnb_wishlists (wishlist_no, wishlist_name, user_no)
  		values (wishlists_seq.nextval, #{name},  #{user.no})
  	</insert>
+ 	
+ 	<!-- void deleteWishlistAcc(int accNo, int wishlistNo); -->
+ 	<delete id="deleteWishlistAcc" parameterType="int">
+ 		delete 
+		from airbnb_wishlist_accommodations
+		where wishlist_no = #{wishlistNo} and acc_no = #{accNo} 
+ 	</delete>
  
  
 </mapper>

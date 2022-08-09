@@ -15,6 +15,7 @@
 <script src="https://unpkg.com/@googlemaps/markerwithlabel/dist/index.min.js"></script>
 <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Google+Sans:400,500,700|Google+Sans+Text:400&amp;lang=ko">
 <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans+Text:400&amp;text=%E2%86%90%E2%86%92%E2%86%91%E2%86%93&amp;lang=ko">
+
 <title>${wishlist.name }-에어씨엔씨</title>
 <style type="text/css">
 	.carousel-inner img{ object-fit: contain;}
@@ -24,10 +25,9 @@
 	#div-sub button:hover {background-color: #F5F5F5;}
 	.card {border:none;}
 	hr {opacity: 0.1;}
-	#googleMap i {color: #FF385C;}
-	.card-body i {color: #FF385C;} 
-	#btn-delete-wishlist {border: none; padding: 10px;}
-	#btn-delete-wishlist:hover {background-color: #F5F5F5;}
+	#googleMap i, .card-body i {color: #FF385C;}
+	.btn-delete-wishlistAcc {border: none; padding: 10px;}
+	.btn-delete-wishlistAcc:hover {background-color: #F5F5F5;}
 	
 	.labels {
 	  position: absolute;
@@ -97,8 +97,8 @@
 				</div>
 				<c:forEach var="acc" items="${wishlist.accs}" varStatus="loop" >
 					<div class="card mb-3" data-index="${loop.index}" id="card-${acc.accNo }">
-					  <div class="row g-0">
-					    <div class="col-md-4" >
+					  <div class="row g-0 position-relative mb-2">
+					    <div class="col-md-4">
 					      <div id="carouselExampleIndicators-${acc.accNo }" class="carousel slide" data-interval="false">
 							<!-- 숙소 섬네일 슬라이드쇼 -->
 							<div class="carousel-indicators">
@@ -132,10 +132,14 @@
 					      <div class="card-body">
 					      	<div class="d-flex justify-content-between">
 						        <span class="card-text text-muted">${acc.address }</span>
-						        <button type="button" class="btn rounded-circle" id="btn-delete-wishlist"><i class="fa-solid fa-heart fs-4"></i></button>
+						        <button type="button" class="btn rounded-circle btn-delete-wishlistAcc" data-accNo="${acc.accNo}"><i class="fa-solid fa-heart fs-4"></i></button>
 					      	</div>
-						    <h5 class="card-title">${acc.name }</h5>
+						    <span class="card-title">${acc.name }</span>
 					        <p class="card-text text-muted">최대 인원 2명 원룸 침대2개 욕실 1개</p>
+					        <div class="position-absolute bottom-0">
+					        	 <strong><i class="bi bi-star-fill"></i>${acc.reviewScore}<span class="text-black-50">(후기 ${acc.reviewCount}개)</span></strong>
+					        	 <span class="fs-5"><strong>₩<fmt:formatNumber value="${acc.price}"/></strong> /박 </span>
+					        </div>
 					      </div>
 					    </div>
 					  </div>
@@ -319,9 +323,129 @@ $(function () {
 	    }
 	 	
 	 });
+	 
+	 let saveToListModal = new bootstrap.Modal(document.getElementById('modal-save-to-list'), {
+		  keyboard: false
+		})
+	 
+	 // wishlist 숙소 하트 아이콘 클릭
+	 $(".btn-delete-wishlistAcc").click(function() {
+		 
+		 $heartIcon = $(this).find("i");
+	 	 let accNo = $(this).attr("data-accNo");
+		 
+		 if($heartIcon.hasClass("fa-solid")) {
+			 // 위시리스트에서 숙소 삭제 구현하기
+			 $heartIcon.removeClass("fa-solid").addClass("fa-regular").css("color", "black");
+			 // 라벨에서 하트 없애기 구현하기
+		 } else {
+			 // 다시 추가
+			 $heartIcon.removeClass("fa-regular").addClass("fa-solid").css("color", "#FF385C");
+			 saveToListModal.show();
+			 $("#form-create-wishlist input[name=accNo]").val(accNo); // 여기서 주는 것이 맞나?
+		 }
+		/* 
+		
+	 	$.getJSON("/wishlists/deleteAcc", "accNo=" + accNo + "&wishlistNo=" + ${wishlist.no}) 
+		.done(function(result) {
+			
+			
+			
+		}) */
+		 
+	 });
+	 
+	 let createListModal = new bootstrap.Modal(document.getElementById('modal-create-wishlist'), {
+		  keyboard: false
+		})
+	 
+	 // 위시리스트 폴더리스트 모달창에서 "새로운 위시리스트 만들기" 누를 경우
+	 $("#div-create-wishlist").click(function() {
+		 saveToListModal.hide();
+		 createListModal.show();
+		
+		 
+	 })
+	 
+	 $(":input[name=wishlistName]").keyup(function() {
+	 	if($(this).val().trim()) {
+	 		$("#btn-create-wishlist").prop("disabled", false);
+	 	} else {
+	 		$("#btn-create-wishlist").prop("disabled", true);
+	 	}
+	 });
+	 
+	 // 빈하트 다시 클릭 -> 위시리스트 폴더 이름 생성 -> 새로 만들기 버튼
+	 // 1. 새로운 이름의 위시리스트 생성
+	 // 2. 빈하트를 눌렀던 숙소는 다시 위시리스트 안에 생성되고 채워진 하트로 변경
+	 $("#btn-create-wishlist").click(function() {
+		 let querystring = $("#form-create-wishlist").serialize();
+			$.post("/wishlists/insert", querystring, function(result) {
+				
+				
+			})
+	 });
 	
 });
 </script>
+<!-- 빈하트 클릭시 나타나는 Modal -->
+<div class="modal fade" id="modal-save-to-list" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h5 class="modal-title fw-bold w-100 text-center">위시리스트</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      	<div  id="div-create-wishlist" style="display: flex; height: 64px; cursor: pointer;">
+      		<img src="https://a0.muscache.com/im/pictures/da1a2f06-efb0-4079-abce-0f6fc82089e0.jpg" alt="새로운 위시리스트 만들기" style="vertical-align:middle;">
+      		<span class="ms-3 fw-bold" style="margin-top:20px;">새로운 위시리스트 만들기</span>
+      	</div>
+      	<c:if test="${not empty wishlists }">
+      		<c:forEach var="wishlist" items="${wishlists}">
+		      	<div class="mt-3" style="display: flex; height: 64px;">
+		      		<img src="https://a0.muscache.com/im/pictures/da1a2f06-efb0-4079-abce-0f6fc82089e0.jpg" alt="새로운 위시리스트 만들기" style="vertical-align:middle;">
+		      		<span class="ms-3 fw-bold" style="margin-top:20px;">${wishlist.name }</span>
+		      	</div>
+      		</c:forEach>
+      	</c:if>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 새로운 위시리스트 만들기 클릭시 나타나는 Modal -->
+<div class="modal fade" id="modal-create-wishlist" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold w-100 text-center fs-6">위시리스트 이름 정하기</h5>
+        <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#modal-save-to-list"></button>
+      </div>
+      <div class="modal-body mb-4">
+      	<form id="form-create-wishlist">
+	      	<div class="form-floating">
+	      		<input type="hidden" name="accNo">
+		     	<input type="text" class="form-control" name="wishlistName" placeholder="이름">
+		     	<label for="floatingInput">이름</label>
+			</div>
+			<small>최대 50자</small>
+      	</form>
+      </div>
+      <div class="modal-footer">
+        <div class="d-grid gap-2 w-100">
+		  <button class="btn btn-dark fw-bold btn-lg fs-6" type="button" id="btn-create-wishlist" disabled>새로 만들기</button>
+		</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFv4fJk64OcpfSgmByfKOlwHndkuSa0kk&callback=initMap&region=kr"></script>
 </body>
 </html>
