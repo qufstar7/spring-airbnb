@@ -39,13 +39,15 @@
 					<h4><i class="bi bi-star-fill"></i> <span>4.96</span>${acc.reviewScore } 
 					<span class="text-decoration">후기 128${acc.reviewCount }개</span></h4>
 				</div>
-				<div class="row">
-					<div class="col-4">
-						<p>청결도</p>
-					</div>
-					<div class="col-4 barBox">
-						<div class="scoreBarleft">
-							<div id="bar-clean-avg" style="width: 70%;">
+				<div class="box-score-bar">
+					<div class="row">
+						<div class="col-4">
+							<p>청결도</p>
+						</div>
+						<div class="col-4 barBox">
+							<div class="scoreBarleft">
+								<div id="bar-clean-avg" style="width: 70%;">
+								</div>
 							</div>
 						</div>
 					</div>
@@ -119,6 +121,7 @@ $(function() {
 					content3 += '<h4><i class="bi bi-star-fill"></i> <span>4.96</span>${acc.reviewScore } ';
 					content3 += '<span class="text-decoration">후기 128${acc.reviewCount }개</span></h4>';
 					
+					$scoreBox.append(content3);
 					
 					
 					

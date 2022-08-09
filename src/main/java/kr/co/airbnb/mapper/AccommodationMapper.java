@@ -23,7 +23,8 @@ public interface AccommodationMapper {
 	// 숙소 사진 리스트
 	List<AccPhoto> getAccPhotosByAccNo(int accNo);
 
-	void updateReviewCount(Accommodation accommodation);
+	// 숙소 리뷰 갯수, 별점 평균 업데이트
+	void updateAvgScore(Accommodation accommodation);
 	
 
 }

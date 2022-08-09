@@ -41,4 +41,11 @@ public class User {
 	private Date updatedDate;
 	private String gender;
 	
+	private int reviewCount;
+	private double reviewScore;
+	private double totalScore;
+	private double cleanScore;
+	private double communicationScore;
+	private double observanceScore;
+	
 }

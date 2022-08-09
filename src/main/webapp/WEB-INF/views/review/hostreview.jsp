@@ -472,9 +472,13 @@ $(function() {
 	
 	// 호스트 리뷰 등록
 	$("#btn-add-hostreview").click(function() {
+		let params = new URLSearchParams(document.location.search);
+		let reservationNo = params.get("reservationNo");
+		let accNo = params.get("accNo");
+		
 		let review = {
 			reservationNo: reservationNo,
-			accNo: parseInt($("input[name='accNo']").val()),
+			accNo: accNo,
 			userType: $("input[name='userType']").val(),
 			totalScore: parseInt($("input[name='total']").val()),
 			cleanScore: parseInt($("input[name='clean']").val()),

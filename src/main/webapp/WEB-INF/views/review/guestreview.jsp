@@ -90,7 +90,7 @@
 <!-- form 시작 -->
 <!-- 파라미터로 숙소 번호 받아야 한다. -->
 <form class="mb-3" name="guestReview" id="guest-review">		
-<input type="hidden" id="acc-no" name="accNo" value="101" />	
+<input type="hidden" id="acc-no" name="accNo" value="" />	
 <input type="hidden" id="user-type" name="userType" value="guest" />	
 <input type="hidden" id="reservation-no" name="reservationNo" value="" />	
 <!-- Scrollable Modal -->
@@ -347,12 +347,13 @@ $(function() {
 	
 	let params = new URLSearchParams(document.location.search);
 	let reservationNo = params.get("reservationNo");
+	let accNo = params.get("accNo");
 	
 	$("#btn-exampleModalToggle").ready(function() {
 		$.ajax({
 			type: "GET",
 			url: "review/checkOverdue",
-			data: {reservationNo:reservationNo},
+			data: {reservationNo:reservationNo, accNo:accNo},
 			datatype: "json",
 			success: function(data) {
 				let overdue = data.item;
@@ -369,7 +370,7 @@ $(function() {
 		$.ajax({
 			type: "GET",
 			url: "review/check",
-			data: {reservationNo:reservationNo},
+			data: {reservationNo:reservationNo, accNo:accNo},
 			datatype: "json",
 			success: function(data) {
 				let duplication = data.item;
@@ -570,8 +571,12 @@ $(function() {
 	
 	// 게스트 리뷰 등록
 	$("#btn-add-guestreview").click(function() {
+		let params = new URLSearchParams(document.location.search);
+		let reservationNo = params.get("reservationNo");
+		let accNo = params.get("accNo");
+		
 		let review = {
-			accNo: parseInt($("input[name='accNo']").val()),
+			accNo: parseInt(accNo),
 			userType: $("input[name='userType']").val(),
 			totalScore: parseInt($("input[name='total']").val()),
 			cleanScore: parseInt($("input[name='clean']").val()),
@@ -587,11 +592,7 @@ $(function() {
 			wantMeetAgain: $("input[name='thumb']:checked").val(),
 			reservationNo: reservationNo
 		}
-		
-		let accommodation = {
-			no: parseInt($("input[name='accNo']").val())
-		}
-		
+
 		exampleModalToggle4.hide();
 		
 		$.ajax({

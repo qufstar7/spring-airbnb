@@ -19,7 +19,7 @@ public class Accommodation {
 	private int typeNo;
 	private User user;
 	private int reviewCount;
-	private int reviewScore;
+	// private int reviewScore;
 	private String name;
 	private String description;
 	private String address;
@@ -46,5 +46,14 @@ public class Accommodation {
 	private List<AccConvenience> conveniences;
 	private List<AccPhoto> photos;
 	
+	private double reviewScore;
+	private double totalScore;
+	private double cleanScore;
+	private double accuracyScore;
+	private double communicationScore;
+	private double locationScore;
+	private double checkinScore;
+	private double valueScore;
+	private double convenienceScore;
 
 }
