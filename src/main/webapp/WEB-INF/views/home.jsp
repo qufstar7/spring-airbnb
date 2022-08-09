@@ -1657,7 +1657,7 @@ $(function() {
 	function searchForm() {
 		let queryString = $("#filter-search").serialize();
 		
-		// 숙소
+		// 숙소 test
 		let xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === 4 && xhr.status === 200) {
