@@ -36,12 +36,10 @@ public class ReservationService {
 	}
 	
 	public void addNewReservation(Reservation reservation) throws IOException {
+		reservation.setAccommodation(null);
 		reservationMapper.insertReservation(reservation);
 	}
 	
-	public static void main(String[] args) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		
-	}
+	
 	
 }

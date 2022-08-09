@@ -36,7 +36,7 @@
 					<span>날짜</span>
 					<button type ="button" class="btn btn-sm" style="background-color:white; border-color:white; float:right;"><u>수정</u></button>
 					<br>
-					<p class ="small">${accommodation.checkIn } - ${accommodation.checkOut }</p>	
+					<p class ="small"><fmt:formatDate value="${accommodation.checkIn }"/> - <fmt:formatDate value="${accommodation.checkOut }"/></p>	
 				</div>
 				<div>
 					<span>게스트</span>
@@ -54,7 +54,7 @@
 							<strong>전액결재</strong>
 						</div>
 						<div class="col-6 text-end">
-							<strong>￦${accommodation.price } 원</strong>
+							<strong>￦<fmt:formatNumber value="${accommodation.price }" /> 원</strong>
 							<input class="form-check-input"  type="radio" name="payment" id="radio-entire" checked="checked" >
 						</div>
 						<div class="row p-3">
@@ -70,7 +70,7 @@
 							<strong>요금 일부는 지금 결제, 나머지는 나중에 결제</strong>
 						</div>
 						<div class="col-4 text-end">
-							<strong>￦${accommodation.price / 2} 원</strong>
+							<strong>￦ <fmt:formatNumber value=" ${accommodation.price / 2}"/> 원</strong>
 							<input class="form-check-input"  type="radio" name="payment"  id="radio-left">
 						</div>
 					</div>
@@ -149,26 +149,30 @@
 			<div class="insertCard">
 				<div class="row" style="padding:20px">
 					<div class="col border bg-white rounded">
-						<form class="col p">
+						<form:form class="col" method="post" action="register" modelAttribute="cardRegisterForm">
 							<div class="mb-3">
-								<label class="form-label">카드 번호</label>
-								<input class="form-control " type="text" placeholder="카드 번호">
+								<label for="id-field" class="form-label">카드번호</label>
+			                	<input class="form-control" path="id" id="id-field" placeholder="카드 번호"/>
 							</div>
 							<div class ="row"> 
-								<div class="col">
-									<label class="form-label">만료일 </label>
-									<input class="form-control " type="text" placeholder="MM/YY">
+								<div class="col mb-3">
+									<label for="expiryDate-field" class="form-label">만료일</label>
+                					<form:input class="form-control" path="expiryDate" id="expiryDate-field" placeholder="MM/YY"/>
 								</div>
-								<div class="col">
-									<label class="form-label">이런 분들에게 추천해요</label>
-									<input class="form-control " type="text" placeholder="CVV">
+								<div class="col mb-3">
+									<label for="cvv-field" class="form-label">CVV</label>
+                					<form:input class="form-control" path="cvv" id="cvv-field" placeholder="123"/>
 								</div>
 							</div>
 							<div class="mb-3">
-								<label class="form-label">이런 선수지식이 필요해요</label>
-								<input class="form-control " type="text">
+								<label for="zipCode-field" class="form-label">우편번호</label>
+                				<form:input class="form-control" path="zipCode" id="zipCode-field" placeholder="12345"/>
 							</div>
-						</form>
+							 <div class="mb-3">
+			                	<label for="region-field" class="form-label">지역</label>
+			                	<form:input class="form-control" path="region" id="region-field" placeholder="한국"/>
+			                </div>
+						</form:form>
 							<div class="mb-3">
 								<div class="modal" id="modal-how-to-use" tabindex="-1">
 									<div class="modal-dialog">
@@ -214,8 +218,8 @@
 						</div>
 					</div>
 					<div class="col">
-					    <span>${accommodation.userNo }</span>
-					    <p><small class="text-muted">가입일</small></p>
+					    <span>${accommodation.user.name }</span>
+					    <p><small class="text-muted"><fmt:formatDate value="${accommodation.user.createdDate }" /></small></p>
 					</div>
 				</div>
 				<div>
@@ -241,40 +245,91 @@
 	<!-- 오른쪽 -->
 	<div class='right-box'>
 		<div class="container-fixed">
-			<div class="row my-5 px-5" style="padding:5px" >
-				<div class ="border bg-white rounded">
-					<div class="row" style="padding:15px">
-						<div class="col-5">
-							<div class="box2">
-							    <img class="acc" src="../resources/images/acc/sample-home.jpg">
+			<div class="entireDiv">
+				<div class="row my-5 px-5" style="padding:5px" >
+					<div class ="border bg-white rounded">
+						<div class="row" style="padding:15px">
+							<div class="col-5">
+								<div class="box2">
+								    <img class="acc" src="../resources/images/acc/sample-home.jpg">
+								</div>
+							</div>
+							<div class="col">
+							    <span>${accommodation.name }</span>
+							    <p>숙소 이름</p>
+						        <p><small class="text-muted">★${accommodation.reviewScore }(후기 ${accommodation.reviewCount }개)</small></p>
 							</div>
 						</div>
-						<div class="col">
-						    <span>${accommodation.name }</span>
-						    <p>숙소 이름</p>
-					        <p><small class="text-muted">★$4.75(후기 $106개)</small></p>
+						<hr/>
+						<div class="divide2">
+							<p>에어커버를 통한 예약 보호</p>
+						</div>
+						<hr/>
+						<div class="divide2">
+							<h5>요금 세부정보</h5>
+							<div class="border bg-white border-white">
+								<span>￦${accommodation.price } × $<fmt:formatDate value="${accommodation.checkIn}"  />박</span>
+								<span style="float:right"">￦<fmt:formatNumber value="${accommodation.price }" /> 원</span>
+							</div>
+							<div>
+								<span><u>서비스 수수료</u></span>
+								<span style="float:right">￦<fmt:formatNumber value="${accommodation.price *0.15 }" /> 원</span>
+							</div>
+							<hr>
+							<div class="divide2">
+								<span>총 합계</span>
+								<span style="float:right">총 합계</span>
+							</div>
 						</div>
 					</div>
-					<hr/>
-					<div class="divide2">
-						<p>에어커버를 통한 예약 보호</p>
-					</div>
-					<hr/>
-					<div class="divide2">
-						<h5>요금 세부정보</h5>
-						<div class="border bg-white border-white">
-							<span>￦$240,000 × $2박</span>
-							<span style="float:right"">￦$240,000*2</span>
+				</div>
+			</div>
+			<div class="row my-5 px-5" style="padding:5px" >
+				<div class="leftDiv">
+					<div class ="border bg-white rounded">
+						<div class="row" style="padding:15px">
+							<div class="col-5">
+								<div class="box2">
+								    <img class="acc" src="../resources/images/acc/sample-home.jpg">
+								</div>
+							</div>
+							<div class="col">
+							    <span>${accommodation.name }</span>
+							    <p>숙소 이름</p>
+						        <p><small class="text-muted">★${accommodation.reviewScore }(후기 ${accommodation.reviewCount }개)</small></p>
+							</div>
 						</div>
-						<div>
-							<span>서비스 수수료</span>
-							<span style="float:right">$0.15</span>
+						<hr/>
+						<div class="divide2">
+							<p>에어커버를 통한 예약 보호</p>
 						</div>
-						<div>
-							<span>총 합계</span>
-							<span style="float:right">총 합계</span>
+						<hr/>
+						<div class="divide2">
+							<h5>요금 세부정보</h5>
+							<div class="border bg-white border-white">
+								<span>￦${accommodation.price } × $2박</span>
+								<span style="float:right"">￦${accommodation.price }</span>
+							</div>
+							<div>
+								<span><u>서비스 수수료</u></span>
+								<span style="float:right">￦${accommodation.price *0.15 }</span>
+							</div>
+							<div>
+								<span>총 합계</span>
+								<span style="float:right">총 합계</span>
+							</div>
+							<hr>
+							<div class="divide2">
+								<div class="border bg-white border-white">
+									<span>지급일:지금</span>
+									<span style="float:right"">￦${accommodation.price *0.5}</span>
+								</div>
+								<div>
+									<span>지급일:${accommodation.checkIn }</span>
+									<span style="float:right">${accommodation.price *0.5 }</span>
+								</div>
+							</div>
 						</div>
-						<hr>
 					</div>
 				</div>
 			</div>
@@ -291,18 +346,22 @@ $(function(){
 	
 	$("#entire-payment").click(function(){
 		$("input:radio[name='payment']:radio[id='radio-entire']").prop('checked', true);
+		$(".leftDiv").hide();
+		$(".entireDiv").show();
 		$("#entire-payment").css({
 			"border":"4px dark"
 		});
 	});
 	$("#left-payment").click(function(){
 		$("input:radio[name='payment']:radio[id='radio-left']").prop('checked', true);
+		$(".leftDiv").show();
+		$(".entireDiv").hide();
 
 	});
 	
 	$("#card-select").on('change',function(){
-		var result = $("#card-select option:selected").val();
-		if( result == "카드추가") {
+		let result2 = $("#card-select option:selected").val();
+		if( result2 == "카드추가") {
 			$(".insertCard").show();
 		}else {
 			$(".insertCard").hide();
