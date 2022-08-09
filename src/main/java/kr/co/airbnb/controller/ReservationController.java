@@ -24,29 +24,20 @@ public class ReservationController {
 	@Autowired
 	private ReservationService reservationService;
 	
-	@GetMapping
+	@GetMapping(path = "/register")
 	public String book(@RequestParam("no") int no, Model model) {
-		
 		Accommodation accommodation  = reservationService.getAcc(no);
 		model.addAttribute("accommodation", accommodation);
-		
-		return "reservation/book";
-	}
-	
-	
-	@GetMapping(path = "/register")
-	public String registerform(Model model) {
-		
 		model.addAttribute("cardRegisterForm", new CardRegisterForm());
 		
-		return "reservation/registerform";
+		return "reservation/book";
 	}
 	
 	@PostMapping(path ="/register")
 	public String register(@Valid CardRegisterForm cardRegisterForm, BindingResult errors) throws Exception {
 		
 		if (errors.hasErrors()) {
-			return "reservation/registerform";
+			return "reservation/book";
 		}
 		
 		reservationService.addNewCard(cardRegisterForm);
