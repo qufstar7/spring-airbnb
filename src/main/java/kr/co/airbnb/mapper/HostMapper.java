@@ -11,5 +11,6 @@ public interface HostMapper {
 
 	List<AccType> getAllMainTypes();
 	List<AccType> getAllSubTypes(int mainType);
+	List<AccType> getAllPrivacyTypes();
 
 }
