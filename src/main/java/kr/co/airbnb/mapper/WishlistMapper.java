@@ -14,4 +14,5 @@ public interface WishlistMapper {
 	List<Wishlist> getWishlistsByUserNo(int userNo);
 	void insertWishlist(Wishlist wishlist);
 	List<Accommodation> getWishlistAccsByNo(int wishlistNo);
+	void deleteWishlistAcc(int wishlistNo, int accNo);
 }

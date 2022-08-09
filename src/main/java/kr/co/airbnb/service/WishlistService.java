@@ -31,4 +31,8 @@ public class WishlistService {
 		}
 		return wishlists;
 	}
+	
+	public void deleteWishlistAcc(int wishlistNo, int accNo) {
+		wishlistMapper.deleteWishlistAcc(wishlistNo, accNo);
+	}
 }

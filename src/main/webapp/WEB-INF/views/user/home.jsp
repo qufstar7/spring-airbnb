@@ -72,7 +72,7 @@ pageEncoding="UTF-8"%>
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title fw-bold" id="exampleModalLabel">로그인 또는 회원가입</h5>
+        <h5 class="modal-title fw-bold w-100 text-center" id="exampleModalLabel">로그인 또는 회원가입</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body m-2">
@@ -120,7 +120,7 @@ pageEncoding="UTF-8"%>
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title fw-bold">로그인</h5>
+        <h5 class="modal-title fw-bold w-100 text-center">로그인</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body m-2">
@@ -160,7 +160,7 @@ pageEncoding="UTF-8"%>
   <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
     <div class="modal-content">
        <div class="modal-header">
-        <h5 class="modal-title fw-bold" id="exampleModalLabel">회원 가입 완료하기</h5>
+        <h5 class="modal-title fw-bold w-100 text-center" id="exampleModalLabel">회원 가입 완료하기</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -251,7 +251,7 @@ pageEncoding="UTF-8"%>
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title fw-bold" id="exampleModalLabel">프로필 생성하기</h5>
+        <h5 class="modal-title fw-bold w-100 text-center" id="exampleModalLabel">프로필 생성하기</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 	  <div class="modal-body text-center">
@@ -269,7 +269,7 @@ pageEncoding="UTF-8"%>
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">프로필 생성하기</h5>
+        <h5 class="modal-title w-100 text-center">프로필 생성하기</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body text-center p-5">
