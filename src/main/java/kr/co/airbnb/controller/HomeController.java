@@ -22,6 +22,10 @@ public class HomeController {
 		return "home";
 	}
 	
+	@GetMapping(path="filter")
+	public String filterTest() {
+		return "filter-test";
+	}
 	// 정수민 // 김유나 유나
 	
 
