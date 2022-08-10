@@ -56,7 +56,7 @@
 		<association property="user" column="USER_NO" select="kr.co.airbnb.mapper.UserMapper.getUserByNo"/>
 	</resultMap>
  	
- 	<!-- List<Accommodation> getWishlistAccsByNo:(List<Integer> wishlistNo); -->
+ 	<!-- List<Accommodation> getWishlistAccsByNo:(List<Integer> wishlistNo);  distinct? -->
  	<select id="getWishlistAccsByNo" parameterType="int" resultMap="AccResultMap">
  		select *
  		from airbnb_accommodations
@@ -65,14 +65,33 @@
  		                 where wishlist_no = #{value})
  	</select>
  	
- 	<!-- void insertWishlist(Wishlist wishlist); -->
- 	<insert id="insertWishlist" parameterType="Wishlist">
+ 	<!-- void createWishlist(Wishlist wishlist); -->
+ 	<insert id="createWishlist" parameterType="Wishlist">
+ 		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select wishlists_seq.nextval
+			from dual
+		</selectKey>
  		insert into airbnb_wishlists (wishlist_no, wishlist_name, user_no)
- 		values (wishlists_seq.nextval, #{name},  #{user.no})
+ 		values (#{no}, #{name},  #{user.no})
  	</insert>
  	
+ 	<!-- void saveWishlistAcc(int wishlistNo, int accNo); -->
+ 	<insert id="saveWishlistAcc">
+ 		insert into airbnb_wishlist_accommodations
+ 		values (#{wishlistNo}, #{accNo})
+ 	</insert>
+ 	
+ 	<!-- void changeWishlist(int wishlistNo, int accNo); -->
+ 	<update id="changeWishlist">
+ 		update airbnb_wishlist_accommodations
+ 	     set 
+ 	      wishlist_no = #{wishlistNo}
+ 	    where acc_no = ${accNo}
+ 	</update>
+ 	
+ 	
  	<!-- void deleteWishlistAcc(int accNo, int wishlistNo); -->
- 	<delete id="deleteWishlistAcc" parameterType="int">
+ 	<delete id="deleteWishlistAcc">
  		delete 
 		from airbnb_wishlist_accommodations
 		where wishlist_no = #{wishlistNo} and acc_no = #{accNo} 
