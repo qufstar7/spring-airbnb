@@ -130,22 +130,40 @@
 						</c:if>
 					</a>
 					<h4>${acc.user.name }님이 호스팅하는 ${acc.name }</h4>
-					<p>최대 인원 ${acc.guest }명<i class="bi bi-dot"></i>침실 1개<i class="bi bi-dot"></i>침대 1개<i class="bi bi-dot"></i>욕실 1개</p>
+					<p>최대 인원 ${acc.guest }명<i class="bi bi-dot">
+					
+					</i>침실 ${acc.rooms.bedroom }개<i class="bi bi-dot"></i>침대 ${acc.rooms.bed }개<i class="bi bi-dot"></i>욕실 ${acc.rooms.bathroom }개</p>
 				</div>
 				<hr>
-				<div>
-					<div class="mb-2">
-						<h6><i class="bi bi-door-closed"></i> 셀프 체크인</h6>
-						<span>열쇠 보관함을 이용해 체크인하세요.</span>
-					</div>
-					<div class="mb-2">
-						<h6><i class="bi bi-door-closed"></i> 셀프 체크인</h6>
-						<span>열쇠 보관함을 이용해 체크인하세요.</span>
-					</div>
-					<div class="mb-2">
-						<h6><i class="bi bi-door-closed"></i> 셀프 체크인</h6>
-						<span>열쇠 보관함을 이용해 체크인하세요.</span>
-					</div>
+				<div class="pt-3 pb-2">
+					<c:forEach items="${Boast }" var="boast">
+						<c:choose>
+							<c:when test="${boast.conNo eq '14' }">
+								<div class="mb-3">
+									<h6><i class="bi bi-paragraph"></i> 무료 주차 혜택을 누리세요</h6>
+									<span>해당 지역에서 무료 주차가 가능한 몇 안 되는 숙소 중 하나입니다.</span>
+								</div>
+							</c:when>
+							<c:when test="${boast.conNo eq '30' }">
+								<div class="mb-3">
+									<h6><i class="bi bi-door-closed"></i> 셀프 체크인</h6>
+									<span>열쇠 보관함을 이용해 체크인하세요.</span>
+								</div>
+							</c:when>
+						</c:choose>
+					</c:forEach>
+					<c:if test="${acc.checkinScore le 4.5 }">
+						<div class="mb-3">
+							<h6><i class="bi bi-key"></i> 순조로운 체크인 과정</h6>
+							<span>최근 숙박한 게스트 중 90%가 체크인 과정에 별점 5점을 준 숙소입니다.</span>
+						</div>
+					</c:if>
+					<c:if test="${acc.locationScore le 4.5 }">
+						<div class="mb-3">
+							<h6><i class="bi bi-signpost"></i> 훌륭한 숙소 위치</h6>
+							<span>최근 숙박한 게스트 중 90%가 위치에 별점 5점을 준 숙소입니다.</span>
+						</div>
+					</c:if>
 				</div>
 				<hr>
 				<div>
@@ -158,22 +176,29 @@
 					</div>
 				</div>
 				<hr>
-				<div class="contentbox mt-5 mb-5">
-					<div class="content mb-2">
-						<span>${acc.description }</span>
+				<c:if test="${not empty acc.description }">
+					<div class="contentbox2 mt-5 mb-5">
+						<div class="content2 mb-2">
+							<span>${acc.description }</span>
+						</div>
+						<button type="button" class="btn btn-link text-decoration-underline text-dark btn-sm" id="btn-open-description-modal">더보기 <i class="bi bi-chevron-right"></i></button>
 					</div>
-				</div>
-				<hr>
+					<hr>
+				</c:if>
 				<div class="row mt-5">
 					<h4>숙박장소</h4>
 					<div class="col-4 mt-3 mb-3 rounded place-box" >
-						<span>침실</span>
-					</div>
-					<div class="col-4 mt-3 mb-3 rounded place-box" >
-						<span>어쩌구 저쩌구</span>
-					</div>
-					<div class="col-4 mt-3 mb-3 rounded place-box" >
-						<span>어쩌구 저쩌구</span>
+						<span class="material-symbols-outlined">
+						bed
+						</span>
+						<div>
+							<c:if test="${acc.rooms.bedroom gt 0 }">
+								<span>침실 ${acc.rooms.bedroom }개</span>
+							</c:if>
+							<c:if test="${acc.rooms.bed gt 0 }">
+								<span>침대 ${acc.rooms.bed }개</span>
+							</c:if>
+						</div>
 					</div>
 					<!-- <div class="col-6" id="btn-open-image2-modal">
 						<img class="image2 rounded mb-2" alt="" src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg" >
@@ -221,11 +246,11 @@
 						</div>
 					</div>
 				</div> -->
-			</div>
+			</div> 
 			<div class="col-4" id="side">
 				<div class="sticky" >
 					<div class="row shadow-lg bg-body rounded" id="box">
-						<div class="col-7 boxhd reservation" >
+						<div class="col-6 boxhd reservation" >
 							<h4><strong><fmt:formatNumber value="${acc.price }"/></strong>/
 								<span class="day"></span>박
 							</h4>
@@ -234,13 +259,13 @@
 							<h4><strong>요금을 확인하려면 날짜를 입력하세요.</strong>
 							</h4>
 						</div>
-						<div class="col-5 boxhd">
+						<div class="col-6 boxhd">
 							<button type="button" class="btn btn-link text-dark btn-sm"><i class="bi bi-star-fill"></i> ${acc.reviewScore } <span class="text-decoration-underline">후기 ${acc.reviewCount }개</span></button>
 						</div>
 						<div class="col-12 start" >
 							<label class="mb-2 p-2">체크인 체크아웃</label>
 							<div class="" id="days-box">
-								<input type="text" class="text-center" placeholder="체크인 체크아웃을 설정하시오" data-input id="days" name="checkInOut">
+								<input type="text" class="text-center" placeholder="체크인 체크아웃을 설정하시오" data-input id="days">
 								<!-- <a class="input-button" title="toggle" data-toggle> <i
 									class="icon-calendar"></i>
 								</a> <a class="input-button" title="clear" data-clear> X
@@ -309,7 +334,9 @@
 									
 								</div>
 							</div>
-						
+							<form>
+								<input type="hidden" name="">
+							</form>
 						</div>
 						<button type="button" class="btn btn-outline-dark p-2 mt-2 reservation" >예약하기</button>
 						<div class="mb-3 text-center mt-2">
@@ -500,7 +527,11 @@
 				<div class="row">
 					<div class="row mb-3">
 						<div class="col-2 rounded">
-							<img class="rounded" src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg" style="width: 64px; height: 64px;">
+							<c:forEach items="${acc.photos }" var="photo">
+								<c:if test="${photo.num eq '1' }">
+									<img class="rounded" src="/resources/images/acc/${photo.name }" style="width: 64px; height: 64px;">
+								</c:if>
+							</c:forEach>
 						</div>
 						<div class="col-10">
 							<span>
@@ -508,7 +539,7 @@
 							</span>
 						</div>
 					</div>
-					<div class="col-6 mb-3 d-grid gap-2">
+					<!-- <div class="col-6 mb-3 d-grid gap-2">
 						<button class="btn btn-outline-secondary btn-lg p-3"><i class="bi bi-link"></i> 링크 복사</button>
 					</div>
 					<div class="col-6 mb-3 d-grid gap-2">
@@ -523,7 +554,7 @@
 					<div class="col-6 mb-3 d-grid gap-2">
 						<button onclick="" id="btnKakao" class="btn btn-outline-secondary btn-lg p-3"><img src="" alt="카카오톡 공유" /></button>
 					</div>
-					<!-- <button onclick="shareKakao()">
+					<button onclick="shareKakao()">
   							<img src="/img/icon_kakao.png" alt="카카오톡 공유" />
 					</button> -->
 					<div class="col-6 mb-3 d-grid gap-2">
@@ -532,9 +563,9 @@
 					<div class="col-6 mb-3 d-grid gap-2">
 						<a id="btnTwitter" class="btn btn-outline-secondary btn-lg p-3" href="javascript:shareTwitter();"><i class="bi bi-twitter"></i> 트위터</a>
 					</div>
-					<div class="col-6 mb-3 d-grid gap-2">
+					<!-- <div class="col-6 mb-3 d-grid gap-2">
 						<button class="btn btn-outline-secondary btn-lg"><i class="bi bi-code-slash"></i> 삽입</button>
-					</div>
+					</div> -->
 					
 				</div>
 			</div>
@@ -740,7 +771,7 @@
 								<div class="content">
 									<p>${acc.description }</p>
 								</div>
-							</div>
+							</div> 
 							<div class="contentbox">
 								<h4>교통편</h4>
 								<div class="content">
@@ -751,6 +782,20 @@
 					</div>
 					<div class="col-10" id="map2"></div>
 				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal" id="modal-description-acc">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">숙소 설명</h4>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body">
+				<p>${acc.description }</p>
 			</div>
 		</div>
 	</div>
@@ -767,10 +812,15 @@ $(function() {
 	let accCoverModal = new bootstrap.Modal(document.getElementById("modal-cover-acc"));
 	let accReportModal = new bootstrap.Modal(document.getElementById("modal-report-acc"));
 	let accMapModal = new bootstrap.Modal(document.getElementById("modal-map-acc"));
-	
+	let accdescriptionModal = new bootstrap.Modal(document.getElementById("modal-description-acc"));
 	// 위시리스트 저장 모달
 	$("#btn-open-save-modal").click(function() {
 		accSaveModal.show();
+	});
+	
+	// 숙소 설명 모달
+	$("#btn-open-description-modal").click(function() {
+		accdescriptionModal.show();
 	});
 	
 	// 지도 모달
@@ -910,7 +960,7 @@ $(function() {
 	var mapContainer2 = document.getElementById('map2'), // 지도를 표시할 div 
     mapOption2 = { 
         center: new kakao.maps.LatLng(longitude,latitude), // 지도의 중심좌표
-        level: 5	 // 지도의 확대 레벨
+        level: 3	 // 지도의 확대 레벨
     };
 
 	var map2 = new kakao.maps.Map(mapContainer2, mapOption2); // 지도를 생성합니다
@@ -927,12 +977,20 @@ $(function() {
 	marker.setMap(map2);
 	
 	// 모달창 등에 지도사용시 다시불러오기 필요
-	function relayout() {    
-	    
-	    // 지도를 표시하는 div 크기를 변경한 이후 지도가 정상적으로 표출되지 않을 수도 있습니다
+	function relayout() {   
+		
+		// 지도를 표시하는 div 크기를 변경한 이후 지도가 정상적으로 표출되지 않을 수도 있습니다
 	    // 크기를 변경한 이후에는 반드시  map.relayout 함수를 호출해야 합니다 
 	    // window의 resize 이벤트에 의한 크기변경은 map.relayout 함수가 자동으로 호출됩니다
 	    map2.relayout();
+		
+		var moveLatLon = new kakao.maps.LatLng(longitude,latitude);
+	    
+	    // 지도 중심을 이동 시킵니다
+	    map2.setCenter(moveLatLon);
+	    // 지도를 표시하는 div 크기를 변경한 이후 지도가 정상적으로 표출되지 않을 수도 있습니다
+	    // 크기를 변경한 이후에는 반드시  map.relayout 함수를 호출해야 합니다 
+	    // window의 resize 이벤트에 의한 크기변경은 map.relayout 함수가 자동으로 호출됩니다
 	}
 	
 	// 아래 코드는 지도 위의 마커를 제거하는 코드입니다
@@ -944,7 +1002,7 @@ $(function() {
 		minDate: new Date(),
 		mode: "range",
 		dateFormat: "Y-m-d",
-		disable : ["2022-08-16", "2022-08-17"],
+		disable : ["2022-08-16", "2022-08-17","Thu Aug 19 2022 00:00:00 GMT+0900 (한국 표준시)"],
 		"locale": "ko" ,
 		wrap: true
 	   });  
@@ -953,6 +1011,8 @@ $(function() {
 	  			return;
 	  		}
 	  		let diffDate = Date.parse(selectedDates[1])-Date.parse(selectedDates[0])
+	  		console.log((selectedDates[0]).toLocaleDateString())
+	  		console.log((selectedDates[1]))
 	  		let day = Math.floor(diffDate / (1000 * 60 * 60 * 24))
 	  		$(".day").text(day)
 	  		let sum = ${acc.price } * day
