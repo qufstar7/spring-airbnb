@@ -23,5 +23,5 @@ public class AccRoom {
 	private int bathroom;
 	private int toilet;
 	private int livingroom;
-	
+	private RoomImage image;
 }

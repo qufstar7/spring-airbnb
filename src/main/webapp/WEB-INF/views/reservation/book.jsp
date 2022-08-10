@@ -12,6 +12,7 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
 <link href="../resources/aircnc.png" rel="icon" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="/resources/css/book.css" />
 <title>확인 및 결제</title>
@@ -48,7 +49,7 @@
 			<hr/>
 			<h5>결제 방식 선택하기</h5>
 			<div class="divide">
-				<div class ="row border  bg-white rounded-top" id="entire-payment">
+				<div class ="row border  bg-white rounded-top border-dark border-3" id="entire-payment">
 					<div class="row p-3">
 						<div class="col-6">
 							<strong>전액결재</strong>
@@ -202,7 +203,7 @@
 								</div>
 							</div>
 					</div>
-	</div>
+				</div>
 			</div>
 			<hr>
 			<div class="divide">
@@ -262,13 +263,13 @@
 						</div>
 						<hr/>
 						<div class="divide2">
-							<p>에어커버를 통한 예약 보호</p>
+							<p><img class="aircover" src="../resources/images/reservation/aircover1.png">를 통한 예약 보호</p>
 						</div>
 						<hr/>
 						<div class="divide2">
 							<h5>요금 세부정보</h5>
 							<div class="border bg-white border-white">
-								<span>￦${accommodation.price } × $<fmt:formatDate value="${accommodation.checkIn}"  />박</span>
+								<span>￦<fmt:formatNumber value="${accommodation.price }" /> × <fmt:formatDate value="${accommodation.checkIn}"  />박</span>
 								<span style="float:right"">￦<fmt:formatNumber value="${accommodation.price }" /> 원</span>
 							</div>
 							<div>
@@ -281,11 +282,12 @@
 								<span style="float:right">총 합계</span>
 							</div>
 						</div>
+							<button id="requestPay">결제하기</button>
 					</div>
 				</div>
 			</div>
-			<div class="row my-5 px-5" style="padding:5px" >
-				<div class="leftDiv">
+			<div class="leftDiv">
+				<div class="row my-5 px-5" style="padding:5px" >
 					<div class ="border bg-white rounded">
 						<div class="row" style="padding:15px">
 							<div class="col-5">
@@ -301,18 +303,18 @@
 						</div>
 						<hr/>
 						<div class="divide2">
-							<p>에어커버를 통한 예약 보호</p>
+							<p><img class="aircover" src="../resources/images/reservation/aircover1.png">를 통한 예약 보호</p>
 						</div>
 						<hr/>
 						<div class="divide2">
 							<h5>요금 세부정보</h5>
 							<div class="border bg-white border-white">
-								<span>￦${accommodation.price } × $2박</span>
-								<span style="float:right"">￦${accommodation.price }</span>
+								<span>￦<fmt:formatNumber value="${accommodation.price }" /> × $2박</span>
+								<span style="float:right"">￦<fmt:formatNumber value="${accommodation.price }" /></span>
 							</div>
 							<div>
 								<span><u>서비스 수수료</u></span>
-								<span style="float:right">￦${accommodation.price *0.15 }</span>
+								<span style="float:right">￦<fmt:formatNumber value="${accommodation.price *0.15}" /></span>
 							</div>
 							<div>
 								<span>총 합계</span>
@@ -321,12 +323,12 @@
 							<hr>
 							<div class="divide2">
 								<div class="border bg-white border-white">
-									<span>지급일:지금</span>
-									<span style="float:right"">￦${accommodation.price *0.5}</span>
+									<span>지급일: 지금</span>
+									<span style="float:right"">￦<fmt:formatNumber value="${accommodation.price *0.5}" /></span>
 								</div>
 								<div>
-									<span>지급일:${accommodation.checkIn }</span>
-									<span style="float:right">${accommodation.price *0.5 }</span>
+									<span>지급일:<fmt:formatDate value="${accommodation.checkIn}"  /></span>
+									<span style="float:right">￦<fmt:formatNumber value="${accommodation.price *0.5}" /></span>
 								</div>
 							</div>
 						</div>
@@ -348,15 +350,15 @@ $(function(){
 		$("input:radio[name='payment']:radio[id='radio-entire']").prop('checked', true);
 		$(".leftDiv").hide();
 		$(".entireDiv").show();
-		$("#entire-payment").css({
-			"border":"4px dark"
-		});
+		$("#entire-payment").addClass("border-dark border-3")
+		$("#left-payment").removeClass("border-dark border-3")
 	});
 	$("#left-payment").click(function(){
 		$("input:radio[name='payment']:radio[id='radio-left']").prop('checked', true);
 		$(".leftDiv").show();
 		$(".entireDiv").hide();
-
+		$("#entire-payment").removeClass("border-dark border-3")
+		$("#left-payment").addClass("border-dark border-3")
 	});
 	
 	$("#card-select").on('change',function(){
@@ -367,6 +369,33 @@ $(function(){
 			$(".insertCard").hide();
 		}
 	});
+	$("#requestPay").click(function(){
+	
+		IMP.init('imp72420270');
+	    IMP.request_pay({
+	        pg: 'kakaopay',
+	        pay_method: 'card',
+	        merchant_uid: 'merchant_' + new Date().getTime(),
+	        name: '결제테스트',
+	        amount: 1,
+	        buyer_email: "kimdow6@gmail.com",
+	        buyer_name: "김도우",
+	        buyer_tel: "010-9329-9020",
+	        buyer_addr: "서울시 강서구",
+	    }, function (rsp) { 
+	        if (rsp.success) {
+	      	  var msg = "예약이 완료되었습니다."
+	      	  msg += '고유ID : ' 	+ rsp.imp_uid
+	       	  msg += '거래ID : ' 	+ rsp.merchant_uid
+	       	  msg += '결제금액 : ' 	+ rsp.paid_uid
+	       	  msg += '승인번호 : ' 	+ rsp.apply_uid
+	        } else {
+	      	  var msg = "결제에 실패했습니다."
+	       	  msg += '에러내용 : ' + rsp.error_msg;
+	        }
+	      	  alert(msg);
+	    });
+	});  
 
 })
 </script>
