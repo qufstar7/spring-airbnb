@@ -4,12 +4,14 @@ import java.util.Date;
 import java.util.List;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 public class Wishlist {
 
 	private int no;
@@ -19,6 +21,13 @@ public class Wishlist {
 	private User user;
 	private Accommodation acc;
 	private List<Accommodation> accs;
+	
+	public Wishlist(String name, User user) {
+		super();
+		this.name = name;
+		this.user = user;
+	}
+	
 	
 	
 }
