@@ -1,5 +1,7 @@
 package kr.co.airbnb.vo;
 
+import java.util.List;
+
 import org.apache.ibatis.type.Alias;
 
 import lombok.Getter;
@@ -19,4 +21,7 @@ public class AccRoom {
 	private int toilet;
 	private int livingroom;
 	private RoomImage image;
+	
+	private Accommodation acc;
+	private List<Accommodation> accs;
 }

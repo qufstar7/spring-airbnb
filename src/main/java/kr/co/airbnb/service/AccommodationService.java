@@ -1,6 +1,8 @@
 package kr.co.airbnb.service;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,10 @@ public class AccommodationService {
 	public Accommodation getAccommodation(int no) {
 		
 		return accommodationMapper.getAcc(no);
+	}
+	
+	public List<Accommodation> getAllAcc() {
+		return accommodationMapper.getAllAcc();
 	}
 	
 	/*

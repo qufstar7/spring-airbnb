@@ -31,4 +31,11 @@ public class AccommodationController {
 		
 		return "acc/test";
 	}
+
+	@GetMapping(path = "/list")
+	public String list(Model model) {
+		model.addAttribute("acc", accommodationService.getAllAcc());
+		
+		return "acc/list";
+	}
 }

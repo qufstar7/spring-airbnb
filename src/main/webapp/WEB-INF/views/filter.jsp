@@ -1074,17 +1074,6 @@ $(function() {
 		xhr.send();
 	}
 	
-	/* 슬라이드 쇼 버튼 hover */
-	/* $('.carousel-control-prev').hide();
-	$('.carousel-control-next').hide();
-	
-	$('.carousel-control-prev').hover (function() {
-		$('.carousel-control-prev').toggle();
-	}, function() { });
-	
-	$('.carousel-control-next').hover (function() {
-		$('.carousel-control-next').toggle();
-	}, function() { }); */
 })	
 
 </script>

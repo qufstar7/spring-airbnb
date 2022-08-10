@@ -18,7 +18,9 @@ public class HomeController {
 	AccommodationService accommodationService;
 	
 	@GetMapping(path = "/")
-	public String home() {
+	public String home(Model model) {
+		model.addAttribute("acc", accommodationService.getAllAcc());
+		
 		return "home";
 	}
 	
@@ -28,12 +30,6 @@ public class HomeController {
 	}
 	// 정수민 // 김유나 유나
 	
-
-	@GetMapping(path = "/list")
-	public String list() {
-		
-		return "acc/list";
-	}
 	
 	@GetMapping(path="/logout")
 	public String logout() { 
