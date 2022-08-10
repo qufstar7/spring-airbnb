@@ -19,7 +19,7 @@
 						<button class="p-0" style="background-color:transparent; border: none; width:32%; font-size: 14px;">언제든 일주일</button>
 						<span>|</span>
 						<button class="p-0" style="background-color:transparent; border: none; width:29%; font-size: 14px;">게스트 추가</button>
-						<button class="p-0" style="background-color:red; border: none; border-radius: 50px; width:9%">
+						<button class="p-0" style="background-color:#FF7977; border: none; border-radius: 50px; width:9%">
 							<i class="bi bi-search" style="color:#FFFFFF"></i>
 						</button>
 					</div>

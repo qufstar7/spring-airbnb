@@ -42,6 +42,8 @@ public class Accommodation {
 	private String refoundDescription;
 	private int cleaningPrice;
 	private String imageCover;
+	private AccRoom room;
+	private AccType type;
 	
 	private List<AccConvenience> conveniences;
 	private List<AccPhoto> photos;
