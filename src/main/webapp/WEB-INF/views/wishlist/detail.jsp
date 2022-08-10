@@ -132,7 +132,7 @@
 					      <div class="card-body">
 					      	<div class="d-flex justify-content-between">
 						        <span class="card-text text-muted">${acc.address }</span>
-						        <button type="button" class="btn rounded-circle btn-delete-wishlistAcc" data-accNo="${acc.accNo}"><i class="fa-solid fa-heart fs-4"></i></button>
+						        <button type="button" class="btn rounded-circle btn-delete-wishlistAcc" data-accNo="${acc.accNo}"><i id="icon-heart-${acc.accNo}" class="fa-solid fa-heart fs-4"></i></button>
 					      	</div>
 						    <span class="card-title">${acc.name }</span>
 					        <p class="card-text text-muted">최대 인원 2명 원룸 침대2개 욕실 1개</p>
@@ -172,8 +172,8 @@
 	    var defaultOptions = {
 	        zoom: 14,
 	        center: firstAcc,
-	        disableDefaultUI:true,			// 기본UI 옵션 제거
-	       //zoomControl: true,				// +/- 버튼
+	        disableDefaultUI: false,			// 기본UI 옵션 제거
+	        zoomControl: true,				// +/- 버튼
 	        options: {
 	            gestureHandling: 'greedy' 	// ctrl 없이 확대/축소
 	          }
@@ -331,28 +331,20 @@ $(function () {
 	 // wishlist 숙소 하트 아이콘 클릭
 	 $(".btn-delete-wishlistAcc").click(function() {
 		 
-		 $heartIcon = $(this).find("i");
 	 	 let accNo = $(this).attr("data-accNo");
+		 $heartIcon = $("#icon-heart-" + accNo);
 		 
 		 if($heartIcon.hasClass("fa-solid")) {
 			 // 위시리스트에서 숙소 삭제 구현하기
+			 $.getJSON("/wishlists/delete/acc", "wishlistNo=" + ${wishlist.no} + "&accNo=" + accNo)
 			 $heartIcon.removeClass("fa-solid").addClass("fa-regular").css("color", "black");
 			 // 라벨에서 하트 없애기 구현하기
 		 } else {
 			 // 다시 추가
-			 $heartIcon.removeClass("fa-regular").addClass("fa-solid").css("color", "#FF385C");
 			 saveToListModal.show();
+			 // 1.다른 위시리스트 폴더로 이동할 경우  2.위시리스트 폴더를 새로 만들어서 숙소를 저장할 경우
 			 $("#form-create-wishlist input[name=accNo]").val(accNo); // 여기서 주는 것이 맞나?
 		 }
-		/* 
-		
-	 	$.getJSON("/wishlists/deleteAcc", "accNo=" + accNo + "&wishlistNo=" + ${wishlist.no}) 
-		.done(function(result) {
-			
-			
-			
-		}) */
-		 
 	 });
 	 
 	 let createListModal = new bootstrap.Modal(document.getElementById('modal-create-wishlist'), {
@@ -379,12 +371,38 @@ $(function () {
 	 // 1. 새로운 이름의 위시리스트 생성
 	 // 2. 빈하트를 눌렀던 숙소는 다시 위시리스트 안에 생성되고 채워진 하트로 변경
 	 $("#btn-create-wishlist").click(function() {
+		 let accNo = $(":input[name=accNo]").val();
+		 $("#icon-heart-" + accNo ).removeClass("fa-regular").addClass("fa-solid").css("color", "#FF385C");
 		 let querystring = $("#form-create-wishlist").serialize();
+		 
 			$.post("/wishlists/insert", querystring, function(result) {
+				wishlists = result.wishlists;
+				let content = '';
+				$.each(wishlists, function() {
+					content += '<div class="mt-3" style="display: flex; height: 64px;">';
+					content += '  <input type="hidden" name="wishlistNo" value="' + this.no + '">';
+					content += '  <img src="https://a0.muscache.com/im/pictures/da1a2f06-efb0-4079-abce-0f6fc82089e0.jpg" alt="" style="vertical-align:middle;">';
+					content += '  <span class="ms-3 fw-bold" style="margin-top:20px;">' + this.name + '</span>';
+					content += '</div>';
+				});
 				
-				
+				$("#div-wishlists").html(content);
 			})
+			createListModal.hide();	
+			//saveToListModal.show();
 	 });
+	 
+	 
+	$("#div-wishlists").on('click', "div", function() {
+		let accNo = $(":input[name=accNo]").val();
+		// 아래의 wishlistNo는 변경할 위시리스트 폴더 번호
+		let wishlistNo = $(this).find('input[name="wishlistNo"]').val();
+		//alert("accNo: " + accNo + " wishlistNo: " + wishlistNo); 
+		$.getJSON("/wishlists/change", "wishlistNo=" + wishlistNo + "&accNo=" + accNo , function() {
+		})
+		createListModal.hide();
+		location.reload();
+	})
 	
 });
 </script>
@@ -401,18 +419,17 @@ $(function () {
       		<img src="https://a0.muscache.com/im/pictures/da1a2f06-efb0-4079-abce-0f6fc82089e0.jpg" alt="새로운 위시리스트 만들기" style="vertical-align:middle;">
       		<span class="ms-3 fw-bold" style="margin-top:20px;">새로운 위시리스트 만들기</span>
       	</div>
-      	<c:if test="${not empty wishlists }">
-      		<c:forEach var="wishlist" items="${wishlists}">
-		      	<div class="mt-3" style="display: flex; height: 64px;">
-		      		<img src="https://a0.muscache.com/im/pictures/da1a2f06-efb0-4079-abce-0f6fc82089e0.jpg" alt="새로운 위시리스트 만들기" style="vertical-align:middle;">
-		      		<span class="ms-3 fw-bold" style="margin-top:20px;">${wishlist.name }</span>
-		      	</div>
-      		</c:forEach>
-      	</c:if>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+      	<div id="div-wishlists">
+	      	<c:if test="${not empty wishlists }">
+	      		<c:forEach var="wishlist" items="${wishlists}">
+			      	<div id="div-wishlist-${wishlist.no}" class="mt-3" style="display: flex; height: 64px; cursor: pointer;">
+		      			<input type="hidden" name="wishlistNo" value="${wishlist.no}">
+			      		<img src="https://a0.muscache.com/im/pictures/da1a2f06-efb0-4079-abce-0f6fc82089e0.jpg" alt="새로운 위시리스트 만들기" style="vertical-align:middle;">
+			      		<span class="ms-3 fw-bold" style="margin-top:20px;">${wishlist.name }</span>
+			      	</div>
+	      		</c:forEach>
+	      	</c:if>
+      	</div>
       </div>
     </div>
   </div>
@@ -427,7 +444,7 @@ $(function () {
         <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#modal-save-to-list"></button>
       </div>
       <div class="modal-body mb-4">
-      	<form id="form-create-wishlist">
+      	<form id="form-create-wishlist" method="post">
 	      	<div class="form-floating">
 	      		<input type="hidden" name="accNo">
 		     	<input type="text" class="form-control" name="wishlistName" placeholder="이름">
