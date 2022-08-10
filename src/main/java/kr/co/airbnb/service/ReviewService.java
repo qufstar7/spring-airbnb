@@ -68,12 +68,15 @@ public class ReviewService {
 		
 		// 숙소 별점 평균 변경 (총점, 청결, 정확, 소통, 위치, 체크인, 가치, 편의시설)
 		Accommodation accommodation = accommodationMapper.getAcc(review.getAccNo());
+		
 		double totalScore = accommodation.getTotalScore() * accommodation.getReviewCount() + review.getTotalScore();
 		double avgTotal = Double.parseDouble(form.format(totalScore/(accommodation.getReviewCount() + 1)));
 		accommodation.setTotalScore(avgTotal);
 		
 		double cleanScore = accommodation.getCleanScore() * accommodation.getReviewCount() + review.getCleanScore();
+		System.out.println("cleanScore: "+ cleanScore);
 		double avgClean = Double.parseDouble(form.format(cleanScore/(accommodation.getReviewCount() + 1)));
+		System.out.println("avgClean:" + avgClean);
 		accommodation.setCleanScore(avgClean);
 		
 		double accuracyScore = accommodation.getAccuracyScore() * accommodation.getReviewCount() + review.getAccuracyScore();
@@ -95,24 +98,26 @@ public class ReviewService {
 		double valueScore = accommodation.getValueScore() * accommodation.getReviewCount() + review.getValueScore();
 		double avgValue = Double.parseDouble(form.format(valueScore/(accommodation.getReviewCount() + 1)));
 		accommodation.setValueScore(avgValue);
-		
-		double convenienceScore = accommodation.getConvenienceScore() * accommodation.getReviewCount() + review.getConvenienceScore();
-		double avgConvenience = Double.parseDouble(form.format(convenienceScore/(accommodation.getReviewCount() + 1)));
-		accommodation.setConvenienceScore(avgConvenience);
-		System.out.println("avgConvenience");
 
-		double avgAllScore = ((avgTotal + avgClean + avgAccuracy + avgCommunication + avgLocation + avgCheckin + avgValue + avgConvenience)/8);
-		double totalReviewScore = accommodation.getReviewScore() * accommodation.getReviewCount() + avgAllScore;
-		accommodation.setReviewScore(Double.parseDouble(form.format(totalReviewScore/(accommodation.getReviewCount() + 1))));
+		double convenienceScore = accommodation.getConvenienceScore() * accommodation.getReviewCount() + review.getConvenienceScore(); 
+		double avgConvenience = Double.parseDouble(form.format(convenienceScore/(accommodation.getReviewCount() + 1)));	
+		accommodation.setConvenienceScore(avgConvenience);
+
+		double allScore = ((review.getTotalScore() + review.getCleanScore() + review.getAccuracyScore() + review.getCommunicationScore()
+						+ review.getLocationScore() + review.getCheckinScore() + review.getValueScore() + review.getConvenienceScore())/8); 
+		double totalReviewScore = accommodation.getReviewScore() * accommodation.getReviewCount() + allScore;	
+		double avgAllScore = Double.parseDouble(form.format(totalReviewScore/(accommodation.getReviewCount() + 1)));
+		accommodation.setReviewScore(avgAllScore);
 		
 		accommodationMapper.updateAvgScore(accommodation);
 		
 	}
 	
-	public void saveHostReview(Review review, int no) {
+	public void saveHostReview(Review review, int no, int accNo) {
 		// 호스트 리뷰 등록 : 리뷰를 등록하면 리뷰 등록, 유저(게스트)별점 평균 변경이 동시에 이루어져야 한다.
 		// review.setUser(loginUser);
 		review.setUser(userMapper.getUserByNo(no));
+		review.setAccNo(accNo);
 		reviewMapper.insertReviewHost(review);
 		
 		DecimalFormat form = new DecimalFormat("#.#");
@@ -135,10 +140,9 @@ public class ReviewService {
 		double avgObservance = Double.parseDouble(form.format(observanceScore/(user.getReviewCount() + 1)));
 		user.setObservanceScore(avgObservance);
 		
-		double avgAllScore = ((avgTotal + avgClaen + avgCommunication + avgObservance)/4);
-		double totalReviewScore = user.getReviewScore() * user.getReviewCount() + avgAllScore;
-		user.setReviewScore(Double.parseDouble(form.format(totalReviewScore/(user.getReviewCount() + 1))));
-		
+		double allScore = ((review.getTotalScore() + review.getCleanScore() + review.getCommunicationScore() + review.getObservanceScore())/4);
+		double totalReviewScore = user.getReviewScore() * user.getReviewCount() + allScore;
+		double avgAllScore = Double.parseDouble(form.format(totalReviewScore/(user.getReviewCount() + 1)));
 		user.setReviewScore(avgAllScore);
 		
 		userMapper.updateAvgScore(user);
