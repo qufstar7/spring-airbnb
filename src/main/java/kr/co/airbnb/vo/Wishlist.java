@@ -19,6 +19,7 @@ public class Wishlist {
 	private Date createdDate;
 	private Date updatedDate;
 	private User user;
+	private Accommodation acc;
 	private List<Accommodation> accs;
 	
 	public Wishlist(String name, User user) {

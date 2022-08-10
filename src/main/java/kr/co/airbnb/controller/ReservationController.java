@@ -37,7 +37,7 @@ public class ReservationController {
 	public String register(@Valid CardRegisterForm cardRegisterForm, BindingResult errors) throws Exception {
 		
 		if (errors.hasErrors()) {
-			return "reservation/book";
+			return "reservation/book/register";
 		}
 		
 		reservationService.addNewCard(cardRegisterForm);
@@ -47,6 +47,6 @@ public class ReservationController {
 
 	@GetMapping(path = "/completed")
 	public String completed() {
-		return"/completed";
+		return"/reservation/completed";
 	}
 }

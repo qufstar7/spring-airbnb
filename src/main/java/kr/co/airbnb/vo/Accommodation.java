@@ -42,9 +42,12 @@ public class Accommodation {
 	private String refoundDescription;
 	private int cleaningPrice;
 	private String imageCover;
+	private AccRoom room;
+	private AccType type;
 	
 	private List<AccConvenience> conveniences;
 	private List<AccPhoto> photos;
+	private AccRoom rooms;
 	
 	private double reviewScore;
 	private double totalScore;
@@ -55,5 +58,14 @@ public class Accommodation {
 	private double checkinScore;
 	private double valueScore;
 	private double convenienceScore;
+	
+	private AccConvenience convenience;
+	private AccPhoto photo;
+	private AccViewCount view;
+	private Reservation reservation;
+	private Review review;
+	private Wishlist wishlist;
+	private AccDiscount discount;
+	private Tag tag;
 
 }

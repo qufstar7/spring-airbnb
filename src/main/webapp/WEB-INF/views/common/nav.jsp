@@ -19,7 +19,7 @@
 						<button class="p-0" style="background-color:transparent; border: none; width:32%; font-size: 14px;">언제든 일주일</button>
 						<span>|</span>
 						<button class="p-0" style="background-color:transparent; border: none; width:29%; font-size: 14px;">게스트 추가</button>
-						<button class="p-0" style="background-color:red; border: none; border-radius: 50px; width:9%">
+						<button class="p-0" style="background-color:#FF7977; border: none; border-radius: 50px; width:9%">
 							<i class="bi bi-search" style="color:#FFFFFF"></i>
 						</button>
 					</div>
@@ -63,9 +63,19 @@
 					      <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
 					    </svg>
 					    </div>
-					    <!-- 프로필 이미지 대신합니다. -->
+					    <!-- 프로필 -->
 					    <div style="border-radius: 50px">
-					      <img class="acc-thumbnail" src="/resources/images/acc/sample-home.jpg" alt="프로필이미지" style="vertical-align: middle; width: 33px; height: 33px; border-radius: 50%">
+					   		<c:choose>
+							    <c:when test="${empty LOGIN_USER}">
+							    	<svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16" style="width:36px; color:#6E6E6E">
+									  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+									  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+									</svg>
+							    </c:when>
+							    <c:otherwise>
+							      <img class="acc-thumbnail" src="/resources/images/acc/sample-home.jpg" alt="프로필이미지">
+							    </c:otherwise>
+					    	</c:choose>
 					    </div>
 					  </button>
 					  </a>

@@ -20,6 +20,12 @@
 	display: flex;
 	justify-content: space-between;
 }
+.acc-thumbnail{
+	vertical-align: middle;
+	width: 33px;
+	height: 33px;
+	border-radius: 50%;
+}
 .hostbtn {
 	background-color: transparent;
     border: none;
@@ -62,7 +68,6 @@
 .dropdown-content {
   display: none;
   position: absolute;
-  z-index: 2;
   top:50px;
   right:15px;
   background-color: #ffffff;
