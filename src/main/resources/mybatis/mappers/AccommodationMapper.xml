@@ -52,18 +52,6 @@
 		and A.CONVENIENCE_NO = B.CONVENIENCE_NO
 	</select>
 	
-	<!-- List<AccPhoto> getAccPhotosByAccNo(int accNo); -->
-	<!-- <select id="getAccPhotosByAccNo" parameterType="int" resultType="AccPhoto">
-		select 
-			ROW_NUMBER() OVER (PARTITION BY A.acc_no ORDER BY A.image_no) as num,
-			A.IMAGE_NO as imageNo,
-			A.ACC_NO as accNo,
-			A.IMAGE_NAME as name,
-			A.IMAGE_DESCRIPTION as description,
-			A.IMAGE_COVER as cover
-		from AIRBNB_ACC_PHOTOS A
-		where ACC_NO = #{value}
-	</select> -->
 	<select id="getAccPhotosByAccNo" parameterType="int" resultType="AccPhoto">
 		select 	ROWNUM as num, 
 				A.IMAGE_NO as imageNo,
@@ -81,7 +69,6 @@
         	A.image_no ASC
 		) A
 	</select>
-	
 	
 	<!-- List<AccType> getAccTypesByTypeNo(int typeNo); -->
 	<select id="getAccTypesByTypeNo" parameterType="int" resultType="AccType">
@@ -129,11 +116,28 @@
 	<!-- List<AccDiscount> getDiscountByAccNo(int accNo); -->
 	
 	<!-- List<Tag> getTagByAccNo(int accNo); -->
+
+
+	<!-- List<Room> getRoomByAccNo(int accNo); -->
+	<select id="getRoomByAccNo" parameterType="int" resultType="room">
+		select
+			ROOM_NO as no,
+			ACC_NO as accNo,
+			ROOM_BEDROOM as bedroom,
+			ROOM_BED as bed,
+			ROOM_BATHROOM as bathroom,
+			ROOM_TOILET as toilet,
+			ROOM_LIVINGROOM as livingroom
+		from AIRBNB_ACC_ROOMS
+		where acc_no = #{value}
+	
+	</select>
 	
 	<resultMap type="Accommodation" id="AccDetailResultMap" extends="AccResultMap">
 		<collection property="conveniences" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccConveniencesByAccNo"></collection>
    		<collection property="photos" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccPhotosByAccNo"></collection>
-		<collection property="type" column="TYPE_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccTypesByTypeNo"></collection>
+   		<collection property="rooms" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getRoomByAccNo"></collection>
+      <collection property="type" column="TYPE_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccTypesByTypeNo"></collection>
 		<!--
 		<collection property="room" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccRoomsByAccNo"></collection>
 		<collection property="wishlist" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getWishlistByAccNo"></collection>
@@ -151,6 +155,7 @@
 		where acc_no = #{value}
 	</select>
 	
+
 	<!-- List<Accommodation> getAllAcc(); -->
 	<select id="getAllAcc" resultMap="AccDetailResultMap">
 		select acc.acc_no, acc.acc_name, acc.acc_price, acc.image_cover,
@@ -177,6 +182,17 @@
 		  and acc.acc_no = discount.acc_no
 		  and acc.acc_no = accTag.acc_no -->
 	</select>
+
+
+	<!-- List<AccConvenience2> getCon(int accNo); -->
+	<select id="getBoast" parameterType="int" resultType="Boast">
+		select 
+			 ACC_NO as accNo,
+			 CONVENIENCE_NO as conNo
+		from AIRBNB_ACC_CONVENIENCES
+		where acc_no = #{value}
+	</select>
+	
 
 	<!-- void updateReview(Accommodation accommodation) -->
 	<update id="updateAvgScore" parameterType="kr.co.airbnb.vo.Accommodation">

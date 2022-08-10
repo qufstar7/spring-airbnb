@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import kr.co.airbnb.mapper.AccommodationMapper;
 import kr.co.airbnb.vo.Accommodation;
+import kr.co.airbnb.vo.Boast;
 
 @Service
 public class AccommodationService {
@@ -15,10 +16,17 @@ public class AccommodationService {
 	@Autowired
 	AccommodationMapper accommodationMapper;
 	
+	
 	public Accommodation getAccommodation(int no) {
 		
 		return accommodationMapper.getAcc(no);
 	}
+
+
+	public List<Boast> getBoast(int no) {
+		return accommodationMapper.getBoast(no);
+	}
+	
 	
 	public List<Accommodation> getAllAcc() {
 		return accommodationMapper.getAllAcc();
