@@ -45,6 +45,7 @@ public class Accommodation {
 	
 	private List<AccConvenience> conveniences;
 	private List<AccPhoto> photos;
+	private AccRoom rooms;
 	
 	private double reviewScore;
 	private double totalScore;
