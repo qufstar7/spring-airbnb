@@ -28,6 +28,10 @@ public class AccommodationService {
 	}
 	
 	
+	public List<Accommodation> getAllAcc() {
+		return accommodationMapper.getAllAcc();
+	}
+	
 	/*
 	 * public Image getImage(int no) { Image image = new Image(); List<AccPhoto>
 	 * photos = accommodationMapper.getAccPhotosByAccNo(no);

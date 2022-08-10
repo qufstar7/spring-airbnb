@@ -18,6 +18,7 @@
 	order by type_no
 </select>
 
+
 <!-- List<AccType> getAllPrivacyTypes(); -->
 <!-- <select id="getAllPrivacyTypes" resultType="accPrivacyType">
 	select privacy_type_no as no, privacy_type_name as name
