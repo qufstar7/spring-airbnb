@@ -19,11 +19,11 @@
 </select>
 
 
-<!-- List<AccType> getAllPrivacyTypes(); -->
+<!-- List<AccType> getAllPrivacyTypes(); 
 <select id="getAllPrivacyTypes" resultType="accPrivacyType">
 	select privacy_type_no as no, privacy_type_name as name
 	from airbnb_acc_types_privacy
-</select> 
-=======
+</select>  -->
+
 
 </mapper>
