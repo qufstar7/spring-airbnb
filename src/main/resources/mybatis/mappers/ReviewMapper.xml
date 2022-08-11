@@ -23,8 +23,27 @@
 	<!-- List<Review> getReviews(@Param("accNo") int accNo); -->
 	<select id="getReviews" parameterType="int" resultMap="reviewResultMap">
 		select *
+		from (select ROW_NUMBER() OVER (ORDER BY REVIEW_CREATED_DATE desc) row_number, 
+		      REVIEW_NO, ACC_NO, USER_NO, REVIEW_CONTENT, REVIEW_CREATED_DATE, TOTAL_SCORE, CLEANLINESS_SCORE, ACCURACY_SCORE, COMMUNICATION_SCORE,
+		      LOCATION_SCORE, CHECKIN_SCORE, VALUE_SCORE, OBSERVANCE_SCORE, PRIVATE_NOTE, REVIEW_REPLY, POSITIVE_FEEDBACK, NAGATIVE_FEEDBACK,
+		      WANT_MEET_AGAIN, CONVENIENCE_SCORE, REVIEW_UPDATED_DATE, REVIEW_DELETED, USER_TYPE, RESERVATION_NO
+		      from AIRBNB_REVIEWS)
+		where row_number &gt;= #{beginIndex} and row_number &lt;= #{endIndex}
+	</select>
+	
+	<!-- List<Review> getReviewsUnder(int accNo); -->
+	<select id="getReviewsUnder" parameterType="int" resultMap="reviewResultMap">
+		select *
 		from AIRBNB_REVIEWS
-		order by REVIEW_CREATED_DATE asc
+		order by REVIEW_CREATED_DATE desc
+	</select>
+	
+	<!-- List<Review> getReviewsbyKeyword(String keyword); -->
+	<select id="getReviewsbyKeyword" parameterType="string" resultMap="reviewResultMap">
+		select *
+		from AIRBNB_REVIEWS
+		where REVIEW_CONTENT like '%#{value}%'
+		order by REVIEW_CREATED_DATE desc
 	</select>
 
 	<!-- void insertReview(Review review); -->
@@ -118,5 +137,11 @@
 		where  CHECK_OUT_DATE > SYSDATE - 14
         and    RESERVATION_NO = #{reservationNo} AND USER_NO = #{userNo}
 	</select>
-	
+		<!-- List<Review> getReviews(@Param("accNo") int accNo);
+	<select id="getReviews" parameterType="int" resultMap="reviewResultMap">
+		select *
+		from AIRBNB_REVIEWS
+		order by REVIEW_CREATED_DATE asc
+	</select>
+	 -->
 </mapper>

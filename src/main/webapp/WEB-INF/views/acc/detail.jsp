@@ -64,12 +64,13 @@
 			</div>
 			<div class="pl-1">
 				<p>
+					<!-- 상단 리뷰 모달 -->
 					<c:choose>
 						<c:when test="${acc.reviewCount == 0 }">
 							<span></span>
 						</c:when>
 						<c:otherwise>
-							<button type="button" class="btn btn-link text-dark btn-sm" id="btn-open-review-modal"><i class="bi bi-star-fill"></i> ${acc.reviewScore }<span class="text-decoration-underline"> · 후기 ${acc.reviewCount }개</span></button>
+							<button type="button" class="btn btn-link text-decoration-underline text-dark openReviewModal" id="btn-open-review-modal"><i class="bi bi-star-fill"></i> ${acc.reviewScore }<span class="text-decoration-underline"> · 후기 ${acc.reviewCount }개</span></button>
 						</c:otherwise>
 					</c:choose>
 					<button type="button" class="btn btn-link text-decoration-underline text-dark btn-sm" id="btn-open-map-modal">${acc.address }</button>
@@ -369,10 +370,139 @@
 				
 			</div>
 			<hr>
+								
+			<!-- 후기 하단 -->
 			<div class="mt-5 mb-5" id="review">
-				<h4><i class="bi bi-star-fill"></i> ${acc.reviewScore } <span class="text-decoration">후기 ${acc.reviewCount }개</span></h4>
+				<c:choose>
+					<c:when test="${acc.reviewCount == 0 }">
+						<h4>후기 (아직) 없음</h4>
+						<p class="mt-3">여행에 차질이 없도록 최선을 다해 도와드리겠습니다. <br/> 모든 예약은 에어비앤비의 게스트 환불 정책에 따라 보호를 받습니다.</p>
+					</c:when>
+					<c:otherwise>
+						<div>
+							<div class="mb-4" id="box-score">
+								<h4><i class="bi bi-star-fill"></i> <span>${acc.reviewScore }</span><span>점</span>
+								<span class="text-decoration"> · 후기 ${acc.reviewCount }</span><span>개</span></h4>
+							</div>
+							<div class="row">
+								<div class="col-6">
+									<div>
+										<div class="box-score-bar">
+											<div class="row">
+												<div class="col-6">
+													<p class="avgName">청결도</p>
+												</div>
+												<div class="col-3 barBox">
+													<div class="scoreBarleft">
+														<div id="bar-clean-avg" style="width: ${acc.cleanScore * 20 }%;">
+														</div>
+													</div>
+												</div>
+												<div class="col-1">
+													<strong><span>${acc.cleanScore }</span></strong>
+												</div>											
+											</div>
+										</div>
+										<div class="box-score-bar">
+											<div class="row">
+												<div class="col-6">
+													<p class="avgName">의사소통</p>
+												</div>
+												<div class="col-3 barBox">
+													<div class="scoreBarleft">
+														<div id="bar-communication-avg" style="width: ${acc.communicationScore * 20 }%;">
+														</div>
+													</div>
+												</div>
+												<div class="col-1">
+													<strong><span>${acc.communicationScore }</span></strong>
+												</div>
+											</div>
+										</div>
+										<div class="box-score-bar">
+											<div class="row">
+												<div class="col-6">
+													<p class="avgName">체크인</p>
+												</div>
+												<div class="col-3 barBox">
+													<div class="scoreBarleft">
+														<div id="bar-checkin-avg" style="width: ${acc.checkinScore * 20 }%;">
+														</div>
+													</div>
+												</div>
+												<div class="col-1">
+													<strong><span>${acc.checkinScore }</span></strong>
+												</div>
+											</div>
+										</div>										
+									</div>
+								</div>
+								<div class="col-6">
+									<div>
+										<div class="box-score-bar">
+											<div class="row">
+												<div class="col-6">
+													<p class="avgName">정확성</p>
+												</div>
+												<div class="col-3 barBox">
+													<div class="scoreBarleft">
+														<div id="bar-accuracy-avg" style="width: ${acc.accuracyScore * 20 }%;">
+														</div>
+													</div>
+												</div>
+												<div class="col-1">
+														<strong><span>${acc.accuracyScore }</span></strong>
+												</div>											
+											</div>
+										</div>
+										<div class="box-score-bar">
+											<div class="row">
+												<div class="col-6">
+													<p class="avgName">위치</p>
+												</div>
+												<div class="col-3 barBox">
+													<div class="scoreBarleft">
+														<div id="bar-location-avg" style="width: ${acc.locationScore * 20 }%;">
+														</div>
+													</div>
+												</div>
+												<div class="col-1">
+													<strong><span>${acc.locationScore }</span></strong>
+												</div>
+											</div>
+										</div>
+										<div class="box-score-bar">
+											<div class="row">
+												<div class="col-6">
+													<p class="avgName">가격 대비 만족도</p>
+												</div>
+												<div class="col-3 barBox">
+													<div class="scoreBarleft">
+														<div id="bar-value-avg" style="width: ${acc.valueScore * 20 }%;">
+														</div>
+													</div>
+												</div>
+												<div class="col-1">
+													<strong><span>${acc.valueScore }</span></strong>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="box-under-review">
+							<!-- 리뷰 6개 오는 공간 -->
+						</div>
+						<div>
+							<button type="button" class="btn btn-outline-dark openReviewModal">후기 ${acc.reviewCount }개 모두 보기</button>
+						</div>
+					</c:otherwise>
+				</c:choose>
 			</div>
 			<hr>
+			<!-- 후기 하단 끝 -->
+
 			<div class="mt-5 mb-5">
 				<div class="">
 					<h4>호스팅 지역</h4>
@@ -914,171 +1044,6 @@
 												<div id="box-show-reviews">
 													<!-- 리뷰 리스트 -->
 												</div>
-												<div>
-													<div class="row-4 mb-3">
-														<p class="noMargin reviewContent"><strong>Martin</strong></p>
-														<p class="noMargin reviewContent">2017년 12월</p>
-													</div>
-													<div class="row-8 mb-5">
-														<p class="reviewContent">저희 가족과 저는 즐거운 시간을 보냈다고 말할 수 없습니다. 후기를 읽으셨는데 모두 사실입니다.
-																				 지금까지 경험한 휴가 중 가장 편안하고 호화로운 휴가 중 하나입니다.
-																				 본인을 위한 체험에 참여해보세요. 가장 놀라운 직원들과 함께 정말 천국을 만들었습니다.
-																				 오레오와 코이가 그리울 것입니다.
-																				 11월에 뵙겠습니다 😊저희 가족과 저는 즐거운 시간을 보냈다고 말할 수 없습니다. 후기를 읽으셨는데 모두 사실입니다.
-																				 지금까지 경험한 휴가 중 가장 편안하고 호화로운 휴가 중 하나입니다.
-																				 본인을 위한 체험에 참여해보세요. 가장 놀라운 직원들과 함께 정말 천국을 만들었습니다.
-																				 오레오와 코이가 그리울 것입니다.
-																				 11월에 뵙겠습니다 😊저희 가족과 저는 즐거운 시간을 보냈다고 말할 수 없습니다. 후기를 읽으셨는데 모두 사실입니다.
-																				 지금까지 경험한 휴가 중 가장 편안하고 호화로운 휴가 중 하나입니다.
-																				 본인을 위한 체험에 참여해보세요. 가장 놀라운 직원들과 함께 정말 천국을 만들었습니다.
-																				 오레오와 코이가 그리울 것입니다.
-																				 11월에 뵙겠습니다 😊
-														</p>
-														<span><strong>더 보기 ></strong></span>
-													</div>
-												</div>
-												<div>
-													<div class="row-4 mb-3">
-														<p class="noMargin reviewContent"><strong>Martin</strong></p>
-														<p class="noMargin reviewContent">2017년 12월</p>
-													</div>
-													<div class="row-8 mb-5">
-														<p class="reviewContent">저희 가족과 저는 즐거운 시간을 보냈다고 말할 수 없습니다. 후기를 읽으셨는데 모두 사실입니다.
-																				 지금까지 경험한 휴가 중 가장 편안하고 호화로운 휴가 중 하나입니다.
-																				 본인을 위한 체험에 참여해보세요. 가장 놀라운 직원들과 함께 정말 천국을 만들었습니다.
-																				 오레오와 코이가 그리울 것입니다.
-																				 11월에 뵙겠습니다 😊저희 가족과 저는 즐거운 시간을 보냈다고 말할 수 없습니다. 후기를 읽으셨는데 모두 사실입니다.
-																				 지금까지 경험한 휴가 중 가장 편안하고 호화로운 휴가 중 하나입니다.
-																				 본인을 위한 체험에 참여해보세요. 가장 놀라운 직원들과 함께 정말 천국을 만들었습니다.
-																				 오레오와 코이가 그리울 것입니다.
-																				 11월에 뵙겠습니다 😊
-														</p>
-														<span><strong>더 보기 ></strong></span>
-													</div>
-												</div>
-												<div>
-													<div class="row-4 mb-3">
-														<p class="noMargin reviewContent"><strong>Martin</strong></p>
-														<p class="noMargin reviewContent">2017년 12월</p>
-													</div>
-													<div class="row-8 mb-5">
-														<p class="reviewContent">저희 가족과 저는 즐거운 시간을 보냈다고 말할 수 없습니다. 후기를 읽으셨는데 모두 사실입니다.
-																				 지금까지 경험한 휴가 중 가장 편안하고 호화로운 휴가 중 하나입니다.
-																				 본인을 위한 체험에 참여해보세요. 가장 놀라운 직원들과 함께 정말 천국을 만들었습니다.
-																				 오레오와 코이가 그리울 것입니다.
-																				 11월에 뵙겠습니다 😊
-														</p>
-														<span><strong>더 보기 ></strong></span>
-													</div>
-												</div>
-												<div>
-													<div class="row-4 mb-3">
-														<p class="noMargin reviewContent"><strong>Martin</strong></p>
-														<p class="noMargin reviewContent">2017년 12월</p>
-													</div>
-													<div class="row-8 mb-5">
-														<p class="reviewContent">저희 가족과 저는 즐거운 시간을 보냈다고 말할 수 없습니다. 후기를 읽으셨는데 모두 사실입니다.
-																				 지금까지 경험한 휴가 중 가장 편안하고 호화로운 휴가 중 하나입니다.
-																				 본인을 위한 체험에 참여해보세요. 가장 놀라운 직원들과 함께 정말 천국을 만들었습니다.
-																				 오레오와 코이가 그리울 것입니다.
-																				 11월에 뵙겠습니다 😊
-														</p>
-														<span><strong>더 보기 ></strong></span>
-													</div>
-												</div>
-												<div>
-													<div class="row-4 mb-3">
-														<p class="noMargin reviewContent"><strong>Martin</strong></p>
-														<p class="noMargin reviewContent">2017년 12월</p>
-													</div>
-													<div class="row-8 mb-5">
-														<p class="reviewContent">저희 가족과 저는 즐거운 시간을 보냈다고 말할 수 없습니다. 후기를 읽으셨는데 모두 사실입니다.
-																				 지금까지 경험한 휴가 중 가장 편안하고 호화로운 휴가 중 하나입니다.
-																				 본인을 위한 체험에 참여해보세요. 가장 놀라운 직원들과 함께 정말 천국을 만들었습니다.
-																				 오레오와 코이가 그리울 것입니다.
-																				 11월에 뵙겠습니다 😊
-														</p>
-														<span><strong>더 보기 ></strong></span>
-													</div>
-												</div>
-												<div>
-													<div class="row-4 mb-3">
-														<p class="noMargin reviewContent"><strong>Martin</strong></p>
-														<p class="noMargin reviewContent">2017년 12월</p>
-													</div>
-													<div class="row-8 mb-5">
-														<p class="reviewContent">저희 가족과 저는 즐거운 시간을 보냈다고 말할 수 없습니다. 후기를 읽으셨는데 모두 사실입니다.
-																				 지금까지 경험한 휴가 중 가장 편안하고 호화로운 휴가 중 하나입니다.
-																				 본인을 위한 체험에 참여해보세요. 가장 놀라운 직원들과 함께 정말 천국을 만들었습니다.
-																				 오레오와 코이가 그리울 것입니다.
-																				 11월에 뵙겠습니다 😊
-														</p>
-														<span><strong>더 보기 ></strong></span>
-													</div>
-												</div>
-												<div>
-													<div class="row-4 mb-3">
-														<p class="noMargin reviewContent"><strong>Martin</strong></p>
-														<p class="noMargin reviewContent">2017년 12월</p>
-													</div>
-													<div class="row-8 mb-5">
-														<p class="reviewContent">저희 가족과 저는 즐거운 시간을 보냈다고 말할 수 없습니다. 후기를 읽으셨는데 모두 사실입니다.
-																				 지금까지 경험한 휴가 중 가장 편안하고 호화로운 휴가 중 하나입니다.
-																				 본인을 위한 체험에 참여해보세요. 가장 놀라운 직원들과 함께 정말 천국을 만들었습니다.
-																				 오레오와 코이가 그리울 것입니다.
-																				 11월에 뵙겠습니다 😊
-														</p>
-														<span><strong>더 보기 ></strong></span>
-													</div>
-												</div>
-												<div>
-													<div class="row-4 mb-3">
-														<p class="noMargin reviewContent"><strong>Martin</strong></p>
-														<p class="noMargin reviewContent">2017년 12월</p>
-													</div>
-													<div class="row-8 mb-5">
-														<p class="reviewContent">저희 가족과 저는 즐거운 시간을 보냈다고 말할 수 없습니다. 후기를 읽으셨는데 모두 사실입니다.
-																				 지금까지 경험한 휴가 중 가장 편안하고 호화로운 휴가 중 하나입니다.
-																				 본인을 위한 체험에 참여해보세요. 가장 놀라운 직원들과 함께 정말 천국을 만들었습니다.
-																				 오레오와 코이가 그리울 것입니다.
-																				 11월에 뵙겠습니다 😊
-														</p>
-														<span><strong>더 보기 ></strong></span>
-													</div>
-												</div>
-												<div>
-													<div class="row-4 mb-3">
-														<p class="noMargin reviewContent"><strong>Martin</strong></p>
-														<p class="noMargin reviewContent">2017년 12월</p>
-													</div>
-													<div class="row-8 mb-5">
-														<p class="reviewContent">친한 친구들과 함께 향후 몇 년간의 진행 상황을 확인할 ...
-														</p>
-														<span><strong>더 보기 ></strong></span>
-													</div>
-												</div>
-												<div>
-													<div class="row-4 mb-3">
-														<p class="noMargin reviewContent"><strong>Martin</strong></p>
-														<p class="noMargin reviewContent">2017년 12월</p>
-													</div>
-													<div class="row-8 mb-5">
-														<p class="reviewContent">친한 친구들과 함께 향후 몇 년간의 진행 상황을 확인할 ...
-														</p>
-														<span><strong>더 보기 ></strong></span>
-													</div>
-												</div>
-												<div>
-													<div class="row-4 mb-3">
-														<p class="noMargin reviewContent"><strong>Martin</strong></p>
-														<p class="noMargin reviewContent">2017년 12월</p>
-													</div>
-													<div class="row-8 mb-5">
-														<p class="reviewContent">친한 친구들과 함께 향후 몇 년간의 진행 상황을 확인할 ...
-														</p>
-														<span><strong>더 보기 ></strong></span>
-													</div>
-												</div>
 											</div>
 										</div>
 									</div>
@@ -1088,10 +1053,6 @@
 					</div>
 				</div>
 			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Save changes</button>
-     	</div>
 		</div>
 	</div>
 </div>
@@ -1192,25 +1153,48 @@ $(function() {
 	});
 	
 	// 리뷰 리스트 모달
-//	$("#btn-open-review-modal").click(function() {
-//		accReviewModal.show();
-//	});
-	
 	let $reviewBox = $("#box-show-reviews");
 	
-	$("#btn-open-review-modal").click(function() {
+	let currentPage = 1;			// 조회할 페이지 번호
+	let canRequest = true;			// ajax요청 가능 ㅇ여부,  데이터를 조회했을 때 10개 미만으로 조회되면 다음 페이지가 존재하지 않으므로 ajax요청을 하지 못하게 한다.
+	
+	$(".openReviewModal").click(function() {
+		currentPage = 1;
+		let canRequest = true;
+		$reviewBox.empty();
+		
+		getReviews();
+		accReviewModal.show();
+	})
+	
+	// 무한 스크롤 기능
+	$('#modal-review-acc .modal-body').scroll(function() {
+		let documentHeight = $("#modal-review-acc .modal-body #box-review").height()	// 전체 리뷰 길이
+		let contentBodyHeight = $("#modal-review-acc .modal-body").height()				// 모달 바디 길이
+		let contentBodyScrollTop = $("#modal-review-acc .modal-body").scrollTop()		// 스크롤해서 올린 길이
+		
+		if (canRequest && (contentBodyHeight + contentBodyScrollTop + 50 >= documentHeight)) {			
+			currentPage++;			
+			getReviews();
+		}
+	})
+
+	function getReviews() {
 		let params = new URLSearchParams(document.location.search);
 		let no = params.get("no");
-
+		
 		$.ajax({
 			type: 'GET',
-			url: "review/getReviews",				// no / accNo 같음
-			data: {no:no},
+			url: "review/reviews",				// no / accNo 같음
+			data: {no:no, page: currentPage},
 			dataType: 'json',
 			success: function(data) {
 				let reviews = data.items;
 				console.log(reviews);
-				
+				if (reviews.length <  10) {
+					canRequest = false;
+				}
+
 				$.each(reviews, function(index, review) {
 					let content = '';
 					content += '<div class="row-4 mb-3">';
@@ -1218,37 +1202,130 @@ $(function() {
 					content += '	<span class="noMargin reviewContent"><strong>' + review.user.name + '</strong></span>';
 					content += '	<span class="noMargin reviewContent">' + review.createdDate + '</span>';
 					content += '</div>';
-					content += '<div class="row-8 mb-5" id="review-content">';
-					content += '	<p class="reviewContent">'+ review.content +'';
-					content += '	</p>';
+					content += '<div class="row-8 mb-5 boxReviewContent">';
+					content += '	<p class="reviewContent">'+ review.content +' </p>';
 					content += '</div>';
-						/*
-						if(review.content.length >= 3){
-						    return review.content.substr(0,100)+"...";
-						}
-*/
-					$reviewBox.append(content);
-						
-				})					
 					
+					
+					$reviewBox.append(content);
+				})		
+				
+				// 글 긴거 더보기
+			   $(".boxReviewContent").each(function(){
+			        let rcontent = $(this).children('.reviewContent');
+			        let rcontent_txt = rcontent.text();
+			        let rcontent_txt_short = rcontent_txt.substring(0,30)+"...";
+			        let btn_more = $('<a href="javascript:void(0)" class="more link-dark">더보기 <i class="bi bi-chevron-right"></i></a>');
+
+			        $(this).append(btn_more);
+			        
+			        if(rcontent_txt.length >= 30){
+			            rcontent.html(rcontent_txt_short)
+			            
+			        }else{
+			            btn_more.hide()
+			        }
+			        
+			        btn_more.click(toggle_content);
+
+			        function toggle_content(){
+			            if($(this).hasClass('short')){
+			                // 접기 상태
+			                $(this).html('더보기');
+			                rcontent.html(rcontent_txt_short)
+			                $(this).removeClass('short');
+			            }else{
+			                // 더보기 상태
+			                $(this).html('접기');
+			                rcontent.html(rcontent_txt);
+			                $(this).addClass('short');
+
+			            }
+			        }
+			    });
 			}
-			
+		})
+
+	}
+	
+	// 하단 리뷰 조회
+	let $reviewBoxUnder = $("#box-under-review");
+	$(document).ready(function(){
+		let params = new URLSearchParams(document.location.search);
+		let no = params.get("no");
+		
+		$.ajax({
+			type: 'GET',
+			url: "review/reviewsUnder",				
+			data: {no:no},
+			dataType: 'json',
+			success: function(data) {
+				let reviews = data.items;
+				console.log(reviews);
+
+				$.each(reviews, function(index, review) {
+					let contentUnder = '';
+					
+					if (index > 5) {
+						return false;
+					}
+					
+					contentUnder += '<div class="row">';
+					contentUnder += '	<div class="col-6">';
+					contentUnder += '		<div class="row">';
+					contentUnder += '			<div class="col-1">';
+					contentUnder += '				<img src="/resources/images/profile/'+ (review.user.profileImage ? review.user.profileImage : "no-image.png") +'" id="user-image">';
+					contentUnder += '			</div>';
+					contentUnder += '			<div class="col-3">';
+					contentUnder += '				<h4 class="noMargin reviewContent"><strong>'+ review.user.name + '</strong></h4>';
+					contentUnder += '				<span class="noMargin reviewContent">'+ review.createdDate + '</span>';
+					contentUnder += '				</div>';
+					contentUnder += '			</div>';
+					contentUnder += '			<div class="">';
+					contentUnder += '				<p class="reviewContent mb-0">'+ review.content +'</p>';
+					contentUnder += '				<button type="button" class="btn btn-link text-decoration-underline text-dark openReviewModal"><strong>  </strong></button>';
+					contentUnder += '			</div>';
+					contentUnder += '		</div>';
+					contentUnder += '	</div>';
+					contentUnder += '	<div class="col-6">';
+					contentUnder += '		<div class="row">';
+					contentUnder += '			<div class="col-1">';
+					contentUnder += '				<img src="/resources/images/profile/'+ (review.user.profileImage ? review.user.profileImage : "no-image.png") +'" id="user-image">';
+					contentUnder += '			</div>';
+					contentUnder += '			<div class="col-3">';
+					contentUnder += '				<h4 class="noMargin reviewContent"><strong>' + review.user.name + '</strong></h4>';
+					contentUnder += '				<span class="noMargin reviewContent">' +review.createdDate + '</span>';
+					contentUnder += '				</div>';
+					contentUnder += '			</div>';
+					contentUnder += '			<div class="">';
+					contentUnder += '				<p class="reviewContent mb-0">'+ review.content +'</p>';
+					contentUnder += '				<button type="button" class="btn btn-link text-decoration-underline text-dark openReviewModal"><strong>  </strong></button>';
+					contentUnder += '			</div>';
+					contentUnder += '		</div>';
+					contentUnder += '	</div>';
+					contentUnder += '</div>';
+					
+
+					$reviewBoxUnder.append(contentUnder);
+				})		
+				
+			}
 		})
 		
-		accReviewModal.show();
-	})
-	/*
-	$.ajax() {
-		type: 'GET',
-		url: "review/getReviews",				// no / accNo 같음
-		data: {no:no},
-		dataType: 'json',
-		success: function(data) {
-			
-		}
-	}
-	*/
+	});
 
+	/*  리뷰 검색 기능
+	
+	$("input[name='searchKeyword']").keydown(function(e) {
+			if (e.keyCode == 13) {
+				// Do Something
+				// 검색 버튼 클릭 효과라던지..
+            //$("#btnSearch").trigger('click');
+			}
+	});
+	*/
+	
+	
 	
 	/* console.log(latitude);
 	console.log(longitude); */

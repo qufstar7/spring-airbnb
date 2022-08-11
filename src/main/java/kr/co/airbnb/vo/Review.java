@@ -44,7 +44,29 @@ public class Review {
 	private String wantMeetAgain;
 	private String deleted;
 	private int reservationNo;
+	/*
+	private String firstPart;	// 0 ~ 30
+	private String lastPart;	// 30 ~
 	
+	public String getFirstPart() {
+		if (content == null) {
+			return null;
+		}
+		if (content.length() <= 30) {
+			return content;
+		}
+		return content.substring(0, 30);
+	}
+	public String getLastPart() {
+		if (content == null) {
+			return null;
+		}
+		if (content.length() <= 30) {
+			return null;
+		}
+		return content.substring(30);
+	}
+	*/
 	public static Review createGuestReview(GuestReviewForm guestReviewForm) {
 		Review review = new Review();
 		BeanUtils.copyProperties(guestReviewForm, review);
