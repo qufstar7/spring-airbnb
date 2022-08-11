@@ -41,10 +41,15 @@ public interface AccommodationMapper {
 	List<Convenience> getMainConveniencesByAccNo(int accNo);
 	// 숙소 사진 리스트
 	List<AccPhoto> getAccPhotosByAccNo(int accNo);
-
+	// 예약된 날짜 리스트
+	Accommodation getDisabledByAccNo(int accNo);
+	
+	
 	
 	// 숙소 종류 리스트
 	List<AccType> getAccTypesByTypeNo(int typeNo);
+	
+	
 
 	/*
 	// 객실 리스트 
