@@ -137,7 +137,7 @@
 		<collection property="conveniences" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccConveniencesByAccNo"></collection>
    		<collection property="photos" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccPhotosByAccNo"></collection>
    		<collection property="rooms" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getRoomByAccNo"></collection>
-      <collection property="type" column="TYPE_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccTypesByTypeNo"></collection>
+      	<collection property="type" column="TYPE_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccTypesByTypeNo"></collection>
 		<!--
 		<collection property="room" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccRoomsByAccNo"></collection>
 		<collection property="wishlist" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getWishlistByAccNo"></collection>
@@ -160,18 +160,20 @@
 	<select id="getAllAcc" resultMap="AccDetailResultMap">
 		select acc.acc_no, acc.acc_name, acc.acc_price, acc.image_cover,
 			   accUser.user_name as "user.name",
-			   acctype.type_name as "type.name"
+			   types.type_name as "type.name"
 			   <!-- , room.room_bed as "room.bed" -->
 		from airbnb_accommodations acc,
 		     airbnb_users accUser,
-		     airbnb_acc_types accType
+		     airbnb_acc_types accType,
+             airbnb_types types
 		     <!-- airbnb_acc_photos photo,
 		     airbnb_acc_rooms room,
 		     airbnb_reviews review,
 		     airbnb_acc_discounts discount -->
 		where acc.acc_status = '운영중' 
 		  and acc.user_no = accUser.user_no
-		  and acc.type_no = accType.type_no
+		  and acc.acc_no = accType.acc_no
+          and accType.type_no = types.type_no;
 		  <!-- and acc.acc_no = convenience.acc_no
 		  and acc.acc_no = room.acc_no
 		  and acc.acc_no = photo.acc_no
