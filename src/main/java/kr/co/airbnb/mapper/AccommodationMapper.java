@@ -5,16 +5,15 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import kr.co.airbnb.annotation.LoginUser;
+import kr.co.airbnb.criteria.AccCriteria;
 import kr.co.airbnb.vo.AccConvenience;
 
 import kr.co.airbnb.vo.AccDiscount;
-import kr.co.airbnb.vo.AccType;
 import kr.co.airbnb.vo.AccViewCount;
 
 import kr.co.airbnb.vo.Boast;
 import kr.co.airbnb.vo.AccPhoto;
 import kr.co.airbnb.vo.AccRoom;
-
 import kr.co.airbnb.vo.Accommodation;
 import kr.co.airbnb.vo.Convenience;
 
@@ -23,6 +22,7 @@ import kr.co.airbnb.vo.User;
 import kr.co.airbnb.vo.Reservation;
 import kr.co.airbnb.vo.Review;
 import kr.co.airbnb.vo.Tag;
+import kr.co.airbnb.vo.Type;
 import kr.co.airbnb.vo.Wishlist;
 
 
@@ -34,6 +34,10 @@ public interface AccommodationMapper {
 	Accommodation getAcc(int accNo);
 	// 모든 숙소 조회
 	List<Accommodation> getAllAcc();
+	// 크리테리아로 모든 숙소 조회
+	List<Accommodation> getAllAccByCriteria(AccCriteria criteria);
+	// 숙소의 타입1,2,3 조회
+	List<Type> getAllTypesByAccNo(int accNo);
 	
 	// 숙소에 있는 편의시설들
 	List<AccConvenience> getAccConveniencesByAccNo(int accNo);
@@ -43,13 +47,10 @@ public interface AccommodationMapper {
 	List<AccPhoto> getAccPhotosByAccNo(int accNo);
 	// 예약된 날짜 리스트
 	Accommodation getDisabledByAccNo(int accNo);
-	
-	
-	
+			
+      
 	// 숙소 종류 리스트
-	List<AccType> getAccTypesByTypeNo(int typeNo);
-	
-	
+	List<Type> getTypesByTypeNo(int typeNo);
 
 	/*
 	// 객실 리스트 

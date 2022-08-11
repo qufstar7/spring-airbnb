@@ -45,7 +45,7 @@ public class Accommodation {
 	private AccRoom room;
 	
 	// 메인타입, 서브타입, 프라이버시타입 (ex.아파트-공동주택-공간전체)
-	private List<Type> accTypes;
+	private List<Type> types;
 	// typeNo를 메인타입의 번호로 쓴다.
 	// private int typeNo = accTypes.get(0).getNo();
 	

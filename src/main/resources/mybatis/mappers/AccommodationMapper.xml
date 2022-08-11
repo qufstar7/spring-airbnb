@@ -69,8 +69,8 @@
 		) A
 	</select>
 	
-	<!-- List<AccType> getAccTypesByTypeNo(int typeNo); -->
-	<select id="getAccTypesByTypeNo" parameterType="int" resultType="AccType">
+	<!-- List<Type> getTypesByTypeNo(int typeNo); -->
+	<select id="getTypesByTypeNo" parameterType="int" resultType="Type">
 		select A.acc_no 			as accNo,
         	   B.type_no 			as "type.no",
         	   B.type_name 			as "type.name", 
@@ -149,7 +149,7 @@
 		<collection property="conveniences" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccConveniencesByAccNo"></collection>
    		<collection property="photos" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccPhotosByAccNo"></collection>
    		<collection property="rooms" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getRoomByAccNo"></collection>
-      	<collection property="type" column="TYPE_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccTypesByTypeNo"></collection>
+      	<collection property="type" column="TYPE_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getTypesByTypeNo"></collection>
 		<!--
 		<collection property="room" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccRoomsByAccNo"></collection>
 		<collection property="wishlist" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getWishlistByAccNo"></collection>
@@ -166,7 +166,38 @@
 		from AIRBNB_ACCOMMODATIONS
 		where acc_no = #{value}
 	</select>
+
+	<!-- List<Type> getAllTypesByAccNo(int accNo); -->
+	<select id="getAllTypesByAccNo" parameterType="int" resultType="Type">
+		select 
+			B.type_no as no,
+			B.type_name as name,
+			B.main_type mainType,
+			B.privacy_type as privacyType,
+			B.image_name as imageName,
+			B.type_description as description
+		from 
+			airbnb_accommodations A,
+			airbnb_types B,
+			airbnb_acc_types C
+		where A.acc_no = C.acc_no
+		and B.type_no = C.type_no
+		and A.acc_no = #{value}
+		order by B.type_no
+	</select>
 	
+	<!-- List<Accommodation> getAllAccByCriteria(AccCriteria criteria); -->
+	<select id="getAllAccByCriteria" parameterType="kr.co.airbnb.criteria.AccCriteria" resultMap="AccResultMap">
+		select *
+		from airbnb_accommodations
+		<where>
+			<if test="accTypes != null">
+				acc_no in (select acc_no
+						   from airbnb_acc_types
+						   where acc_no = #{accNo})
+			</if>
+		</where>
+	</select>
 
 	<!-- List<Accommodation> getAllAcc(); -->
 	<select id="getAllAcc" resultMap="AccDetailResultMap">
@@ -176,7 +207,7 @@
 			   <!-- , room.room_bed as "room.bed" -->
 		from airbnb_accommodations acc,
 		     airbnb_users accUser,
-		     airbnb_acc_types accType,
+		     airbnb_acc_types accTypes,
              airbnb_types types
 		     <!-- airbnb_acc_photos photo,
 		     airbnb_acc_rooms room,
@@ -184,8 +215,8 @@
 		     airbnb_acc_discounts discount -->
 		where acc.acc_status = '운영중' 
 		  and acc.user_no = accUser.user_no
-		  and acc.acc_no = accType.acc_no
-          and accType.type_no = types.type_no;
+		  and acc.acc_no = accTypes.acc_no
+          and accTypes.type_no = types.type_no
 		  <!-- and acc.acc_no = convenience.acc_no
 		  and acc.acc_no = room.acc_no
 		  and acc.acc_no = photo.acc_no
