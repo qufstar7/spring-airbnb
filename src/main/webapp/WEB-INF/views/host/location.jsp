@@ -33,7 +33,7 @@
 		<div id="right-div">
 			<!-- rightDiv header nav -->
 			<div class="right-div-header">
-				<nav class="navbar navbar-expand-lg navbar-light p-4">
+				<nav class="navbar navbar-expand-lg navbar-light pt-4 pb-3 bg-white" style="z-index:100;">
 					<div class="container-fluid flex-row-reverse">
 						<div id="navbarNav">
 							<ul class="navbar-nav">
@@ -67,18 +67,18 @@
 			<!-- rightDiv main -->
 			<div class="main-box align-self-center bg-white" style="overflow:hidden;">
 				<!-- 구글지도배경 -->
-				<div id="map" style="width:100%; height:1106px;"></div>
+				<div id="map" style="width:100%; height:1100px;"></div>
 			</div>
 
 			<!-- 주소 입력폼 -->
 			<div
-				class="location-form border border-white rounded translate-middle p-4">
+				class="location-form border border-white rounded-4 translate-middle p-4 pb-5">
 				<div
-					class="location-form-header fs-5 fw-bolder m-0 text-center pb-4">
+					class="location-form-header fs-5 fw-bolder m-0 text-center pb-4 mt-3">
 					주소를 입력하세요</div>
 
 				<!-- 스크롤영역 -->
-				<div class="location-form-scroll position-relative">
+				<div class="location-form-scroll position-relative mt-3">
 					<!-- 입력폼 -->
 					<div class="rounded">
 						<div class="form-floating">
@@ -95,7 +95,7 @@
 						<div class="form-floating">
 							<input type="text" class="form-control ps-3"
 								id="locationFormRoadName" placeholder="도로명" value=""> <label
-								class="input-form-label fs-6 ps-3" for="locationFormRoadName">도시</label>
+								class="input-form-label fs-6 ps-3" for="locationFormRoadName">도로명</label>
 						</div>
 						<div class="form-floating">
 							<input type="text" class="form-control ps-3"
@@ -111,8 +111,8 @@
 						</div>
 					</div>
 
-					<div class="border-top mt-4 py-4">
-						<div class="d-flex flex-box">
+					<div class="border-top mt-4 pt-4" style="padding-bottom:250px;">
+						<div class="d-flex flex-box mb-2">
 							<!-- 구체적인 위치 표시하기 -->
 							<div>
 								<div class="fs-6 fw-bold">구체적인 위치 표시하기</div>
@@ -133,12 +133,12 @@
 			</div>
 
 			<!-- rightDiv footer -->
-			<footer class="footer mt-auto py-3 bg-light">
+			<footer class="footer mt-auto pb-3 bg-light">
 				<div class="container-fluid">
 					<!-- 진행상황 bar -->
 					<div class="progress mb-2">
-						<div class="progress-bar bg-dark" style="width: 10%;"
-							role="progressbar" aria-valuenow="10" aria-valuemin="0"
+						<div class="progress-bar bg-dark" style="width: 33.3%;"
+							role="progressbar" aria-valuenow="33.3" aria-valuemin="0"
 							aria-valuemax="100"></div>
 					</div>
 					<!-- 뒤로/다음버튼 -->
