@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.airbnb.annotation.LoginUser;
@@ -64,23 +65,23 @@ public class ReviewRestController {
 	}
 	
 	@PostMapping(path = "/saveGuest")
-	public ResponseData saveReview(@RequestBody GuestReviewForm guestReviewForm, @RequestParam("accNo") int accNo, @LoginUser User loginUser)  {
+	public ResponseData saveReview(@RequestBody GuestReviewForm guestReviewForm, @LoginUser User loginUser)  {
 		Review review = Review.createGuestReview(guestReviewForm);
-		reviewService.saveGuestReview(review, loginUser.getNo(), accNo);
+		reviewService.saveGuestReview(review, loginUser.getNo(), guestReviewForm.getAccNo());
 		
 		return ResponseData.create(true, "리뷰가 등록되었습니다.");
 	}
 		
 	@PostMapping(path = "/saveHost")
-	public ResponseData saveReview(@RequestBody HostReviewForm hostReviewForm, @RequestParam("accNo") int accNo, @LoginUser User loginUser) {
+	public ResponseData saveReview(@RequestBody HostReviewForm hostReviewForm, @LoginUser User loginUser) {
 		Review review = Review.createHostReview(hostReviewForm);
-		reviewService.saveHostReview(review, loginUser.getNo());
+		reviewService.saveHostReview(review, loginUser.getNo(), hostReviewForm.getAccNo());
 		
 		return ResponseData.create(true, "리뷰가 등록되었습니다.");
 	}
 	
 	@GetMapping(path = "/getReviews")
-	public ListResponseData<Review> reviews(@RequestParam("accNo") int accNo) {
+	public ListResponseData<Review> reviews(@RequestParam("no") int accNo) {
 		List<Review> reviews = reviewService.getReviews(accNo);
 		
 		return ListResponseData.create(reviews);

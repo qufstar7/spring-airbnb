@@ -3,19 +3,28 @@
 <mapper namespace="kr.co.airbnb.mapper.ReviewMapper">
 
 	<!-- resultMap? -->
-	<resultMap type="kr.co.airbnb.vo.Review" id="SimpleReviewResultMap">
+	<resultMap type="kr.co.airbnb.vo.Review" id="reviewResultMap">
 		<id column="REVIEW_NO" property="no" />
 		<result column="ACC_NO" property="accNo"/>
+		<result column="USER_TYPE" property="userType"/>
 		<result column="REVIEW_CONTENT" property="content"/>
 		<result column="REVIEW_CREATED_DATE" property="createdDate"/>
+		<result column="REVIEW_UPDATED_DATE" property="updatedDate"/>
+		<result column="PRIVATE_NOTE" property="privateNote"/>
+		<result column="REVIEW_REPLY" property="reviewReply"/>
+		<result column="POSITIVE_FEEDBACK" property="positiveFeedback"/>
+		<result column="NAGATIVE_FEEDBACK" property="nagativeFeedback"/>
+		<result column="WANT_MEET_AGAIN" property="wantMeetAgain"/>
+		<result column="REVIEW_DELETED" property="deleted"/>
 		<result column="RESERVATION_NO" property="reservationNo"/>
+		<association property="user" column="USER_NO" select="kr.co.airbnb.mapper.UserMapper.getUserByNo"/>
 	</resultMap>
 	
 	<!-- List<Review> getReviews(@Param("accNo") int accNo); -->
-	<select id="getReviews" parameterType="int" resultMap="SimpleReviewResultMap">
+	<select id="getReviews" parameterType="int" resultMap="reviewResultMap">
 		select *
 		from AIRBNB_REVIEWS
-		order by REVIEW_CREATED_DATE asc;
+		order by REVIEW_CREATED_DATE asc
 	</select>
 
 	<!-- void insertReview(Review review); -->

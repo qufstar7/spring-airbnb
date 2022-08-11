@@ -48,4 +48,6 @@ public class User {
 	private double communicationScore;
 	private double observanceScore;
 	
+	private Wishlist wishlist;
+	
 }
