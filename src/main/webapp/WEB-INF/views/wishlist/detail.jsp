@@ -89,6 +89,7 @@
 				<!-- 위시리스트 폴더에 등록된 숙소가 있는 경우 -->
 				<c:if test="${not empty wishlist.accs}">
 					<c:forEach var="acc" items="${wishlist.accs}" varStatus="loop" >
+					<a href="" style="color: black; text-decoration: none;">
 						<div class="card mb-3" data-index="${loop.index}" id="card-${acc.accNo }">
 						  <div class="row g-0 position-relative mb-2">
 						    <div class="col-md-5">
@@ -122,7 +123,7 @@
 							</div>
 						    </div>
 						    <div class="col-md-7">
-						      <div class="card-body">
+						      <div class="card-body pt-0 h-100">
 						      	<div class="d-flex justify-content-between">
 							        <span class="card-text text-muted">${acc.address }</span>
 							        <button type="button" class="btn rounded-circle btn-delete-wishlistAcc" data-accNo="${acc.accNo}"><i id="icon-heart-${acc.accNo}" class="fa-solid fa-heart fs-4"></i></button>
@@ -137,6 +138,7 @@
 						    </div>
 						  </div>
 						</div>
+						</a>
 						<hr/>
 					</c:forEach>
 				</c:if>

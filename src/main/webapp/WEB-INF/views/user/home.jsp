@@ -474,6 +474,7 @@ $(function () {
 	
 	// 구글 로그인
 	$("#btn-signIn-with-google").click(function() {
+		alert("init");
 		google.accounts.id.initialize({
 	        client_id: "340808936773-p2v7dk0jtatnsjl29nnvivnol8f9rni8.apps.googleusercontent.com",
 	        callback: handleCredentialResponse
@@ -481,6 +482,7 @@ $(function () {
 	    google.accounts.id.prompt();
 	})
 	function handleCredentialResponse(response) {
+		alert("함수");
 	    var profile = jwt_decode(response.credential);
 	    console.log(profile);
 		console.log("ID: " + profile.sub);
