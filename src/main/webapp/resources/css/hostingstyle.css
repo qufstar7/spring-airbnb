@@ -352,6 +352,7 @@ body {
 }
 
 /* 위치 등록 페이지 */
+
 .location-form {
 	background-color: #FFFFFF !important;
 	position: absolute;
@@ -368,6 +369,34 @@ body {
 	line-height: 22px;
 }
 
+.location-form-scroll {
+	overflow: overlay;
+	max-height: 55vh !important;
+}
+
+.flex-box {
+    justify-content: space-between;
+}
+
 .form-check-input {
-	width:30px;
+	width: 30px;
+}
+
+.form-switch:focus {
+	outline: none;
+	cursor: none;
+}
+
+.form-check-input:focus {
+	outline: none;
+	cursor: none;
+}
+
+/* 구글 지도 */
+#googleMapSmall button {
+	display: none !important;
+}
+
+.gm-svpc, .gmnoprint, .gmnoprint div {
+	display: none;
 }

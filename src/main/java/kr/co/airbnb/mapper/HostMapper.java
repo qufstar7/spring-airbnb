@@ -4,13 +4,15 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import kr.co.airbnb.vo.AccType;
+import kr.co.airbnb.vo.Type;
 
 @Mapper
 public interface HostMapper {
 
-	List<AccType> getAllMainTypes();
-	List<AccType> getAllSubTypes(int mainType);
-	List<AccType> getAllPrivacyTypes();
+	List<Type> getAllMainTypes();
+	List<Type> getAllSubTypes(int mainType);
+	List<Type> getAllPrivacyTypes();
+	void insertTypes(int mainType);
+	
 
 }

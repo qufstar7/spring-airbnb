@@ -5,10 +5,16 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import kr.co.airbnb.annotation.LoginUser;
 import kr.co.airbnb.mapper.AccommodationMapper;
 import kr.co.airbnb.vo.Accommodation;
+
+import kr.co.airbnb.vo.User;
+
 import kr.co.airbnb.vo.Boast;
+
 
 @Service
 public class AccommodationService {
@@ -48,4 +54,12 @@ public class AccommodationService {
 	 * 
 	 * return image; }
 	 */
+	
+	// 번호만 가지고 있는 숙소 데이터 생성(insert into)
+	// HostController에서 호출
+	public void insertAcc(@LoginUser User loginUser) {
+		Accommodation acc = new Accommodation();
+		acc.setUser(loginUser);
+		accommodationMapper.insertAcc(acc);
+	}
 }
