@@ -97,7 +97,7 @@
 	<!-- void updateReview(Accommodation accommodation) -->
 	<update id="updateAvgScore" parameterType="kr.co.airbnb.vo.Accommodation">
 		update AIRBNB_ACCOMMODATIONS
-	    set    
+	    set
 	    	ACC_REVIEW_COUNT = ACC_REVIEW_COUNT + 1,
 	    	ACC_REVIEW_SCORE = #{reviewScore},
 	    	AVG_TOTAL = #{totalScore},
@@ -110,5 +110,18 @@
 			AVG_CONVENIENCE = #{convenienceScore}
 		where acc_no = #{accNo}
 	</update>
+	
+	<!-- // 번호만 가지고 있는 숙소 데이터 생성(insert into) -->
+	<!-- void insertAcc(Accommodation acc); -->	
+	<insert id="insertAcc" parameterType="Accommodation">
+		<selectKey keyProperty="accNo" resultType="int" order="BEFORE">
+			select Accommodations_seq.nextval
+			from dual
+		</selectKey>
+		insert into airbnb_accommodations
+		(acc_no, user_no)
+		values
+		(#{accNo}, #{user.no})
+	</insert>
 	
 </mapper>
