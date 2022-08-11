@@ -35,7 +35,7 @@
 		<result column="AVG_VALUE" property="valueScore"/>
 		<result column="AVG_CONVENIENCE" property="convenienceScore"/>
 		<result column="AVG_TOTAL" property="totalScore"/>
-		
+		<association property="disabledDate" column="acc_no" select="kr.co.airbnb.mapper.AccommodationMapper.getDisabledByAccNo"/>
 		<association property="user" column="USER_NO" select="kr.co.airbnb.mapper.UserMapper.getUserByNo"/>
 	</resultMap>
 	
@@ -132,6 +132,18 @@
 		where acc_no = #{value}
 	
 	</select>
+	
+	<!-- Accommodation getDisabledByAccNo(int accNo); -->
+	<select id="getDisabledByAccNo" parameterType="int" resultType="string">
+		SELECT DISTINCT to_char (YMD,'YYYY-MM-DD') YMD
+		FROM(
+		SELECT CHECK_IN_DATE+(LEVEL - 1) YMD
+		FROM AIRBNB_RESERVATIONS
+		where acc_no = #{value}
+		CONNECT BY CHECK_IN_DATE +(LEVEL-1) <![CDATA[<=]]> CHECK_OUT_DATE)
+		order by YMD asc
+	</select>
+	
 	
 	<resultMap type="Accommodation" id="AccDetailResultMap" extends="AccResultMap">
 		<collection property="conveniences" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccConveniencesByAccNo"></collection>
