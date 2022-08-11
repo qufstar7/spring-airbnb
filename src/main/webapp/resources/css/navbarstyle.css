@@ -33,6 +33,32 @@
     width: 130px;
     font-weight: bold;
 }
+.btn-group {
+	padding: 0 10px;
+}
+.btn-group > .btn {
+	background-color:transparent; border: none; font-size: 14px;
+}
+.dropdown-menu {
+	width: 50vw;
+	min-height: 500px;
+	transform: translateX(-50%);
+	border-radius: 40px;
+	box-shadow: 0px 0.5rem 1rem 0px rgb(0 0 0 / 15%);
+    border: transparent;
+    padding: 20px;
+}
+.search-btn {
+	background-color:transparent; 
+	border:none
+}
+.search-btn span {
+	background-color: #FF7977; 
+	color: white;
+	border-radius: 50px;
+	padding: 9px;
+	font-size: 15px;
+}
 /* user버튼 입니다 */
 .dropbtn {
   background-color: #FFFFFF;

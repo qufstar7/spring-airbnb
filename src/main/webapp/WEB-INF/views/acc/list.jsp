@@ -258,7 +258,7 @@ input[type="range"]::-moz-range-thumb{
   transition: 0.3s;
 }
 
-.btn-group {
+.zoombtn-group {
   z-index:1;
   position:absolute;
   top:20px;
@@ -270,7 +270,7 @@ input[type="range"]::-moz-range-thumb{
   background-color: #FFFFFF;
   }
   
-.btn-group button { 
+.zoombtn-group button { 
   font-size: 20px;
   cursor: pointer;
   background-color: transparent;
@@ -284,7 +284,7 @@ input[type="range"]::-moz-range-thumb{
   display:block;
 }
 
-.btn-group button:not(:last-child) {
+.zoombtn-group button:not(:last-child) {
   border-bottom: solid 1px #E6E6E6; 
 }
 
@@ -365,10 +365,10 @@ input[type="range"]::-moz-range-thumb{
   height:40px;
 }
 
-#openbtn:hover, .btn-group button:hover, #closebtn:hover {
+#openbtn:hover, .zoombtn-group button:hover, #closebtn:hover {
   background-color: #FAFAFA;
 }
-#nav {
+#nav2 {
 	top:50px;
 	z-index: 2;
 	height: 78px;
@@ -389,8 +389,9 @@ input[type="range"]::-moz-range-thumb{
 @media screen and (max-width: 950px) {
 	#mySidebar {width:0px;}
 	#main {width:100%;}
-	#nav {width:100%;}
+	#nav2 {width:100%;}
 	.container{padding:0}
+	.grid-main {column-gap: 100px;}
 }
 </style>
 </head>
@@ -400,7 +401,7 @@ input[type="range"]::-moz-range-thumb{
 	<%@ include file="../common/nav.jsp"%>
 	<div class="container">
 	    <!-- 태그와 필터가 있는 navbar2 -->
-		<div class="row tagFilterBar p-0 align-items-center" id="nav"  style="width: 49%;">
+		<div class="row tagFilterBar p-0 align-items-center" id="nav2"  style="width: 49%;">
 			<div class="col-10 text-start p-0" style="font-size:14px;"><strong>숙소 10000개</strong></div>
 			<div class="col-2 text-end">
 				<button id="navfilter" type="button" data-bs-toggle="modal" data-bs-target="#filterModal">
@@ -510,7 +511,7 @@ input[type="range"]::-moz-range-thumb{
 		<div id="mySidebar" class="sidebar" style="z-index:3;">
 		  <!-- 접기 펼치기 버튼 -->
 		  <button id="openbtn" onclick="openNav()"><i class="bi bi-chevron-left"></i></button>
-		  <div class="btn-group">
+		  <div class="zoombtn-group">
 		  	<button type="button" onclick="zoomIn()"><i class="bi bi-plus-lg"></i></button>
 		  	<button type="button" onclick="zoomOut()"><i class="bi bi-dash-lg"></i></button>
 		  </div>
