@@ -93,7 +93,8 @@
   width: 100%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);	/* 슬라이드쇼 1열에 4개 표시 */
-  gap: 28px;
+  row-gap: 500px;
+  column-gap: 5px;
   @media screen and (max-width: 718px) {
     gap: 3px;
   }
@@ -103,12 +104,16 @@
   width: 100%;
   position: relative;
   text-decoration-line: none;
-  color: black
+  color: black;
 }
 
 .card-container::after {
   display: block;
   content: "";
+}
+
+.card-container:hover {
+	cursor: pointer;
 }
 
 .card-box {
@@ -304,27 +309,24 @@ input[type="range"]::-moz-range-thumb{
 <%@ include file="user/home.jsp" %>
 	<div class="container my-3">
 		<div id="box-acc" class="grid-main">
-		<c:if test="${acc.status eq '운영중'}">
-			
-		</c:if>
+		<!-- acc.status = '운영중' 인 숙소만 리스트업 --> 
 		<c:forEach var="acc" items="${acc }">
-			<a class="card-container" href="/detail?no=${acc.no }" style="text-decoration-line: none; color: black">
+			<div class="card-container" OnClick="href='/detail?no=${acc.accNo }'" style="text-decoration-line: none; color: black">
 				<div class="card-box p-1">
 					<div class="" style="width: 300px">
 						<!-- 숙소 섬네일 슬라이드쇼 시작 -->
 						<!-- 아이디에 acc_no나 img_no를 사용하는게 좋을 것 같습니다. / id - 아래 3개의 버튼, prev버튼, next버튼 -->
-						<div id="carouselExampleIndicators" class="carousel slide"
-							data-interval="false">
+						<div id="acc-slide${acc.accNo }" class="carousel slide" data-interval="false">
 							<div class="carousel-indicators">
 								<button type="button"
-									data-bs-target="#carouselExampleIndicators"
+									data-bs-target="#acc-slide${acc.accNo }"
 									data-bs-slide-to="0" class="active" aria-current="true"
 									aria-label="Slide 1"></button>
 								<button type="button"
-									data-bs-target="#carouselExampleIndicators"
+									data-bs-target="#acc-slide${acc.accNo }"
 									data-bs-slide-to="1" aria-label="Slide 2"></button>
 								<button type="button"
-									data-bs-target="#carouselExampleIndicators"
+									data-bs-target="#acc-slide${acc.accNo }"
 									data-bs-slide-to="2" aria-label="Slide 3"></button>
 							</div>
 							<!-- 위시리스트 하트 버튼 -->
@@ -335,25 +337,25 @@ input[type="range"]::-moz-range-thumb{
 										<span class="material-icons" style="color:white">favorite</span>
 									</a>
 								</c:if>
-								<c:choose>
-									<c:when test="${acc.no eq wishlist.acc.no }"> <!-- wishlist 모달 넣어주기-->
-										<a class="wished" href="#" style="position:absolute; top:15px; right:15px; z-index:2">
+								<%-- <c:choose>
+									<c:when test="${acc.accNo eq user.wishlist.no }"> <!-- wishlist 모달 넣어주기-->
+										<a class="wished" href="#" style="position:absolute; top:20px; right:30px; z-index:2">
 											<span class="material-icons" style="color:#FF7977">favorite</span>
 										</a>
 									</c:when>
 									<c:otherwise>
 										<a class="unwish" href="#" data-bs-toggle="modal" data-bs-target="#"	
-											style="position:absolute; top:15px; right:15px; z-index:2">
+											style="position:absolute; top:20px; right:30px; z-index:2">
 											<span class="material-icons" style="color:white">favorite</span>
 										</a>
 									</c:otherwise>
-								</c:choose>
+								</c:choose> --%>
 							</div>
 							<!-- 슬라이드쇼 이미지 /image-cover, room_image_no -->
 							<div class="carousel-inner" style="border-radius: 25px;">
-								<div class="carousel-item active"> 		<%-- ${acc.imageCover } --%>
+								<div class="carousel-item active"> 		
 									<img class="acc-thumbnail rounded-0"
-										src="/resources/images/acc/1.jpg" alt="숙소이미지"
+										src="/resources/images/acc/${acc.imageCover }.jpg" alt="숙소이미지"
 										style="object-fit: cover; width: 300px; height: 300px;">
 								</div>
 								<div class="carousel-item">
@@ -369,14 +371,14 @@ input[type="range"]::-moz-range-thumb{
 							</div>
 
 							<button class="carousel-control-prev" type="button"
-								data-bs-target="#carouselExampleIndicators"
+								data-bs-target="#acc-slide${acc.accNo }"
 								data-bs-slide="prev">
 								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 								<span class="visually-hidden">Previous</span>
 							</button>
 
 							<button class="carousel-control-next" type="button"
-								data-bs-target="#carouselExampleIndicators"
+								data-bs-target="#acc-slide${acc.accNo }"
 								data-bs-slide="next">
 								<span class="carousel-control-next-icon" aria-hidden="true"></span>
 								<span class="visually-hidden">Next</span>
@@ -385,86 +387,99 @@ input[type="range"]::-moz-range-thumb{
 						<!-- 숙소 설명 -->
 						<div class="row my-2">
 							<div class="col-8">
-								<div class="card-title">${acc.user.name }의 <span>${acc.type.name }</span></div>		<!-- 숙소주인이름 의 type_name 펜션-->
-								<div class="card-text">${acc.name }</div>			<!-- acc_name -->
-								<div class="card-subtitle mb-2 text-muted">침대 <span>1</span>개</div>		<!-- room_bed -->
+								<div class="card-title"><span>${acc.user.name }</span>의 <span>${acc.type.name }</span></div>
+								<div class="card-text text-muted">${acc.name }</div>
+								<div class="card-subtitle text-muted">침대 <span>${acc.room.bed }</span>개</div>		<!-- room_bed -->
 								<div class="card-subtitle mb-2 text-muted">12월 6일 ~ 1월 3일</div>
 								<div class="card-text">
-									<strong>₩<fmt:formatNumber value="${acc.price }" /></strong>/월	<!-- acc_price X 선택한 날짜(default 1일) -->
+									<strong>₩<fmt:formatNumber value="${acc.price }" /></strong>/월	<!-- acc_price * 선택한 날짜(default 1일) -->
 								</div>
 							</div>
 							<div class="col-4 text-end">★<span>4.5</span>(<span>120</span>)</div>	<!-- total_score (리뷰개수) -->
 						</div>
 					</div>
 				</div>
-			</a>
+			</div>
 			</c:forEach>
-		
 			
-			<%-- 하나의 숙소카드 입니다.
-			<a href="#" style="text-decoration-line: none; color: black">
-				<div class="p-1">
-					<div class="" style="width: 300px">
-						<div id="carouselExampleIndicators" class="carousel slide" data-interval="false">
-							<!-- 숙소 섬네일 슬라이드쇼 -->
-							<div class="carousel-indicators">
-								<button type="button"
-									data-bs-target="#carouselExampleIndicators"
-									data-bs-slide-to="0" class="active" aria-current="true"
-									aria-label="Slide 1"></button>
-								<button type="button"
-									data-bs-target="#carouselExampleIndicators"
-									data-bs-slide-to="1" aria-label="Slide 2"></button>
-								<button type="button"
-									data-bs-target="#carouselExampleIndicators"
-									data-bs-slide-to="2" aria-label="Slide 3"></button>
+			</div> 
+			
+			
+					<%-- 하나의 숙소 카드
+					<div class="card-container" OnClick="location.href='#../detail?no=${acc.no}'" style="text-decoration-line: none; color: black">
+						<div class="card-box p-1">
+							<div class="" style="width: 300px">
+								
+								<!-- 숙소 섬네일 슬라이드쇼 시작 -->
+								<!-- 아이디에 acc_no나 img_no를 사용하는게 좋을 것 같습니다. / id - 아래 3개의 버튼, prev버튼, next버튼 -->
+								<div id="carouselExampleIndicators-1" class="carousel slide"
+									data-interval="false">
+									<div class="carousel-indicators">
+										<button type="button"
+											data-bs-target="#carouselExampleIndicators-1"
+											data-bs-slide-to="0" class="active" aria-current="true"
+											aria-label="Slide 1"></button>
+										<button type="button"
+											data-bs-target="#carouselExampleIndicators-1"
+											data-bs-slide-to="1" aria-label="Slide 2"></button>
+										<button type="button"
+											data-bs-target="#carouselExampleIndicators"
+											data-bs-slide-to="2" aria-label="Slide 3"></button>
+									</div>
+									<!-- 슬라이드쇼 이미지 -->
+									<div class="carousel-inner" style="border-radius: 25px;">
+										<div class="carousel-item active">
+											<img class="acc-thumbnail rounded-0"
+												src="/resources/images/acc/sample-home.jpg" alt="숙소이미지"
+												style="object-fit: cover; width: 300px; height: 300px;">
+										</div>
+										<div class="carousel-item">
+											<img class="acc-thumbnail rounded-0"
+												src="/resources/images/acc/sample-home.jpg" alt="숙소이미지"
+												style="object-fit: cover; width: 300px; height: 300px;">
+										</div>
+										<div class="carousel-item">
+											<img class="acc-thumbnail rounded-0"
+												src="/resources/images/acc/sample-home.jpg" alt="숙소이미지"
+												style="object-fit: cover; width: 300px; height: 300px;">
+										</div>
+									</div>
+	
+									<button class="carousel-control-prev" type="button"
+										data-bs-target="#carouselExampleIndicators-1"
+										data-bs-slide="prev">
+										<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+										<span class="visually-hidden">Previous</span>
+									</button>
+	
+									<button class="carousel-control-next" type="button"
+										data-bs-target="#carouselExampleIndicators-1"
+										data-bs-slide="next">
+										<span class="carousel-control-next-icon" aria-hidden="true"></span>
+										<span class="visually-hidden">Next</span>
+									</button>
+								</div>
+								<!-- 숙소 설명 -->
+								<div class="row my-2">
+									<div class="col-8">
+										<div class="card-title">애월읍, 제주시의 캠핑카</div>
+										<div class="card-text text-muted">비치보이스,Boy21</div>
+										<div class="card-subtitle text-muted">퀸 침대 1개</div>
+										<div class="card-subtitle mb-2 text-muted">12월 6일 ~ 1월 3일</div>
+										<div class="card-text">
+											<strong>₩<fmt:formatNumber value="6343393" /></strong>/월
+										</div>
+									</div>
+									<div class="col-4 text-end">★4.5(120)</div>
+								</div>
+								<a class="unwish" href="#" data-bs-toggle="modal" data-bs-target="#"	
+									style="position:absolute; top:20px; right:30px; z-index:2">
+									<span class="material-icons" style="color:white">favorite</span>
+								</a>
 							</div>
-							<!-- 슬라이드쇼 이미지 -->
-							<div class="carousel-inner" style="border-radius: 25px;">
-								<div class="carousel-item active">
-									<img class="acc-thumbnail rounded-0"
-										src="/resources/images/acc/sample-home.jpg" alt="숙소이미지"
-										style="object-fit: cover; width: 300px; height: 300px;">
-								</div>
-								<div class="carousel-item">
-									<img class="acc-thumbnail rounded-0"
-										src="/resources/images/acc/sample-home.jpg" alt="숙소이미지"
-										style="object-fit: cover; width: 300px; height: 300px;">
-								</div>
-								<div class="carousel-item">
-									<img class="acc-thumbnail rounded-0"
-										src="/resources/images/acc/sample-home.jpg" alt="숙소이미지"
-										style="object-fit: cover; width: 300px; height: 300px;">
-								</div>
-							</div>
-							<button class="carousel-control-prev" type="button"
-								data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-								<span class="visually-hidden">Previous</span>
-							</button>
-							<button class="carousel-control-next" type="button"
-								data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-								<span class="carousel-control-next-icon" aria-hidden="true"></span>
-								<span class="visually-hidden">Next</span>
-							</button>
 						</div>
-						<!-- 숙소 설명 -->
-						<div class="row my-2">
-							<div class="col-8">
-								<div class="card-title">애월읍, 제주시의 캠핑카</div>
-								<div class="card-text">비치보이스,Boy21</div>
-								<div class="card-subtitle mb-2 text-muted">퀸 침대 1개</div>
-								<div class="card-subtitle mb-2 text-muted">12월 6일 ~ 1월 3일</div>
-								<div class="card-text">
-									<strong>₩<fmt:formatNumber value="6343393" /></strong>/월
-								</div>
-							</div>
-							<div class="col-4 text-end">★4.5(120)</div>
-						</div>
-					</div>
-				</div>
-			</a>
-			--%>
+					</div> --%>
+			
 		</div>
 	</div>
 

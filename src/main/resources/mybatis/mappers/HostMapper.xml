@@ -27,6 +27,7 @@
 	order by type_no
 </select>
 
+
 <!-- List<Type> getAllPrivacyTypes(); -->
 <select id="getAllPrivacyTypes" resultType="Type">
 	select type_no as no, type_name as name
@@ -34,5 +35,6 @@
 	where privacy_type = 'Y'
 	order by type_no
 </select>
+
 
 </mapper>
