@@ -3,7 +3,6 @@
 <mapper namespace="kr.co.airbnb.mapper.AccommodationMapper">
 	<resultMap type="Accommodation" id="AccResultMap">
 		<id column="ACC_NO" property="accNo"/>
-		<result column="TYPE_NO" property="typeNo"/>
 		<result column="ACC_REVIEW_COUNT" property="reviewCount"/>
 		<result column="ACC_REVIEW_SCORE" property="reviewScore"/>
 		<result column="ACC_NAME" property="name"/>
@@ -36,7 +35,7 @@
 		<result column="AVG_VALUE" property="valueScore"/>
 		<result column="AVG_CONVENIENCE" property="convenienceScore"/>
 		<result column="AVG_TOTAL" property="totalScore"/>
-		
+		<association property="disabledDate" column="acc_no" select="kr.co.airbnb.mapper.AccommodationMapper.getDisabledByAccNo"/>
 		<association property="user" column="USER_NO" select="kr.co.airbnb.mapper.UserMapper.getUserByNo"/>
 	</resultMap>
 	
@@ -70,17 +69,18 @@
 		) A
 	</select>
 	
-	<!-- List<AccType> getAccTypesByTypeNo(int typeNo); -->
-	<select id="getAccTypesByTypeNo" parameterType="int" resultType="AccType">
+	<!-- List<Type> getTypesByTypeNo(int typeNo); -->
+	<select id="getTypesByTypeNo" parameterType="int" resultType="Type">
 		select A.acc_no 			as accNo,
         	   B.type_no 			as "type.no",
         	   B.type_name 			as "type.name", 
         	   B.type_description 	as "type.description", 
         	   B.main_type 			as "type.maintype", 
         	   B.image_name 		as "type.imageName"
-		from airbnb_accommodations A, airbnb_acc_types B
-		where A.type_no = B.type_no
-		and   A.type_no = #{value}
+		from airbnb_accommodations A, airbnb_types B, airbnb_acc_types C
+		where A.acc_no = C.acc_no
+		and	  C.type_no = B.type_no
+		and   B.type_no = #{value}
 	</select>
 	
 	<!-- List<AccRoom> getAccRoomsByAccNo(int accNo); 
@@ -133,11 +133,23 @@
 	
 	</select>
 	
+	<!-- Accommodation getDisabledByAccNo(int accNo); -->
+	<select id="getDisabledByAccNo" parameterType="int" resultType="string">
+		SELECT DISTINCT to_char (YMD,'YYYY-MM-DD') YMD
+		FROM(
+		SELECT CHECK_IN_DATE+(LEVEL - 1) YMD
+		FROM AIRBNB_RESERVATIONS
+		where acc_no = #{value}
+		CONNECT BY CHECK_IN_DATE +(LEVEL-1) <![CDATA[<=]]> CHECK_OUT_DATE)
+		order by YMD asc
+	</select>
+	
+	
 	<resultMap type="Accommodation" id="AccDetailResultMap" extends="AccResultMap">
 		<collection property="conveniences" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccConveniencesByAccNo"></collection>
    		<collection property="photos" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccPhotosByAccNo"></collection>
    		<collection property="rooms" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getRoomByAccNo"></collection>
-      <collection property="type" column="TYPE_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccTypesByTypeNo"></collection>
+      	<collection property="type" column="TYPE_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getTypesByTypeNo"></collection>
 		<!--
 		<collection property="room" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccRoomsByAccNo"></collection>
 		<collection property="wishlist" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getWishlistByAccNo"></collection>
@@ -154,24 +166,57 @@
 		from AIRBNB_ACCOMMODATIONS
 		where acc_no = #{value}
 	</select>
+
+	<!-- List<Type> getAllTypesByAccNo(int accNo); -->
+	<select id="getAllTypesByAccNo" parameterType="int" resultType="Type">
+		select 
+			B.type_no as no,
+			B.type_name as name,
+			B.main_type mainType,
+			B.privacy_type as privacyType,
+			B.image_name as imageName,
+			B.type_description as description
+		from 
+			airbnb_accommodations A,
+			airbnb_types B,
+			airbnb_acc_types C
+		where A.acc_no = C.acc_no
+		and B.type_no = C.type_no
+		and A.acc_no = #{value}
+		order by B.type_no
+	</select>
 	
+	<!-- List<Accommodation> getAllAccByCriteria(AccCriteria criteria); -->
+	<select id="getAllAccByCriteria" parameterType="kr.co.airbnb.criteria.AccCriteria" resultMap="AccResultMap">
+		select *
+		from airbnb_accommodations
+		<where>
+			<if test="accTypes != null">
+				acc_no in (select acc_no
+						   from airbnb_acc_types
+						   where acc_no = #{accNo})
+			</if>
+		</where>
+	</select>
 
 	<!-- List<Accommodation> getAllAcc(); -->
 	<select id="getAllAcc" resultMap="AccDetailResultMap">
 		select acc.acc_no, acc.acc_name, acc.acc_price, acc.image_cover,
 			   accUser.user_name as "user.name",
-			   acctype.type_name as "type.name"
+			   types.type_name as "type.name"
 			   <!-- , room.room_bed as "room.bed" -->
 		from airbnb_accommodations acc,
 		     airbnb_users accUser,
-		     airbnb_acc_types accType
+		     airbnb_acc_types accTypes,
+             airbnb_types types
 		     <!-- airbnb_acc_photos photo,
 		     airbnb_acc_rooms room,
 		     airbnb_reviews review,
 		     airbnb_acc_discounts discount -->
 		where acc.acc_status = '운영중' 
 		  and acc.user_no = accUser.user_no
-		  and acc.type_no = accType.type_no
+		  and acc.acc_no = accTypes.acc_no
+          and accTypes.type_no = types.type_no
 		  <!-- and acc.acc_no = convenience.acc_no
 		  and acc.acc_no = room.acc_no
 		  and acc.acc_no = photo.acc_no
@@ -197,7 +242,7 @@
 	<!-- void updateReview(Accommodation accommodation) -->
 	<update id="updateAvgScore" parameterType="kr.co.airbnb.vo.Accommodation">
 		update AIRBNB_ACCOMMODATIONS
-	    set    
+	    set
 	    	ACC_REVIEW_COUNT = ACC_REVIEW_COUNT + 1,
 	    	ACC_REVIEW_SCORE = #{reviewScore},
 	    	AVG_TOTAL = #{totalScore},
@@ -210,5 +255,18 @@
 			AVG_CONVENIENCE = #{convenienceScore}
 		where acc_no = #{accNo}
 	</update>
+	
+	<!-- // 번호만 가지고 있는 숙소 데이터 생성(insert into) -->
+	<!-- void insertAcc(Accommodation acc); -->	
+	<insert id="insertAcc" parameterType="Accommodation">
+		<selectKey keyProperty="accNo" resultType="int" order="BEFORE">
+			select Accommodations_seq.nextval
+			from dual
+		</selectKey>
+		insert into airbnb_accommodations
+		(acc_no, user_no)
+		values
+		(#{accNo}, #{user.no})
+	</insert>
 	
 </mapper>

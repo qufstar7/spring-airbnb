@@ -387,7 +387,7 @@ input[type="range"]::-moz-range-thumb{
 						<!-- 숙소 설명 -->
 						<div class="row my-2">
 							<div class="col-8">
-								<div class="card-title"><span>${acc.user.name }</span>의 <span>${acc.type.name }</span></div>
+								<div class="card-title"><span>${acc.user.name }</span>의 <span>${acc.types[0].name }</span></div>
 								<div class="card-text text-muted">${acc.name }</div>
 								<div class="card-subtitle text-muted">침대 <span>${room.bed }</span>개</div>		<!-- room_bed -->
 								<div class="card-subtitle mb-2 text-muted">12월 6일 ~ 1월 3일</div>

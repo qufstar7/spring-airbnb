@@ -2,29 +2,40 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="kr.co.airbnb.mapper.HostMapper">
 
-<!-- sList<AccType> getAllMainTypes(); -->
-<select id="getAllMainTypes" resultType="accType">
+<!-- void insertTypes(int mainType); -->
+<insert id="insertTypes" parameterType="int" >
+	insert into airbnb_acc_types
+	(acc_no, type_no)
+	values
+	(#{accNo}, #{type.no})
+</insert>
+
+<!-- List<Type> getAllMainTypes(); -->
+<select id="getAllMainTypes" resultType="Type">
 	select type_no as no, type_name as name, image_name as imageName
-	from airbnb_acc_types
+	from airbnb_types
 	where main_type is null
+	and privacy_type = 'N'
 	order by no
 </select>
 
-<!-- List<AccType> getAllSubTypes(int mainType); -->
-<select id="getAllSubTypes" parameterType="int" resultType="accType">
+<!-- List<Type> getAllSubTypes(int mainType); -->
+<select id="getAllSubTypes" parameterType="int" resultType="Type">
 	select type_no as no, type_name as name, image_name as imageName, type_description as description
-	from airbnb_acc_types
+	from airbnb_types
 	where main_type = #{value}
 	order by type_no
 </select>
 
 
-<!-- List<AccType> getAllPrivacyTypes(); -->
-<!-- <select id="getAllPrivacyTypes" resultType="accPrivacyType">
-	select privacy_type_no as no, privacy_type_name as name
-	from airbnb_acc_types_privacy
-
+<!-- List<Type> getAllPrivacyTypes(); -->
+<select id="getAllPrivacyTypes" resultType="Type">
+	select type_no as no, type_name as name
+	from airbnb_types
+	where privacy_type = 'Y'
+	order by type_no
 </select>
- -->
+
+
 
 </mapper>

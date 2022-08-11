@@ -5,11 +5,19 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import kr.co.airbnb.annotation.LoginUser;
+import kr.co.airbnb.criteria.AccCriteria;
 import kr.co.airbnb.mapper.AccommodationMapper;
 import kr.co.airbnb.vo.AccRoom;
 import kr.co.airbnb.vo.Accommodation;
+
+import kr.co.airbnb.vo.User;
+
 import kr.co.airbnb.vo.Boast;
+import kr.co.airbnb.vo.Type;
+
 
 @Service
 public class AccommodationService {
@@ -33,6 +41,14 @@ public class AccommodationService {
 		return accommodationMapper.getBoast(no);
 	}
 	
+	// 크리테리아로 모든 숙소 조회
+	public List<Accommodation> searchAllAcc(AccCriteria criteria) {
+		return accommodationMapper.getAllAccByCriteria(criteria);
+	}
+	// 숙소의 타입1,2,3 조회
+	public List<Type> searchTypesByAccNo(int accNo) {
+		return accommodationMapper.getAllTypesByAccNo(accNo);
+	}
 	
 	public List<Accommodation> getAllAcc() {
 		return accommodationMapper.getAllAcc();
@@ -54,4 +70,12 @@ public class AccommodationService {
 	 * 
 	 * return image; }
 	 */
+	
+	// 번호만 가지고 있는 숙소 데이터 생성(insert into)
+	// HostController에서 호출
+	public void insertAcc(@LoginUser User loginUser) {
+		Accommodation acc = new Accommodation();
+		acc.setUser(loginUser);
+		accommodationMapper.insertAcc(acc);
+	}
 }
