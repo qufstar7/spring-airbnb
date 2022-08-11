@@ -1,14 +1,11 @@
 package kr.co.airbnb.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.co.airbnb.mapper.HostMapper;
-import kr.co.airbnb.vo.AccType;
-import kr.co.airbnb.vo.Accommodation;
 import kr.co.airbnb.vo.Type;
 
 @Service
@@ -28,17 +25,6 @@ public class HostService {
 	public List<Type> getAllPrivacyTypes() {
 		return hostMapper.getAllPrivacyTypes();
 	}
-//
-//	public void insertTypes(int mainType) {
-//		Accommodation acc = new Accommodation();
-//		AccType accType = new Type();
-//		accType.setType(null);
-//		List<Type> types = new ArrayList<Type>();
-//		types.
-//		acc.setAccTypes(mainType);
-//		
-//		hostMapper.insertTypes(mainType);
-//	}
 
 
 //	public void addNewAcc(User loginUser, AccRegisterForm accRegisterForm) throws IOException {

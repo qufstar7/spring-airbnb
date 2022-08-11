@@ -1,5 +1,7 @@
 package kr.co.airbnb.vo;
 
+import java.util.List;
+
 import org.apache.ibatis.type.Alias;
 
 import lombok.Getter;
@@ -14,10 +16,13 @@ import lombok.ToString;
 @Alias("AccType")
 public class AccType {
 	private int accNo;
-	private Type type;
+	private String accName;
+	private List<Type> types;
 	
-	public AccType(int accNo, int typeNo) {
+	public AccType(int accNo, String accName, List<Type> types) {
+		super();
 		this.accNo = accNo;
-		this.type = new Type(typeNo);
+		this.accName = accName;
+		this.types = types;
 	}
 }
