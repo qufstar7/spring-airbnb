@@ -90,7 +90,14 @@ public class WishlistController {
 		return null;
 	}
 	
-	
+	@PostMapping(path="/update/wishlist")
+	public String updateWishlist(int wishlistNo, String changedName) {
+		System.out.println("wishlistNo: " + wishlistNo);
+		System.out.println("변경된 이름: " + changedName);
+		wishlistService.updateWishlist(wishlistNo, changedName);
+		
+		return "redirect:/wishlists/detail?no=" + wishlistNo;
+	}
 	
 	
 	

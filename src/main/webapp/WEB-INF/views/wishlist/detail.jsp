@@ -15,6 +15,11 @@
 <script src="https://unpkg.com/@googlemaps/markerwithlabel/dist/index.min.js"></script>
 <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Google+Sans:400,500,700|Google+Sans+Text:400&amp;lang=ko">
 <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans+Text:400&amp;text=%E2%86%90%E2%86%92%E2%86%91%E2%86%93&amp;lang=ko">
+<!-- 달력 -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
 <title>${wishlist.name }-에어씨엔씨</title>
 <style type="text/css">
@@ -65,26 +70,28 @@
 <div class="container-fluid" style="padding-right: 0px;">
 	<div class="row" id="div-main">
 		<div class="col-5">
-			<div class="my-4 d-flex justify-content-between" id="div-sub">
+			<div class="mb-4 mt-2 d-flex justify-content-between" id="div-sub">
 				<button type="button" class="btn rounded-circle p-0" onclick="javascript:history.back()"><i class="bi bi-arrow-left-short fs-3"></i></button>
 				<button type="button" class="btn rounded-circle" data-bs-toggle="modal" data-bs-target="#modal-change-name"><i class="bi bi-three-dots fs-3"></i></button>
 			</div>
-			<div class="ms-2">
-			<h2 class="fw-bold mb-3">${wishlist.name }</h2>
+			<div class="ms-2" >
+				<h2 class="fw-bold mb-3">${wishlist.name }</h2>
 				<div class="mb-5">
-					<button type="button" class="btn btn-outline-secondary rounded-pill">날짜</button>
+					<button type="button" class="btn btn-outline-secondary rounded-pill" id="demo">날짜</button>
 					<button type="button" class="btn btn-outline-secondary rounded-pill">인원</button>
 				</div>
+				<!-- 위시리스트 폴더에 등록된 숙소가 없는 경우 -->
 				<c:if test="${empty wishlist.accs}">
 					<h4 class="mb-3">저장된 항목 없음</h4>
 					<small>맘에 드는 게 있으면 하트 아이콘을 눌러 저장하세요. 다른 사람과의 여행을 계획하고 있다면 초대하세요. 함께 원하는 항목을 저장하고 투표할 수 있습니다.</small></br>
 					<a href="/" class="btn btn-dark btn-lg mt-3 py-3 px-4 fs-6 fw-bold">둘러보기</a>
 				</c:if>
+				<!-- 위시리스트 폴더에 등록된 숙소가 있는 경우 -->
 				<c:if test="${not empty wishlist.accs}">
 					<c:forEach var="acc" items="${wishlist.accs}" varStatus="loop" >
 						<div class="card mb-3" data-index="${loop.index}" id="card-${acc.accNo }">
 						  <div class="row g-0 position-relative mb-2">
-						    <div class="col-md-4">
+						    <div class="col-md-5">
 						      <div id="carouselExampleIndicators-${acc.accNo }" class="carousel slide" data-interval="false">
 								<!-- 숙소 섬네일 슬라이드쇼 -->
 								<div class="carousel-indicators">
@@ -95,13 +102,13 @@
 								<!-- 슬라이드쇼 이미지 -->
 								<div class="carousel-inner" style="border-radius: 15px;">
 									<div class="carousel-item active">
-										<img class="acc-thumbnail rounded-0" src="/resources/images/acc/sample-home.jpg" alt="숙소이미지">
+										<img class="acc-thumbnail rounded-0" src="/resources/images/acc/sky.jpg" alt="숙소이미지"  style="object-fit: cover; width: 350px; height: 200px;">
 									</div>
 									<div class="carousel-item">
-										<img class="acc-thumbnail rounded-0" src="/resources/images/acc/sample-home.jpg" alt="숙소이미지">
+										<img class="acc-thumbnail rounded-0" src="/resources/images/acc/sky.jpg" alt="숙소이미지" style="object-fit: cover; width: 350px; height: 200px;">
 									</div>
 									<div class="carousel-item">
-										<img class="acc-thumbnail rounded-0" src="/resources/images/acc/sample-home.jpg" alt="숙소이미지">
+										<img class="acc-thumbnail rounded-0" src="/resources/images/acc/sky.jpg" alt="숙소이미지" style="object-fit: cover; width: 350px; height: 200px;">
 									</div>
 								</div>
 								<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide="prev">
@@ -114,7 +121,7 @@
 								</button>
 							</div>
 						    </div>
-						    <div class="col-md-8">
+						    <div class="col-md-7">
 						      <div class="card-body">
 						      	<div class="d-flex justify-content-between">
 							        <span class="card-text text-muted">${acc.address }</span>
@@ -137,7 +144,7 @@
 				<div>
 			</div>
 		</div>
-		<div style="position: fixed; left: 42%;">
+		<div style="position: fixed; left: 42%; padding-left: 0px;">
 			<div id="googleMap"></div>
 		</div>
 	</div>
@@ -226,11 +233,12 @@
 			     	}); 
 				      
 			      defaultLabel(markers);
-			    	  
+			      
 		    	  $(this.label.element).addClass('bg-black');
 		  	  	  $(this.label.element).css({"color":"white", "transform":"scale(1.2)", "z-index":"1"});
 		  	  	  
-		    	  let infoWindow_content = '<div class="card" style="width: 16rem; height:16rem;">';
+		  	  	  let infoWindow_content = '<a href="/detail?no=' + acc.accNo + '"  style="text-decoration: none; color: black;">';
+		    	      infoWindow_content += '<div class="card" style="width: 16rem; height:16rem;">';
 		    	  	  infoWindow_content += '<div id="carousel-info' + acc.accNo + '" class="carousel slide" data-bs-ride="carousel">';
 		    	  	  infoWindow_content +=	'	<div class="carousel-indicators">';
 	    	  		  infoWindow_content +=	'		<button type="button" data-bs-target="#carousel-info' + acc.accNo + '" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>';
@@ -265,6 +273,7 @@
 	    			  infoWindow_content +=  		'<span class="card-text fs-6"><strong>₩ ' + acc.price.toLocaleString() +  '</strong>/박 </span>';
 	    			  infoWindow_content += 	'</div>';
 	    			  infoWindow_content += '</div>';
+	    			  infoWindow_content += '</a>';
 			    	
 	    			/* $(infoWindow_content).find("#carouselExampleIndicators-" + acc.accNo).attr("id", "carouselExampleIndicators-" + acc.accNo + "-info" );
 			    	$(infoWindow_content).find("button[data-bs-target]").each(function() {
@@ -401,7 +410,7 @@ $(function () {
 		location.reload();
 	})
 	
-	// 현재 위시리스트 폴더 이름 변경하기
+	// 현재 위시리스트 폴더 이름 변경
 	 $(":input[name=changedName]").keyup(function() {
 		 if($(this).val().trim()) {
 		 		$("#btn-change-wishlist-name").prop("disabled", false);
@@ -411,9 +420,42 @@ $(function () {
 	 });
 	
 	// 현재 위시리스트 폴더 이름 변경 버튼
-	$("#btn-change-wishlist-name").click(function() {
+	/* $("#btn-change-wishlist-name").click(function() {
+		let changedName = $(":input[name=changedName]").val();
 		
+		 let querystring = $("#form-change-name").serialize();
+		$.post("wishlists/update/wishlist", data, function(data, textStatus, req) {
+			
+		}) 
+		
+		
+	}); */
+	
+	// 달력 test
+	$('#demo').daterangepicker({
+    "locale": {
+    	
+        "format": "YYYY-MM-DD",
+        "separator": " ~ ",
+        "applyLabel": "확인",
+        "cancelLabel": "취소",
+        "fromLabel": "From",
+        "toLabel": "To",
+        "customRangeLabel": "Custom",
+        "weekLabel": "W",
+        "daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
+        "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+	    },
+	    "singleDatePicker": true,
+	    "startDate": new Date(),
+	    "endDate": new Date(),
+	    "drops": "auto"
+	}, function (start, end, label) {
+	    console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
 	});
+	
+	
+	
 	
 });
 </script>
@@ -432,18 +474,20 @@ $(function () {
 			        <a href=""  class="text-dark fw-bold">삭제</a>
 	      		</div>
 	      </div>
+		      <form id="form-change-name" method="post" action="/wishlists/update/wishlist">
 	      <div class="modal-body py-5 px-4">
-	        <div class="form-floating">
-	      		<input type="hidden" name="">
-		     	<input type="text" class="form-control" name="changedName" value="${wishlist.name}" placeholder="위시리스트이름">
-		     	<label for="floatingInput">위시리스트 이름</label>
-		     	<small>최대 50자</small>
-			</div>
+		        <div class="form-floating">
+		      		<input type="hidden" name="wishlistNo" value="${wishlist.no }">
+			     	<input type="text" class="form-control" name="changedName" value="${wishlist.name}" placeholder="위시리스트이름">
+			     	<label for="floatingInput">위시리스트 이름</label>
+			     	<small>최대 50자</small>
+				</div>
 	      </div>
 	      <div class="modal-footer d-flex justify-content-between">
 	        <button type="button" class="btn btn-link text-reset fw-bold fs-6" data-bs-dismiss="modal" aria-label="Close">취소</button>
-	        <button type="button" class="btn btn-dark" id="btn-change-wishlist-name">저장</button>
+	        <button type="submit" class="btn btn-dark" id="btn-change-wishlist-name">저장</button>
 	      </div>
+			</form>
 	    </div>
 	  </div>
 </div>

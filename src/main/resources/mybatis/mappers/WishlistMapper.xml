@@ -81,12 +81,20 @@
  		values (#{wishlistNo}, #{accNo})
  	</insert>
  	
- 	<!-- void changeWishlist(int wishlistNo, int accNo); -->
+ 	<!-- void changeWishlist(int wishlistNo, int accNo); 숙소를 다른 위시리스트 폴더로 변경할 때 -->
  	<update id="changeWishlist">
  		update airbnb_wishlist_accommodations
  	     set 
  	      wishlist_no = #{wishlistNo}
  	    where acc_no = ${accNo}
+ 	</update>
+ 	
+ 	<!-- void updateWishlist(Wishlist wishlist); -->
+ 	<update id="updateWishlist" parameterType="Wishlist">
+ 		update airbnb_wishlists
+ 		 set
+ 		  wishlist_name = #{name}
+ 		where wishlist_no = #{no}
  	</update>
  	
  	
