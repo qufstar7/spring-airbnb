@@ -3,7 +3,6 @@
 <mapper namespace="kr.co.airbnb.mapper.AccommodationMapper">
 	<resultMap type="Accommodation" id="AccResultMap">
 		<id column="ACC_NO" property="accNo"/>
-		<result column="TYPE_NO" property="typeNo"/>
 		<result column="ACC_REVIEW_COUNT" property="reviewCount"/>
 		<result column="ACC_REVIEW_SCORE" property="reviewScore"/>
 		<result column="ACC_NAME" property="name"/>
@@ -52,18 +51,6 @@
 		and A.CONVENIENCE_NO = B.CONVENIENCE_NO
 	</select>
 	
-	<!-- List<AccPhoto> getAccPhotosByAccNo(int accNo); -->
-	<!-- <select id="getAccPhotosByAccNo" parameterType="int" resultType="AccPhoto">
-		select 
-			ROW_NUMBER() OVER (PARTITION BY A.acc_no ORDER BY A.image_no) as num,
-			A.IMAGE_NO as imageNo,
-			A.ACC_NO as accNo,
-			A.IMAGE_NAME as name,
-			A.IMAGE_DESCRIPTION as description,
-			A.IMAGE_COVER as cover
-		from AIRBNB_ACC_PHOTOS A
-		where ACC_NO = #{value}
-	</select> -->
 	<select id="getAccPhotosByAccNo" parameterType="int" resultType="AccPhoto">
 		select 	ROWNUM as num, 
 				A.IMAGE_NO as imageNo,
@@ -82,9 +69,83 @@
 		) A
 	</select>
 	
+	<!-- List<AccType> getAccTypesByTypeNo(int typeNo); -->
+	<select id="getAccTypesByTypeNo" parameterType="int" resultType="AccType">
+		select A.acc_no 			as accNo,
+        	   B.type_no 			as "type.no",
+        	   B.type_name 			as "type.name", 
+        	   B.type_description 	as "type.description", 
+        	   B.main_type 			as "type.maintype", 
+        	   B.image_name 		as "type.imageName"
+		from airbnb_accommodations A, airbnb_types B, airbnb_acc_types C
+		where A.acc_no = C.acc_no
+		and	  C.type_no = B.type_no
+		and   B.type_no = #{value}
+	</select>
+	
+	<!-- List<AccRoom> getAccRoomsByAccNo(int accNo); 
+	<select id="getAccRoomsByAccNo" parameterType="int" resultType="AccRoom">
+		select A.acc_no as accNo, 
+			   B.room_bathroom as "room.bathroom", 
+			   B.room_bed as "room.bed", 
+			   B.room_bedroom as "room.bedroom", 
+			   B.room_livingroom as "room.livingroom", 
+			   B.room_no as "room.no", 
+			   B.room_toilet as "room.toilet"
+		from airbnb_accommodations A, airbnb_acc_rooms B
+		where A.acc_no = B.acc_no
+		and A.acc_no = #{value}
+	</select> -->
+	
+	
+	<!-- List<Wishlist> getWishlistByAccNo(int accNo); 
+	<select id="getWishlistByAccNo" parameterType="int" resultType="Wishlist">
+		select A.acc_no as accNo, B.wishlist_no as "wishlist.no"
+		from airbnb_accommodations A, airbnb_wishlist_accommodations B
+		where A.acc_no = B.acc_no
+		and A.acc_no = #{value}
+	</select>-->
+	
+	<!-- List<AccViewCount> getViewCountsByAccNo(int accNo); -->
+	
+	<!-- List<Reservation> getReservationByAccNo(int accNo); -->
+	
+	<!-- List<Review> getReviewByAccNo(int accNo); -->
+	
+	
+	<!-- List<AccDiscount> getDiscountByAccNo(int accNo); -->
+	
+	<!-- List<Tag> getTagByAccNo(int accNo); -->
+
+
+	<!-- List<Room> getRoomByAccNo(int accNo); -->
+	<select id="getRoomByAccNo" parameterType="int" resultType="room">
+		select
+			ROOM_NO as no,
+			ACC_NO as accNo,
+			ROOM_BEDROOM as bedroom,
+			ROOM_BED as bed,
+			ROOM_BATHROOM as bathroom,
+			ROOM_TOILET as toilet,
+			ROOM_LIVINGROOM as livingroom
+		from AIRBNB_ACC_ROOMS
+		where acc_no = #{value}
+	
+	</select>
+	
 	<resultMap type="Accommodation" id="AccDetailResultMap" extends="AccResultMap">
 		<collection property="conveniences" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccConveniencesByAccNo"></collection>
    		<collection property="photos" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccPhotosByAccNo"></collection>
+   		<collection property="rooms" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getRoomByAccNo"></collection>
+      <collection property="type" column="TYPE_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccTypesByTypeNo"></collection>
+		<!--
+		<collection property="room" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccRoomsByAccNo"></collection>
+		<collection property="wishlist" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getWishlistByAccNo"></collection>
+		<collection property="view" column="ACC_NO" select=""></collection>
+		<collection property="reservation" column="ACC_NO" select=""></collection>
+		<collection property="review" column="ACC_NO" select=""></collection>
+		<collection property="discount" column="ACC_NO" select=""></collection>
+		<collection property="tag" column="ACC_NO" select=""></collection> -->
 	</resultMap>
 	
 	<!-- Accommodation getAccommodation(int no); -->
@@ -93,6 +154,45 @@
 		from AIRBNB_ACCOMMODATIONS
 		where acc_no = #{value}
 	</select>
+	
+
+	<!-- List<Accommodation> getAllAcc(); -->
+	<select id="getAllAcc" resultMap="AccDetailResultMap">
+		select acc.acc_no, acc.acc_name, acc.acc_price, acc.image_cover,
+			   accUser.user_name as "user.name",
+			   acctype.type_name as "type.name"
+			   <!-- , room.room_bed as "room.bed" -->
+		from airbnb_accommodations acc,
+		     airbnb_users accUser,
+		     airbnb_acc_types accType
+		     <!-- airbnb_acc_photos photo,
+		     airbnb_acc_rooms room,
+		     airbnb_reviews review,
+		     airbnb_acc_discounts discount -->
+		where acc.acc_status = '운영중' 
+		  and acc.user_no = accUser.user_no
+		  and acc.type_no = accType.type_no
+		  <!-- and acc.acc_no = convenience.acc_no
+		  and acc.acc_no = room.acc_no
+		  and acc.acc_no = photo.acc_no
+		  and acc.acc_no = accView.acc_no
+		  and acc.acc_no = reservation.acc_no
+		  and acc.acc_no = review.acc_no
+		  and acc.acc_no = wishlist.acc_no
+		  and acc.acc_no = discount.acc_no
+		  and acc.acc_no = accTag.acc_no -->
+	</select>
+
+
+	<!-- List<AccConvenience2> getCon(int accNo); -->
+	<select id="getBoast" parameterType="int" resultType="Boast">
+		select 
+			 ACC_NO as accNo,
+			 CONVENIENCE_NO as conNo
+		from AIRBNB_ACC_CONVENIENCES
+		where acc_no = #{value}
+	</select>
+	
 
 	<!-- void updateReview(Accommodation accommodation) -->
 	<update id="updateAvgScore" parameterType="kr.co.airbnb.vo.Accommodation">
