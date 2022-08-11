@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import kr.co.airbnb.annotation.LoginUser;
 import kr.co.airbnb.vo.AccConvenience;
 
 import kr.co.airbnb.vo.AccDiscount;
@@ -16,10 +17,14 @@ import kr.co.airbnb.vo.AccRoom;
 
 import kr.co.airbnb.vo.Accommodation;
 import kr.co.airbnb.vo.Convenience;
+
+import kr.co.airbnb.vo.User;
+
 import kr.co.airbnb.vo.Reservation;
 import kr.co.airbnb.vo.Review;
 import kr.co.airbnb.vo.Tag;
 import kr.co.airbnb.vo.Wishlist;
+
 
 @Mapper
 public interface AccommodationMapper {
@@ -68,5 +73,7 @@ public interface AccommodationMapper {
 	// 숙소 리뷰 갯수, 별점 평균 업데이트
 	void updateAvgScore(Accommodation accommodation);
 	
+	// 번호만 가지고 있는 숙소 데이터 생성(insert into)
+	void insertAcc(Accommodation acc);
 
 }

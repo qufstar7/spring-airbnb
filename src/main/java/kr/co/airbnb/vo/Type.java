@@ -11,9 +11,17 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Alias("accPrivacyType")
-public class AccPrivacyType {
-
+@Alias("Type")
+public class Type {
+	
 	private int no;
 	private String name;
+	private int maintype;
+	private String imageName;
+	private String description;
+	private String privacyType;
+	
+	public Type(int no) {
+		this.no = no;
+	}
 }
