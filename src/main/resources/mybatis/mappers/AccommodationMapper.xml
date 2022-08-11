@@ -3,7 +3,6 @@
 <mapper namespace="kr.co.airbnb.mapper.AccommodationMapper">
 	<resultMap type="Accommodation" id="AccResultMap">
 		<id column="ACC_NO" property="accNo"/>
-		<result column="TYPE_NO" property="typeNo"/>
 		<result column="ACC_REVIEW_COUNT" property="reviewCount"/>
 		<result column="ACC_REVIEW_SCORE" property="reviewScore"/>
 		<result column="ACC_NAME" property="name"/>
@@ -78,9 +77,10 @@
         	   B.type_description 	as "type.description", 
         	   B.main_type 			as "type.maintype", 
         	   B.image_name 		as "type.imageName"
-		from airbnb_accommodations A, airbnb_acc_types B
-		where A.type_no = B.type_no
-		and   A.type_no = #{value}
+		from airbnb_accommodations A, airbnb_types B, airbnb_acc_types C
+		where A.acc_no = C.acc_no
+		and	  C.type_no = B.type_no
+		and   B.type_no = #{value}
 	</select>
 	
 	<!-- List<AccRoom> getAccRoomsByAccNo(int accNo); 
