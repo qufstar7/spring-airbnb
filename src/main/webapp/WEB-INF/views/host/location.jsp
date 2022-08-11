@@ -214,24 +214,31 @@
 				// 클래스 속성 변경
 				$(".form-check-input").toggleClass("switch-btn-clicked");
 
-				// 숙소위치알려주기여부(N/Y) 변경
+				// 숙소위치알려주기여부(N/Y) 변경 함수 실행
 				markSpecificLoc();
 
-				// 지도확대
+				// 지도확대 함수 실행
 				smallMapExpand();
 			})
-
-			function smallMapExpand() {
-
-			}
-
+			// 숙소위치알려주기여부(N/Y) 변경
 			function markSpecificLoc() {
-
+		
 			}
-
+			// 지도확대
+			function smallMapExpand() {
+				
+			}
+			
+			// 다음버튼 클릭시 ajax로 페이지 변경 (핀위치조정 페이지)
+			$("#next-btn").click(function() {
+				correctPinLocation();
+			})
+			
+			// ajax 핀위치조정 페이지
+			function correctPinLocation() {
+				
+			}
 		})
-
-
 	</script>
 </body>
 </html>

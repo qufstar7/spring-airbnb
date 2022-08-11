@@ -16,7 +16,7 @@ import lombok.ToString;
 public class Accommodation {
 
 	private int accNo;
-	private int typeNo;
+//	private int typeNo;
 	private User user;
 	private int reviewCount;
 	// private int reviewScore;
@@ -43,7 +43,10 @@ public class Accommodation {
 	private int cleaningPrice;
 	private String imageCover;
 	private AccRoom room;
-	private AccType type;
+	// 메인타입, 서브타입 (ex.아파트-공동주택)
+	private List<AccType> type;
+	// 프라이버시 타입 (ex.공간전체/개인실/다인실)
+	private AccPrivacyType privacyType;
 	
 	private List<AccConvenience> conveniences;
 	private List<AccPhoto> photos;

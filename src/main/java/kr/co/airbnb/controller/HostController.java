@@ -1,17 +1,24 @@
 package kr.co.airbnb.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.support.SessionStatus;
 
+import kr.co.airbnb.annotation.LoginUser;
+import kr.co.airbnb.form.AccRegisterForm;
 import kr.co.airbnb.service.HostService;
 import kr.co.airbnb.vo.AccType;
 import kr.co.airbnb.vo.Accommodation;
+import kr.co.airbnb.vo.User;
 
 @Controller
 @RequestMapping("/host")
@@ -49,6 +56,16 @@ public class HostController {
 	@ResponseBody
 	public List<AccType> type3() {
 		return hostService.getAllPrivacyTypes();
+	}
+	
+	// 타입1,2,3 전달받아 저장
+	@PostMapping("/insert")
+		public String typeForm(@LoginUser User loginUser, @ModelAttribute("accRegisterForm") AccRegisterForm accRegisterForm, SessionStatus sessionStatus) throws IOException {
+		hostService.addNewAcc(loginUser, accRegisterForm);		
+		// 세션에서 accRegisterForm 객체 clear
+		sessionStatus.setComplete();
+		
+		return "/location";
 	}
 	
 	// 주소 등록
