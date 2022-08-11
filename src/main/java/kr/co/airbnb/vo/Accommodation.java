@@ -1,5 +1,6 @@
 package kr.co.airbnb.vo;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,6 @@ import lombok.ToString;
 public class Accommodation {
 
 	private int accNo;
-	private int typeNo;
 	private User user;
 	private int reviewCount;
 	// private int reviewScore;
@@ -43,11 +43,16 @@ public class Accommodation {
 	private int cleaningPrice;
 	private String imageCover;
 	private AccRoom room;
-	private AccType type;
+	
+	// 메인타입, 서브타입, 프라이버시타입 (ex.아파트-공동주택-공간전체)
+	private List<Type> types;
+	// typeNo를 메인타입의 번호로 쓴다.
+	// private int typeNo = accTypes.get(0).getNo();
 	
 	private List<AccConvenience> conveniences;
 	private List<AccPhoto> photos;
 	private AccRoom rooms;
+	private List<String> disabledDate;
 	
 	private double reviewScore;
 	private double totalScore;

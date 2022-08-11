@@ -12,7 +12,6 @@ import kr.co.airbnb.annotation.LoginUser;
 import kr.co.airbnb.service.AccommodationService;
 import kr.co.airbnb.service.ConvenienceService;
 import kr.co.airbnb.vo.Accommodation;
-import kr.co.airbnb.vo.Boast;
 import kr.co.airbnb.vo.User;
 
 @Controller
@@ -26,6 +25,9 @@ public class AccommodationController {
 	
 	@GetMapping(path = "/detail")
 	public String detail(@LoginUser User loginUser ,@RequestParam("no") int no,Model model) {
+		Accommodation acc = accommodationService.getAccommodation(no);
+		List<String> disabled = acc.getDisabledDate();
+		System.out.println(disabled);
 		
 		model.addAttribute("acc", accommodationService.getAccommodation(no));
 		model.addAttribute("cons", ConvenienceService.getMainConveniences());
