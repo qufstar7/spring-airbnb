@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import kr.co.airbnb.annotation.LoginUser;
 import kr.co.airbnb.criteria.AccCriteria;
 import kr.co.airbnb.mapper.AccommodationMapper;
+import kr.co.airbnb.vo.AccRoom;
 import kr.co.airbnb.vo.Accommodation;
 
 import kr.co.airbnb.vo.User;
@@ -28,6 +29,11 @@ public class AccommodationService {
 	public Accommodation getAccommodation(int no) {
 		
 		return accommodationMapper.getAcc(no);
+	}
+	
+	public List<AccRoom> getRoomByAccNo(int no) {
+		
+		return accommodationMapper.getRoomByAccNo(no);
 	}
 
 

@@ -127,7 +127,7 @@
 }
 
 /* nav */
-#nav {
+#nav2 {
     top:0;
     left:0;
     z-index: 2000;
@@ -295,7 +295,7 @@ input[type="range"]::-moz-range-thumb{
 	<%@ include file="common/nav.jsp"%>
 	<div class="container m-0 p-0">
 		<!-- 태그와 필터가 있는 navbar2 -->
-		<div class="row tagFilterBar align-items-center text-center" id="nav">
+		<div class="row tagFilterBar align-items-center text-center" id="nav2">
 			<div class="col-10" id="tags">태그 나열하는 곳</div>
 			<div class="col-2 text-end">
 				<button id="filterbtn" type="button" data-bs-toggle="modal" data-bs-target="#filterModal">
@@ -389,7 +389,7 @@ input[type="range"]::-moz-range-thumb{
 							<div class="col-8">
 								<div class="card-title"><span>${acc.user.name }</span>의 <span>${acc.types[0].name }</span></div>
 								<div class="card-text text-muted">${acc.name }</div>
-								<div class="card-subtitle text-muted">침대 <span>${acc.room.bed }</span>개</div>		<!-- room_bed -->
+								<div class="card-subtitle text-muted">침대 <span>${room.bed }</span>개</div>		<!-- room_bed -->
 								<div class="card-subtitle mb-2 text-muted">12월 6일 ~ 1월 3일</div>
 								<div class="card-text">
 									<strong>₩<fmt:formatNumber value="${acc.price }" /></strong>/월	<!-- acc_price * 선택한 날짜(default 1일) -->

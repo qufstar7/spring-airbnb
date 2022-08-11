@@ -12,8 +12,12 @@ import org.springframework.web.bind.support.SessionStatus;
 import kr.co.airbnb.criteria.AccCriteria;
 import kr.co.airbnb.service.AccommodationService;
 import kr.co.airbnb.utils.SessionUtils;
+
+import kr.co.airbnb.vo.AccRoom;
+
 import kr.co.airbnb.vo.Accommodation;
 import kr.co.airbnb.vo.Type;
+
 
 
 @Controller
@@ -23,6 +27,11 @@ public class HomeController {
 	AccommodationService accommodationService;
 	
 	@GetMapping(path = "/")
+
+	/* merge 전 
+  public String home(Accommodation acc, Model model) {
+		model.addAttribute("acc", accommodationService.getAllAcc()); */
+
 	public String home(Model model, AccCriteria accCriteria) {
 		// 크리테리아로 모든 숙소 조회
 		List<Accommodation> allAcc = accommodationService.searchAllAcc(accCriteria);
@@ -39,6 +48,12 @@ public class HomeController {
 		model.addAttribute("acc", allAcc);
 		
 //		model.addAttribute("acc", accommodationService.getAllAcc());
+
+		
+		/* room_bed 개수 구하기 위해
+		 * List<AccRoom> rooms = accommodationService.getRoomByAccNo(acc.getAccNo());
+		 * model.addAttribute("room", rooms);
+		 */
 		
 		return "home";
 	}
