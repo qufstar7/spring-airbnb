@@ -96,8 +96,8 @@
 			<div class="container-fluid">
 				<!-- 진행상황 bar -->
 				<div class="progress mb-2">
-			    	<div class="progress-bar bg-dark" style="width:10%;" role="progressbar" 
-			    	     aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+			    	<div class="progress-bar bg-dark" style="width:8.3%;" role="progressbar" 
+			    	     aria-valuenow="8.3" aria-valuemin="0" aria-valuemax="100"></div>
 				</div>
 				<!-- 뒤로/다음버튼 -->
 				<div class="">
@@ -174,10 +174,14 @@ $(function(){
 		
 		if (step == 0 && hf1 != 0) {
 			searchSubTypes();
+			$(".progress-bar").css("width","16.6%");
+			$(".progress-bar").attr("aria-valuenow","16.6");
 		}
 		
 		if (step == 1 && hf2 != 0) {
 			goToPrivacyType();
+			$(".progress-bar").css("width","24.9%");
+			$(".progress-bar").attr("aria-valuenow","24.9");
 		}
 		
 	});
