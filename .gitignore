@@ -33,5 +33,6 @@ build/
 ### VS Code ###
 .vscode/
 
-### 0811junha추가 application.properties ###
+### 0811junha추가 application.properties, SpringAirbnbApplication.java ###
 **/src/main/resources/application.properties
+SpringAirbnbApplication.java
