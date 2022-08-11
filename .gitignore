@@ -32,3 +32,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### 0811junha추가 application.properties ###
+**/src/main/resources/application.properties
