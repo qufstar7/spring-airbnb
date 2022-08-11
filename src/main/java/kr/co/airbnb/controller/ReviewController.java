@@ -27,20 +27,9 @@ public class ReviewController {
 		return "review/guestreview";
 	}
 	
-	@GetMapping(path = "/mlist")
-	public String reviewList() {
-		return "review/modalreviewlist";
-	}
-	/*
 	@GetMapping(path = "/alist")
 	public String accReviewList() {
 		return "review/accreviewlist";
-	}
-	*/
-	
-	@GetMapping(path = "/alist")
-	public String accReviewList() {
-		return "review/avgscore";
 	}
 	
 	@GetMapping(path = "/hostreview")

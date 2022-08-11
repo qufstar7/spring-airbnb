@@ -148,8 +148,16 @@ public class ReviewService {
 		userMapper.updateAvgScore(user);
 	}
 
-	public List<Review> getReviews(int accNo) {
-		return reviewMapper.getReviews(accNo);
+	public List<Review> getReviews(int accNo, int beginIndex, int endIndex) {
+		return reviewMapper.getReviews(accNo, beginIndex, endIndex);
+	}
+	
+	public List<Review> getReviewsUnder(int accNo) {
+		return reviewMapper.getReviewsUnder(accNo);
+	}
+
+	public List<Review> getSearchReview(String keyword) {
+		return reviewMapper.getReviewsbyKeyword(keyword);
 	}
 	
 }
