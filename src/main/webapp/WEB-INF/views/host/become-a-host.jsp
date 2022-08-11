@@ -114,7 +114,7 @@
 					<div class="">
 						<button id="back-btn"
 							class="float-start btn btn-none ms-4 fs-6 text-decoration-underline text-black border-0"
-							type="button" onclick="location.href='/host/become-a-host'"
+							type="submit" form="form-select-type" onclick="location.href='/host/become-a-host'"
 							style="padding-top: 14px">뒤로</button>
 					</div>
 					<div class="">
@@ -203,27 +203,24 @@ $(function(){
 			alert("숙소 유형을 선택해주세요.");
 		}
 		
-		// step0, 메인유형 선택후 다음버튼 클릭시
+		// step0, 메인유형 선택 후 다음버튼 클릭시
 		if (step == 0 && hf1 != 0) {
 			searchSubTypes();
 			$(".progress-bar").css("width","16.6%");
 			$(".progress-bar").attr("aria-valuenow","16.6");
 		}
 		
-		// step1, 서브유형 선택후 다음버튼 클릭시
+		// step1, 서브유형 선택 후 다음버튼 클릭시
 		if (step == 1 && hf2 != 0) {
 			goToPrivacyType();
 			$(".progress-bar").css("width","24.9%");
 			$(".progress-bar").attr("aria-valuenow","24.9");
 		}
 		
-		// step2, 프라이버시유형 선택후 다음버튼 클릭시
+		// step2, 프라이버시유형 선택 후 다음버튼 클릭시
 		if (step == 2 && hf3 != 0) {
 			
-
-
 		}
-		
 		
 	});
 	
@@ -241,7 +238,7 @@ $(function(){
 		step = 1;
 		let $box = $("#right-content-box").empty();
 		
-		$.getJSON("/host/search?mainType=" + $(".hiddenField1").val() , function(subTypes) {
+		$.getJSON("/host/searchType1?mainType=" + $(".hiddenField1").val() , function(subTypes) {
 			if (subTypes.length == 0) {
 				let content = `
 					<div class="col-12">
@@ -269,7 +266,7 @@ $(function(){
 	function goToPrivacyType() {
 		let $box = $("#right-content-box").empty();
 		
-		$.getJSON("/host/search2", function(privacyTypes) {
+		$.getJSON("/host/searchType2", function(privacyTypes) {
 			if (privacyTypes.length == 0) {
 				let content = `
 					<div class="col-12">
@@ -293,8 +290,6 @@ $(function(){
 
 		// 다음버튼 누르면 주소등록페이지로 갈수있게 버튼 속성 변경
 		$("#next-btn").attr("onclick","location.href='/host/location'");
-		$("#next-btn").attr("type", "submit");
-		//$("#next-btn").attr("form", "form-select-type");
 		
 	}
 	
