@@ -54,6 +54,7 @@ pageEncoding="UTF-8"%>
 	top: 0;
 	right: 0;
 	height: inherit;} */
+	.btn-outline-dark:hover {background:rgba(0,0,0,0.05); color: black;}
 	
 </style>
 
@@ -69,15 +70,15 @@ pageEncoding="UTF-8"%>
 
 <!-- 이메일 입력 모달1 -->
 <div style="z-index: 5000;" class="modal fade" id="email-login-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
+  <div class="modal-dialog modal-lg modal-dialog-centered" style="width: 580px; height: 590px;">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title fw-bold w-100 text-center" id="exampleModalLabel">로그인 또는 회원가입</h5>
+        <h5 class="modal-title fw-bold w-100 text-center fs-6" id="exampleModalLabel">로그인 또는 회원가입</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body m-2">
-      	<div>
-      		<h3 class="fw-bold" >에어비앤비에 오신 것을 환영합니다.</h3>
+      	<div >
+      		<h3 class="fw-bold fs-4" >에어비앤비에 오신 것을 환영합니다.</h3>
       	</div>
       	<div>
       		<form action="" method="post" class="needs-validation" novalidate>
@@ -93,15 +94,25 @@ pageEncoding="UTF-8"%>
 			    </div>
       		</form>
       		<div class="line">
-      			또는
+      			<span style="color: black;">또는</span>
       		</div>
 		    <div class="d-grid gap-2">
-		    	<button type="button" class="btn btn-outline-dark" id="btn-signIn-with-facebook">페이스북으로 로그인하기</button>
-				<button type="button" class="btn btn-outline-dark" id="btn-signIn-with-google">구글로 로그인하기</button>
-		    	<button type="button" class="btn btn-outline-dark" >Apple 계정으로 로그인하기</button>
-		    	<a class="btn" id="custom-login-btn">
+		    	<button type="button" class="btn btn-outline-dark py-2" id="btn-signIn-with-facebook">
+		    		<img src="https://t1.daumcdn.net/cfile/tistory/994EAB4F5D2565432F" width="23px;" height="23px;" style="float: left;">
+		    			<small>페이스북으로 로그인하기</small>
+		    	</button>
+				<button type="button" class="btn btn-outline-dark py-2" id="btn-signIn-with-google">
+					<img src="https://w7.pngwing.com/pngs/869/485/png-transparent-google-logo-computer-icons-google-text-logo-google-logo-thumbnail.png" width="23px;" height="23px;" style="float: left;">
+						<small>구글로 로그인하기</small>
+				</button>
+				<button type="button" class="btn btn-outline-dark py-2" id="btn-signIn-with-kakao">
+					<img src="https://cdn.imweb.me/thumbnail/20220403/a8e484f2dfe39.png" width="24px;" height="24px;" style="float: left;">
+						<small>카카오로 로그인하기</small>
+				</button>
+		    	<!-- 숨겨진 실제 카카오 로그인 버튼 -->
+		    	<button type="button" class="btn btn-outline-dark d-none" id="custom-login-btn">
 				  <img src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg" width="242" />
-				</a> 
+				</button> 
 		    </div>
       	</div>
       </div>
@@ -117,7 +128,7 @@ pageEncoding="UTF-8"%>
 
 <!-- 로그인의 경우 비밀번호 입력 모달2 -->
 <div class="modal fade" id="login-password-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
+  <div class="modal-dialog modal-lg modal-dialog-centered" style="width: 580px;">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title fw-bold w-100 text-center">로그인</h5>
@@ -428,6 +439,7 @@ $(function () {
 	      				loginEmailModal.hide();
 	      				$("#login-password-modal .modal-title").text("계정이 이미 존재합니다.");
 	      				loginPasswordmodal.show();
+	      				$("#form-login :input[name=loginEmail]").val(result.user.email);
 	      				return;
 	      			} else {
 	      				$("#form-facebook-login").submit();
@@ -462,6 +474,7 @@ $(function () {
 	
 	// 구글 로그인
 	$("#btn-signIn-with-google").click(function() {
+		alert("init");
 		google.accounts.id.initialize({
 	        client_id: "340808936773-p2v7dk0jtatnsjl29nnvivnol8f9rni8.apps.googleusercontent.com",
 	        callback: handleCredentialResponse
@@ -469,6 +482,7 @@ $(function () {
 	    google.accounts.id.prompt();
 	})
 	function handleCredentialResponse(response) {
+		alert("함수");
 	    var profile = jwt_decode(response.credential);
 	    console.log(profile);
 		console.log("ID: " + profile.sub);
@@ -508,6 +522,11 @@ $(function () {
 		})
 	}
 	
+	
+	$("#btn-signIn-with-kakao").click(function() {
+		$("#custom-login-btn").click();
+	});
+	
 	Kakao.init('2931d0043daf4865ac102f53587fef2c'); //발급받은 키 중 javascript키를 사용해준다.
 	console.log(Kakao.isInitialized()); // sdk초기화여부판단
 	//카카오로그인
@@ -519,7 +538,7 @@ $(function () {
 	                url: '/v2/user/me',
 	                success: function(response) {
 	                	let account = response.kakao_account;
-	                	alert(JSON.stringify(account));
+	                	//alert(JSON.stringify(account));
 	                	//$('#form-kakao-login input[name=id]').val(response.id);
 	                	$('#form-kakao-login input[name=email]').val(( account.email != undefined ?  account.email : ''));
 	                	$('#form-kakao-login input[name=nickname]').val(account.profile.nickname);

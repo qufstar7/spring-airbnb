@@ -16,6 +16,7 @@ public interface WishlistMapper {
 	List<Accommodation> getWishlistAccsByNo(int wishlistNo);
 	void createWishlist(Wishlist wishlist);
 	void saveWishlistAcc(@Param("wishlistNo")int wishlistNo, @Param("accNo") int accNo);
+	void updateWishlist(Wishlist wishlist);
 	void deleteWishlistAcc(@Param("wishlistNo") int wishlistNo, @Param("accNo") int accNo);
 	
 	// 다른 위시리스트 폴더로 변경

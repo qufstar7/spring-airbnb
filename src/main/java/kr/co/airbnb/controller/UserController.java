@@ -81,7 +81,7 @@ public class UserController {
 	@ResponseBody
 	public Map<String, Object> loginWithNormal(@RequestParam("loginEmail") String email, @RequestParam("loginPassword") String password) {
 		Map<String, Object> result = new HashMap<>();
-		System.out.println("로그인 이메일 : " + email);
+		System.out.println("일반 로그인 이메일 : " + email);
 		User user = userService.getUserByEmail(email);
 		if(password.equals(user.getPassword())) {
 			result.put("pass", true);
@@ -190,30 +190,35 @@ public class UserController {
 	}
 	
 	@PostMapping(path="/update") // uploadProfileImg 요청핸들러메소드 수정 및 삭제
-	public Map<String, Object> updateProfile(UserUpdateForm form, @LoginUser User loginUser) throws IOException {
+	public String updateProfile(UserUpdateForm form, @LoginUser User loginUser) throws IOException {
 		System.out.println("폼: " + form);
 		System.out.println("로그인: " + loginUser);
 		
 		User user = userService.getUserByNo(loginUser.getNo());
 		MultipartFile multipartFile = form.getProfileImg();
 		
-		if(multipartFile.isEmpty()) {
+		//Map<String, Object> data = new HashMap<>();
+		
+		if(multipartFile == null || multipartFile.isEmpty()) {
 			user.setDescription(form.getDescription());
 			user.setBirthDate(form.getBirthDate());
 			user.setAddress(form.getAddress());
+			userService.updateUserInfo(user);
+			
+			return "redirect:/user/profile";
+			//data.put("user", user);
 		} else {
 			String filename = multipartFile.getOriginalFilename();
 			user.setProfileImage(filename);
+			userService.updateUserInfo(user);
 			
 			InputStream in = multipartFile.getInputStream();	// 업로드된 첨부파일이 임시파일로 저장되는데 그 파일을 읽어오는 스트림이다.
 			FileOutputStream out = new FileOutputStream(new File(profileImageSaveDirectory, filename));
 			FileCopyUtils.copy(in, out);
+			
+			return "redirect:/user/profile";
+			//data.put("filename", filename);
 		}
-		
-		Map<String, Object> data = new HashMap<>();
-		data.put("user", user);
-		
-		return data;
 	}
 	
 	
