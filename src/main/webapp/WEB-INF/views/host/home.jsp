@@ -34,12 +34,12 @@
 					호스팅을 <br> 시작해 보세요
 				</div>
 				<c:if test="${not empty LOGIN_USER }">
-				${LOGIN_USER }
+				${LOGIN_USER.name }님 환영합니다.<br><br>
 				<button type="button" class="btn text-white"
 					style="background-color: #FF385C;"
 					onclick="location.href='/host/become-a-host';">호스팅을 시작하기</button>
 				</c:if>
-				<c:if test="${empty LOGIN_USER }">				${LOGIN_USER }
+				<c:if test="${empty LOGIN_USER }">
 				<button type="button" id="btn-open-form-modal" class="btn text-white"
 					style="background-color: #FF385C;" onclick="">로그인하고 호스팅을 시작하기</button>
 				</c:if>
@@ -72,10 +72,13 @@
 				</div>
 
 				<!-- 호스트 이름 -->
+				<!-- 
 				<div class="hostName">chelsea</div>
-
+				 -->
 				<!-- ~~의 호스트 -->
+				<!-- 
 				<div>필라델피아의 호스트</div>
+				 -->
 			</div>
 		</div>
 
@@ -135,6 +138,9 @@
 					<h3 class="modal-welcome-message">에어비앤비에 오신 것을 환영합니다.</h3>
 				</div>
 				<form class="row g-3">
+					
+					<!-- 국가/지역선택(국가번호) -->
+					<!-- 
 					<div class="form-floating">
 						<select data-testid="" class="form-select" id="floatingSelectCountry" aria-label="">
 							<option value="242CG">콩고 (+242)</option>
@@ -382,27 +388,47 @@
 						</select>
 						<label for="floatingSelectCountry">국가/지역</label>
 					</div>
+					 -->
+					 
+					<!-- 전화번호입력 로그인-->
+					<!-- 
 					<div class="form-floating">
 						<input type="phoneNumber" class="form-control" id="floatingPhoneNumber" placeholder="전화번호">
 						<label class="input-form-label" for="floatingPhoneNumber">전화번호</label>
 					</div>
+					 --> 
+					 
+					<!-- 이메일입력 로그인 -->
+					<div class="form-floating">
+						<input type="email" class="form-control" id="floatingEmail" placeholder="이메일">
+						<label class="input-form-label" for="floatingEmail">이메일</label>
+					</div>
+					
 				</form>
+				
+				<!-- 공지/알림문구 -->
+				<!-- 
 				<div class="modal-phone-number-help-text-box">
 					<span id="phone-number-help-text">
 						전화나 문자로 전화번호를 확인하겠습니다. 일반 문자 메시지 요금 및 데이터 요금이 부과됩니다.
 						<a target="_blank" href="" class="text-dark">개인정보 처리방침</a>
 					</span>
 				</div>
+				 -->
+				 
 				<div class="mt-3">
 					<button type="button"  onclick="" class="modal-continue-btn btn text-white" 
 					        style="background-color: #FF385C;">계속</button>
 				</div>
 			</div>
-<!-- 			
+			
+			<!-- 또는 가로줄 -->
+			<!-- 
 			<div class="modal-also-line">
 				<div class="modal-also-text">또는</div>			
 			</div>
--->
+			-->
+			
 			<div class="modal-footer">
 				<div class="container-fluid">
 					<div class="row m-3">
