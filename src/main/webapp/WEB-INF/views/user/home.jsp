@@ -410,7 +410,7 @@ $(function () {
 		let querystring = $("#form-login").serialize();
 		$.post("/user/normal-login", querystring, function(result) {
 			if(result.pass) {
-				location.href = "/";
+				location.href = "";
 			} else {
 				$("#form-login span").text("유효하지 않은 비밀번호입니다. 다시 시도하여 주세요.");
 			}
