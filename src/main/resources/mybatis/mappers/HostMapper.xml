@@ -2,14 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="kr.co.airbnb.mapper.HostMapper">
 
-<!-- void insertTypes(int mainType); -->
-<insert id="insertTypes" parameterType="int" >
-	insert into airbnb_acc_types
-	(acc_no, type_no)
-	values
-	(#{accNo}, #{type.no})
-</insert>
-
 <!-- List<Type> getAllMainTypes(); -->
 <select id="getAllMainTypes" resultType="Type">
 	select type_no as no, type_name as name, image_name as imageName
@@ -36,6 +28,9 @@
 	order by type_no
 </select>
 
-
+<!-- void insertType1(int mainType); -->
+<update id="insertType1" parameterType="int">
+	update 
+</update>
 
 </mapper>
