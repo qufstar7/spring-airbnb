@@ -22,11 +22,11 @@
 		</selectKey>
 		insert into airbnb_reservations
 		(reservation_no, user_no, acc_no, check_in_date, check_out_date, adult_number, children_number,
-		 infant_number, pet_number, message_to_host, acc_service_fee, acc_total_price, entire_payment, left_payment)
+		 infant_number, pet_number, message_to_host, acc_service_fee, acc_price, entire_payment, left_payment, total_price, total_guest)
 		values
 		(#{no}, #{user.no}, #{accommodation.no}, #{checkInDate}, #{checkOutDate},
 		 #{adultNum}, #{childrenNum}, #{infantNum}, #{petNum}, #{messageToHost},
-		 #{serviceFee}, #{price}, #{entirePay}, #{leftPay})
+		 #{serviceFee}, #{price}, #{entirePay}, #{leftPay}, #{totalPrice}, #{totalGuest})
 	</insert>
 	
 	<resultMap type="Card" id="CardResultMap">
@@ -74,7 +74,7 @@
 		select *
 		from airbnb_reservations
 		where user_no = #{value}
-		order by acc_no desc
+		order by check_in_date desc
 	</select>
 	
 </mapper>
