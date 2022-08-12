@@ -91,7 +91,7 @@
 					<c:forEach var="acc" items="${wishlist.accs}" varStatus="loop" >
 					<a href="" style="color: black; text-decoration: none;">
 						<div class="card mb-3" data-index="${loop.index}" id="card-${acc.accNo }">
-						  <div class="row g-0 position-relative mb-2">
+						  <div class="row g-0 position-relative">
 						    <div class="col-md-5">
 						      <div id="carouselExampleIndicators-${acc.accNo }" class="carousel slide" data-interval="false">
 								<!-- 숙소 섬네일 슬라이드쇼 -->
@@ -130,16 +130,16 @@
 						      	</div>
 							    <span class="card-title">${acc.name }</span>
 						        <p class="card-text text-muted">최대 인원 2명 원룸 침대2개 욕실 1개</p>
-						        <div class="d-flex justify-content-between">
+						        <div class="d-flex justify-content-between"  style="margin-top: 72px;">
 					        	  <strong><i class="bi bi-star-fill"></i>${acc.reviewScore}<span class="text-black-50">(후기 ${acc.reviewCount}개)</span></strong>
 					        	  <span class="fs-5"><strong>₩<fmt:formatNumber value="${acc.price}"/></strong> /박 </span>
 						        </div>
 						      </div>
 						    </div>
 						  </div>
+							<hr>
 						</div>
 						</a>
-						<hr/>
 					</c:forEach>
 				</c:if>
 				</div>
@@ -353,6 +353,8 @@ $(function () {
 			 // 1.다른 위시리스트 폴더로 이동할 경우  2.위시리스트 폴더를 새로 만들어서 숙소를 저장할 경우
 			 $("#form-create-wishlist input[name=accNo]").val(accNo); // 여기서 주는 것이 맞나?
 		 }
+		 
+		 return false;
 	 });
 	 
 	 let createListModal = new bootstrap.Modal(document.getElementById('modal-create-wishlist'), {
