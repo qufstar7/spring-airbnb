@@ -22,5 +22,5 @@ public interface ReviewMapper {
 	
 	List<Review> getReviews(@Param("accNo") int accNo, int beginIndex, int endIndex);
 	List<Review> getReviewsUnder(int accNo);
-	List<Review> getReviewsbyKeyword(String keyword);
+	// List<Review> getReviewsbyKeyword(int accNo, String keyword);
 }
