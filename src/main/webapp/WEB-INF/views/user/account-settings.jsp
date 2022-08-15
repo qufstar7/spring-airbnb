@@ -32,7 +32,7 @@
 	<div id="div-main">
 		<div class="row">
 			<div class="col-lg-4 col-sm-6 col-sx-12 mb-3">
-				<a href="">
+				<a href="/user/account-settings/personal-info">
 					<div class="shadow p-3 mb-5 bg-body rounded-4">
 						<i class="bi bi-person-lines-fill"></i>
 						<div class="mt-5 d-flex align-items-start flex-column">
