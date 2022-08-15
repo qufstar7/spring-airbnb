@@ -142,6 +142,7 @@ body {
 	margin-bottom: 8px;
 }
 
+/* 전화번호 또는 이메일 입력 폼 label */
 .input-form-label {
 	color: rgb(113, 113, 113);
 	font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto,
@@ -154,6 +155,7 @@ body {
 		transform 0.15s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s;
 }
 
+/* 전화번호 또는 이메일 입력 폼 input */
 .form-control:focus {
 	color: #212529;
 	background-color: #fff;
@@ -162,6 +164,7 @@ body {
 	box-shadow: none;
 }
 
+/* 공지/알림문구 박스 */
 .modal-phone-number-help-text-box {
 	margin-top: 8px;
 	color: rgb(34, 34, 34);
@@ -181,47 +184,41 @@ body {
 }
 
 /* 로그인모달 '또는' 라인 */
-/* 
 .modal-also-line {
-	width: 100%;
-	margin-top: 16px;
-	margin-bottom: 16px;
-	font-weight: 400;
-	font-size: 12px;
-	line-height: 16px;
-}
-
-.modal-also-text {
-	-webkit-box-align: center;
 	display: flex;
+	flex-basis: 100%;
 	align-items: center;
-	margin: 16px 0px;
+	color: rgba(0, 0, 0, 0.35);
+	font-size: 14px;
+	margin: 8px 0px;
 }
 
-.modal-also-text:before {
+.modal-also-line::before, .modal-also-line::after {
 	content: "";
-	display: block;
-	width: 100%;
+	flex-grow: 1;
+	margin: 0px 16px;
+	background: rgba(0, 0, 0, 0.35);
 	height: 1px;
-	background-color: rgb(221, 221, 221);
-	margin-right: 16px;
+	font-size: 0px;
+	line-height: 0px;
 }
 
-.modal-also-text:after {
-	content: "";
-	display: block;
-	width: 100%;
-	height: 1px;
-	background-color: rgb(221, 221, 221);
-	margin-left: 16px;
-} 
-*/
+/* 모달 푸터(또는 라인 밑, sns로그인) */
+.modal-footer {
+	border: none;
+	padding-top: 0;
+}
+
+/* sns로그인 텍스트 박스 */
 .modal-login-btn-text {
 	font-weight: 600 !important;
 	font-size: 14px !important;
 }
 
 /* become-a-host 페이지 */
+
+
+/* 숙소 유형 선택 페이지 */
 /*  header */
 .right-div-header {
 	height: 87px;
@@ -352,7 +349,6 @@ body {
 }
 
 /* 위치 등록 페이지 */
-
 .location-form {
 	background-color: #FFFFFF !important;
 	position: absolute;
@@ -375,7 +371,7 @@ body {
 }
 
 .flex-box {
-    justify-content: space-between;
+	justify-content: space-between;
 }
 
 .form-check-input {

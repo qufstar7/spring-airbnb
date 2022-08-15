@@ -21,11 +21,13 @@ public class Reservation {
 	private int childrenNum;
 	private int infantNum;
 	private int petNum;
+	private int totalGuest;
 	private String messageToHost;
 	private Date createdDate;
 	private Date updatedDate;
 	private int serviceFee;
 	private int price;
+	private int totalPrice;
 	private int entirePay;
 	private int leftPay;
 	private Accommodation accommodation;

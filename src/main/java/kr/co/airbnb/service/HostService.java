@@ -5,14 +5,31 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kr.co.airbnb.annotation.LoginUser;
+import kr.co.airbnb.mapper.AccommodationMapper;
 import kr.co.airbnb.mapper.HostMapper;
+import kr.co.airbnb.vo.Accommodation;
 import kr.co.airbnb.vo.Type;
+import kr.co.airbnb.vo.User;
 
 @Service
 public class HostService {
 
 	@Autowired
 	private HostMapper hostMapper;
+	@Autowired
+	private AccommodationMapper accMapper;
+	
+	public List<Accommodation> getAllAccByUser(@LoginUser User loginUser) {
+		List<Accommodation> userAllAcc =  accMapper.getAllAccsByUser(loginUser);
+		
+		for (Accommodation acc : userAllAcc) {
+			int no = acc.getAccNo();
+			List<Type> types = accMapper.getAllTypesByAccNo(no);
+			acc.setTypes(types);
+		}		
+		return userAllAcc;
+	}
 	
 	public List<Type> getAllMainTypes() {
 		return hostMapper.getAllMainTypes();
@@ -25,6 +42,11 @@ public class HostService {
 	public List<Type> getAllPrivacyTypes() {
 		return hostMapper.getAllPrivacyTypes();
 	}
+
+	public void saveType1(int mainType) {
+//		return hostMapper.insertType1(mainType);	
+	}
+
 
 
 //	public void addNewAcc(User loginUser, AccRegisterForm accRegisterForm) throws IOException {
