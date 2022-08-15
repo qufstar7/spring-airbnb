@@ -35,10 +35,9 @@
 <body >
 <c:set var="menu" value="detaile"/>
 	<!-- 스파이스크롤 -->
-	<nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom" id="nav-1">
-		<div class="col"></div>
-		<div class="col-6">
-			<ul class="navbar-nav me-auto justify-content-center">
+	<nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom justify-content-between" id="nav-1">
+		<div class="col-3">
+			<ul class="navbar-nav me-auto">
 			  <li class="nav-item">
 			    <a class="nav-link" href="#btn-open-image-modal">사진</a>
 			  </li>
@@ -53,9 +52,29 @@
 			  </li>
 			</ul>
 		</div>
-		<div class="col"></div>
+		<div class="row align-items-center" id="navR">
+				<!-- 날짜 입력 안했을때 -->
+				<div class="col-10 p-2 text-end ndate" style="width: 320px;">
+					<h6>요금을 확인하려면 날짜를 입력하세요.</h6>
+					<button type="button" style="font-size: 12px;" class="btn btn-link text-decoration-underline text-dark openReviewModal" id="btn-open-review-modal"><i class="bi bi-star-fill"></i> ${acc.reviewScore }<span class="text-decoration-underline"> · 후기 ${acc.reviewCount }개</span></button>
+				</div>
+				<div class="col-2 p-3 text-end ndate" style="width: 200px;" >
+					<button type="button" class="btn btn-danger r-btn text-white text-center " style="width: 100%">예약가능 여부 보기</button>
+				</div>
+		</div>
+		<div class="row align-items-center" id="navR2">
+			<!-- 날짜 입력 했을때 -->
+			<div class="col-10 p-2 text-end" style="width: 320px;">
+				<h4><strong><fmt:formatNumber value="${acc.price }"/></strong>/박</h4>
+				<button type="button" style="font-size: 12px;" class="btn btn-link text-decoration-underline text-dark openReviewModal" id="btn-open-review-modal"><i class="bi bi-star-fill"></i> ${acc.reviewScore }<span class="text-decoration-underline"> · 후기 ${acc.reviewCount }개</span></button>
+			</div>
+			<div class="col-2 p-3 text-end" style="width: 200px;" >
+				<button class="btn btn-danger r-btn text-white text-center " style="width: 100%">예약하기</button>
+			</div>
+		</div> 
 	</nav>
 	<%@ include file="../common/nav2.jsp" %>
+	<%@ include file="../user/home.jsp" %>
 	<div class="container"> 
 		<!-- 타이틀 -->
 		<div class="row p-2 mb-2" id="top-div" >
@@ -76,7 +95,16 @@
 					<button type="button" class="btn btn-link text-decoration-underline text-dark btn-sm" id="btn-open-map-modal">${acc.address }</button>
 					<span class="float-end">
 						<button type="button" class="btn btn-link text-decoration-underline text-dark" id="btn-open-share-modal"><i class="bi bi-share-fill"></i> 공유</button>
-						<button type="button" class="btn btn-link text-decoration-underline text-dark" id="btn-open-save-modal"><i class="bi bi-heart"></i> 저장</button>
+						<c:choose>
+					  	<c:when test="${empty LOGIN_USER}">
+								<!-- 로그인 하지 않았을 때 -->
+							<button type="button" class="btn btn-link text-decoration-underline text-dark" data-bs-toggle="modal" data-bs-target="#email-login-modal"><i class="bi bi-heart"></i> 저장</button>
+						</c:when>
+						<c:otherwise>
+								<!-- 로그인 했을 때 -->
+							<button type="button" class="btn btn-link text-decoration-underline text-dark" id="btn-open-save-modal"><i class="bi bi-heart"></i> 저장</button>
+						</c:otherwise>
+					  </c:choose>
 					</span>
 				</p>
 			</div>
@@ -174,7 +202,7 @@
 				</div>
 				<hr>
 				<div>
-					<div class="mt-5 mb-2">
+					<div class="mt-5 mb-3">
 						<img id="air-cover" alt="" src="https://a0.muscache.com/im/pictures/51a7f002-b223-4e05-a2af-0d4838411d92.jpg">
 					</div>
 					<div class="mb-5">
@@ -224,7 +252,7 @@
 						<h4>숙소 편의시설</h4>
 					</span>
 					<c:forEach items="${acc.conveniences }" var="accConvenience" end="5">
-						<div class="col-6 mb-2 convenience">
+						<div class="col-6 mb-2 convenience d-flex align-items-center">
 							<p><span class="material-symbols-outlined"> ${accConvenience.convenience.iconName }</span> ${accConvenience.convenience.name }</p>
 						</div>
 					</c:forEach>
@@ -255,8 +283,8 @@
 				</div> -->
 			</div> 
 			<div class="col-4" id="side">
+				<div id="sticky" >
 				<form id="form-reservation" method="post" action="">
-				<div class="sticky" >
 					<div class="row shadow-lg bg-body rounded" id="box">
 						<div class="col-6 boxhd reservation" >
 							<h4><strong><fmt:formatNumber value="${acc.price }"/></strong>/
@@ -290,7 +318,7 @@
 								<i class="bi bi-caret-up-fill float-end" id="up"></i>
 							</button>
 							<div class="rounded" id="guest">
-								<div class="mb-4 row justify-content-between align-middle guest-box" >
+								<div class="mb-4 row justify-content-between d-flex align-items-center guest-box" >
 									<div class="col-4">
 										<p>성인
 									</div>
@@ -300,7 +328,7 @@
 											<button type="button" class="btn btn-outline-dark btn-sm p_btn guestbtn hu_p_btn">+</button>
 									</div>
 								</div>
-								<div class="mb-4 row justify-content-between align-middle guest-box" >
+								<div class="mb-4 row justify-content-between d-flex align-items-center guest-box" >
 									<div class="col-4">
 										어린이
 									</div>
@@ -310,7 +338,7 @@
 											<button type="button" class="btn btn-outline-dark btn-sm p_btn guestbtn hu_p_btn">+</button>
 									</div>
 								</div>
-								<div class="mb-4 row justify-content-between align-middle guest-box" >
+								<div class="mb-4 row justify-content-between d-flex align-items-center guest-box" >
 									<div class="col-4">
 										유아
 									</div>
@@ -320,7 +348,7 @@
 											<button type="button" class="btn btn-outline-dark btn-sm p_btn guestbtn hu_p_btn">+</button>
 									</div>
 								</div>
-								<div class="mb-4 row justify-content-between align-middle guest-box" >
+								<div class="mb-4 row justify-content-between d-flex align-items-center guest-box" >
 									<div class="col-4">
 										반려
 									</div>
@@ -338,7 +366,7 @@
 								</div>
 							</div>
 						</div>
-						<button type="submit" class="btn btn-outline-dark p-2 mt-2 reservation" >예약하기</button>
+						<button type="submit" class="btn btn-danger p-2 mt-2 reservation r-btn" >예약하기</button>
 						<div class="mb-3 text-center mt-2">
 							<span>예약 확정 전에는 요금이 청구되지 않습니다.</span>
 						</div>
@@ -360,10 +388,23 @@
 						</div>
 					</div>
 					<div class="text-center">
-						<button type="button" class="btn btn-link text-decoration-underline text-dark" id="btn-open-report-modal"><i class="bi bi-flag-fill"></i> 숙소 신고하기</button>
+					<c:choose>
+					  	<c:when test="${empty LOGIN_USER}">
+								<!-- 로그인 하지 않았을 때 -->
+								<a href="" data-bs-toggle="modal" data-bs-target="#email-login-modal">
+									<button type="button" class="btn btn-link text-decoration-underline text-dark"><i class="bi bi-flag-fill"></i> 숙소 신고하기</button>
+								</a>
+						</c:when>
+						<c:otherwise>
+								<!-- 로그인 했을 때 -->
+								<a href="">
+									<button type="button" class="btn btn-link text-decoration-underline text-dark"><i class="bi bi-flag-fill"></i> 숙소 신고하기</button>
+								</a>
+						</c:otherwise>
+					</c:choose>
 					</div>
-				</div>
 				</form>
+				</div>
 				
 			</div>
 			<hr>
@@ -551,9 +592,20 @@
 				<div class="col-6 mb-2">
 					<p>응답률: 100%</p>
 					<p>응답 시간: 1시간 이내</p>
-					<a href="">
-						<button type="button" class="btn btn-outline-dark btn-lg p-2">호스트에게 연락하기</button>
-					</a>
+					<c:choose>
+					  	<c:when test="${empty LOGIN_USER}">
+								<!-- 로그인 하지 않았을 때 -->
+								<a href="" data-bs-toggle="modal" data-bs-target="#email-login-modal">
+									<button type="button" class="btn btn-outline-dark btn-lg p-2">호스트에게 연락하기</button>
+								</a>
+						</c:when>
+						<c:otherwise>
+								<!-- 로그인 했을 때 -->
+								<a href="">
+									<button type="button" class="btn btn-outline-dark btn-lg p-2">호스트에게 연락하기</button>
+								</a>
+						</c:otherwise>
+					  </c:choose>
 				</div>
 			</div>
 			<hr>
@@ -659,7 +711,7 @@
 			</div>
 			<div class="modal-body">
 				<div class="row">
-					<div class="row mb-3">
+					<div class="row mb-3 d-flex align-items-center">
 						<div class="col-2 rounded">
 							<c:forEach items="${acc.photos }" var="photo">
 								<c:if test="${photo.num eq '1' }">
@@ -673,24 +725,27 @@
 							</span>
 						</div>
 					</div>
+					
+					<input type="text" id="text" value="https://localhost/detail?no=${acc.accNo }" style="display: none;"/>
+					<div class="col-6 mb-3 d-grid gap-2">
+						<button type="button" id="btnUrl" class="btn btn-outline-secondary btn-lg p-3" onclick="fn_final()"><i class="bi bi-link"></i> 링크 복사</button>
+					</div>
 					<!-- <div class="col-6 mb-3 d-grid gap-2">
-						<button class="btn btn-outline-secondary btn-lg p-3"><i class="bi bi-link"></i> 링크 복사</button>
+						<button type="button" class="btn btn-outline-secondary btn-lg p-3"><i class="bi bi-envelope"></i> 이메일</button>
 					</div>
 					<div class="col-6 mb-3 d-grid gap-2">
-						<button class="btn btn-outline-secondary btn-lg p-3"><i class="bi bi-envelope"></i> 이메일</button>
+						<button type="button" class="btn btn-outline-secondary btn-lg p-3"><i class="bi bi-chat"></i> 메세지</button>
 					</div>
 					<div class="col-6 mb-3 d-grid gap-2">
-						<button class="btn btn-outline-secondary btn-lg p-3"><i class="bi bi-chat"></i> 메세지</button>
-					</div>
+						<button type="button" class="btn btn-outline-secondary btn-lg p-3"><i class="bi bi-whatsapp"></i> 왓츠앱</button>
+					</div> -->
 					<div class="col-6 mb-3 d-grid gap-2">
-						<button class="btn btn-outline-secondary btn-lg p-3"><i class="bi bi-whatsapp"></i> 왓츠앱</button>
-					</div>
-					<div class="col-6 mb-3 d-grid gap-2">
-						<button onclick="" id="btnKakao" class="btn btn-outline-secondary btn-lg p-3"><img src="" alt="카카오톡 공유" /></button>
-					</div>
-					<button onclick="shareKakao()">
-  							<img src="/img/icon_kakao.png" alt="카카오톡 공유" />
-					</button> -->
+						<a type="button" id="create-kakaotalk-sharing-btn" class="btn btn-outline-secondary btn-lg p-3"><img
+					    src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
+					    alt="카카오톡 공유 보내기 버튼" style="width: 20px; height: 20px"
+					  		/> 카카오톡</a>
+					</div> 
+					
 					<div class="col-6 mb-3 d-grid gap-2">
 						<a id="btnFacebook" class="btn btn-outline-secondary btn-lg p-3" href="javascript:shareFacebook();"><i class="bi bi-facebook"></i> 페이스북</a>
 					</div>
@@ -890,7 +945,7 @@
 
 	<!-- 지도 모달 -->
 <div class="modal" id="modal-map-acc">
-	<div class="modal-dialog modal-fullscreen">
+	<div class="modal-dialog modal-fullscreen" style="width: 100%;">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">호스팅 지역</h4>
@@ -1070,7 +1125,20 @@
 </div>
 
 <script type="text/javascript">
+function clip(){
 
+	var url = '';
+	var textarea = document.createElement("textarea");
+	document.body.appendChild(textarea);
+	url = window.document.location.href;
+	console.log(url)
+	$("textarea").text(url);
+	console.log($("textarea").text())
+	textarea.select();
+	document.execCommand("copy");
+	document.body.removeChild(textarea);
+	alert("URL이 복사되었습니다.")
+}
 
 $(function() {
 	// 모달 객체
@@ -1341,6 +1409,7 @@ $(function() {
 	
 	var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 	
+	
 	// 마커가 표시될 위치입니다 
 	var markerPosition  = new kakao.maps.LatLng(longitude,latitude); 
 	
@@ -1348,12 +1417,22 @@ $(function() {
 	var marker = new kakao.maps.Marker({
 	    position: markerPosition
 	});
-	
+	// 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+	// marker.setMap(null); 
 	// 마커가 지도 위에 표시되도록 설정합니다
 	marker.setMap(map);
 	
-	// 아래 코드는 지도 위의 마커를 제거하는 코드입니다
-	// marker.setMap(null);    
+	// 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
+	var mapTypeControl = new kakao.maps.MapTypeControl();
+
+	// 지도에 컨트롤을 추가해야 지도위에 표시됩니다
+	// kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
+	map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+	// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+	var zoomControl = new kakao.maps.ZoomControl();
+	map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+	
 	
 	// 카카오 맵
 	var mapContainer2 = document.getElementById('map2'), // 지도를 표시할 div 
@@ -1375,6 +1454,7 @@ $(function() {
 	// 마커가 지도 위에 표시되도록 설정합니다
 	marker.setMap(map2);
 	
+	
 	// 모달창 등에 지도사용시 다시불러오기 필요
 	function relayout() {   
 		
@@ -1395,6 +1475,17 @@ $(function() {
 	// 아래 코드는 지도 위의 마커를 제거하는 코드입니다
 	// marker.setMap(null);    
 	
+	// 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
+	var mapTypeControl2 = new kakao.maps.MapTypeControl();
+
+	// 지도에 컨트롤을 추가해야 지도위에 표시됩니다
+	// kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
+	map2.addControl(mapTypeControl2, kakao.maps.ControlPosition.TOPRIGHT);
+
+	// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+	var zoomControl2 = new kakao.maps.ZoomControl();
+	map2.addControl(zoomControl2, kakao.maps.ControlPosition.RIGHT);
+
 	let disabledDate = ('${acc.disabledDate}').split(",");
 	console.log(disabledDate) 
 	
@@ -1411,11 +1502,8 @@ $(function() {
  			return;
  		}
  		
- 		console.log(selectedDates[0])
  		$("#checkInDate").val((selectedDates[0]))
 		$("#checkOutDate").val((selectedDates[1]))
-		console.log($("#checkInDate").val)
-		console.log($("#checkOutDate").val)
 		let diffDate = Date.parse(selectedDates[1])-Date.parse(selectedDates[0])
 
  		let day = Math.floor(diffDate / (1000 * 60 * 60 * 24))
@@ -1430,19 +1518,63 @@ $(function() {
  		$("#totalPrice").text(totalPrice.toLocaleString())
  		$("#totalPriceValue").val(totalPrice)
 	}) 
-    	  $(".reservation").hide();
+   	$(".reservation").hide();
+	
+	$("#nav-1").hide();
+	$("#navR2").hide();
 	
 	$("#days").on('input',function(){
       if (!$("#days").empty()){
     	  $(".reservation").hide();
     	  $(".not-reservation").show();
+    	  
+    	  $("#navR2").hide();
+	      $("#navR").show();
+    	  
       } else {
     	  $(".reservation").show();
     	  $(".not-reservation").hide();
+    	  $("#navR").hide();
+		  $("#navR2").show();
       }
 
    })
+	
+   $("#profile").click(function() {
+			$("host").focus();
+		})
 
+		
+
+		$(window).scroll(function() {
+			let scrollTop = $(document).scrollTop();
+			if (scrollTop > 600) {
+				$("#nav-1").show();
+			} else {
+
+				$("#nav-1").hide();
+			}
+			
+			/* if (scrollTop > 2100 && $("#days").empty()) {
+				$("#navR").show();
+				
+			} else {
+
+				$("#navR").hide();
+			} */
+			/* if (scrollTop > 2100) {
+					
+				} else{
+					
+					
+				}
+			} else {
+				$("#navR2").hide();
+				$("#navR").hide();
+			} */
+		})
+		
+   
 	/* $("#edate").flatpickr({
 		minDate: new Date(),
 		defaultDate : new Date(),
@@ -1552,21 +1684,6 @@ $(function() {
 		} 
 		 */
 		
-		$("#profile").click(function() {
-			$("host").focus();
-		})
-
-		$("#nav-1").hide();
-
-		$(window).scroll(function() {
-			let scrollTop = $(document).scrollTop();
-			if (scrollTop > 600) {
-				$("#nav-1").show();
-			} else {
-
-				$("#nav-1").hide();
-			}
-		})
 		
 		// 스크롤스파이
 		var scrollSpy = new bootstrap.ScrollSpy(document.body, {
@@ -1577,54 +1694,18 @@ $(function() {
 		$("#btnTwitter").click(
 				function() {
 					var sendText = "aircnc"; // 전달할 텍스트
-					var sendUrl = "devpad.tistory.com/"; // 전달할 URL
+					var sendUrl = "https://localhost/detail?no="+${acc.accNo}; // 전달할 URL
 					window.open("https://twitter.com/intent/tweet?text="
 							+ sendText + "&url=" + sendUrl);
 				})
 		$("#btnFacebook").click(
 				function() {
-					var sendUrl = "devpad.tistory.com/"; // 전달할 URL
+					var sendUrl = "https://localhost/detail?no="+${acc.accNo}; // 전달할 URL
 					window.open("http://www.facebook.com/sharer/sharer.php?u="
 							+ sendUrl);
 				})
-		/* $("#btnKakao").click(function() {
-			 
-			  // 사용할 앱의 JavaScript 키 설정
-			  Kakao.init('6ec6d52326b138f515a86c55e152676c');
-			 
-			  // 카카오링크 버튼 생성
-			  Kakao.Link.createDefaultButton({
-			    container: '#btnKakao', // 카카오공유버튼ID
-			    objectType: 'feed',
-			    content: {
-			      title: "개발새발", // 보여질 제목
-			      description: "개발새발 블로그입니다", // 보여질 설명
-			      imageUrl: "devpad.tistory.com/", // 콘텐츠 URL
-			      link: {
-			         mobileWebUrl: "devpad.tistory.com/",
-			         webUrl: "devpad.tistory.com/"
-			      }
-			    }
-			  });
-			} */
 
-		/* if (!Kakao.isInitialized()) {
-			  Kakao.init('6ec6d52326b138f515a86c55e152676c');
-			}
-		var sendKakao = function() {
-		    // 메시지 공유 함수
-		  Kakao.Link.sendScrap({
-		    requestUrl: 'http://localhost:80/', // 페이지 url
-		    templateId:  80693, // 메시지템플릿 번호
-		    templateArgs: {
-		            PROFILE : ${THU} // 프로필 이미지 주소 ${PROFILE}
-		      THUMB: ${THU}, // 썸네일 주소 ${THUMB}
-		      TITLE: ${TITLE}, // 제목 텍스트 ${TITLE}
-		      DESC: ${DESC}, // 설명 텍스트 ${DESC}
-		    },
-		  });
-		}; */
-
+	// 인원 버튼
 	$("#guest").hide();
 	$("#up").hide();
 	
@@ -1766,10 +1847,53 @@ $(function() {
     });
 	
 	
+	
+	
+		
+	Kakao.Share.createDefaultButton({
+	    container: '#create-kakaotalk-sharing-btn',
+	    objectType: 'feed',
+	    content: {
+	      title: '${acc.name}',
+	      description: '${acc.description}',
+	      imageUrl:
+		  		'https://localhost/resources/logo-home.png',
+	      link: {
+	        mobileWebUrl: 'https://localhost/detail?no=${acc.accNo }',
+	        webUrl: 'https://localhost/detail?no=${acc.accNo }',
+	      },
+	    },   
+	    buttons: [
+	      {
+	        title: '웹으로 보기',
+	        link: {
+	          mobileWebUrl: 'https://localhost/detail?no=${acc.accNo }',
+	          webUrl: 'https://localhost/detail?no=${acc.accNo }',
+	        },
+	      },
+	      {
+	        title: '앱으로 보기',
+	        link: {
+	          mobileWebUrl: 'https://localhost/detail?no=${acc.accNo }',
+	          webUrl: 'https://localhost/detail?no=${acc.accNo }',
+	        },
+	      },
+	    ],
+	  }) 
 })
 
-
+// 링크복사
+function fn_final() {
+			var url = document.getElementById('text');
+			url.style.display='block';	// 숨겨둔 input 태그 block처리
+			url.select();	// 복사할 text 블럭
+			document.execCommand('copy');	// 드레그된 text 클립보드에 복사
+			url.style.display='none';	// 다시 숨기기
+			alert("주소 복사가 완료되었습니다.");
+	    }
 </script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6ec6d52326b138f515a86c55e152676c"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 </body>
 </html>

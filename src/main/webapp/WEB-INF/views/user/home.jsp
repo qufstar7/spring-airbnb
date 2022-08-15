@@ -43,8 +43,10 @@ pageEncoding="UTF-8"%>
 	
 	.modal-dialog {
 		
+
 		width: 550px !important;
 	}
+
 	
 	#agree1, #agree2 {zoom:3.0;}
 	#password-helper p {font-size: small; margin: 0%;}
