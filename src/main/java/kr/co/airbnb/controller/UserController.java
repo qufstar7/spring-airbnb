@@ -76,6 +76,13 @@ public class UserController {
 		return "user/profile";
 	}
 	
+	@GetMapping(path="account-settings/personal-info")
+	public String personalInfo(@LoginUser User loginUser, Model model) { // @LoginUser User loginUser, Model model
+		User user = userService.getUserByNo(loginUser.getNo());
+		model.addAttribute("user", user);
+		return "user/personal-info";
+	}
+	
 	// 일반 로그인 요청 처리
 	@PostMapping("/normal-login")
 	@ResponseBody

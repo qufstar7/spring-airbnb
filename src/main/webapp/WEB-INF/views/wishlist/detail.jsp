@@ -63,6 +63,45 @@
 	}
 	/* infowWindow의 x버튼과 화살표 숨김 */
 	.gm-ui-hover-effect, .gm-style-iw-tc {display: none !important;}
+	
+	.daterangepicker .drp-calendar.right {
+    position: absolute !important;
+    right: 0 !important;
+    top: 0 !important;
+}
+    /* 한개의 달력만 출력 */
+	.daterangepicker .drp-calendar.right {
+    position: absolute !important;
+    right: 0 !important;
+    top: 0 !important;
+	}
+	
+	.daterangepicker .drp-calendar.right tbody {
+	    display: none !important;
+	}
+	
+	.daterangepicker .drp-calendar.right thead > tr:nth-child(2) {
+	    display: none !important;
+	}
+	
+	.daterangepicker .drp-calendar.right th.month {
+	    display: none !important;
+	}
+	
+	.daterangepicker .drp-calendar.right .calendar-table {
+	    background: transparent !important;
+	}
+	
+	.daterangepicker .daterangepicker.ltr .ranges, .daterangepicker.ltr .drp-calendar {
+	    float: none !important;
+	}
+	
+	.daterangepicker .drp-calendar.right .daterangepicker_input {
+	    position: absolute !important;
+	}
+
+	
+	
 </style>
 </head>
 <body>
@@ -78,7 +117,7 @@
 				<h2 class="fw-bold mb-3">${wishlist.name }</h2>
 				<div class="mb-5">
 					<button type="button" class="btn btn-outline-secondary rounded-pill" id="demo">날짜</button>
-					<button type="button" class="btn btn-outline-secondary rounded-pill">인원</button>
+					<button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-toggle="modal" data-bs-target="#modal-guest-count">인원</button>
 				</div>
 				<!-- 위시리스트 폴더에 등록된 숙소가 없는 경우 -->
 				<c:if test="${empty wishlist.accs}">
@@ -304,6 +343,8 @@
 	
 	
 $(function () {
+	
+	
 	 $("#div-map").on('scroll touchmove mousewheel', function(e){
 		e.preventDefault();
 		e.stopPropagation(); 
@@ -437,27 +478,42 @@ $(function () {
 	
 	// 달력 test
 	$('#demo').daterangepicker({
+		
     "locale": {
-    	
         "format": "YYYY-MM-DD",
         "separator": " ~ ",
-        "applyLabel": "확인",
-        "cancelLabel": "취소",
+        "applyLabel": "저장",
+        "cancelLabel": "모두 지우기",
         "fromLabel": "From",
         "toLabel": "To",
         "customRangeLabel": "Custom",
         "weekLabel": "W",
         "daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
-        "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-	    },
-	    "singleDatePicker": true,
-	    "startDate": new Date(),
-	    "endDate": new Date(),
-	    "drops": "auto"
-	}, function (start, end, label) {
-	    console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
-	});
-	
+        "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
+    },
+   
+    "startDate": new Date(),
+    "endDate": new Date(),
+    "minDate": new Date(), 	// 지난 날짜 disable하기
+    "drops": "auto"
+}, function (start, end, label) {
+    console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+});
+	  $('#demo').on('cancel.daterangepicker', function(ev, picker) {
+		 alert("cancel");
+		 $(this).val('');
+		 picker.setStartDate({});
+		 picker.setEndDate({});
+		 ev.stopPropagation();
+	  }); 
+	 
+	 /* $(".cancelBtn").click(function(ev, picker) {
+		 alert("cancel");
+		picker.setStartDate(new Date());
+		 picker.setEndDate(new Date()); 
+		 ev.stopPropagation();
+	 }) */
+ 
 	
 	
 	
