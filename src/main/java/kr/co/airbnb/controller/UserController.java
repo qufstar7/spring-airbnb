@@ -76,6 +76,13 @@ public class UserController {
 		return "user/profile";
 	}
 	
+	@GetMapping(path="account-settings/personal-info")
+	public String personalInfo(@LoginUser User loginUser, Model model) { // @LoginUser User loginUser, Model model
+		User user = userService.getUserByNo(loginUser.getNo());
+		model.addAttribute("user", user);
+		return "user/personal-info";
+	}
+	
 	// 일반 로그인 요청 처리
 	@PostMapping("/normal-login")
 	@ResponseBody
@@ -109,9 +116,11 @@ public class UserController {
 		User savedUser = userService.loginWithSns(user);
 		
 		if (savedUser != null) {
+			System.out.println("기존사용자");
 			SessionUtils.addAttribute("LOGIN_USER", savedUser);
 			savedUser.setLoginType(form.getLoginType());
 		} else {
+			System.out.println("sns회원가입");
 			SessionUtils.addAttribute("LOGIN_USER", user);
 		}
 		log.info("소셜 로그인 완료");
@@ -129,9 +138,8 @@ public class UserController {
 	public Map<String, Object> checkEmail(@RequestParam("email") String email, Model model) {
 		Map<String, Object> result = new HashMap<>();
 		User savedUser = userService.getUserByEmail(email);
-		
+		//System.out.println(savedUser);
 		if(savedUser == null) {
-			System.out.println("실패");
 			result.put("exist", false);
 			// 폼입력값을 담을 객체를 미리 생성해서 Model에 저장
 			model.addAttribute("userRegisterForm", new UserRegisterForm());
@@ -164,10 +172,12 @@ public class UserController {
 		return result;
 	}
 	
-	@PostMapping(path="/addProfileImg")
+	@PostMapping(path="/add/profileImg")
 	@ResponseBody
 	public Map<String, Object> uploadProfileImg(@RequestParam("profileImg") MultipartFile multipartFile, @LoginUser User loginUser) throws IOException {
+		Map<String, Object> result = new HashMap<String, Object>();
 		
+		System.out.println(multipartFile.getOriginalFilename());
 		// 프로필이미지 사진 처리하기
 		if(!multipartFile.isEmpty()) {
 			String filename = multipartFile.getOriginalFilename();
@@ -181,10 +191,13 @@ public class UserController {
 			InputStream in = multipartFile.getInputStream();	// 업로드된 첨부파일이 임시파일로 저장되는데 그 파일을 읽어오는 스트림이다.
 			FileOutputStream out = new FileOutputStream(new File(profileImageSaveDirectory, filename));
 			FileCopyUtils.copy(in, out);
+		
+		result.put("success", true);
+		result.put("filename", filename);
+		} else {
+			result.put("success", false);
 		}
 		
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("success", true);
 		
 		return result;
 	}
@@ -219,6 +232,12 @@ public class UserController {
 			return "redirect:/user/profile";
 			//data.put("filename", filename);
 		}
+	}
+	
+	@GetMapping(path="/find/password")
+	public String findPassword( ) {
+		
+		return "/user/forgotPassword";
 	}
 	
 	

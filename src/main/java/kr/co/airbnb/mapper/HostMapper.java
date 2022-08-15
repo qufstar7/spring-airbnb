@@ -13,6 +13,7 @@ public interface HostMapper {
 	List<Type> getAllSubTypes(int mainType);
 	List<Type> getAllPrivacyTypes();
 	void insertTypes(int mainType);
+	void insertType1(int mainType);
 	
-
+	
 }

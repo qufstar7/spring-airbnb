@@ -197,6 +197,15 @@
 			</if>
 		</where>
 	</select>
+	
+	<!-- List<Accommodation> getAllAccsByUser(User loginUser); -->
+	<select id="getAllAccsByUser" parameterType="User" resultMap="AccResultMap">
+		select *
+		from airbnb_accommodations A, airbnb_users B
+		where A.user_no = B.user_no
+		and A.user_no = #{no}
+		order by A.acc_no
+	</select>
 
 	<!-- List<Accommodation> getAllAcc(); -->
 	<select id="getAllAcc" resultMap="AccDetailResultMap">

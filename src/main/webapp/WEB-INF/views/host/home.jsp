@@ -40,8 +40,12 @@
 					onclick="location.href='/host/become-a-host';">호스팅을 시작하기</button>
 				</c:if>
 				<c:if test="${empty LOGIN_USER }">
+				<!-- 
 				<button type="button" id="btn-open-form-modal" class="btn text-white"
 					style="background-color: #FF385C;" onclick="">로그인하고 호스팅을 시작하기</button>
+				 -->
+ 				<button type="button" id="btn-open-form-modal" class="btn text-white"
+					style="background-color: #FF385C;" data-bs-toggle="modal" data-bs-target="#email-login-modal">로그인하고 호스팅을 시작하기</button>
 				</c:if>
 			</div>
 		</div>
@@ -122,22 +126,25 @@
 </div> --%>
 
 
+<!-- 로그인 모달 include -->
+<%@ include file="/WEB-INF/views/user/home.jsp" %>
 
 <!-- 모달 html -->
-<div class="modal" id="modal-form-login">
+<%-- 
+<div class="modal" id="email-login-modal">
 	<div class="modal-lg modal-dialog modal-dialog-centered">
 		<div class="modal-content modal-context-box">
 			<div class="modal-btn-close-box">
-				<button type="button" class="btn-close modal-btn-close" data-bs-dismiss="modal"></button>
+				<button type="button" class="btn-close modal-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-header">
-				<p class="fs-6 fw-bold m-0">로그인 또는 회원가입</p>
+				<p class="fs-6 fw-bold m-0" id="exampleModalLabel">로그인 또는 회원가입</p>
 			</div>
 			<div class="modal-body p-4">
 				<div class="modal-welcome-message-box">
 					<h3 class="modal-welcome-message">에어비앤비에 오신 것을 환영합니다.</h3>
 				</div>
-				<form class="row g-3">
+				<form action="" method="post" class="row g-3 needs-validation" novalidate>
 					
 					<!-- 국가/지역선택(국가번호) -->
 					<!-- 
@@ -400,34 +407,35 @@
 					 
 					<!-- 이메일입력 로그인 -->
 					<div class="form-floating">
-						<input type="email" class="form-control" id="floatingEmail" placeholder="이메일">
+						<input type="email" class="form-control" id="floatingEmail" name="email" placeholder="이메일">
 						<label class="input-form-label" for="floatingEmail">이메일</label>
+				     	<div class="invalid-feedback">
+			     			<i class="fa-solid fa-circle-exclamation"></i>  이메일을 입력해주세요
+			     		</div>
+					</div>
+									
+					<!-- 공지/알림문구 -->
+					<!-- 
+					<div class="modal-phone-number-help-text-box">
+						<span id="phone-number-help-text">
+							전화나 문자로 전화번호를 확인하겠습니다. 일반 문자 메시지 요금 및 데이터 요금이 부과됩니다.
+							<a target="_blank" href="" class="text-dark">개인정보 처리방침</a>
+						</span>
+					</div>
+					 -->
+					 
+					<div class="mt-3">
+						<button type="button" id="btn-login-register" class="modal-continue-btn btn text-white" 
+						        style="background-color: #FF385C;">계속</button>
 					</div>
 					
 				</form>
-				
-				<!-- 공지/알림문구 -->
-				<!-- 
-				<div class="modal-phone-number-help-text-box">
-					<span id="phone-number-help-text">
-						전화나 문자로 전화번호를 확인하겠습니다. 일반 문자 메시지 요금 및 데이터 요금이 부과됩니다.
-						<a target="_blank" href="" class="text-dark">개인정보 처리방침</a>
-					</span>
-				</div>
-				 -->
-				 
-				<div class="mt-3">
-					<button type="button"  onclick="" class="modal-continue-btn btn text-white" 
-					        style="background-color: #FF385C;">계속</button>
-				</div>
 			</div>
 			
 			<!-- 또는 가로줄 -->
-			<!-- 
 			<div class="modal-also-line">
-				<div class="modal-also-text">또는</div>			
+				또는	
 			</div>
-			-->
 			
 			<div class="modal-footer">
 				<div class="container-fluid">
@@ -490,21 +498,477 @@
 	</div>
 </div>
 
+<!-- 로그인의 경우 비밀번호 입력 모달2 -->
+<div class="modal fade" id="login-password-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold w-100 text-center">로그인</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body m-2">
+      	<!-- 기존사용자의 이메일과 소셜로그인 이메일이 같은 경우 프로필 출력 -->
+      	<div class="text-center" id="div-login-again"></div>
+      	<div>
+      		<form id="form-login" action="" method="post" class="needs-validation" novalidate>
+	      		<div class="form-floating  position-relative my-4 ">
+	      			<input type="hidden" name="loginEmail">
+			     	<input type="password" class="form-control outline" name="loginPassword" placeholder="비밀번호" required>
+			     	<label for="floatingInput">비밀번호</label>
+			     	<div class="invalid-feedback">
+			     		<i class="fa-solid fa-circle-exclamation"></i> <span>비밀번호를 입력해주세요.</span>
+			     	</div>
+			     	<button type="button" class="text-reset btn btn-link position-absolute top-50 end-0 translate-middle" id="btn-login-expose-password">표시</button>
+		    	</div>
+			    <div class="d-grid gap-2 my-4">
+				     <button type="button" class="btn p-3" id="btn-login">로그인</button>
+			    </div>
+      		</form>
+      	</div>
+      	<div>
+      		<a href="" class="text-reset"><strong >비밀번호를 잊으셨나요?</strong></a>
+      	</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 회원가입입력 모달 -->
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#email-register-modal">
+  회원가입
+</button> -->
+
+<!-- Modal -->
+<div class="modal fade" id="email-register-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+    <div class="modal-content">
+       <div class="modal-header">
+        <h5 class="modal-title fw-bold w-100 text-center" id="exampleModalLabel">회원 가입 완료하기</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="register-form" action="" method="post" class="needs-validation p-2" novalidate>
+        	<div class="form-floating">
+			     <input type="text" class="form-control outline" name="firstName" placeholder="이름(예: 길동)" required >
+			     <label for="floatingInput">이름(예: 길동)</label>
+			     <div class="invalid-feedback">
+					<i class="fa-solid fa-circle-exclamation"></i><span>이름을 입력해주세요.</span>
+				 </div>
+			</div>
+			
+			<div class="form-floating">
+			     <input type="text" class="form-control outline" name="lastName" placeholder="성(예: 홍)">
+			     <label for="floatingInput">성(예: 홍)</label>
+			     <div class="invalid-feedback">
+					<i class="fa-solid fa-circle-exclamation"></i><span>성을 입력해주세요.</span>
+				 </div>
+			    <p id="p-advice">정부 발급 신분증에 표시된 이름과 일치하는지 확인하세요.</p>
+		    </div>
+		    <div class="form-floating">
+			     <input type="date" class="form-control outline" name="birthDate" placeholder="생년원일">
+			     <label for="floatingInput">생년월일</label>
+			</div>
+		    <div class="form-floating">
+			     <input type="email" class="form-control outline" name="registerEmail" placeholder="" required >
+			     <label for="floatingInput">이메일</label>
+			     <p id="p-info">예약 확인과 영수증은 이메일로 보내드립니다.</p>
+			     <div class="invalid-feedback">
+					<i class="fa-solid fa-circle-exclamation"></i><span>올바른 형식의 이메일을 입력해주세요.</span>
+				 </div>
+			</div>
+		    <div class="form-floating position-relative">
+			     <input type="password" class="form-control outline" name="password" placeholder="비밀번호">
+			     <label for="floatingInput">비밀번호</label>
+			     <button type="button" class="text-reset btn btn-link position-absolute top-50 end-0 translate-middle" id="btn-register-expose-password">표시</button>
+			</div>
+		    <div id="password-helper" class="p-0">
+		     	<p class="d-none" id="ph-1">비밀번호에 본인 이름이나 이메일 주소를 포함할 수 없습니다</p>
+				<p class="d-none" id="ph-2">최소8자</p>
+				<p class="d-none" id="ph-3">숫자나 기호를 포함하세요</p>
+		    </div>
+			<div class="row my-3">
+				<div class="col-10">
+					<label for="agree1">개인정보 수집 및 이용에 동의합니다.
+							1. 에어비앤비가 수집하는 개인 정보 에어비앤비 플랫폼을 이용하는 데 필요한 정보 당사는 
+							회원님이 에어비앤비 플랫폼을 이용할 때 회원님의 개인 정보를 수집합니다. 
+							그렇지 않은 경우, 에어비앤비는 요청하신 서비스를 회원님께 제공하지 못할 수 있습니다. 이러한 정보에는 다음이 포함됩니다.
+					</label>
+				</div>
+				<div class="col-2 ps-5">
+					<input type="checkbox" id="agree1">
+				</div>
+			</div>
+		    <div class="row mb-3">
+		    	<div class="col-10">
+					<label for="agree2">마케팅 이메일 수신을 원합니다(선택).
+						 에어비앤비 회원 전용 할인, 추천 여행 정보, 마케팅 이메일, 푸시 알림을 보내드립니다. 
+						 계정 설정 또는 마케팅 알림에서 언제든지 수신을 거부할 수 있습니다.
+					</label>
+				</div>
+				<div class="col-2 ps-5">
+					<input type="checkbox" id="agree2" >
+				</div>
+		    </div>
+        	<div>
+        		동의 및 계속하기를 선택하여 에어비앤비 <strong>서비스 약관</strong>, <strong>결제 서비스 약관</strong>, 
+        		<strong>위치기반서비스 이용약관</strong>, <strong>차별 금지 정책</strong>, <strong>개인정보 처리방침</strong>에 동의합니다.
+        	</div>
+        	<div class="d-grid gap-2 my-4">
+        	<button type="button" class="btn p-3" id="btn-register">동의 및 계속하기</button>
+        	</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 회원가입 완료 모달 -->
+
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#register-complete-modal">
+  회원가입 완료 모달
+</button> -->
+
+<div class="modal fade" id="register-complete-modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold w-100 text-center" id="exampleModalLabel">프로필 생성하기</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+	  <div class="modal-body text-center">
+			<img src="/resources/logo.png" alt="logo">
+			<h4>에어비앤비에 오신 것을 환영합니다.</h4>
+			<p>전 세계 숙소, 현지 레스토랑 및 독특한 체험을 찾아보세요.</p>
+			<div class="d-grid gap-2 my-4">
+		       <button type="button" class="btn p-3" id="btn-register-complete" data-bs-target="#upload-profile-modal" data-bs-toggle="modal" data-bs-dismiss="modal">계속</button>
+		    </div>
+	  </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="upload-profile-modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title w-100 text-center">프로필 생성하기</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center p-5">
+        <h4>프로필 사진 추가</h4>
+        <div>
+	        <p class="fs-5">얼굴이 보이는 이미지를 선택하세요. 호스트는 예약이 확정된 후에만 사진을 볼 수 있습니다.</p>
+	        <p class="fs-5 d-none">이 사진이 내 프로필에 추가됩니다. 호스트나 캐스트가 보게 되는 사진이므로 개인정보나 민감한 정보가 표시되지 않도록 하세요.</p>
+        </div>
+        <form id="form-profileImg" action="" method="post" enctype="multipart/form-data" >
+	        <div class="">"
+		        <img src="/resources/logo.png">
+	        </div>
+	        <div class="d-grid gap-2 my-4">
+	        	<input type="file" name="profileImg" id="profile-img" class="d-none" accept="image/gif, image/jpeg, image/png" />
+	        	<button type="button" class="btn btn-dark p-3 fs-5 fw-bold" id="btn-add-profileImg"><i class="fa-solid fa-cloud-arrow-up text-start"></i> 사진 업로드하기</button>
+	        	<button type="button" class="btn btn-dark p-3 fs-5 fw-bold d-none" id="btn-add-complete" onclick="window.location.reload()" data-bs-dismiss="modal" aria-label="Close">완료</button>
+	        	<button type="button" class="btn btn-outline-dark p-3 fs-5 fw-bold" id="btn-use-facebookImg">페이스북 사진 사용</button>
+	        	<button type="button" class="btn btn-outline-dark p-3 fs-5 fw-bold d-none" id="btn-change-profileImg">사진 변경</button>
+	        </div>
+        </form>
+        <div>
+        	<button type="button" class="btn btn-link text-reset fw-bold fs-5" onclick="window.location.reload()" data-bs-dismiss="modal" aria-label="Close">나중에 할게요</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+ --%>
+ 
+ 
 <!-- 비디오 실행 스크립트 -->
 <script>
 	document.getElementById('hostVideo').play();
 </script>
 
+
 <!-- 로그인 모달 스크립트 -->
+<%--
 <script type="text/javascript">
 $(function() {
-	let loginFormModal = new bootstrap.Modal(document.getElementById("modal-form-login"));
+
+	// input 제이쿼리 객체들 저장
+	let $firstName = $(":input[name=firstName]");
+	let $lastName = $(":input[name=lastName]");
+	let $birthDate = $(":input[name=birthDate]");
+	let $email = $(":input[name=email]");
+	let $registerEmail = $(":input[name=registerEmail]");
+	let $loginPassword = $(":input[name=loginPassword]");
+	let $password = $(":input[name=password]");
 	
+	// 모달 객체들 생성
+/* 	let loginPasswordmodal = new bootstrap.Modal(document.getElementById("login-password-modal")); 
+	let registerModal = new bootstrap.Modal(document.getElementById("email-register-modal"));  */
+	let loginEmailModal = new bootstrap.Modal(document.getElementById("email-login-modal")); 
+	
+	// 로그인 모달 보이기
 	$("#btn-open-form-modal").click(function() {
-		loginFormModal.show();
+		loginEmailModal.show();
 	});
+	
+
+	// input안에서 enter를 치면 자동으로 폼이 제출되는 것을 방지한다.
+	// enter 키번호는 13번이다.
+	// 이메일로그인 폼 enter 자동 폼 제출 방지
+	$email.keydown(function(event) {
+		if (event.which === 13) {
+			$("#btn-login-register").click();
+			return false;
+		}
+		return true;
+	});
+	// 패스워드 폼 enter 자동 폼 제출 방지
+	$loginPassword.keydown(function(event) {
+		if (event.which === 13) {
+			$("#btn-login").click();
+			return false;
+		}
+		return true;
+	});
+	
+	// normal 로그인
+	$("#btn-login").click(function() {
+		//let $password = $(":input[name=loginPassword]");
+		if($password.val().trim() === "" ) {
+			$password.removeClass("is-valid").addClass("is-invalid");
+			return;
+		}
+		let querystring = $("#form-login").serialize();
+		$.post("/user/normal-login", querystring, function(result) {
+			if(result.pass) {
+				location.href = "/";
+			} else {
+				$("#form-login span").text("유효하지 않은 비밀번호입니다. 다시 시도하여 주세요.");
+			}
+		})
+	})
+	
+	// 이메일 유효성 검사
+	let emailRegExp = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+	let passwordRegExp =  /^(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/;
+	
+	let validEmail = false;
+	$email.keyup(function() {
+		let email = $email.val().trim();
+		if (email === "") {
+			$email.removeClass("is-valid").addClass("is-invalid");
+			return;
+		}
+		if (!emailRegExp.test(email)) {
+			$email.removeClass("is-valid").addClass("is-invalid");
+			return;
+		}
+		
+		$email.addClass("is-valid").removeClass("is-invalid");
+		validEmail = true;
+	});
+
+
+	//로그인 및 회원가입 모달창에서 이메일 입력폼 제출
+	$("#btn-login-register").click(function() {
+		if(!validEmail) {
+			$email.focus();
+			$email.keyup();
+			return false;
+		}
+		$(".btn-close").click();
+		
+		let email = $email.val().trim();
+		console.log(email);
+		
+		$.getJSON("/user/checkEmail", "email=" + email, function(result) {
+			
+			// 사용자가 입력한 이메일이 db에 존재하면 비밀번호입력모달(로그인), 그렇지 않으면 회원가입모달창을 띄운다.
+			if(result.exist) {
+				$(":input[name=loginEmail]").val(email);
+				loginPasswordmodal.show();
+				return;
+			} else {
+				registerModal.show();
+				$(":input[name=registerEmail]").val(email);
+				return;
+			}
+		});
+	});
+	
+	// 로그인 및 회원가입 모달창에서 이메일 입력폼 제출
+	$("#btn-login-register").click(function() {
+		if(!validEmail) {
+			$email.focus();
+			$email.keyup();
+			return false;
+		}
+		$(".btn-close").click();
+		
+		let email = $email.val().trim();
+		console.log(email);
+		
+		$.getJSON("/user/checkEmail", "email=" + email, function(result) {
+			
+			// 사용자가 입력한 이메일이 db에 존재하면 비밀번호입력모달(로그인), 그렇지 않으면 회원가입모달창을 띄운다.
+			if(result.exist) {
+				$(":input[name=loginEmail]").val(email);
+				loginPasswordmodal.show();
+				return;
+			} else {
+				registerModal.show();
+				$(":input[name=registerEmail]").val(email);
+				return;
+			}
+		});
+	});
+	
+	// 회원가입 모달의 이메일 입력필드
+	$registerEmail.keyup(function() {
+		let email = $registerEmail.val().trim();
+		if(email === "" || !emailRegExp.test(email)) {
+			$registerEmail.removeClass("is-valid").addClass("is-invalid");
+			$("#p-info").addClass("d-none");
+			return;
+		}
+		
+		$registerEmail.addClass("is-valid").removeClass("is-invalid");
+		$("#p-info").removeClass("d-none");
+	})
+
+	
+	$firstName.keyup(function() {
+		
+		let firstName = $(this).val().trim();
+		if(firstName == "") {
+			$(this).removeClass("is-valid").addClass("is-invalid");
+			return;
+		} 
+		$(this).addClass("is-valid").removeClass("is-invalid");
+	});
+	
+	$lastName.keyup(function() {
+		
+		let lastName = $(this).val().trim();
+		if(lastName == "") {
+			$(this).removeClass("is-valid").addClass("is-invalid");
+			$("#p-advice").addClass("d-none");
+			return;
+		} 
+		$(this).addClass("is-valid").removeClass("is-invalid");
+		$("#p-advice").removeClass("d-none");
+		
+	});
+	
+	// 비밀번호 숨기기&표시 
+	$("#btn-login-expose-password").click(function() {
+		if($("#btn-login-expose-password").text() == "표시") {
+			$password.attr("type", "text");
+			//$password.css("ime-mode", "disabled");
+			$("#btn-login-expose-password").text("숨기기");
+		} else {
+			$password.attr("type", "password");
+			$("#btn-login-expose-password").text("표시");
+		}
+	});
+	$("#btn-register-expose-password").click(function() {
+		if($("#btn-register-expose-password").text() == "표시") {
+			$password.attr("type", "text");
+			//$password.css("ime-mode", "disabled");
+			$("#btn-register-expose-password").text("숨기기");
+		} else {
+			$password.attr("type", "password");
+			$("#btn-register-expose-password").text("표시");
+		}
+	});
+	
+	$password.focus(function() {
+		
+		$("#password-helper p").removeClass("d-none");
+	});
+	
+	$password.keyup(function(event) {
+				
+		let password = $(this).val().trim();
+		let firstName = $firstName.val().trim();
+		let email = $registerEmail.val().trim();
+		
+		let koreanRegExp = /[ㄱ-힣]+/
+		if(koreanRegExp.test(password)) {
+			$password.val(password.replace(/[ㄱ-힣]/g, ''));
+		}
+		
+		if(password.includes(firstName)) {
+			$("#ph-1").removeClass("text-success").addClass("text-danger");
+		} else {
+			$("#ph-1").removeClass("text-danger").addClass("text-success");
+		}
+		
+		if(password.length < 8) {
+			$("#ph-2").removeClass("text-success").addClass("text-danger");
+		} else {
+			$("#ph-2").removeClass("text-danger").addClass("text-success");
+		}
+		
+		if(!passwordRegExp.test(password)) {
+			$("#ph-3").removeClass("text-success").addClass("text-danger");
+		} else {
+			$("#ph-3").removeClass("text-danger").addClass("text-success");
+		}
+		
+	});
+	
+	// 회원가입 입력폼 제출
+	$("#btn-register").click(function() {
+		
+		let querystring = $("#register-form").serialize();
+		$.post("/user/register", querystring, function(result) {
+			if(result.success) {
+				
+				$("#email-register-modal .btn-close").click();
+				let modal = new bootstrap.Modal(document.getElementById("register-complete-modal")); 
+				modal.show();
+			}
+		})
+		
+	});
+	
+	$("#btn-add-profileImg").click(function() {
+		$("#profile-img").click();
+	});
+	$("#btn-change-profileImg").click(function() {
+		$("#profile-img").click();
+	});
+	
+	$("#profile-img").change(function() {
+		
+		$("#upload-profile-modal h4").text("좋아요!");
+		$("#upload-profile-modal p").text("이 사진이 내 프로필에 추가됩니다. 호스트나 캐스트가 보게 되는 사진이므로 개인정보나 민감한 정보가 표시되지 않도록 하세요.");
+		$("#btn-add-profileImg").addClass("d-none");
+		$("#btn-add-complete").removeClass("d-none");
+		$("#btn-use-facebookImg").addClass("d-none");
+		$("#btn-change-profileImg").removeClass("d-none");
+		
+		let formData = new FormData(document.getElementById("form-profileImg"));			// $("#form-profileImg")오류?
+		
+		$.ajax({
+			type: "POST",								
+			url: "/user/addProfileImg",			
+			data: formData,	
+			processData: false,
+			contentType: false,			
+			success: function(data) {					// 성공적인 응답이 왔을 때 실행되는 함수, data에는 서버가 보내느 응답데이터가 있다.
+				alert("성공");
+			} 
+			
+		});
+	});
+	
 })
 </script>
-
+   --%>
+   
 </body>
 </html>

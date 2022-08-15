@@ -19,9 +19,13 @@
 <%@ include file="../common/nav.jsp"%>
 <div class="container-fluid"  id="main">
 	<div class="row my-5">
-		<h1 class="fw-bold">위시리스트</h1>
+		<h2 class="fw-bold">위시리스트</h2>
 	</div>
 	<div class="row">
+	<c:if test="${empty wishlists}">
+		<h4 class="fw-bold">첫 번째 위시리스트 만들기</h4>
+		<p><small>검색 중에 마음에 드는 숙소나 즐길 거리를 위시리스트에 저장하려면 하트 아이콘을 누르세요.</small> </p>
+	</c:if>
 	<c:if test="${not empty wishlists}">
 		<c:forEach var="wishlist" items="${wishlists}">
 			<div class="col-xl-4 col-lg-3 col-md-6 col-sm-12 col-xs-12">

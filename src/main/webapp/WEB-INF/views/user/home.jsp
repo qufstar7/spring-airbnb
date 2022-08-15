@@ -6,7 +6,8 @@ pageEncoding="UTF-8"%>
 <script src="https://kit.fontawesome.com/2628157b3b.js"></script>
 <!-- google gsi -->
 <script src="https://accounts.google.com/gsi/client" async defer></script>
-<script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- 카카오 로그인지원 자바스크립트 라이브러리 -->
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <!-- 페이스북 -->
@@ -32,17 +33,20 @@ pageEncoding="UTF-8"%>
 	.line::before, .line::after {
 		content:"";
 		flex-grow:1;
-		margin:0px 16px;
+		margin:0px 10px;
 		background:rgba(0,0,0,0.35);
 		height:1px;
 		font-size:0px;
 		line-height: 0px;
+		opacity: 0.5;
 	}
 	
 	.modal-dialog {
 		
-		width: 60%;
-	} 
+
+		width: 550px !important;
+	}
+
 	
 	#agree1, #agree2 {zoom:3.0;}
 	#password-helper p {font-size: small; margin: 0%;}
@@ -54,7 +58,31 @@ pageEncoding="UTF-8"%>
 	top: 0;
 	right: 0;
 	height: inherit;} */
-	.btn-outline-dark:hover {background:rgba(0,0,0,0.05); color: black;}
+	.sns:hover {background:rgba(0,0,0,0.05); color: black;}
+	
+	.snsButton {
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background-color:#ffffff;
+	border-radius:8px;
+	border:1px solid black;
+	display:inline-block;
+	cursor:pointer;
+	color:#1a021a;
+	font-family:Arial;
+	font-weight:bold;
+	padding:10px 20px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffffff;
+	}
+	.snsButton:hover {
+		background-color:#f6f6f6;
+	}
+	.snsButton:active {
+		position:relative;
+		top:2px;
+	}
+	#btn-login-expose-password {font-size: small !important; font-weight: bold !important;}
+	
 	
 </style>
 
@@ -78,7 +106,7 @@ pageEncoding="UTF-8"%>
       </div>
       <div class="modal-body m-2">
       	<div >
-      		<h3 class="fw-bold fs-4" >에어비앤비에 오신 것을 환영합니다.</h3>
+      		<h3 class="fw-bold fs-5" >에어비앤비에 오신 것을 환영합니다.</h3>
       	</div>
       	<div>
       		<form action="" method="post" class="needs-validation" novalidate>
@@ -90,22 +118,22 @@ pageEncoding="UTF-8"%>
 			     	</div>
 		    	</div>
 			    <div class="d-grid gap-2 my-4">
-				     <button type="button" class="btn p-3" id="btn-login-register">계속</button>
+				     <button type="button" class="btn p-2" id="btn-login-register">계속</button>
 			    </div>
       		</form>
-      		<div class="line">
+      		<div class="line mb-3">
       			<span style="color: black;">또는</span>
       		</div>
-		    <div class="d-grid gap-2">
-		    	<button type="button" class="btn btn-outline-dark py-2" id="btn-signIn-with-facebook">
+		    <div class="d-grid gap-3">
+		    	<button type="button" class="snsButton" id="btn-signIn-with-facebook">
 		    		<img src="https://t1.daumcdn.net/cfile/tistory/994EAB4F5D2565432F" width="23px;" height="23px;" style="float: left;">
 		    			<small>페이스북으로 로그인하기</small>
 		    	</button>
-				<button type="button" class="btn btn-outline-dark py-2" id="btn-signIn-with-google">
-					<img src="https://w7.pngwing.com/pngs/869/485/png-transparent-google-logo-computer-icons-google-text-logo-google-logo-thumbnail.png" width="23px;" height="23px;" style="float: left;">
+				<button type="button" class="snsButton" id="btn-signIn-with-google">
+					<img src="https://developers.google.com/static/identity/images/g-logo.png" width="23px;" height="23px;" style="float: left;">
 						<small>구글로 로그인하기</small>
 				</button>
-				<button type="button" class="btn btn-outline-dark py-2" id="btn-signIn-with-kakao">
+				<button type="button" class="snsButton" id="btn-signIn-with-kakao">
 					<img src="https://cdn.imweb.me/thumbnail/20220403/a8e484f2dfe39.png" width="24px;" height="24px;" style="float: left;">
 						<small>카카오로 로그인하기</small>
 				</button>
@@ -131,7 +159,7 @@ pageEncoding="UTF-8"%>
   <div class="modal-dialog modal-lg modal-dialog-centered" style="width: 580px;">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title fw-bold w-100 text-center">로그인</h5>
+        <h5 class="modal-title fw-bold w-100 text-center fs-6">로그인</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body m-2">
@@ -139,22 +167,23 @@ pageEncoding="UTF-8"%>
       	<div class="text-center" id="div-login-again"></div>
       	<div>
       		<form id="form-login" action="" method="post" class="needs-validation" novalidate>
-	      		<div class="form-floating  position-relative my-4 ">
+	      		<div class="form-floating  position-relative my-3 ">
 	      			<input type="hidden" name="loginEmail">
 			     	<input type="password" class="form-control outline" name="loginPassword" placeholder="비밀번호" required>
 			     	<label for="floatingInput">비밀번호</label>
 			     	<div class="invalid-feedback">
 			     		<i class="fa-solid fa-circle-exclamation"></i> <span>비밀번호를 입력해주세요.</span>
 			     	</div>
-			     	<button type="button" class="text-reset btn btn-link position-absolute top-50 end-0 translate-middle" id="btn-login-expose-password">표시</button>
+			     	<button type="button" class="text-reset btn btn-link position-absolute fw-bold top-50 end-0 translate-middle" id="btn-login-expose-password">표시</button>
 		    	</div>
-			    <div class="d-grid gap-2 my-4">
-				     <button type="button" class="btn p-3" id="btn-login">로그인</button>
+			    <div class="d-grid mb-3">
+				     <button type="button" class="btn p-2" id="btn-login">로그인</button>
 			    </div>
       		</form>
       	</div>
       	<div>
-      		<a href="" class="text-reset"><strong >비밀번호를 잊으셨나요?</strong></a>
+      		<button class="btn btn-link fw-bold text-reset p-0 mb-2" data-bs-toggle="modal" data-bs-target="#email-login-modal"><small>다른 계정으로 로그인하기</small></button><br/>
+      		<button class="btn btn-link fw-bold text-reset p-0"><small>비밀번호를 잊으셨나요?</small></button>
       	</div>
       </div>
     </div>
@@ -290,8 +319,8 @@ pageEncoding="UTF-8"%>
 	        <p class="fs-5 d-none">이 사진이 내 프로필에 추가됩니다. 호스트나 캐스트가 보게 되는 사진이므로 개인정보나 민감한 정보가 표시되지 않도록 하세요.</p>
         </div>
         <form id="form-profileImg" action="" method="post" enctype="multipart/form-data" >
-	        <div class="">"
-		        <img src="/resources/logo.png">
+	        <div class="">
+		        <img id="img-profileImg" class="rounded-circle" src="/resources/images/profile/no-image.png" width="200">
 	        </div>
 	        <div class="d-grid gap-2 my-4">
 	        	<input type="file" name="profileImg" id="profile-img" class="d-none" accept="image/gif, image/jpeg, image/png" />
@@ -402,15 +431,15 @@ $(function () {
 	
 	// normal 로그인
 	$("#btn-login").click(function() {
-		let $password = $(":input[name=loginPassword]");
-		if($password.val().trim() === "" ) {
-			$password.removeClass("is-valid").addClass("is-invalid");
+		//let $loginPassword = $(":input[name=loginPassword]");
+		if($loginPassword.val().trim() === "" ) {
+			$loginPassword.removeClass("is-valid").addClass("is-invalid");
 			return;
 		}
 		let querystring = $("#form-login").serialize();
 		$.post("/user/normal-login", querystring, function(result) {
 			if(result.pass) {
-				location.href = "/";
+				location.href = "";
 			} else {
 				$("#form-login span").text("유효하지 않은 비밀번호입니다. 다시 시도하여 주세요.");
 			}
@@ -474,6 +503,71 @@ $(function () {
 	
 	// 구글 로그인
 	$("#btn-signIn-with-google").click(function() {
+		google.accounts.id.initialize({
+		    client_id: "340808936773-p2v7dk0jtatnsjl29nnvivnol8f9rni8.apps.googleusercontent.com",
+		    callback: handleCredentialResponse
+		  });
+		  /* google.accounts.id.renderButton(
+		    document.getElementById("btn-signIn-with-google"),
+		    { theme: "outline", size: "large" }  // customization attributes
+		  );  */
+		  google.accounts.id.prompt(); // also display the One Tap dialog
+	})
+	
+	function handleCredentialResponse(response) {
+		const responsePayload = parseJwt(response.credential);
+		console.log("ID: " + responsePayload.sub);
+	    console.log('Full Name: ' + responsePayload.name);
+	   // console.log('Given Name: ' + responsePayload.given_name);
+	   // console.log('Family Name: ' + responsePayload.family_name);
+	    console.log("Image URL: " + responsePayload.picture);
+	    console.log("Email: " + responsePayload.email);
+	    
+	    $("#form-google-login input[name=nickname]").val(responsePayload.name);
+	    $("#form-google-login input[name=email]").val(responsePayload.email);
+	    $("#form-google-login input[name=profileImage]").val(responsePayload.picture);
+	    
+	    $.getJSON("/user/checkEmail", "email=" + responsePayload.email)
+	     .done(function(result) {
+			if(result.exist && !result.user.loginType) {
+				console.log(result.user.loginType);
+				// 기존 페이지 계정 이메일과 소셜 로그인 이메일이 일치하는 경우 	// loginType이 없는 유저들만?
+				loginEmailModal.hide();
+				$("#div-login-again").html("");
+				// 아래 모달창은 나중에 파일 통합하면 출력되게 한다
+				$("#login-password-modal .modal-title").text("계정이 이미 존재합니다.");
+				let content = '<p class="fs-6">회원님 소유의 계정이 존재합니다. 계정으로 로그인하시기 바랍니다.</p>';
+					content += '<div class="my-4">';
+					content += '<img class="rounded-circle" src="/resources/images/profile/' + result.user.profileImage + '" alt="profile-img" width="120">';
+					content += '</div>';
+					content += '<div>';
+					content += '<span class="fs-6">' + result.user.name + '</span>';
+					content += '</div>';
+					content += '<div>';
+					content += '<span class="fs-6">' + result.user.email + '</span>';
+					content += '</div>';
+				$("#div-login-again").append(content);		
+				$("#form-login :input[name=loginEmail]").val(result.user.email);
+				loginPasswordmodal.show();
+				return;
+			} else {
+				$("#form-google-login").submit();
+				return;
+			}
+		})
+	}
+	function parseJwt (token) {
+	    var base64Url = token.split('.')[1];
+	    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+	    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+	        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+	    }).join(''));
+
+	    return JSON.parse(jsonPayload);
+	};
+	
+	
+	/* $("#btn-signIn-with-google").click(function() {
 		alert("init");
 		google.accounts.id.initialize({
 	        client_id: "340808936773-p2v7dk0jtatnsjl29nnvivnol8f9rni8.apps.googleusercontent.com",
@@ -494,33 +588,7 @@ $(function () {
 	    $("#form-google-login input[name=email]").val(profile.email);
 	    $("#form-google-login input[name=profileImage]").val(profile.picture);
 	    
-	    $.getJSON("/user/checkEmail", "email=" + profile.email)
-	     .done(function(result) {
-			if(result.exist && !result.user.loginType) {
-				// 기존 페이지 계정 이메일과 소셜 로그인 이메일이 일치하는 경우 	// loginType이 없는 유저들만?
-				loginEmailModal.hide();
-				// 아래 모달창은 나중에 파일 통합하면 출력되게 한다
-				$("#login-password-modal .modal-title").text("계정이 이미 존재합니다.");
-				let content = '<p class="fs-5">회원님 소유의 계정이 존재합니다. 계정으로 로그인하시기 바랍니다.</p>';
-					content += '<div class="my-4">';
-					content += '<img class="rounded-circle" src="/resources/images/profile/' + result.user.profileImage + '" alt="profile-img" width="150">';
-					content += '</div>';
-					content += '<div>';
-					content += '<span>' + result.user.name + '</span>';
-					content += '</div>';
-					content += '<div>';
-					content += '<span>' + result.user.email + '</span>';
-					content += '</div>';
-				$("#div-login-again").append(content);		
-				$("#form-login :input[name=loginEmail]").val(result.user.email);
-				loginPasswordmodal.show();
-				return;
-			} else {
-				$("#form-google-login").submit();
-				return;
-			}
-		})
-	}
+	} */
 	
 	
 	$("#btn-signIn-with-kakao").click(function() {
@@ -608,7 +676,6 @@ $(function () {
 		$(".btn-close").click();
 		
 		let email = $email.val().trim();
-		console.log(email);
 		
 		$.getJSON("/user/checkEmail", "email=" + email, function(result) {
 			
@@ -666,11 +733,11 @@ $(function () {
 	// 비밀번호 숨기기&표시 
 	$("#btn-login-expose-password").click(function() {
 		if($("#btn-login-expose-password").text() == "표시") {
-			$password.attr("type", "text");
+			$loginPassword.attr("type", "text");
 			//$password.css("ime-mode", "disabled");
 			$("#btn-login-expose-password").text("숨기기");
 		} else {
-			$password.attr("type", "password");
+			$loginPassword.attr("type", "password");
 			$("#btn-login-expose-password").text("표시");
 		}
 	});
@@ -760,12 +827,15 @@ $(function () {
 		
 		$.ajax({
 			type: "POST",								
-			url: "/user/addProfileImg",			
+			url: "/user/add/profileImg",			
 			data: formData,	
 			processData: false,
 			contentType: false,			
-			success: function(data) {					// 성공적인 응답이 왔을 때 실행되는 함수, data에는 서버가 보내느 응답데이터가 있다.
-				alert("성공");
+			success: function(result) {					// 성공적인 응답이 왔을 때 실행되는 함수, data에는 서버가 보내느 응답데이터가 있다.
+				if(result.success) {
+					$("#img-profileImg").attr("src", "/resources/images/profile/" + result.filename);
+				} else {
+				}
 			} 
 			
 		});
