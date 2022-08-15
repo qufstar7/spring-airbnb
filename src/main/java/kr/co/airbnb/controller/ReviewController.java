@@ -41,5 +41,10 @@ public class ReviewController {
 	public String complete() {
 		return "review/reviewcomplete";
 	}
+	
+	@GetMapping(path = "/test/review")
+	public String testReview() {
+		return "review/reviewpage1";
+	}
 
 }

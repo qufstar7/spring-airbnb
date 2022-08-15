@@ -376,7 +376,7 @@
 						<p class="mt-3">여행에 차질이 없도록 최선을 다해 도와드리겠습니다. <br/> 모든 예약은 에어비앤비의 게스트 환불 정책에 따라 보호를 받습니다.</p>
 					</c:when>
 					<c:otherwise>
-						<div>
+						<div class="border bg-light p-3 mb-3">
 							<div class="mb-4" id="box-score">
 								<h4><i class="bi bi-star-fill"></i> <span>${acc.reviewScore }</span><span>점</span>
 								<span class="text-decoration"> · 후기 ${acc.reviewCount }</span><span>개</span></h4>
@@ -1035,7 +1035,7 @@
 													<form>
 														<div class="search-box mb-3">
 															<i class="bi bi-search"></i>
-															<input type="search" placeHolder="후기 검색" class="searchKeyword" id="search-keyword" name="keyword"/> 
+															<input type="search" placeHolder="후기 검색" class="searchKeyword" id="search-keyword" name="searchKeywordName"/> 
 														</div>
 													</form>
 												</div>
@@ -1261,69 +1261,114 @@ $(function() {
 				let reviews = data.items;
 				console.log(reviews);
 
+				let contentUnder = '<div class="row">';
 				$.each(reviews, function(index, review) {
-					let contentUnder = '';
 					
 					if (index > 5) {
 						return false;
 					}
 					
-					contentUnder += '<div class="row">';
-					contentUnder += '	<div class="col-6">';
-					contentUnder += '		<div class="row">';
+					contentUnder += '	<div class="col-6 mb-4">';
+					contentUnder += '		<div class="row mb-3">';
 					contentUnder += '			<div class="col-1">';
 					contentUnder += '				<img src="/resources/images/profile/'+ (review.user.profileImage ? review.user.profileImage : "no-image.png") +'" id="user-image">';
 					contentUnder += '			</div>';
-					contentUnder += '			<div class="col-3">';
+					contentUnder += '			<div class="col-4 ps-3">';
 					contentUnder += '				<h4 class="noMargin reviewContent"><strong>'+ review.user.name + '</strong></h4>';
 					contentUnder += '				<span class="noMargin reviewContent">'+ review.createdDate + '</span>';
-					contentUnder += '				</div>';
 					contentUnder += '			</div>';
-					contentUnder += '			<div class="">';
-					contentUnder += '				<p class="reviewContent mb-0">'+ review.content +'</p>';
-					contentUnder += '				<button type="button" class="btn btn-link text-decoration-underline text-dark openReviewModal"><strong>  </strong></button>';
-					contentUnder += '			</div>';
-					contentUnder += '		</div>';
-					contentUnder += '	</div>';
-					contentUnder += '	<div class="col-6">';
-					contentUnder += '		<div class="row">';
-					contentUnder += '			<div class="col-1">';
-					contentUnder += '				<img src="/resources/images/profile/'+ (review.user.profileImage ? review.user.profileImage : "no-image.png") +'" id="user-image">';
-					contentUnder += '			</div>';
-					contentUnder += '			<div class="col-3">';
-					contentUnder += '				<h4 class="noMargin reviewContent"><strong>' + review.user.name + '</strong></h4>';
-					contentUnder += '				<span class="noMargin reviewContent">' +review.createdDate + '</span>';
-					contentUnder += '				</div>';
-					contentUnder += '			</div>';
-					contentUnder += '			<div class="">';
-					contentUnder += '				<p class="reviewContent mb-0">'+ review.content +'</p>';
-					contentUnder += '				<button type="button" class="btn btn-link text-decoration-underline text-dark openReviewModal"><strong>  </strong></button>';
-					contentUnder += '			</div>';
-					contentUnder += '		</div>';
-					contentUnder += '	</div>';
-					contentUnder += '</div>';
 					
-
-					$reviewBoxUnder.append(contentUnder);
+					contentUnder += '		</div>';
+					contentUnder += '		<div class="row">'
+					contentUnder += '			<div class="col pe-5 underBoxReviewContent">';
+					contentUnder += '				<p class="reviewContent mb-0 underReviewContent">'+ review.content +'</p>';
+					contentUnder += '			</div>';
+					contentUnder += '		</div>';
+					contentUnder += '	</div>';
 				})		
 				
+				contentUnder += '</div>';
+				$reviewBoxUnder.append(contentUnder);
+				
+			   $(".underBoxReviewContent").each(function(){
+			        let underContent = $(this).children('.underReviewContent');
+			        let underContent_txt = underContent.text();
+			        let underContent_txt_short = underContent_txt.substring(0,30)+"...";
+			        let btn_more = $('<a href="javascript:void(0)" class="more link-dark"><strong>더보기<i class="bi bi-chevron-right"></strong></i></a>');
+
+			        $(this).append(btn_more);
+			        
+			        if(underContent_txt.length >= 30){
+			        	underContent.html(underContent_txt_short)
+			            
+			        }else{
+			            btn_more.hide()
+			        }
+			        
+			        btn_more.click(toggle_content2);
+
+			        function toggle_content2(){
+			    		currentPage = 1;
+			    		let canRequest = true;
+			    		$reviewBox.empty();
+			    		
+			    		getReviews();
+			    		accReviewModal.show();
+			        }
+			    });
 			}
 		})
 		
 	});
+	/* 리뷰 검색 (구현 중)
+	$("input[name='searchKeywordName']").keydown(function(e){
+		if (e.keyCode == 13) {
+			currentPage = 1;
+			let canRequest = true;
+			$reviewBox.empty();
+			
+			getReviewsBySearch();
+		}
+	}) 
+	
+	function getReviewsBySearch() {
+		let params = new URLSearchParams(document.location.search);
+		let no = params.get("no");
+		let keyword = params.get("keyword");
+		
+		$.ajax({
+			type: 'GET',
+			url: "review/search",				
+			data: {no:no, keyword:keyword},
+			dataType: 'json',
+			success: function(data) {
+				let results = data.items;
+				console.log(encodeURIComponent('results'));
+					if (results.length == 0) {
+						let content2 = '';
+						content2 += '<p class="text-center"><strong>'+ keyword +'에 대한 검색결과가 없습니다.</strong></p>';
+						content2 += '<p class="text-center">다른 언어에서 번역된 후기는 나타나지 않습니다. 원문으로 검색하시면 됩니다.</p>';
 
-	/*  리뷰 검색 기능
-	
-	$("input[name='searchKeyword']").keydown(function(e) {
-			if (e.keyCode == 13) {
-				// Do Something
-				// 검색 버튼 클릭 효과라던지..
-            //$("#btnSearch").trigger('click');
+						$reviewBox.html(content2);
+					} else {
+						$.each(results, function(index, result) {
+							let rcontent3 = '';
+							content3 += '<div class="row-4 mb-3">';
+							content3 += '	<img src="/resources/images/profile/'+ (review.user.profileImage ? review.user.profileImage : "no-image.png") +'" id="user-image">';
+							content3 += '	<span class="noMargin reviewContent"><strong>' + review.user.name + '</strong></span>';
+							content3 += '	<span class="noMargin reviewContent">' + review.createdDate + '</span>';
+							content3 += '</div>';
+							content3 += '<div class="row-8 mb-5 boxReviewContent">';
+							content3 += '	<p class="reviewContent">'+ review.content +' </p>';
+							content3 += '</div>';
+							
+							$reviewBox.append(content3);
+					})	
+				}
 			}
-	});
+		})
+	}
 	*/
-	
-	
 	
 	/* console.log(latitude);
 	console.log(longitude); */

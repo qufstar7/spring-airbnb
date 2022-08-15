@@ -100,7 +100,7 @@
 	<update id="updateAvgScore" parameterType="kr.co.airbnb.vo.User">
 		update airbnb_users
 		 set
-	 		USER_REVIEW_COUNT = ACC_REVIEW_COUNT + 1,
+	 		USER_REVIEW_COUNT = USER_REVIEW_COUNT + 1,
 	 		USER_REVIEW_SCORE = #{reviewScore},
 		 	AVG_TOTAL = #{totalScore},
 		 	AVG_CLEANLINESS = #{cleanScore},

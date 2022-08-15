@@ -97,12 +97,12 @@ public class ReviewRestController {
 		
 		return ListResponseData.create(reviews);
 	}
-	
+	/*
 	@GetMapping(path = "/search")
-	public ListResponseData<Review> searchReview(@RequestParam("keyword") String keyword) {
-		List<Review> reviews = reviewService.getSearchReview(keyword);
+	public ListResponseData<Review> searchReview(@RequestParam("no") int accNo, @RequestParam("keyword") String keyword) {
+		List<Review> reviews = reviewService.getSearchReview(accNo, keyword);
 		
 		return ListResponseData.create(reviews);
 	}
-	
+	*/
 }
