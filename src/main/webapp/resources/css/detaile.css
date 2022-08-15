@@ -52,9 +52,9 @@
 		padding-left: 100px;
 	}
 	
-	.sticky {
+	#sticky {
 	   position: sticky;
-	   top: 80px;
+	   top: 85px;
 	   padding: 0;
 	   width: 372px;
 	}
@@ -72,6 +72,7 @@
 	hr {
 		z-index: 100;
 	}
+	
 	
 	.place-box{
 		width: 207px;
@@ -92,6 +93,11 @@
 	.start {
 		padding: 0;
 	}
+	
+	.r-btn{
+		background-color: #ff385c;
+	}
+	
 	
 	#guest-btn {
 		height: 56px;
@@ -173,6 +179,8 @@
     	tob: 0; 
     	z-index: 1000; /*페이지의 다른 요소보다 가장 위에 나타나도록 설정*/
     	width: 100%;
+    	padding-left: 400px;
+    	padding-right: 400px;
     }
 	 
 	#box {
