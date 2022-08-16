@@ -51,6 +51,7 @@
 		and A.CONVENIENCE_NO = B.CONVENIENCE_NO
 	</select>
 	
+	<!-- List<AccPhoto> getAccPhotosByAccNo(int accNo); -->
 	<select id="getAccPhotosByAccNo" parameterType="int" resultType="AccPhoto">
 		select 	ROWNUM as num, 
 				A.IMAGE_NO as imageNo,
@@ -198,6 +199,35 @@
 		</where>
 	</select>
 	
+
+	<!-- List<Accommodation> searchAccByKeyword(SearchCriteria searchCriteria); -->
+	<select id="searchAccByKeyword" parameterType="kr.co.airbnb.criteria.SearchCriteria" resultMap="AccResultMap">
+		select *
+		from airbnb_accommodations
+		<where>
+			<if test="keyword != ''">
+				acc_address like '%'||#{keyword}||'%'
+			</if>
+			<!-- <if test="startDate != '' ">
+				endDate를 지정하지 않는 경우 1박 2일으로 자동 설정
+				<if test="endDate == ''">	
+					and acc_check_in = #{startDate}
+					and acc_check_out = to_date('#{startDate}', 'YYYY-MM-DD') + 1
+				</if>
+				<if test="endDate != ''">
+					and acc_check_in = #{startDate}
+					and acc_check_out = #{endDate}
+				</if>
+			</if> -->
+			<if test="adult != '' || child != '' || infant != ''">
+				and acc_guest >= #{adult} + #{child} + #{infant}
+			</if>
+			<if test="pet != ''">
+				and acc_pet = #{pet}
+			</if>
+		</where> 
+	</select> 
+	
 	<!-- List<Accommodation> getAllAccsByUser(User loginUser); -->
 	<select id="getAllAccsByUser" parameterType="User" resultMap="AccResultMap">
 		select *
@@ -206,36 +236,6 @@
 		and A.user_no = #{no}
 		order by A.acc_no
 	</select>
-
-	<!-- List<Accommodation> getAllAcc(); -->
-	<select id="getAllAcc" resultMap="AccDetailResultMap">
-		select acc.acc_no, acc.acc_name, acc.acc_price, acc.image_cover,
-			   accUser.user_name as "user.name",
-			   types.type_name as "type.name"
-			   <!-- , room.room_bed as "room.bed" -->
-		from airbnb_accommodations acc,
-		     airbnb_users accUser,
-		     airbnb_acc_types accTypes,
-             airbnb_types types
-		     <!-- airbnb_acc_photos photo,
-		     airbnb_acc_rooms room,
-		     airbnb_reviews review,
-		     airbnb_acc_discounts discount -->
-		where acc.acc_status = '운영중' 
-		  and acc.user_no = accUser.user_no
-		  and acc.acc_no = accTypes.acc_no
-          and accTypes.type_no = types.type_no
-		  <!-- and acc.acc_no = convenience.acc_no
-		  and acc.acc_no = room.acc_no
-		  and acc.acc_no = photo.acc_no
-		  and acc.acc_no = accView.acc_no
-		  and acc.acc_no = reservation.acc_no
-		  and acc.acc_no = review.acc_no
-		  and acc.acc_no = wishlist.acc_no
-		  and acc.acc_no = discount.acc_no
-		  and acc.acc_no = accTag.acc_no -->
-	</select>
-
 
 	<!-- List<AccConvenience2> getCon(int accNo); -->
 	<select id="getBoast" parameterType="int" resultType="Boast">
@@ -276,5 +276,7 @@
 		values
 		(#{accNo}, #{user.no})
 	</insert>
+	
+
 	
 </mapper>

@@ -598,7 +598,7 @@ input[type="range"]::-moz-range-thumb{
 								</button>
 								<button type="button" class="bedrooms" value="8+">
 									<label class="px-2">8+</label>
-									<input type="hidden" name="bedrooms" value="8+" disabled="disabled"/>
+									<input type="hidden" name="bedrooms" value="min_bedrooms" disabled="disabled"/>
 								</button>
 							</p>
 							<p><strong>침대</strong></p>
@@ -637,7 +637,7 @@ input[type="range"]::-moz-range-thumb{
 								</button>
 								<button type="button" class="beds" value="8+">
 									<label class="px-2">8+</label>
-									<input type="hidden" name="beds" value="8+" disabled="disabled"/>
+									<input type="hidden" name="beds" value="min_beds" disabled="disabled"/>
 								</button>
 							</p>
 
@@ -678,7 +678,7 @@ input[type="range"]::-moz-range-thumb{
 								</button>
 								<button type="button" class="bathrooms" value="8+">
 									<label class="px-2">8+</label>
-									<input type="hidden" name="bathrooms" value="8+" disabled="disabled"/>
+									<input type="hidden" name="bathrooms" value="min_bathrooms" disabled="disabled"/>
 								</button>
 								</p>
 							</div>
@@ -1362,8 +1362,8 @@ $(function() {
 	$(":checkbox[name=convenience]").change(function() {
 		searchForm();
 	});
-	
-	
+
+	// 필터 검색
 	function searchForm() {
 		let queryString = $("#filter-search").serialize();
 		

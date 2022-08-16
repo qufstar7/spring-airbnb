@@ -16,6 +16,19 @@
 	align-items: center;
 }
 
+#where-field:focus, #startDate:focus, #endDate:focus {
+	outline: none;
+}
+.area-btn {
+	border: none;
+	background-color:transparent;
+}
+#startDate, #endDate {
+	border: none;
+	height: 35px;
+	text-align: center;
+}
+
 #userbtn{
 	display: flex;
 	justify-content: space-between;
