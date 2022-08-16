@@ -73,6 +73,25 @@
  		                 where wishlist_no = #{value})
  	</select>
  	
+ 	<!-- List<Accommodation> getWishlistAccsWithConditions(@Param("wishlistNo")int wishlistNo, @Param("checkInDate") Date checkIndate, @Param("checkOutDate") Date checkOutDate, @Param("guestCount") int guestCount); -->
+ 	<!-- 확인질문!!!!!!!!!!!!!!! -->
+ 	<select id="getWishlistAccsWithConditions" resultMap="AccResultMap">
+ 		select *
+ 		from airbnb_accommodations
+ 		where acc_no in (select acc_no
+ 		                 from airbnb_wishlist_accommodations
+ 		                 where wishlist_no = #{wishlistNo})
+    	<if test="checkInDate != null">         
+    		and acc_check_in &lt;= #{checkInDate}
+    	</if>
+    	<if test="checkOutDate != null">
+    		and acc_check_out &gt;= #{checkOutDate}
+    	</if>
+    	<if test="guestCount != null">
+    		and acc_guest &lt;= #{guestCount}
+    	</if>
+ 	</select>
+ 	
  	<!-- void createWishlist(Wishlist wishlist); -->
  	<insert id="createWishlist" parameterType="Wishlist">
  		<selectKey keyProperty="no" resultType="int" order="BEFORE">

@@ -2,6 +2,7 @@ package kr.co.airbnb.service;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,13 @@ public class WishlistService {
 	public Wishlist getWishlistByNo(int wishlistNo) {
 		Wishlist wishlist = wishlistMapper.getWishlistByNo(wishlistNo);
 		wishlist.setAccs(wishlistMapper.getWishlistAccsByNo(wishlistNo));
+		
+		return wishlist;
+	}
+	
+	public Wishlist getWishlistWithCondition(int wishlistNo, Date checkInDate, Date checkOutDate, int guestCount) {
+		Wishlist wishlist = wishlistMapper.getWishlistByNo(wishlistNo);
+		wishlist.setAccs(wishlistMapper.getWishlistAccsWithConditions(wishlistNo, checkInDate, checkOutDate, guestCount));
 		
 		return wishlist;
 	}
@@ -64,4 +72,7 @@ public class WishlistService {
 	public void deleteWishlistAcc(int wishlistNo, int accNo) {
 		wishlistMapper.deleteWishlistAcc(wishlistNo, accNo);
 	}
+	
 }
+	
+
