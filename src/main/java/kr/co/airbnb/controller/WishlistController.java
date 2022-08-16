@@ -1,5 +1,8 @@
 package kr.co.airbnb.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,6 +102,28 @@ public class WishlistController {
 		return "redirect:/wishlists/detail?no=" + wishlistNo;
 	}
 	
+	@PostMapping(path="/detail/refresh")
+	//@ResponseBody
+	public String refreshWithConditions(@RequestParam("wishlistNo") int wishlistNo, @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, 
+	@RequestParam("guestCount") int guestCount, Model model) throws ParseException {
+		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date checkInDate = format.parse(startDate);
+		Date checkOutDate = format.parse(endDate);
+		
+		System.out.println("wishlistNo: " + wishlistNo);
+		System.out.println("checkInDate: " + checkInDate);
+		System.out.println("endDate: " + checkOutDate);
+		System.out.println("totalGuestCount: " + guestCount);
+		
+		
+		Wishlist wishlist = wishlistService.getWishlistWithCondition(wishlistNo, checkInDate, checkOutDate, guestCount);
+		model.addAttribute("wishlist", wishlist);
+		//Map<String, Object> result = new HashMap<>();
+		//result.put("wishlist", wishlist);
+		
+		return "wishlist/wishlistHelper";
+	}
 	
 	
 	
