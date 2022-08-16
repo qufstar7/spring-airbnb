@@ -11,11 +11,11 @@
 <!-- 달력2 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-	<!-- html 하단에 순서로 로드 -->
-<script src="js/flatpickr.js"></script>
-	<!-- 언어설정을 위한 로드 -->
+<!-- 	html 하단에 순서로 로드 -->
+<!-- <script src="js/flatpickr.js"></script> -->
+<!-- 	언어설정을 위한 로드 -->
 <script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
-<script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script> 
 
 
 <nav class="navbar py-0" id="nav">

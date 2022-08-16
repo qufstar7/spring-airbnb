@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
 <!-- google gsi -->
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://apis.google.com/js/platform.js" async defer></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 <!-- 카카오 로그인지원 자바스크립트 라이브러리 -->
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <!-- 페이스북 -->
@@ -41,11 +41,11 @@ pageEncoding="UTF-8"%>
 		opacity: 0.5;
 	}
 	
-	.modal-dialog {
+	/* .modal-dialog {
 		
 
-		width: 550px !important;
-	}
+		width: 550px;
+	} */
 
 	
 	#agree1, #agree2 {zoom:3.0;}
