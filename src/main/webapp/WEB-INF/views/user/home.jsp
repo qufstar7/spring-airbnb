@@ -41,9 +41,11 @@ pageEncoding="UTF-8"%>
 		opacity: 0.5;
 	}
 	
+
 	.myModal-dialog {
 		width: 600px;
 	}
+
 
 	
 	#agree1, #agree2 {zoom:3.0;}

@@ -59,7 +59,7 @@
 					<button type="button" style="font-size: 12px;" class="btn btn-link text-decoration-underline text-dark openReviewModal" id="btn-open-review-modal"><i class="bi bi-star-fill"></i> ${acc.reviewScore }<span class="text-decoration-underline"> · 후기 ${acc.reviewCount }개</span></button>
 				</div>
 				<div class="col-2 p-3 text-end ndate" style="width: 200px;" >
-					<button type="button" class="btn btn-danger r-btn text-white text-center " style="width: 100%">예약가능 여부 보기</button>
+					<button type="button" class="btn btn-danger r-btn text-white text-center" id="days-focus" style="width: 100%">예약가능 여부 보기</button>
 				</div>
 		</div>
 		<div class="row align-items-center" id="navR2">
@@ -69,11 +69,11 @@
 				<button type="button" style="font-size: 12px;" class="btn btn-link text-decoration-underline text-dark openReviewModal" id="btn-open-review-modal"><i class="bi bi-star-fill"></i> ${acc.reviewScore }<span class="text-decoration-underline"> · 후기 ${acc.reviewCount }개</span></button>
 			</div>
 			<div class="col-2 p-3 text-end" style="width: 200px;" >
-				<button class="btn btn-danger r-btn text-white text-center " style="width: 100%">예약하기</button>
+				<button class="btn btn-danger r-btn text-white text-center" form="form-reservation" style="width: 100%">예약하기</button>
 			</div>
 		</div> 
 	</nav>
-	<%@ include file="../common/nav2.jsp" %>
+ 	<%@ include file="../common/nav2.jsp" %> 
 	<%@ include file="../user/home.jsp" %>
 	<div class="container"> 
 		<!-- 타이틀 -->
@@ -199,6 +199,9 @@
 							<span>최근 숙박한 게스트 중 90%가 위치에 별점 5점을 준 숙소입니다.</span>
 						</div>
 					</c:if>
+					<div class="mb-3">
+						<h6><i class="bi bi-bookmark-check"></i> 체크인 일주일전까진 무료로 취소가 가능합니다.</h6>
+					</div>
 				</div>
 				<hr>
 				<div>
@@ -228,10 +231,14 @@
 						</span>
 						<div>
 							<c:if test="${acc.rooms.bedroom gt 0 }">
+							<div>
 								<span>침실 ${acc.rooms.bedroom }개</span>
+							</div>
 							</c:if>
 							<c:if test="${acc.rooms.bed gt 0 }">
+							<div>
 								<span>침대 ${acc.rooms.bed }개</span>
+							</div>
 							</c:if>
 						</div>
 					</div>
@@ -309,6 +316,7 @@
 								<input type="hidden" name="infantNum" id="infantNum" value="0">
 								<input type="hidden" name="petNum" id="petNum" value="0">
 								<input type="hidden" name="totalGuest" id="totalGuest" value="0">
+								<input type="hidden" name="day" id="input-day" value="">
 							</div>
 						</div>
 						<div class="m-0 p-0 text-center">
@@ -360,7 +368,16 @@
 								</div>
 								<div class="mb-4 row justify-content-between align-middle guest-box" >
 									<div class="col">
-										<span>이 숙소의 최대 숙박 인원은 ${acc.guest }명(유아 포함)입니다. 반려동물을 3마리 이상 동반하는 경우, 호스트에게 알려주세요.</span>
+										<span>이 숙소의 최대 숙박 인원은 ${acc.guest }명(유아 포함)입니다. 
+										<c:choose>
+											<c:when test="${acc.pet eq 0 }">
+												반려동물 동반을 허용하지 않습니다.
+											</c:when>
+											<c:otherwise>
+												반려동물을 3마리 이상 동반하는 경우, 호스트에게 알려주세요.
+											</c:otherwise>
+										</c:choose>
+										</span>
 									</div>
 									
 								</div>
@@ -772,15 +789,51 @@
 			</div>
 			<div class="modal-body">
 				<div class="row">
-					<h6>욕실</h6>
-					<p>
-						<i class="bi bi-wifi"></i> 헤어드라이기
-					</p>
-					<hr>
-					<p>
-						<i class="bi bi-wifi"></i> 헤어드라이기
-					</p>
-					<hr>
+					<div class="row mb-3 align-items-center">
+						<div class="col-2 rounded">
+							<button type="button" class="btn" id="btn-open-save2-modal"><i class="bi bi-plus h3 text-black-50"></i></button>
+						</div>
+						<div class="col-10">
+							<span>
+								<p>새로운 위시리스트 만들기</p>
+							</span>
+						</div>
+					</div>
+					<div class="row mb-3 align-items-center">
+						<div class="col-2 rounded">
+							<button type="button" class="btn" id="" ><i class="bi bi-plus h3 text-black-50"></i></button>
+						</div>
+						<div class="col-10">
+							<span>
+								<p>새로운 위시리스트 만들기</p>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 위시리스트2 -->
+<div class="modal" id="modal-save2-acc">
+	<div class="modal-dialog modal-Default">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">위시 리스트</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body">
+				<div class="row  p-3">
+					<form action="/insert" method="post" >
+					<div class="row mb-3 align-items-center">
+						<label>이름</label>
+						<input class="form-control rounded" type="text" placeholder="이름을 입력하시오" aria-label="default input example" name="wishlistName">
+						<input type="hidden" name="accNo" value="${acc.accNo }">
+					</div>
+					<div class="row mb-3 align-items-center">
+						<button type="submit" class="btn btn-dark">새로 만들기</button>
+					</div>
+					</form>					
 				</div>
 			</div>
 		</div>
@@ -830,7 +883,7 @@
 
 <!-- 이미지 모달 -->
 <div class="modal" id="modal-image-acc">
-	<div class="modal-dialog modal-fullscreen">
+	<div class="modal-dialog modal-fullscreen" style="width: 100%">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -1145,6 +1198,7 @@ $(function() {
 	let accConvenienceModal = new bootstrap.Modal(document.getElementById("modal-con-acc"));
 	let accShareModal = new bootstrap.Modal(document.getElementById("modal-share-acc"));
 	let accSaveModal = new bootstrap.Modal(document.getElementById("modal-save-acc"));
+	let accSave2Modal = new bootstrap.Modal(document.getElementById("modal-save2-acc"));
 	let accImageModal = new bootstrap.Modal(document.getElementById("modal-image-acc"));
 	let accCoverModal = new bootstrap.Modal(document.getElementById("modal-cover-acc"));
 	let accReportModal = new bootstrap.Modal(document.getElementById("modal-report-acc"));
@@ -1155,6 +1209,10 @@ $(function() {
 	// 위시리스트 저장 모달
 	$("#btn-open-save-modal").click(function() {
 		accSaveModal.show();
+	});
+	// 위시리스트2 저장 모달
+	$("#btn-open-save2-modal").click(function() {
+		accSave2Modal.show();
 	});
 	
 	// 숙소 설명 모달
@@ -1547,16 +1605,16 @@ $(function() {
  			return;
  		}
  		
- 		$("#checkInDate").val((selectedDates[0]))
-		$("#checkOutDate").val((selectedDates[1]))
-		let diffDate = Date.parse(selectedDates[1])-Date.parse(selectedDates[0])
+ 		$("#checkInDate").val((selectedDates[0]));
+		$("#checkOutDate").val((selectedDates[1]));
+		let diffDate = Date.parse(selectedDates[1])-Date.parse(selectedDates[0]);
 
- 		let day = Math.floor(diffDate / (1000 * 60 * 60 * 24))
- 		$(".day").text(day)
- 		
- 		let sum = ${acc.price } * day
- 		$("#day-price").text(sum.toLocaleString())
- 		$("#price").val(sum)
+ 		let day = Math.floor(diffDate / (1000 * 60 * 60 * 24));
+ 		$(".day").text(day);
+ 		$("#input-day").val(day);
+ 		let sum = ${acc.price } * day;
+ 		$("#day-price").text(sum.toLocaleString());
+ 		$("#price").val(sum);
  		
  		
  		let totalPrice = ${acc.cleaningPrice} + sum
@@ -1750,6 +1808,10 @@ $(function() {
 							+ sendUrl);
 				})
 
+	$("#days-focus").click(function() {
+		$("#days").focus();
+	})
+				
 	// 인원 버튼
 	$("#guest").hide();
 	$("#up").hide();
@@ -1771,6 +1833,10 @@ $(function() {
 	if (petLimit === 0) {
 		$(".pet_p_btn").addClass("disabled")
 	}
+	
+	/* $("#adultCount").hide();
+	$("#infantCount").hide();
+	$("#petCount").hide(); */
 	
 	$(".guestbtn").click(function() {
 		
@@ -1804,6 +1870,12 @@ $(function() {
 			$("#totalGuest").val(total)
 			
 			
+			/* if ($("#adultNum").val === 0) {
+				$("#adultCount").hide
+			} else {
+				$("#adultCount").show();
+				
+			} */
 		})
 		
 	})
@@ -1844,6 +1916,23 @@ $(function() {
                target.text(num);
            });
 	});
+	
+	$("#form-reservation").submit(function() {
+		
+		// 인원수
+		let totalValue = $.trim($("#totalGuest").val());
+		if (totalValue < 1) {
+			alert("인원은 필수 입력값입니다.");
+			return false;
+		}
+		/* let totalValue = $.trim($("#totalGuest").val());
+		if (totalValue < 1) {
+			alert("인원은 필수 입력값입니다.");
+			return false;
+		} */
+			
+		return true;
+	})
 	
 	// 글 긴거 더보기
 	$('.contentbox3').each(function(){
@@ -1925,6 +2014,28 @@ $(function() {
 	      },
 	    ],
 	  }) 
+	  
+	  $("#btn-create-wishlist").click(function() {
+		 let accNo = ${acc.accNo }
+		 $("#icon-heart-" + accNo ).removeClass("fa-regular").addClass("fa-solid").css("color", "#FF385C");
+		 let querystring = $("#form-create-wishlist").serialize();
+		 
+			$.post("/wishlists/insert", querystring, function(result) {
+				wishlists = result.wishlists;
+				let content = '';
+				$.each(wishlists, function() {
+					content += '<div class="mt-3" style="display: flex; height: 64px;">';
+					content += '  <input type="hidden" name="wishlistNo" value="' + this.no + '">';
+					content += '  <img src="https://a0.muscache.com/im/pictures/da1a2f06-efb0-4079-abce-0f6fc82089e0.jpg" alt="" style="vertical-align:middle;">';
+					content += '  <span class="ms-3 fw-bold" style="margin-top:20px;">' + this.name + '</span>';
+					content += '</div>';
+				});
+				
+				$("#div-wishlists").html(content);
+			})
+			createListModal.hide();	
+			//saveToListModal.show();
+	 });
 })
 
 // 링크복사
