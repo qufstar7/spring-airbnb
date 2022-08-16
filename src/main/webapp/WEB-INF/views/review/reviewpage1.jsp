@@ -149,7 +149,7 @@
 						</a>
 					</div>
 					<div class="col-2">
-						<h4>Review for 민수</h4>
+						<h5>Review for 민수</h5>
 						<p>2022년 8월 (리뷰 적은 달)</p>
 					</div>
 				</div>
@@ -173,33 +173,21 @@
 			<div class="contentbox">
 			<p>후기는 에어비앤비 숙박이 완료된 후 작성됩니다. 나에 대한 후기는 이곳과 공개 프로필에서 볼 수 있습니다.</p>
 				<div class="row">
-					<div class="col-10">
-						<h4>숙소 이름</h4>
-						<p>2022년 8월 (리뷰 적은 달)</p>
-					</div>
-					<div class="col-2">
-						<a href="../detail?no=102">
-							<img src="/resources/images/acc/no-image.jpg" class="rectangleImg mb-3">
-						</a>
-					</div>					
-				</div>
-				<div class="row">
-					<div class="col mb-3">
-						리뷰 내용을 적습니다. 정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 . 정말 좋았고 어쩌고 저쩌고 았고 어쩌고 저쩌고 
-						정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 . 
-						정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 좋았고 … 더보기
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-1 mb-3">
+					<div class="col-2" align="center">
 						<a href="../profile?no=1">
 							<img src="/resources/images/profile/no-image.png" class="userImg mb-3">
 						</a>
-					</div>
+						<p class="mb-0">게스트 이름</p>				
+						<p class="mb-0">2022년 12월</p>
+						<p>by guest</p>
+					</div>					
 					<div class="col mb-3">
-						<p class="mb-0">게스트 이름, (사는 곳)</p>				
-						<p>회원가입 : 2011</p>	
-					</div>			
+						<p>리뷰 내용을 적습니다. 정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 . 정말 좋았고 어쩌고 저쩌고 았고 어쩌고 저쩌고 
+							정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 . 
+							정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 좋았고 … 더보기
+						</p>
+						<button >공개 답변 남기기</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -212,33 +200,24 @@
 			<div class="contentbox">
 			<p>후기는 에어비앤비 숙박이 완료된 후 작성됩니다. 나에 대한 후기는 이곳과 공개 프로필에서 볼 수 있습니다.</p>
 				<div class="row">
-					<div class="col-10">
-						<h4>숙소 이름</h4>
-						<p>2022년 8월 (리뷰 적은 달) by guest(혹은 host. 값 불러오기)</p>
-					</div>
-					<div class="col-2">
-						<a href="../detail?no=102">
-							<img src="/resources/images/acc/no-image.jpg" class="rectangleImg mb-3">
-						</a>
-					</div>					
-				</div>
-				<div class="row">
-					<div class="col mb-3">
-						리뷰 내용을 적습니다. 정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 . 정말 좋았고 어쩌고 저쩌고 았고 어쩌고 저쩌고 
-						정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 . 
-						정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 좋았고 … 더보기
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-1 mb-3">
+					<div class="col-2" align="center">
 						<a href="../profile?no=1">
 							<img src="/resources/images/profile/no-image.png" class="userImg mb-3">
 						</a>
+						<p class="mb-0">게스트 이름</p>				
+						<p class="mb-0">2022년 12월</p>
+						<p>by guest</p>
+					</div>		
+					<div class="col-10">
+						<p>리뷰 내용을 적습니다. 정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 . 정말 좋았고 어쩌고 저쩌고 았고 어쩌고 저쩌고 
+							정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 . 
+							정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 좋았고 … 더보기
+						</p>
+						<button >공개 답변 남기기</button>							
+					<hr />			
+						<h6><strong>비공개 후기</strong></h6>
+						<p> 재밌었어요 다음에 또 올게요</p>							
 					</div>
-					<div class="col mb-3">
-						<p class="mb-0">게스트 이름, (사는 곳)</p>				
-						<p>회원가입 : 2011</p>	
-					</div>			
 				</div>
 			</div>
 		</div>

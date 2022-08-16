@@ -56,7 +56,7 @@
 				<!-- 날짜 입력 안했을때 -->
 				<div class="col-10 p-2 text-end ndate" style="width: 320px;">
 					<h6>요금을 확인하려면 날짜를 입력하세요.</h6>
-					<button type="button" style="font-size: 12px;" class="btn btn-link text-decoration-underline text-dark openReviewModal" id="btn-open-review-modal"><i class="bi bi-star-fill"></i> ${acc.reviewScore }<span class="text-decoration-underline"> · 후기 ${acc.reviewCount }개</span></button>
+					<button type="button" style="font-size: 12px;" class="btn btn-link text-decoration-underline text-dark openReviewModal"><i class="bi bi-star-fill"></i> ${acc.reviewScore }<span class="text-decoration-underline"> · 후기 ${acc.reviewCount }개</span></button>
 				</div>
 				<div class="col-2 p-3 text-end ndate" style="width: 200px;" >
 					<button type="button" class="btn btn-danger r-btn text-white text-center" id="days-focus" style="width: 100%">예약가능 여부 보기</button>
@@ -66,7 +66,7 @@
 			<!-- 날짜 입력 했을때 -->
 			<div class="col-10 p-2 text-end" style="width: 320px;">
 				<h4><strong><fmt:formatNumber value="${acc.price }"/></strong>/박</h4>
-				<button type="button" style="font-size: 12px;" class="btn btn-link text-decoration-underline text-dark openReviewModal" id="btn-open-review-modal"><i class="bi bi-star-fill"></i> ${acc.reviewScore }<span class="text-decoration-underline"> · 후기 ${acc.reviewCount }개</span></button>
+				<button type="button" style="font-size: 12px;" class="btn btn-link text-decoration-underline text-dark openReviewModal"><i class="bi bi-star-fill"></i> ${acc.reviewScore }<span class="text-decoration-underline"> · 후기 ${acc.reviewCount }개</span></button>
 			</div>
 			<div class="col-2 p-3 text-end" style="width: 200px;" >
 				<button class="btn btn-danger r-btn text-white text-center" form="form-reservation" style="width: 100%">예약하기</button>
@@ -1140,12 +1140,10 @@
 										<div class="col-12">
 											<div id="box-review">
 												<div>
-													<form>
-														<div class="search-box mb-3">
-															<i class="bi bi-search"></i>
-															<input type="search" placeHolder="후기 검색" class="searchKeyword" id="search-keyword" name="searchKeywordName"/> 
-														</div>
-													</form>
+													<div class="search-box mb-3">
+														<i class="bi bi-search"></i>
+														<input type="search" placeHolder="후기 검색" class="searchKeyword" id="search-keyword" name="keyword"/> 
+													</div>
 												</div>
 												<div id="box-show-reviews">
 													<!-- 리뷰 리스트 -->
@@ -1284,7 +1282,7 @@ $(function() {
 	
 	$(".openReviewModal").click(function() {
 		currentPage = 1;
-		let canRequest = true;
+		canRequest = true;
 		$reviewBox.empty();
 		
 		getReviews();
@@ -1303,14 +1301,21 @@ $(function() {
 		}
 	})
 
+	// 숙소 번호에 해당하는 리뷰를 가져온다.
 	function getReviews() {
 		let params = new URLSearchParams(document.location.search);
 		let no = params.get("no");
 		
+		let data = {no:no, page: currentPage};
+		let text = $("#search-keyword").val()
+		if (text != '') {
+			data['keyword'] = text;
+		}
+		
 		$.ajax({
 			type: 'GET',
 			url: "review/reviews",				// no / accNo 같음
-			data: {no:no, page: currentPage},
+			data: data,
 			dataType: 'json',
 			success: function(data) {
 				let reviews = data.items;
@@ -1318,21 +1323,30 @@ $(function() {
 				if (reviews.length <  10) {
 					canRequest = false;
 				}
+				
+				if (currentPage == 1 && reviews.length == 0) {
+					let rcontent2 = '';
+					rcontent2 += '<p class="text-center"><strong>'+  $("#search-keyword").val() +'에 대한 검색결과가 없습니다.</strong></p>';
+					rcontent2 += '<p class="text-center">다른 언어에서 번역된 후기는 나타나지 않습니다. 원문으로 검색해 주세요.</p>';
 
-				$.each(reviews, function(index, review) {
-					let content = '';
-					content += '<div class="row-4 mb-3">';
-					content += '	<img src="/resources/images/profile/'+ (review.user.profileImage ? review.user.profileImage : "no-image.png") +'" id="user-image">';
-					content += '	<span class="noMargin reviewContent"><strong>' + review.user.name + '</strong></span>';
-					content += '	<span class="noMargin reviewContent">' + review.createdDate + '</span>';
-					content += '</div>';
-					content += '<div class="row-8 mb-5 boxReviewContent">';
-					content += '	<p class="reviewContent">'+ review.content +' </p>';
-					content += '</div>';
-					
-					
-					$reviewBox.append(content);
-				})		
+					$reviewBox.html(rcontent2);
+				} else {
+
+					$.each(reviews, function(index, review) {
+						let content = '';
+						content += '<div class="row-4 mb-3">';
+						content += '	<img src="/resources/images/profile/'+ (review.user.profileImage ? review.user.profileImage : "no-image.png") +'" id="user-image">';
+						content += '	<span class="noMargin reviewContent"><strong>' + review.user.name + '</strong></span>';
+						content += '	<span class="noMargin reviewContent">' + review.createdDate + '</span>';
+						content += '</div>';
+						content += '<div class="row-8 mb-5 boxReviewContent">';
+						content += '	<p class="reviewContent">'+ review.content +' </p>';
+						content += '</div>';
+						
+						
+						$reviewBox.append(content);
+					})		
+				}
 				
 				// 글 긴거 더보기
 			   $(".boxReviewContent").each(function(){
@@ -1372,15 +1386,15 @@ $(function() {
 
 	}
 	
-	// 하단 리뷰 조회
+	// 숙소 상세 하단 리뷰(6개) 조회 용도입니다.
 	let $reviewBoxUnder = $("#box-under-review");
 	$(document).ready(function(){
 		let params = new URLSearchParams(document.location.search);
 		let no = params.get("no");
 		
 		$.ajax({
-			type: 'GET',
-			url: "review/reviewsUnder",				
+			type: 'GET',		
+			url: "review/reviews",				
 			data: {no:no},
 			dataType: 'json',
 			success: function(data) {
@@ -1431,71 +1445,36 @@ $(function() {
 			            btn_more.hide()
 			        }
 			        
-			        btn_more.click(toggle_content2);
-
-			        function toggle_content2(){
-			    		currentPage = 1;
-			    		let canRequest = true;
+			        btn_more.click(function() {
+			        	currentPage = 1;
+			    		canRequest = true;
 			    		$reviewBox.empty();
 			    		
 			    		getReviews();
 			    		accReviewModal.show();
-			        }
+			        });
+
+			        
 			    });
 			}
 		})
 		
 	});
-	/* 리뷰 검색 (구현 중)
-	$("input[name='searchKeywordName']").keydown(function(e){
+	
+	
+	// 리뷰 모달창의 검색 기능입니다.
+	$("#search-keyword").keydown(function(e){
 		if (e.keyCode == 13) {
 			currentPage = 1;
-			let canRequest = true;
+			canRequest = true;
 			$reviewBox.empty();
 			
-			getReviewsBySearch();
+			getReviews();
 		}
 	}) 
 	
-	function getReviewsBySearch() {
-		let params = new URLSearchParams(document.location.search);
-		let no = params.get("no");
-		let keyword = params.get("keyword");
-		
-		$.ajax({
-			type: 'GET',
-			url: "review/search",				
-			data: {no:no, keyword:keyword},
-			dataType: 'json',
-			success: function(data) {
-				let results = data.items;
-				console.log(encodeURIComponent('results'));
-					if (results.length == 0) {
-						let content2 = '';
-						content2 += '<p class="text-center"><strong>'+ keyword +'에 대한 검색결과가 없습니다.</strong></p>';
-						content2 += '<p class="text-center">다른 언어에서 번역된 후기는 나타나지 않습니다. 원문으로 검색하시면 됩니다.</p>';
-
-						$reviewBox.html(content2);
-					} else {
-						$.each(results, function(index, result) {
-							let rcontent3 = '';
-							content3 += '<div class="row-4 mb-3">';
-							content3 += '	<img src="/resources/images/profile/'+ (review.user.profileImage ? review.user.profileImage : "no-image.png") +'" id="user-image">';
-							content3 += '	<span class="noMargin reviewContent"><strong>' + review.user.name + '</strong></span>';
-							content3 += '	<span class="noMargin reviewContent">' + review.createdDate + '</span>';
-							content3 += '</div>';
-							content3 += '<div class="row-8 mb-5 boxReviewContent">';
-							content3 += '	<p class="reviewContent">'+ review.content +' </p>';
-							content3 += '</div>';
-							
-							$reviewBox.append(content3);
-					})	
-				}
-			}
-		})
-	}
-	*/
 	
+
 	/* console.log(latitude);
 	console.log(longitude); */
 	
