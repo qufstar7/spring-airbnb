@@ -19,4 +19,5 @@ public class UserUpdateForm {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date birthDate;
 	private MultipartFile profileImg;
+	
 }

@@ -54,6 +54,12 @@ public class WishlistService {
 	//	wishlistMapper.changeWishlist(wishlistNo, accNo);
 	//}
 	
+	public void updateWishlist(int wishlistNo, String changedName) {
+		Wishlist wishlist = getWishlistByNo(wishlistNo);
+		wishlist.setName(changedName);
+		
+		wishlistMapper.updateWishlist(wishlist);
+	}
 	
 	public void deleteWishlistAcc(int wishlistNo, int accNo) {
 		wishlistMapper.deleteWishlistAcc(wishlistNo, accNo);

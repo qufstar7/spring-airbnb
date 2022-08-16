@@ -35,10 +35,9 @@
 <body >
 <c:set var="menu" value="detaile"/>
 	<!-- 스파이스크롤 -->
-	<nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom" id="nav-1">
-		<div class="col"></div>
-		<div class="col-6">
-			<ul class="navbar-nav me-auto justify-content-center">
+	<nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom justify-content-between" id="nav-1">
+		<div class="col-3">
+			<ul class="navbar-nav me-auto">
 			  <li class="nav-item">
 			    <a class="nav-link" href="#btn-open-image-modal">사진</a>
 			  </li>
@@ -53,9 +52,29 @@
 			  </li>
 			</ul>
 		</div>
-		<div class="col"></div>
+		<div class="row align-items-center" id="navR">
+				<!-- 날짜 입력 안했을때 -->
+				<div class="col-10 p-2 text-end ndate" style="width: 320px;">
+					<h6>요금을 확인하려면 날짜를 입력하세요.</h6>
+					<button type="button" style="font-size: 12px;" class="btn btn-link text-decoration-underline text-dark openReviewModal" id="btn-open-review-modal"><i class="bi bi-star-fill"></i> ${acc.reviewScore }<span class="text-decoration-underline"> · 후기 ${acc.reviewCount }개</span></button>
+				</div>
+				<div class="col-2 p-3 text-end ndate" style="width: 200px;" >
+					<button type="button" class="btn btn-danger r-btn text-white text-center " style="width: 100%">예약가능 여부 보기</button>
+				</div>
+		</div>
+		<div class="row align-items-center" id="navR2">
+			<!-- 날짜 입력 했을때 -->
+			<div class="col-10 p-2 text-end" style="width: 320px;">
+				<h4><strong><fmt:formatNumber value="${acc.price }"/></strong>/박</h4>
+				<button type="button" style="font-size: 12px;" class="btn btn-link text-decoration-underline text-dark openReviewModal" id="btn-open-review-modal"><i class="bi bi-star-fill"></i> ${acc.reviewScore }<span class="text-decoration-underline"> · 후기 ${acc.reviewCount }개</span></button>
+			</div>
+			<div class="col-2 p-3 text-end" style="width: 200px;" >
+				<button class="btn btn-danger r-btn text-white text-center " style="width: 100%">예약하기</button>
+			</div>
+		</div> 
 	</nav>
 	<%@ include file="../common/nav2.jsp" %>
+	<%@ include file="../user/home.jsp" %>
 	<div class="container"> 
 		<!-- 타이틀 -->
 		<div class="row p-2 mb-2" id="top-div" >
@@ -64,18 +83,28 @@
 			</div>
 			<div class="pl-1">
 				<p>
+					<!-- 상단 리뷰 모달 -->
 					<c:choose>
 						<c:when test="${acc.reviewCount == 0 }">
 							<span></span>
 						</c:when>
 						<c:otherwise>
-							<button type="button" class="btn btn-link text-dark btn-sm" id="btn-open-review-modal"><i class="bi bi-star-fill"></i> ${acc.reviewScore }<span class="text-decoration-underline"> · 후기 ${acc.reviewCount }개</span></button>
+							<button type="button" class="btn btn-link text-decoration-underline text-dark openReviewModal" id="btn-open-review-modal"><i class="bi bi-star-fill"></i> ${acc.reviewScore }<span class="text-decoration-underline"> · 후기 ${acc.reviewCount }개</span></button>
 						</c:otherwise>
 					</c:choose>
 					<button type="button" class="btn btn-link text-decoration-underline text-dark btn-sm" id="btn-open-map-modal">${acc.address }</button>
 					<span class="float-end">
 						<button type="button" class="btn btn-link text-decoration-underline text-dark" id="btn-open-share-modal"><i class="bi bi-share-fill"></i> 공유</button>
-						<button type="button" class="btn btn-link text-decoration-underline text-dark" id="btn-open-save-modal"><i class="bi bi-heart"></i> 저장</button>
+						<c:choose>
+					  	<c:when test="${empty LOGIN_USER}">
+								<!-- 로그인 하지 않았을 때 -->
+							<button type="button" class="btn btn-link text-decoration-underline text-dark" data-bs-toggle="modal" data-bs-target="#email-login-modal"><i class="bi bi-heart"></i> 저장</button>
+						</c:when>
+						<c:otherwise>
+								<!-- 로그인 했을 때 -->
+							<button type="button" class="btn btn-link text-decoration-underline text-dark" id="btn-open-save-modal"><i class="bi bi-heart"></i> 저장</button>
+						</c:otherwise>
+					  </c:choose>
 					</span>
 				</p>
 			</div>
@@ -173,7 +202,7 @@
 				</div>
 				<hr>
 				<div>
-					<div class="mt-5 mb-2">
+					<div class="mt-5 mb-3">
 						<img id="air-cover" alt="" src="https://a0.muscache.com/im/pictures/51a7f002-b223-4e05-a2af-0d4838411d92.jpg">
 					</div>
 					<div class="mb-5">
@@ -223,7 +252,7 @@
 						<h4>숙소 편의시설</h4>
 					</span>
 					<c:forEach items="${acc.conveniences }" var="accConvenience" end="5">
-						<div class="col-6 mb-2 convenience">
+						<div class="col-6 mb-2 convenience d-flex align-items-center">
 							<p><span class="material-symbols-outlined"> ${accConvenience.convenience.iconName }</span> ${accConvenience.convenience.name }</p>
 						</div>
 					</c:forEach>
@@ -254,8 +283,8 @@
 				</div> -->
 			</div> 
 			<div class="col-4" id="side">
+				<div id="sticky" >
 				<form id="form-reservation" method="post" action="">
-				<div class="sticky" >
 					<div class="row shadow-lg bg-body rounded" id="box">
 						<div class="col-6 boxhd reservation" >
 							<h4><strong><fmt:formatNumber value="${acc.price }"/></strong>/
@@ -289,7 +318,7 @@
 								<i class="bi bi-caret-up-fill float-end" id="up"></i>
 							</button>
 							<div class="rounded" id="guest">
-								<div class="mb-4 row justify-content-between align-middle guest-box" >
+								<div class="mb-4 row justify-content-between d-flex align-items-center guest-box" >
 									<div class="col-4">
 										<p>성인
 									</div>
@@ -299,7 +328,7 @@
 											<button type="button" class="btn btn-outline-dark btn-sm p_btn guestbtn hu_p_btn">+</button>
 									</div>
 								</div>
-								<div class="mb-4 row justify-content-between align-middle guest-box" >
+								<div class="mb-4 row justify-content-between d-flex align-items-center guest-box" >
 									<div class="col-4">
 										어린이
 									</div>
@@ -309,7 +338,7 @@
 											<button type="button" class="btn btn-outline-dark btn-sm p_btn guestbtn hu_p_btn">+</button>
 									</div>
 								</div>
-								<div class="mb-4 row justify-content-between align-middle guest-box" >
+								<div class="mb-4 row justify-content-between d-flex align-items-center guest-box" >
 									<div class="col-4">
 										유아
 									</div>
@@ -319,7 +348,7 @@
 											<button type="button" class="btn btn-outline-dark btn-sm p_btn guestbtn hu_p_btn">+</button>
 									</div>
 								</div>
-								<div class="mb-4 row justify-content-between align-middle guest-box" >
+								<div class="mb-4 row justify-content-between d-flex align-items-center guest-box" >
 									<div class="col-4">
 										반려
 									</div>
@@ -337,7 +366,7 @@
 								</div>
 							</div>
 						</div>
-						<button type="submit" class="btn btn-outline-dark p-2 mt-2 reservation" >예약하기</button>
+						<button type="submit" class="btn btn-danger p-2 mt-2 reservation r-btn" >예약하기</button>
 						<div class="mb-3 text-center mt-2">
 							<span>예약 확정 전에는 요금이 청구되지 않습니다.</span>
 						</div>
@@ -359,17 +388,159 @@
 						</div>
 					</div>
 					<div class="text-center">
-						<button type="button" class="btn btn-link text-decoration-underline text-dark" id="btn-open-report-modal"><i class="bi bi-flag-fill"></i> 숙소 신고하기</button>
+					<c:choose>
+					  	<c:when test="${empty LOGIN_USER}">
+								<!-- 로그인 하지 않았을 때 -->
+								<a href="" data-bs-toggle="modal" data-bs-target="#email-login-modal">
+									<button type="button" class="btn btn-link text-decoration-underline text-dark"><i class="bi bi-flag-fill"></i> 숙소 신고하기</button>
+								</a>
+						</c:when>
+						<c:otherwise>
+								<!-- 로그인 했을 때 -->
+								<a href="">
+									<button type="button" class="btn btn-link text-decoration-underline text-dark"><i class="bi bi-flag-fill"></i> 숙소 신고하기</button>
+								</a>
+						</c:otherwise>
+					</c:choose>
 					</div>
-				</div>
 				</form>
+				</div>
 				
 			</div>
 			<hr>
+								
+			<!-- 후기 하단 -->
 			<div class="mt-5 mb-5" id="review">
-				<h4><i class="bi bi-star-fill"></i> ${acc.reviewScore } <span class="text-decoration">후기 ${acc.reviewCount }개</span></h4>
+				<c:choose>
+					<c:when test="${acc.reviewCount == 0 }">
+						<h4>후기 (아직) 없음</h4>
+						<p class="mt-3">여행에 차질이 없도록 최선을 다해 도와드리겠습니다. <br/> 모든 예약은 에어비앤비의 게스트 환불 정책에 따라 보호를 받습니다.</p>
+					</c:when>
+					<c:otherwise>
+						<div class="border bg-light p-3 mb-3">
+							<div class="mb-4" id="box-score">
+								<h4><i class="bi bi-star-fill"></i> <span>${acc.reviewScore }</span><span>점</span>
+								<span class="text-decoration"> · 후기 ${acc.reviewCount }</span><span>개</span></h4>
+							</div>
+							<div class="row">
+								<div class="col-6">
+									<div>
+										<div class="box-score-bar">
+											<div class="row">
+												<div class="col-6">
+													<p class="avgName">청결도</p>
+												</div>
+												<div class="col-3 barBox">
+													<div class="scoreBarleft">
+														<div id="bar-clean-avg" style="width: ${acc.cleanScore * 20 }%;">
+														</div>
+													</div>
+												</div>
+												<div class="col-1">
+													<strong><span>${acc.cleanScore }</span></strong>
+												</div>											
+											</div>
+										</div>
+										<div class="box-score-bar">
+											<div class="row">
+												<div class="col-6">
+													<p class="avgName">의사소통</p>
+												</div>
+												<div class="col-3 barBox">
+													<div class="scoreBarleft">
+														<div id="bar-communication-avg" style="width: ${acc.communicationScore * 20 }%;">
+														</div>
+													</div>
+												</div>
+												<div class="col-1">
+													<strong><span>${acc.communicationScore }</span></strong>
+												</div>
+											</div>
+										</div>
+										<div class="box-score-bar">
+											<div class="row">
+												<div class="col-6">
+													<p class="avgName">체크인</p>
+												</div>
+												<div class="col-3 barBox">
+													<div class="scoreBarleft">
+														<div id="bar-checkin-avg" style="width: ${acc.checkinScore * 20 }%;">
+														</div>
+													</div>
+												</div>
+												<div class="col-1">
+													<strong><span>${acc.checkinScore }</span></strong>
+												</div>
+											</div>
+										</div>										
+									</div>
+								</div>
+								<div class="col-6">
+									<div>
+										<div class="box-score-bar">
+											<div class="row">
+												<div class="col-6">
+													<p class="avgName">정확성</p>
+												</div>
+												<div class="col-3 barBox">
+													<div class="scoreBarleft">
+														<div id="bar-accuracy-avg" style="width: ${acc.accuracyScore * 20 }%;">
+														</div>
+													</div>
+												</div>
+												<div class="col-1">
+														<strong><span>${acc.accuracyScore }</span></strong>
+												</div>											
+											</div>
+										</div>
+										<div class="box-score-bar">
+											<div class="row">
+												<div class="col-6">
+													<p class="avgName">위치</p>
+												</div>
+												<div class="col-3 barBox">
+													<div class="scoreBarleft">
+														<div id="bar-location-avg" style="width: ${acc.locationScore * 20 }%;">
+														</div>
+													</div>
+												</div>
+												<div class="col-1">
+													<strong><span>${acc.locationScore }</span></strong>
+												</div>
+											</div>
+										</div>
+										<div class="box-score-bar">
+											<div class="row">
+												<div class="col-6">
+													<p class="avgName">가격 대비 만족도</p>
+												</div>
+												<div class="col-3 barBox">
+													<div class="scoreBarleft">
+														<div id="bar-value-avg" style="width: ${acc.valueScore * 20 }%;">
+														</div>
+													</div>
+												</div>
+												<div class="col-1">
+													<strong><span>${acc.valueScore }</span></strong>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="box-under-review">
+							<!-- 리뷰 6개 오는 공간 -->
+						</div>
+						<div>
+							<button type="button" class="btn btn-outline-dark openReviewModal">후기 ${acc.reviewCount }개 모두 보기</button>
+						</div>
+					</c:otherwise>
+				</c:choose>
 			</div>
 			<hr>
+			<!-- 후기 하단 끝 -->
+
 			<div class="mt-5 mb-5">
 				<div class="">
 					<h4>호스팅 지역</h4>
@@ -421,9 +592,20 @@
 				<div class="col-6 mb-2">
 					<p>응답률: 100%</p>
 					<p>응답 시간: 1시간 이내</p>
-					<a href="">
-						<button type="button" class="btn btn-outline-dark btn-lg p-2">호스트에게 연락하기</button>
-					</a>
+					<c:choose>
+					  	<c:when test="${empty LOGIN_USER}">
+								<!-- 로그인 하지 않았을 때 -->
+								<a href="" data-bs-toggle="modal" data-bs-target="#email-login-modal">
+									<button type="button" class="btn btn-outline-dark btn-lg p-2">호스트에게 연락하기</button>
+								</a>
+						</c:when>
+						<c:otherwise>
+								<!-- 로그인 했을 때 -->
+								<a href="">
+									<button type="button" class="btn btn-outline-dark btn-lg p-2">호스트에게 연락하기</button>
+								</a>
+						</c:otherwise>
+					  </c:choose>
 				</div>
 			</div>
 			<hr>
@@ -529,7 +711,7 @@
 			</div>
 			<div class="modal-body">
 				<div class="row">
-					<div class="row mb-3">
+					<div class="row mb-3 d-flex align-items-center">
 						<div class="col-2 rounded">
 							<c:forEach items="${acc.photos }" var="photo">
 								<c:if test="${photo.num eq '1' }">
@@ -543,24 +725,27 @@
 							</span>
 						</div>
 					</div>
+					
+					<input type="text" id="text" value="https://localhost/detail?no=${acc.accNo }" style="display: none;"/>
+					<div class="col-6 mb-3 d-grid gap-2">
+						<button type="button" id="btnUrl" class="btn btn-outline-secondary btn-lg p-3" onclick="fn_final()"><i class="bi bi-link"></i> 링크 복사</button>
+					</div>
 					<!-- <div class="col-6 mb-3 d-grid gap-2">
-						<button class="btn btn-outline-secondary btn-lg p-3"><i class="bi bi-link"></i> 링크 복사</button>
+						<button type="button" class="btn btn-outline-secondary btn-lg p-3"><i class="bi bi-envelope"></i> 이메일</button>
 					</div>
 					<div class="col-6 mb-3 d-grid gap-2">
-						<button class="btn btn-outline-secondary btn-lg p-3"><i class="bi bi-envelope"></i> 이메일</button>
+						<button type="button" class="btn btn-outline-secondary btn-lg p-3"><i class="bi bi-chat"></i> 메세지</button>
 					</div>
 					<div class="col-6 mb-3 d-grid gap-2">
-						<button class="btn btn-outline-secondary btn-lg p-3"><i class="bi bi-chat"></i> 메세지</button>
-					</div>
+						<button type="button" class="btn btn-outline-secondary btn-lg p-3"><i class="bi bi-whatsapp"></i> 왓츠앱</button>
+					</div> -->
 					<div class="col-6 mb-3 d-grid gap-2">
-						<button class="btn btn-outline-secondary btn-lg p-3"><i class="bi bi-whatsapp"></i> 왓츠앱</button>
-					</div>
-					<div class="col-6 mb-3 d-grid gap-2">
-						<button onclick="" id="btnKakao" class="btn btn-outline-secondary btn-lg p-3"><img src="" alt="카카오톡 공유" /></button>
-					</div>
-					<button onclick="shareKakao()">
-  							<img src="/img/icon_kakao.png" alt="카카오톡 공유" />
-					</button> -->
+						<a type="button" id="create-kakaotalk-sharing-btn" class="btn btn-outline-secondary btn-lg p-3"><img
+					    src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
+					    alt="카카오톡 공유 보내기 버튼" style="width: 20px; height: 20px"
+					  		/> 카카오톡</a>
+					</div> 
+					
 					<div class="col-6 mb-3 d-grid gap-2">
 						<a id="btnFacebook" class="btn btn-outline-secondary btn-lg p-3" href="javascript:shareFacebook();"><i class="bi bi-facebook"></i> 페이스북</a>
 					</div>
@@ -760,7 +945,7 @@
 
 	<!-- 지도 모달 -->
 <div class="modal" id="modal-map-acc">
-	<div class="modal-dialog modal-fullscreen">
+	<div class="modal-dialog modal-fullscreen" style="width: 100%;">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">호스팅 지역</h4>
@@ -905,177 +1090,12 @@
 													<form>
 														<div class="search-box mb-3">
 															<i class="bi bi-search"></i>
-															<input type="search" placeHolder="후기 검색" class="searchKeyword" id="search-keyword" name="keyword"/> 
+															<input type="search" placeHolder="후기 검색" class="searchKeyword" id="search-keyword" name="searchKeywordName"/> 
 														</div>
 													</form>
 												</div>
 												<div id="box-show-reviews">
 													<!-- 리뷰 리스트 -->
-												</div>
-												<div>
-													<div class="row-4 mb-3">
-														<p class="noMargin reviewContent"><strong>Martin</strong></p>
-														<p class="noMargin reviewContent">2017년 12월</p>
-													</div>
-													<div class="row-8 mb-5">
-														<p class="reviewContent">저희 가족과 저는 즐거운 시간을 보냈다고 말할 수 없습니다. 후기를 읽으셨는데 모두 사실입니다.
-																				 지금까지 경험한 휴가 중 가장 편안하고 호화로운 휴가 중 하나입니다.
-																				 본인을 위한 체험에 참여해보세요. 가장 놀라운 직원들과 함께 정말 천국을 만들었습니다.
-																				 오레오와 코이가 그리울 것입니다.
-																				 11월에 뵙겠습니다 😊저희 가족과 저는 즐거운 시간을 보냈다고 말할 수 없습니다. 후기를 읽으셨는데 모두 사실입니다.
-																				 지금까지 경험한 휴가 중 가장 편안하고 호화로운 휴가 중 하나입니다.
-																				 본인을 위한 체험에 참여해보세요. 가장 놀라운 직원들과 함께 정말 천국을 만들었습니다.
-																				 오레오와 코이가 그리울 것입니다.
-																				 11월에 뵙겠습니다 😊저희 가족과 저는 즐거운 시간을 보냈다고 말할 수 없습니다. 후기를 읽으셨는데 모두 사실입니다.
-																				 지금까지 경험한 휴가 중 가장 편안하고 호화로운 휴가 중 하나입니다.
-																				 본인을 위한 체험에 참여해보세요. 가장 놀라운 직원들과 함께 정말 천국을 만들었습니다.
-																				 오레오와 코이가 그리울 것입니다.
-																				 11월에 뵙겠습니다 😊
-														</p>
-														<span><strong>더 보기 ></strong></span>
-													</div>
-												</div>
-												<div>
-													<div class="row-4 mb-3">
-														<p class="noMargin reviewContent"><strong>Martin</strong></p>
-														<p class="noMargin reviewContent">2017년 12월</p>
-													</div>
-													<div class="row-8 mb-5">
-														<p class="reviewContent">저희 가족과 저는 즐거운 시간을 보냈다고 말할 수 없습니다. 후기를 읽으셨는데 모두 사실입니다.
-																				 지금까지 경험한 휴가 중 가장 편안하고 호화로운 휴가 중 하나입니다.
-																				 본인을 위한 체험에 참여해보세요. 가장 놀라운 직원들과 함께 정말 천국을 만들었습니다.
-																				 오레오와 코이가 그리울 것입니다.
-																				 11월에 뵙겠습니다 😊저희 가족과 저는 즐거운 시간을 보냈다고 말할 수 없습니다. 후기를 읽으셨는데 모두 사실입니다.
-																				 지금까지 경험한 휴가 중 가장 편안하고 호화로운 휴가 중 하나입니다.
-																				 본인을 위한 체험에 참여해보세요. 가장 놀라운 직원들과 함께 정말 천국을 만들었습니다.
-																				 오레오와 코이가 그리울 것입니다.
-																				 11월에 뵙겠습니다 😊
-														</p>
-														<span><strong>더 보기 ></strong></span>
-													</div>
-												</div>
-												<div>
-													<div class="row-4 mb-3">
-														<p class="noMargin reviewContent"><strong>Martin</strong></p>
-														<p class="noMargin reviewContent">2017년 12월</p>
-													</div>
-													<div class="row-8 mb-5">
-														<p class="reviewContent">저희 가족과 저는 즐거운 시간을 보냈다고 말할 수 없습니다. 후기를 읽으셨는데 모두 사실입니다.
-																				 지금까지 경험한 휴가 중 가장 편안하고 호화로운 휴가 중 하나입니다.
-																				 본인을 위한 체험에 참여해보세요. 가장 놀라운 직원들과 함께 정말 천국을 만들었습니다.
-																				 오레오와 코이가 그리울 것입니다.
-																				 11월에 뵙겠습니다 😊
-														</p>
-														<span><strong>더 보기 ></strong></span>
-													</div>
-												</div>
-												<div>
-													<div class="row-4 mb-3">
-														<p class="noMargin reviewContent"><strong>Martin</strong></p>
-														<p class="noMargin reviewContent">2017년 12월</p>
-													</div>
-													<div class="row-8 mb-5">
-														<p class="reviewContent">저희 가족과 저는 즐거운 시간을 보냈다고 말할 수 없습니다. 후기를 읽으셨는데 모두 사실입니다.
-																				 지금까지 경험한 휴가 중 가장 편안하고 호화로운 휴가 중 하나입니다.
-																				 본인을 위한 체험에 참여해보세요. 가장 놀라운 직원들과 함께 정말 천국을 만들었습니다.
-																				 오레오와 코이가 그리울 것입니다.
-																				 11월에 뵙겠습니다 😊
-														</p>
-														<span><strong>더 보기 ></strong></span>
-													</div>
-												</div>
-												<div>
-													<div class="row-4 mb-3">
-														<p class="noMargin reviewContent"><strong>Martin</strong></p>
-														<p class="noMargin reviewContent">2017년 12월</p>
-													</div>
-													<div class="row-8 mb-5">
-														<p class="reviewContent">저희 가족과 저는 즐거운 시간을 보냈다고 말할 수 없습니다. 후기를 읽으셨는데 모두 사실입니다.
-																				 지금까지 경험한 휴가 중 가장 편안하고 호화로운 휴가 중 하나입니다.
-																				 본인을 위한 체험에 참여해보세요. 가장 놀라운 직원들과 함께 정말 천국을 만들었습니다.
-																				 오레오와 코이가 그리울 것입니다.
-																				 11월에 뵙겠습니다 😊
-														</p>
-														<span><strong>더 보기 ></strong></span>
-													</div>
-												</div>
-												<div>
-													<div class="row-4 mb-3">
-														<p class="noMargin reviewContent"><strong>Martin</strong></p>
-														<p class="noMargin reviewContent">2017년 12월</p>
-													</div>
-													<div class="row-8 mb-5">
-														<p class="reviewContent">저희 가족과 저는 즐거운 시간을 보냈다고 말할 수 없습니다. 후기를 읽으셨는데 모두 사실입니다.
-																				 지금까지 경험한 휴가 중 가장 편안하고 호화로운 휴가 중 하나입니다.
-																				 본인을 위한 체험에 참여해보세요. 가장 놀라운 직원들과 함께 정말 천국을 만들었습니다.
-																				 오레오와 코이가 그리울 것입니다.
-																				 11월에 뵙겠습니다 😊
-														</p>
-														<span><strong>더 보기 ></strong></span>
-													</div>
-												</div>
-												<div>
-													<div class="row-4 mb-3">
-														<p class="noMargin reviewContent"><strong>Martin</strong></p>
-														<p class="noMargin reviewContent">2017년 12월</p>
-													</div>
-													<div class="row-8 mb-5">
-														<p class="reviewContent">저희 가족과 저는 즐거운 시간을 보냈다고 말할 수 없습니다. 후기를 읽으셨는데 모두 사실입니다.
-																				 지금까지 경험한 휴가 중 가장 편안하고 호화로운 휴가 중 하나입니다.
-																				 본인을 위한 체험에 참여해보세요. 가장 놀라운 직원들과 함께 정말 천국을 만들었습니다.
-																				 오레오와 코이가 그리울 것입니다.
-																				 11월에 뵙겠습니다 😊
-														</p>
-														<span><strong>더 보기 ></strong></span>
-													</div>
-												</div>
-												<div>
-													<div class="row-4 mb-3">
-														<p class="noMargin reviewContent"><strong>Martin</strong></p>
-														<p class="noMargin reviewContent">2017년 12월</p>
-													</div>
-													<div class="row-8 mb-5">
-														<p class="reviewContent">저희 가족과 저는 즐거운 시간을 보냈다고 말할 수 없습니다. 후기를 읽으셨는데 모두 사실입니다.
-																				 지금까지 경험한 휴가 중 가장 편안하고 호화로운 휴가 중 하나입니다.
-																				 본인을 위한 체험에 참여해보세요. 가장 놀라운 직원들과 함께 정말 천국을 만들었습니다.
-																				 오레오와 코이가 그리울 것입니다.
-																				 11월에 뵙겠습니다 😊
-														</p>
-														<span><strong>더 보기 ></strong></span>
-													</div>
-												</div>
-												<div>
-													<div class="row-4 mb-3">
-														<p class="noMargin reviewContent"><strong>Martin</strong></p>
-														<p class="noMargin reviewContent">2017년 12월</p>
-													</div>
-													<div class="row-8 mb-5">
-														<p class="reviewContent">친한 친구들과 함께 향후 몇 년간의 진행 상황을 확인할 ...
-														</p>
-														<span><strong>더 보기 ></strong></span>
-													</div>
-												</div>
-												<div>
-													<div class="row-4 mb-3">
-														<p class="noMargin reviewContent"><strong>Martin</strong></p>
-														<p class="noMargin reviewContent">2017년 12월</p>
-													</div>
-													<div class="row-8 mb-5">
-														<p class="reviewContent">친한 친구들과 함께 향후 몇 년간의 진행 상황을 확인할 ...
-														</p>
-														<span><strong>더 보기 ></strong></span>
-													</div>
-												</div>
-												<div>
-													<div class="row-4 mb-3">
-														<p class="noMargin reviewContent"><strong>Martin</strong></p>
-														<p class="noMargin reviewContent">2017년 12월</p>
-													</div>
-													<div class="row-8 mb-5">
-														<p class="reviewContent">친한 친구들과 함께 향후 몇 년간의 진행 상황을 확인할 ...
-														</p>
-														<span><strong>더 보기 ></strong></span>
-													</div>
 												</div>
 											</div>
 										</div>
@@ -1086,10 +1106,6 @@
 					</div>
 				</div>
 			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Save changes</button>
-     	</div>
 		</div>
 	</div>
 </div>
@@ -1109,7 +1125,20 @@
 </div>
 
 <script type="text/javascript">
+function clip(){
 
+	var url = '';
+	var textarea = document.createElement("textarea");
+	document.body.appendChild(textarea);
+	url = window.document.location.href;
+	console.log(url)
+	$("textarea").text(url);
+	console.log($("textarea").text())
+	textarea.select();
+	document.execCommand("copy");
+	document.body.removeChild(textarea);
+	alert("URL이 복사되었습니다.")
+}
 
 $(function() {
 	// 모달 객체
@@ -1190,25 +1219,48 @@ $(function() {
 	});
 	
 	// 리뷰 리스트 모달
-//	$("#btn-open-review-modal").click(function() {
-//		accReviewModal.show();
-//	});
-	
 	let $reviewBox = $("#box-show-reviews");
 	
-	$("#btn-open-review-modal").click(function() {
+	let currentPage = 1;			// 조회할 페이지 번호
+	let canRequest = true;			// ajax요청 가능 ㅇ여부,  데이터를 조회했을 때 10개 미만으로 조회되면 다음 페이지가 존재하지 않으므로 ajax요청을 하지 못하게 한다.
+	
+	$(".openReviewModal").click(function() {
+		currentPage = 1;
+		let canRequest = true;
+		$reviewBox.empty();
+		
+		getReviews();
+		accReviewModal.show();
+	})
+	
+	// 무한 스크롤 기능
+	$('#modal-review-acc .modal-body').scroll(function() {
+		let documentHeight = $("#modal-review-acc .modal-body #box-review").height()	// 전체 리뷰 길이
+		let contentBodyHeight = $("#modal-review-acc .modal-body").height()				// 모달 바디 길이
+		let contentBodyScrollTop = $("#modal-review-acc .modal-body").scrollTop()		// 스크롤해서 올린 길이
+		
+		if (canRequest && (contentBodyHeight + contentBodyScrollTop + 50 >= documentHeight)) {			
+			currentPage++;			
+			getReviews();
+		}
+	})
+
+	function getReviews() {
 		let params = new URLSearchParams(document.location.search);
 		let no = params.get("no");
-
+		
 		$.ajax({
 			type: 'GET',
-			url: "review/getReviews",				// no / accNo 같음
-			data: {no:no},
+			url: "review/reviews",				// no / accNo 같음
+			data: {no:no, page: currentPage},
 			dataType: 'json',
 			success: function(data) {
 				let reviews = data.items;
 				console.log(reviews);
-				
+				if (reviews.length <  10) {
+					canRequest = false;
+				}
+
 				$.each(reviews, function(index, review) {
 					let content = '';
 					content += '<div class="row-4 mb-3">';
@@ -1216,37 +1268,175 @@ $(function() {
 					content += '	<span class="noMargin reviewContent"><strong>' + review.user.name + '</strong></span>';
 					content += '	<span class="noMargin reviewContent">' + review.createdDate + '</span>';
 					content += '</div>';
-					content += '<div class="row-8 mb-5" id="review-content">';
-					content += '	<p class="reviewContent">'+ review.content +'';
-					content += '	</p>';
+					content += '<div class="row-8 mb-5 boxReviewContent">';
+					content += '	<p class="reviewContent">'+ review.content +' </p>';
 					content += '</div>';
-						/*
-						if(review.content.length >= 3){
-						    return review.content.substr(0,100)+"...";
-						}
-*/
-					$reviewBox.append(content);
-						
-				})					
 					
+					
+					$reviewBox.append(content);
+				})		
+				
+				// 글 긴거 더보기
+			   $(".boxReviewContent").each(function(){
+			        let rcontent = $(this).children('.reviewContent');
+			        let rcontent_txt = rcontent.text();
+			        let rcontent_txt_short = rcontent_txt.substring(0,30)+"...";
+			        let btn_more = $('<a href="javascript:void(0)" class="more link-dark">더보기 <i class="bi bi-chevron-right"></i></a>');
+
+			        $(this).append(btn_more);
+			        
+			        if(rcontent_txt.length >= 30){
+			            rcontent.html(rcontent_txt_short)
+			            
+			        }else{
+			            btn_more.hide()
+			        }
+			        
+			        btn_more.click(toggle_content);
+
+			        function toggle_content(){
+			            if($(this).hasClass('short')){
+			                // 접기 상태
+			                $(this).html('더보기');
+			                rcontent.html(rcontent_txt_short)
+			                $(this).removeClass('short');
+			            }else{
+			                // 더보기 상태
+			                $(this).html('접기');
+			                rcontent.html(rcontent_txt);
+			                $(this).addClass('short');
+
+			            }
+			        }
+			    });
 			}
-			
+		})
+
+	}
+	
+	// 하단 리뷰 조회
+	let $reviewBoxUnder = $("#box-under-review");
+	$(document).ready(function(){
+		let params = new URLSearchParams(document.location.search);
+		let no = params.get("no");
+		
+		$.ajax({
+			type: 'GET',
+			url: "review/reviewsUnder",				
+			data: {no:no},
+			dataType: 'json',
+			success: function(data) {
+				let reviews = data.items;
+				console.log(reviews);
+
+				let contentUnder = '<div class="row">';
+				$.each(reviews, function(index, review) {
+					
+					if (index > 5) {
+						return false;
+					}
+					
+					contentUnder += '	<div class="col-6 mb-4">';
+					contentUnder += '		<div class="row mb-3">';
+					contentUnder += '			<div class="col-1">';
+					contentUnder += '				<img src="/resources/images/profile/'+ (review.user.profileImage ? review.user.profileImage : "no-image.png") +'" id="user-image">';
+					contentUnder += '			</div>';
+					contentUnder += '			<div class="col-4 ps-3">';
+					contentUnder += '				<h4 class="noMargin reviewContent"><strong>'+ review.user.name + '</strong></h4>';
+					contentUnder += '				<span class="noMargin reviewContent">'+ review.createdDate + '</span>';
+					contentUnder += '			</div>';
+					
+					contentUnder += '		</div>';
+					contentUnder += '		<div class="row">'
+					contentUnder += '			<div class="col pe-5 underBoxReviewContent">';
+					contentUnder += '				<p class="reviewContent mb-0 underReviewContent">'+ review.content +'</p>';
+					contentUnder += '			</div>';
+					contentUnder += '		</div>';
+					contentUnder += '	</div>';
+				})		
+				
+				contentUnder += '</div>';
+				$reviewBoxUnder.append(contentUnder);
+				
+			   $(".underBoxReviewContent").each(function(){
+			        let underContent = $(this).children('.underReviewContent');
+			        let underContent_txt = underContent.text();
+			        let underContent_txt_short = underContent_txt.substring(0,30)+"...";
+			        let btn_more = $('<a href="javascript:void(0)" class="more link-dark"><strong>더보기<i class="bi bi-chevron-right"></strong></i></a>');
+
+			        $(this).append(btn_more);
+			        
+			        if(underContent_txt.length >= 30){
+			        	underContent.html(underContent_txt_short)
+			            
+			        }else{
+			            btn_more.hide()
+			        }
+			        
+			        btn_more.click(toggle_content2);
+
+			        function toggle_content2(){
+			    		currentPage = 1;
+			    		let canRequest = true;
+			    		$reviewBox.empty();
+			    		
+			    		getReviews();
+			    		accReviewModal.show();
+			        }
+			    });
+			}
 		})
 		
-		accReviewModal.show();
-	})
-	/*
-	$.ajax() {
-		type: 'GET',
-		url: "review/getReviews",				// no / accNo 같음
-		data: {no:no},
-		dataType: 'json',
-		success: function(data) {
+	});
+	/* 리뷰 검색 (구현 중)
+	$("input[name='searchKeywordName']").keydown(function(e){
+		if (e.keyCode == 13) {
+			currentPage = 1;
+			let canRequest = true;
+			$reviewBox.empty();
 			
+			getReviewsBySearch();
 		}
+	}) 
+	
+	function getReviewsBySearch() {
+		let params = new URLSearchParams(document.location.search);
+		let no = params.get("no");
+		let keyword = params.get("keyword");
+		
+		$.ajax({
+			type: 'GET',
+			url: "review/search",				
+			data: {no:no, keyword:keyword},
+			dataType: 'json',
+			success: function(data) {
+				let results = data.items;
+				console.log(encodeURIComponent('results'));
+					if (results.length == 0) {
+						let content2 = '';
+						content2 += '<p class="text-center"><strong>'+ keyword +'에 대한 검색결과가 없습니다.</strong></p>';
+						content2 += '<p class="text-center">다른 언어에서 번역된 후기는 나타나지 않습니다. 원문으로 검색하시면 됩니다.</p>';
+
+						$reviewBox.html(content2);
+					} else {
+						$.each(results, function(index, result) {
+							let rcontent3 = '';
+							content3 += '<div class="row-4 mb-3">';
+							content3 += '	<img src="/resources/images/profile/'+ (review.user.profileImage ? review.user.profileImage : "no-image.png") +'" id="user-image">';
+							content3 += '	<span class="noMargin reviewContent"><strong>' + review.user.name + '</strong></span>';
+							content3 += '	<span class="noMargin reviewContent">' + review.createdDate + '</span>';
+							content3 += '</div>';
+							content3 += '<div class="row-8 mb-5 boxReviewContent">';
+							content3 += '	<p class="reviewContent">'+ review.content +' </p>';
+							content3 += '</div>';
+							
+							$reviewBox.append(content3);
+					})	
+				}
+			}
+		})
 	}
 	*/
-
 	
 	/* console.log(latitude);
 	console.log(longitude); */
@@ -1264,6 +1454,7 @@ $(function() {
 	
 	var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 	
+	
 	// 마커가 표시될 위치입니다 
 	var markerPosition  = new kakao.maps.LatLng(longitude,latitude); 
 	
@@ -1271,12 +1462,22 @@ $(function() {
 	var marker = new kakao.maps.Marker({
 	    position: markerPosition
 	});
-	
+	// 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+	// marker.setMap(null); 
 	// 마커가 지도 위에 표시되도록 설정합니다
 	marker.setMap(map);
 	
-	// 아래 코드는 지도 위의 마커를 제거하는 코드입니다
-	// marker.setMap(null);    
+	// 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
+	var mapTypeControl = new kakao.maps.MapTypeControl();
+
+	// 지도에 컨트롤을 추가해야 지도위에 표시됩니다
+	// kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
+	map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+	// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+	var zoomControl = new kakao.maps.ZoomControl();
+	map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+	
 	
 	// 카카오 맵
 	var mapContainer2 = document.getElementById('map2'), // 지도를 표시할 div 
@@ -1298,6 +1499,7 @@ $(function() {
 	// 마커가 지도 위에 표시되도록 설정합니다
 	marker.setMap(map2);
 	
+	
 	// 모달창 등에 지도사용시 다시불러오기 필요
 	function relayout() {   
 		
@@ -1318,6 +1520,17 @@ $(function() {
 	// 아래 코드는 지도 위의 마커를 제거하는 코드입니다
 	// marker.setMap(null);    
 	
+	// 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
+	var mapTypeControl2 = new kakao.maps.MapTypeControl();
+
+	// 지도에 컨트롤을 추가해야 지도위에 표시됩니다
+	// kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
+	map2.addControl(mapTypeControl2, kakao.maps.ControlPosition.TOPRIGHT);
+
+	// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+	var zoomControl2 = new kakao.maps.ZoomControl();
+	map2.addControl(zoomControl2, kakao.maps.ControlPosition.RIGHT);
+
 	let disabledDate = ('${acc.disabledDate}').split(",");
 	console.log(disabledDate) 
 	
@@ -1334,11 +1547,8 @@ $(function() {
  			return;
  		}
  		
- 		console.log(selectedDates[0])
  		$("#checkInDate").val((selectedDates[0]))
 		$("#checkOutDate").val((selectedDates[1]))
-		console.log($("#checkInDate").val)
-		console.log($("#checkOutDate").val)
 		let diffDate = Date.parse(selectedDates[1])-Date.parse(selectedDates[0])
 
  		let day = Math.floor(diffDate / (1000 * 60 * 60 * 24))
@@ -1353,19 +1563,63 @@ $(function() {
  		$("#totalPrice").text(totalPrice.toLocaleString())
  		$("#totalPriceValue").val(totalPrice)
 	}) 
-    	  $(".reservation").hide();
+   	$(".reservation").hide();
+	
+	$("#nav-1").hide();
+	$("#navR2").hide();
 	
 	$("#days").on('input',function(){
       if (!$("#days").empty()){
     	  $(".reservation").hide();
     	  $(".not-reservation").show();
+    	  
+    	  $("#navR2").hide();
+	      $("#navR").show();
+    	  
       } else {
     	  $(".reservation").show();
     	  $(".not-reservation").hide();
+    	  $("#navR").hide();
+		  $("#navR2").show();
       }
 
    })
+	
+   $("#profile").click(function() {
+			$("host").focus();
+		})
 
+		
+
+		$(window).scroll(function() {
+			let scrollTop = $(document).scrollTop();
+			if (scrollTop > 600) {
+				$("#nav-1").show();
+			} else {
+
+				$("#nav-1").hide();
+			}
+			
+			/* if (scrollTop > 2100 && $("#days").empty()) {
+				$("#navR").show();
+				
+			} else {
+
+				$("#navR").hide();
+			} */
+			/* if (scrollTop > 2100) {
+					
+				} else{
+					
+					
+				}
+			} else {
+				$("#navR2").hide();
+				$("#navR").hide();
+			} */
+		})
+		
+   
 	/* $("#edate").flatpickr({
 		minDate: new Date(),
 		defaultDate : new Date(),
@@ -1475,21 +1729,6 @@ $(function() {
 		} 
 		 */
 		
-		$("#profile").click(function() {
-			$("host").focus();
-		})
-
-		$("#nav-1").hide();
-
-		$(window).scroll(function() {
-			let scrollTop = $(document).scrollTop();
-			if (scrollTop > 600) {
-				$("#nav-1").show();
-			} else {
-
-				$("#nav-1").hide();
-			}
-		})
 		
 		// 스크롤스파이
 		var scrollSpy = new bootstrap.ScrollSpy(document.body, {
@@ -1500,54 +1739,18 @@ $(function() {
 		$("#btnTwitter").click(
 				function() {
 					var sendText = "aircnc"; // 전달할 텍스트
-					var sendUrl = "devpad.tistory.com/"; // 전달할 URL
+					var sendUrl = "https://localhost/detail?no="+${acc.accNo}; // 전달할 URL
 					window.open("https://twitter.com/intent/tweet?text="
 							+ sendText + "&url=" + sendUrl);
 				})
 		$("#btnFacebook").click(
 				function() {
-					var sendUrl = "devpad.tistory.com/"; // 전달할 URL
+					var sendUrl = "https://localhost/detail?no="+${acc.accNo}; // 전달할 URL
 					window.open("http://www.facebook.com/sharer/sharer.php?u="
 							+ sendUrl);
 				})
-		/* $("#btnKakao").click(function() {
-			 
-			  // 사용할 앱의 JavaScript 키 설정
-			  Kakao.init('6ec6d52326b138f515a86c55e152676c');
-			 
-			  // 카카오링크 버튼 생성
-			  Kakao.Link.createDefaultButton({
-			    container: '#btnKakao', // 카카오공유버튼ID
-			    objectType: 'feed',
-			    content: {
-			      title: "개발새발", // 보여질 제목
-			      description: "개발새발 블로그입니다", // 보여질 설명
-			      imageUrl: "devpad.tistory.com/", // 콘텐츠 URL
-			      link: {
-			         mobileWebUrl: "devpad.tistory.com/",
-			         webUrl: "devpad.tistory.com/"
-			      }
-			    }
-			  });
-			} */
 
-		/* if (!Kakao.isInitialized()) {
-			  Kakao.init('6ec6d52326b138f515a86c55e152676c');
-			}
-		var sendKakao = function() {
-		    // 메시지 공유 함수
-		  Kakao.Link.sendScrap({
-		    requestUrl: 'http://localhost:80/', // 페이지 url
-		    templateId:  80693, // 메시지템플릿 번호
-		    templateArgs: {
-		            PROFILE : ${THU} // 프로필 이미지 주소 ${PROFILE}
-		      THUMB: ${THU}, // 썸네일 주소 ${THUMB}
-		      TITLE: ${TITLE}, // 제목 텍스트 ${TITLE}
-		      DESC: ${DESC}, // 설명 텍스트 ${DESC}
-		    },
-		  });
-		}; */
-
+	// 인원 버튼
 	$("#guest").hide();
 	$("#up").hide();
 	
@@ -1689,10 +1892,53 @@ $(function() {
     });
 	
 	
+	
+	
+		
+	Kakao.Share.createDefaultButton({
+	    container: '#create-kakaotalk-sharing-btn',
+	    objectType: 'feed',
+	    content: {
+	      title: '${acc.name}',
+	      description: '${acc.description}',
+	      imageUrl:
+		  		'https://localhost/resources/logo-home.png',
+	      link: {
+	        mobileWebUrl: 'https://localhost/detail?no=${acc.accNo }',
+	        webUrl: 'https://localhost/detail?no=${acc.accNo }',
+	      },
+	    },   
+	    buttons: [
+	      {
+	        title: '웹으로 보기',
+	        link: {
+	          mobileWebUrl: 'https://localhost/detail?no=${acc.accNo }',
+	          webUrl: 'https://localhost/detail?no=${acc.accNo }',
+	        },
+	      },
+	      {
+	        title: '앱으로 보기',
+	        link: {
+	          mobileWebUrl: 'https://localhost/detail?no=${acc.accNo }',
+	          webUrl: 'https://localhost/detail?no=${acc.accNo }',
+	        },
+	      },
+	    ],
+	  }) 
 })
 
-
+// 링크복사
+function fn_final() {
+			var url = document.getElementById('text');
+			url.style.display='block';	// 숨겨둔 input 태그 block처리
+			url.select();	// 복사할 text 블럭
+			document.execCommand('copy');	// 드레그된 text 클립보드에 복사
+			url.style.display='none';	// 다시 숨기기
+			alert("주소 복사가 완료되었습니다.");
+	    }
 </script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6ec6d52326b138f515a86c55e152676c"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 </body>
 </html>

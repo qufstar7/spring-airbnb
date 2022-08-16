@@ -139,7 +139,6 @@
 			</div>
 			<hr/>
 			<h5>결제 수단</h5>
-			<a href="/book/register" class="btn btn-outline-primary">카드등록</a>
 			<select id="card-select" class="form-select" aria-label="Default select example">
 				<option value="기본카드" selected>기본 결제 수단(카드)</option>
 				<option value="1" disabled>결제 수단 추가하기</option>
@@ -241,7 +240,7 @@
 				</small></p>
 				<p><small class="text-muted">또한, 개정된 이용 약관과 결제 서비스 약관 및 개인정보 처리방침에도 동의합니다.</small></p>
 			</div>
-				<a href="/completed" class="btn btn-lg" style="background-color:#d80765; color:white;">확인 및 결제</a>
+				<a href="/book/completed" class="btn btn-lg" style="background-color:#d80765; color:white;">확인 및 결제</a>
 	</div>
 	<!-- 오른쪽 -->
 	<div class='right-box'>

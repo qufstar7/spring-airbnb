@@ -19,12 +19,10 @@ public class ReservationForm {
 	private int childrenNum;
 	private int infantNum;
 	private int petNum;
-	private int totalGuest;
 	private String payment;
 	private String messageToHost;
 	private int serviceFee;
 	private int price;
-	private int totalPrice;
 	private int entirePay;
 	private int leftPay;
 	

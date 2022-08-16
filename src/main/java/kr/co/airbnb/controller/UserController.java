@@ -76,12 +76,19 @@ public class UserController {
 		return "user/profile";
 	}
 	
+	@GetMapping(path="account-settings/personal-info")
+	public String personalInfo(@LoginUser User loginUser, Model model) { // @LoginUser User loginUser, Model model
+		User user = userService.getUserByNo(loginUser.getNo());
+		model.addAttribute("user", user);
+		return "user/personal-info";
+	}
+	
 	// 일반 로그인 요청 처리
 	@PostMapping("/normal-login")
 	@ResponseBody
 	public Map<String, Object> loginWithNormal(@RequestParam("loginEmail") String email, @RequestParam("loginPassword") String password) {
 		Map<String, Object> result = new HashMap<>();
-		System.out.println("로그인 이메일 : " + email);
+		System.out.println("일반 로그인 이메일 : " + email);
 		User user = userService.getUserByEmail(email);
 		if(password.equals(user.getPassword())) {
 			result.put("pass", true);
@@ -109,9 +116,11 @@ public class UserController {
 		User savedUser = userService.loginWithSns(user);
 		
 		if (savedUser != null) {
+			System.out.println("기존사용자");
 			SessionUtils.addAttribute("LOGIN_USER", savedUser);
 			savedUser.setLoginType(form.getLoginType());
 		} else {
+			System.out.println("sns회원가입");
 			SessionUtils.addAttribute("LOGIN_USER", user);
 		}
 		log.info("소셜 로그인 완료");
@@ -129,9 +138,8 @@ public class UserController {
 	public Map<String, Object> checkEmail(@RequestParam("email") String email, Model model) {
 		Map<String, Object> result = new HashMap<>();
 		User savedUser = userService.getUserByEmail(email);
-		
+		//System.out.println(savedUser);
 		if(savedUser == null) {
-			System.out.println("실패");
 			result.put("exist", false);
 			// 폼입력값을 담을 객체를 미리 생성해서 Model에 저장
 			model.addAttribute("userRegisterForm", new UserRegisterForm());
@@ -164,10 +172,12 @@ public class UserController {
 		return result;
 	}
 	
-	@PostMapping(path="/addProfileImg")
+	@PostMapping(path="/add/profileImg")
 	@ResponseBody
 	public Map<String, Object> uploadProfileImg(@RequestParam("profileImg") MultipartFile multipartFile, @LoginUser User loginUser) throws IOException {
+		Map<String, Object> result = new HashMap<String, Object>();
 		
+		System.out.println(multipartFile.getOriginalFilename());
 		// 프로필이미지 사진 처리하기
 		if(!multipartFile.isEmpty()) {
 			String filename = multipartFile.getOriginalFilename();
@@ -181,39 +191,53 @@ public class UserController {
 			InputStream in = multipartFile.getInputStream();	// 업로드된 첨부파일이 임시파일로 저장되는데 그 파일을 읽어오는 스트림이다.
 			FileOutputStream out = new FileOutputStream(new File(profileImageSaveDirectory, filename));
 			FileCopyUtils.copy(in, out);
+		
+		result.put("success", true);
+		result.put("filename", filename);
+		} else {
+			result.put("success", false);
 		}
 		
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("success", true);
 		
 		return result;
 	}
 	
 	@PostMapping(path="/update") // uploadProfileImg 요청핸들러메소드 수정 및 삭제
-	public Map<String, Object> updateProfile(UserUpdateForm form, @LoginUser User loginUser) throws IOException {
+	public String updateProfile(UserUpdateForm form, @LoginUser User loginUser) throws IOException {
 		System.out.println("폼: " + form);
 		System.out.println("로그인: " + loginUser);
 		
 		User user = userService.getUserByNo(loginUser.getNo());
 		MultipartFile multipartFile = form.getProfileImg();
 		
-		if(multipartFile.isEmpty()) {
+		//Map<String, Object> data = new HashMap<>();
+		
+		if(multipartFile == null || multipartFile.isEmpty()) {
 			user.setDescription(form.getDescription());
 			user.setBirthDate(form.getBirthDate());
 			user.setAddress(form.getAddress());
+			userService.updateUserInfo(user);
+			
+			return "redirect:/user/profile";
+			//data.put("user", user);
 		} else {
 			String filename = multipartFile.getOriginalFilename();
 			user.setProfileImage(filename);
+			userService.updateUserInfo(user);
 			
 			InputStream in = multipartFile.getInputStream();	// 업로드된 첨부파일이 임시파일로 저장되는데 그 파일을 읽어오는 스트림이다.
 			FileOutputStream out = new FileOutputStream(new File(profileImageSaveDirectory, filename));
 			FileCopyUtils.copy(in, out);
+			
+			return "redirect:/user/profile";
+			//data.put("filename", filename);
 		}
+	}
+	
+	@GetMapping(path="/find/password")
+	public String findPassword( ) {
 		
-		Map<String, Object> data = new HashMap<>();
-		data.put("user", user);
-		
-		return data;
+		return "/user/forgotPassword";
 	}
 	
 	

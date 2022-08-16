@@ -12,7 +12,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <title>계정관리-에어씨엔씨</title>
 <style type="text/css">
-	.container {margin-top: 50px;}
 	#div-account span {font-size: x-large;}
 	#div-main span {font-size: large;}
 	#div-main span:last-child {opacity: 0.7;}
@@ -24,16 +23,17 @@
 </head>
 
 <body>
+<%@ include file="../common/nav.jsp" %>
 <div class="container">
 	<div class="row my-5" id="div-account">
 		<h1 class="fw-bold">계정</h1>
-		<span><strong>${LOGIN_USER.name },</strong> ${LOGIN_USER.email} <a href="profile" class="text-reset">프로필로 이동</a> </span>
+		<span><strong>${LOGIN_USER.name },</strong> ${LOGIN_USER.email} <a href="profile" class="text-reset fs-5 fw-bold">프로필로 이동</a> </span>
 	</div>
 	<div id="div-main">
 		<div class="row">
 			<div class="col-lg-4 col-sm-6 col-sx-12 mb-3">
-				<a href="">
-					<div class="shadow p-3 mb-5 bg-body rounded">
+				<a href="/user/account-settings/personal-info">
+					<div class="shadow p-3 mb-5 bg-body rounded-4">
 						<i class="bi bi-person-lines-fill"></i>
 						<div class="mt-5 d-flex align-items-start flex-column">
 							<span class="fw-bold">개인정보</span>
@@ -44,7 +44,7 @@
 			</div>
 			<div class="col-lg-4 col-sm-6 col-sx-12 mb-3">
 				<a href="">
-					<div class="shadow p-3 mb-5 bg-body rounded ">
+					<div class="shadow p-3 mb-5 bg-body rounded-4 ">
 						<i class="bi bi-shield-exclamation"></i>
 						<div class="mt-5 d-flex align-items-start flex-column">
 							<span class="fw-bold">로그인 및 보안</span>
@@ -55,7 +55,7 @@
 			</div>
 			<div class="col-lg-4 col-sm-6 col-sx-12 mb-3">
 				<a href="">
-					<div class="shadow p-3 mb-5 bg-body rounded ">
+					<div class="shadow p-3 mb-5 bg-body rounded-4 ">
 						<i class="bi bi-cash-coin"></i>
 						<div class="mt-5 d-flex align-items-start flex-column">
 							<span class="fw-bold">결제 및 대금 수령</span>
@@ -66,7 +66,7 @@
 			</div>
 			<div class="col-lg-4 col-sm-6 col-sx-12 mb-3">
 				<a href="">
-					<div class="shadow p-3 mb-5 bg-body rounded ">
+					<div class="shadow p-3 mb-5 bg-body rounded-4 ">
 						<i class="bi bi-megaphone"></i>
 						<div class="mt-5 d-flex align-items-start flex-column">
 							<span class="fw-bold">알림</span>
@@ -77,7 +77,7 @@
 			</div>
 			<div class="col-lg-4 col-sm-6 col-sx-12 mb-3">
 				<a href="">
-					<div class="shadow p-3 mb-5 bg-body rounded ">
+					<div class="shadow p-3 mb-5 bg-body rounded-4 ">
 						<i class="bi bi-eye"></i>
 						<div class="mt-5 d-flex align-items-start flex-column">
 							<span class="fw-bold">개인정보 및 공개 설정</span>
@@ -88,7 +88,7 @@
 			</div>
 			<div class="col-lg-4 col-sm-6 col-sx-12 mb-3">
 				<a href="">
-					<div class="shadow p-3 mb-5 bg-body rounded ">
+					<div class="shadow p-3 mb-5 bg-body rounded-4 ">
 						<i class="bi bi-globe"></i>
 						<div class="mt-5 d-flex align-items-start flex-column">
 							<span class="fw-bold">글로벌 환경 설정</span>
@@ -99,7 +99,7 @@
 			</div>
 			<div class="col-lg-4 col-sm-6 col-sx-12 mb-3">
 				<a href="">
-					<div class="shadow p-3 mb-5 bg-body rounded ">
+					<div class="shadow p-3 mb-5 bg-body rounded-4 ">
 						<i class="bi bi-briefcase"></i>
 						<div class="mt-5 d-flex align-items-start flex-column">
 							<span class="fw-bold">출장</span>
@@ -110,7 +110,7 @@
 			</div>
 			<div class="col-lg-4 col-sm-6 col-sx-12 mb-3">
 				<a href="">
-					<div class="shadow p-3 mb-5 bg-body rounded ">
+					<div class="shadow p-3 mb-5 bg-body rounded-4 ">
 						<i class="bi bi-bar-chart-line"></i>
 						<div class="mt-5 d-flex align-items-start flex-column">
 							<span class="fw-bold">전문 호스팅 도구</span>
@@ -121,7 +121,7 @@
 			</div>
 			<div class="col-lg-4 col-sm-6 col-sx-12 mb-3">
 				<a href="">
-					<div class="shadow p-3 mb-5 bg-body rounded ">
+					<div class="shadow p-3 mb-5 bg-body rounded-4 ">
 						<i class="bi bi-gift"></i>
 						<div class="mt-5 d-flex align-items-start flex-column">
 							<span class="fw-bold">추천 크레딧 및 쿠폰</span>
@@ -132,7 +132,6 @@
 			</div>
 		</div>
 	</div>
-	
 </div>
 
 </body>

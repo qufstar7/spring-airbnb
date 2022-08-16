@@ -27,31 +27,32 @@
 				font-size: large;
 				padding: 10px 20px;		
 				}	 
-	.container {margin-top: 50px;}
 </style>
 </head>
 <body>
+<%@ include file="../common/nav.jsp" %>
 	<div class="container">
+	<div class="p-5">
 		<div class="row">
 			<div class="col-4">
 				<div class="border rounded-3 p-4">
 					<div class=" text-center mb-2">
-						<img class="rounded-circle" src="/resources/images/profile/${user.profileImage}" alt="profile-img" width="180">
+						<img class="rounded-circle" src="/resources/images/profile/${user.profileImage}" alt="프로필사진" width="180">
 					</div>
 					<div class="text-center mb-5">
-						<button type="button" class="btn btn-link text-muted fw-bold fs-5" data-bs-toggle="modal" data-bs-target="#modal-change-profileImg">사진 업데이트하기</button>
+						<button type="button" class="btn btn-link fw-bold fs-6" data-bs-toggle="modal" data-bs-target="#modal-change-profileImg" style="color: black;">사진 업데이트하기</button>
 					</div>
 					<div class="mb-2 fs-4">
 						<i class="bi bi-star fw-bold"></i>
-						<span class="pop fw-bold" id="pop-review" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom">후기4개</span>
+						<span class="pop fw-bold fs-6" id="pop-review" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom">후기4개</span>
 					</div>
 					<div class="mb-5 fs-4">
 						<i class="bi bi-shield-check fw-bold"></i>
-						<span class="pop fw-bold" id="pop-certification" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom">본인 인증 완료</span>
+						<span class="pop fw-bold fs-6" id="pop-certification" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom">본인 인증 완료</span>
 					</div>
 					<hr />
 					<div class="mb-4">
-						<h3>${user.name} 인증 완료</h3>
+						<h3 class="fs-4 fw-bold">${user.name} 인증 완료</h3>
 					</div>
 					<div class="d-flex justify-content-start mb-3 fs-5">
 						<i class="bi bi-check-lg fw-bold"></i>
@@ -71,35 +72,35 @@
 				</div>
 			</div>
 			<div class="col ms-5 ps-5">
-				<h1 class="fw-bold">안녕하세요. 저는 ${user.name}입니다.</h1>
+				<h2 class="fw-bold">안녕하세요. 저는 ${user.name}입니다.</h2>
 				<p>회원가입: <fmt:formatDate value="${user.createdDate }" pattern="yyyy"/> </p>
-				<button class="btn btn-link text-reset fw-bold fs-5" id="btn-change-profile">프로필 수정하기</button>
+				<button class="btn btn-link text-reset fw-bold fs-6 p-0" id="btn-change-profile">프로필 수정하기</button>
 				<div class="mt-5" id="div-profile">
 					<h3 class="fw-bold mb-4">소개</h3>
-					<p class="fs-5 mb-4"> ${user.description} </p>
+					<p class="fs-5 mb-4" id="p-description">${user.description}</p>
 					<div class="d-flex justify-content-start mb-3 fs-5">
 						<i class="bi bi-house-door-fill"></i>
-						<span class="ms-2">거주지: ${not empty user.address ? user.address : "주소를 설정해주세요."}</span>
+						<span class="ms-2">거주지: <span id="span-address">${not empty user.address ? user.address : "주소를 설정해주세요."}</span></span>
 					</div>
 					<div class="d-flex justify-content-start mb-3 fs-5">
 						<i class="bi bi-calendar-heart"></i><!-- Date 형식을 다시 String 으로 -->
-						<span class="ms-2">생일:  <fmt:formatDate value="${user.birthDate}" pattern="yyyy.MM.dd"/></span>
+						<span class="ms-2">생일:  <span id="span-birthday"><fmt:formatDate value="${user.birthDate}" pattern="yyyy.MM.dd"/></span></span>
 					</div>
 				</div>
 				<!-- 프로필 수정하기 -->
 				<div class="mt-5 d-none" id="div-update-profile">
-					<form id="form-profile" method="post" action="">
+					<form id="form-profile" method="post" action="/user/update" enctype="multipart/form-data">
 						<label for="textarea-description" class="form-label fs-5">소개</label>
 						<textarea class="form-control mb-5 fs-5" name="description" rows="4" id="textarea-description"> ${user.description} </textarea>
 						<label for="input-location" class="form-label fs-5">위치</label>
 						<input type="text" class="form-control mb-5 p-2 fs-5" name="address" id="input-address" value="${user.address }" />
 						<label for="language" class="form-label fs-5 mb-3">생일</label>
-						<input type="date" class="form-control mb-5 p-2 fs-5" name="birthDate" id="input-birthday" value="<fmt:formatDate value="${user.birthDate}" pattern="yyyy-M-d"/>" />
+						<input type="date" class="form-control mb-5 p-2 fs-5" name="birthDate" id="input-birthday" value="<fmt:formatDate value="${user.birthDate}" pattern="yyyy-MM-dd"/>" />
 						
 						
 						<div class="d-flex justify-content-between mt-5">
 							<button type="button" class="btn btn-link text-reset fs-5 fw-bold" id="btn-cancel">취소</button>
-							<button type="button" class="btn btn-dark btn-lg px-4" id="btn-update-profile">저장</button>
+							<button type="submit" class="btn btn-dark btn-lg px-4" id="btn-update-profile">저장</button>
 						</div>
 					</form>	
 				</div>
@@ -153,6 +154,7 @@
 			</div>
 		</div>
 	</div>
+	</div>
 	
 	
 <!-- 프로필사진 변경 모달. airbnb는 페이지전환이 되지만 모달로 대체-->
@@ -173,13 +175,12 @@
 	        호스트가 게스트에게 사진을 요청하는 경우에도, 예약이 확정된 후에만 사진을 볼 수 있습니다.
 	        </p>
         </div>
-        <form id="form-profileImg" action="" method="post" enctype="multipart/form-data" >
+        <form id="form-profileImg" action="/user/update" method="post" enctype="multipart/form-data" >
 	        <div class="">
-	        
-		        <img src="/resources/${user.profileImage}">
+		        <img class="rounded-circle" src="/resources/images/profile/${user.profileImage}" width="180">
 	        </div>
 	        <div class="d-grid gap-2 my-4">
-	        	<input type="file" name="profileImg" id="profile-img" class="d-none" accept="image/gif, image/jpeg, image/png" />
+	        	<input type="file" name="profileImg" id="input-change-profileImg" class="d-none" accept="image/gif, image/jpeg, image/png" />
 	        	<button type="button" class="btn btn-dark p-3 fs-5 fw-bold" id="btn-change-profileImg"><i class="bi bi-person-bounding-box"></i> 사진 변경하기</button>
 	        </div>
         </form>
@@ -212,30 +213,27 @@ $(function () {
 	
 	// 프로필 사진 수정 버튼 연결
 	$("#btn-change-profileImg").click(function() {
-		$("#profile-img").click();
-	})
+		// hidden된 input 필드 클릭
+		$("#input-change-profileImg").click();
+	});
+	// input필드의 값이 변경될 때마다
+	$("#input-change-profileImg").change(function() {
+		$("#form-profileImg").submit();
+	});
 	
 	$("#btn-change-profile").click(function() {
 		$("#div-update-profile").removeClass("d-none");
 		$(this).addClass("disabled");
 		$("#div-profile").addClass("d-none");
-	})
+	});
 	
 	$("#btn-cancel").click(function() {
 		$("#div-update-profile").addClass("d-none");
 		$("#btn-change-profile").removeClass("disabled");
 		$("#div-profile").removeClass("d-none");
-	})
+	});
 	
-	// 수정된 프로필 폼 반영하기
-	$("#btn-update-profile").click(function() {
-		
-		let querystring = $("#form-profile").serialize();
-		$.post("/user/update", querystring, function(data) {
-			console.log(data);
-		}) 
-		
-	})
+	
 	
 	
 	

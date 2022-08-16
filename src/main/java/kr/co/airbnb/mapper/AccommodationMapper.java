@@ -35,6 +35,8 @@ public interface AccommodationMapper {
 	Accommodation getAcc(int accNo);
 	// 크리테리아로 모든 숙소 조회
 	List<Accommodation> getAllAccByCriteria(AccCriteria criteria);
+	// 유저(호스트)의 모든 숙소 조회
+	List<Accommodation> getAllAccsByUser(User loginUser);
 	// 숙소의 타입1,2,3 조회
 	List<Type> getAllTypesByAccNo(int accNo);
 	

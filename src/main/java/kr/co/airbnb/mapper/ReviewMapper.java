@@ -19,5 +19,8 @@ public interface ReviewMapper {
 	HostRequest getHostInfoByReservationNo(int reservationNo);
 	Integer getDuplicateReviewByNo(@Param("reservationNo") int reservationNo, @Param("userNo") int userNo);	// integer 
 	Integer getOverdueReviewByNo(@Param("reservationNo") int reservationNo, @Param("userNo") int userNo);
-	List<Review> getReviews(@Param("accNo") int accNo);
+	
+	List<Review> getReviews(@Param("accNo") int accNo, int beginIndex, int endIndex);
+	List<Review> getReviewsUnder(int accNo);
+	// List<Review> getReviewsbyKeyword(int accNo, String keyword);
 }

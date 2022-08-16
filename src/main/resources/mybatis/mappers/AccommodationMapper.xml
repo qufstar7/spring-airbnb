@@ -71,7 +71,7 @@
 	</select>
 	
 	<!-- List<Type> getTypesByTypeNo(int typeNo); -->
-	<select id="getTypesByTypeNo" parameterType="int" resultType="Type">
+ 	<select id="getTypesByTypeNo" parameterType="int" resultType="Type">
 		select A.acc_no 			as accNo,
         	   B.type_no 			as "type.no",
         	   B.type_name 			as "type.name", 
@@ -82,7 +82,7 @@
 		where A.acc_no = C.acc_no
 		and	  C.type_no = B.type_no
 		and   B.type_no = #{value}
-	</select>
+	</select> 
 	
 	<!-- List<AccRoom> getAccRoomsByAccNo(int accNo); 
 	<select id="getAccRoomsByAccNo" parameterType="int" resultType="AccRoom">
@@ -131,7 +131,6 @@
 			ROOM_LIVINGROOM as livingroom
 		from AIRBNB_ACC_ROOMS
 		where acc_no = #{value}
-	
 	</select>
 	
 	<!-- Accommodation getDisabledByAccNo(int accNo); -->
@@ -200,6 +199,7 @@
 		</where>
 	</select>
 	
+
 	<!-- List<Accommodation> searchAccByKeyword(SearchCriteria searchCriteria); -->
 	<select id="searchAccByKeyword" parameterType="kr.co.airbnb.criteria.SearchCriteria" resultMap="AccResultMap">
 		select *
@@ -228,6 +228,14 @@
 		</where> 
 	</select> 
 	
+	<!-- List<Accommodation> getAllAccsByUser(User loginUser); -->
+	<select id="getAllAccsByUser" parameterType="User" resultMap="AccResultMap">
+		select *
+		from airbnb_accommodations A, airbnb_users B
+		where A.user_no = B.user_no
+		and A.user_no = #{no}
+		order by A.acc_no
+	</select>
 
 	<!-- List<AccConvenience2> getCon(int accNo); -->
 	<select id="getBoast" parameterType="int" resultType="Boast">

@@ -28,7 +28,6 @@
  	
  	<resultMap type="Accommodation" id="AccResultMap">
 		<id column="ACC_NO" property="accNo"/>
-		<result column="TYPE_NO" property="typeNo"/>
 		<result column="ACC_REVIEW_COUNT" property="reviewCount"/>
 		<result column="ACC_REVIEW_SCORE" property="reviewScore"/>
 		<result column="ACC_NAME" property="name"/>
@@ -53,6 +52,15 @@
 		<result column="ACC_REFOUND_DESCRIPTION" property="refoundDescription"/>
 		<result column="ACC_CLEANING_PRICE" property="cleaningPrice"/>
 		<result column="IMAGE_COVER" property="imageCover"/>
+		<result column="AVG_CLEANLINESS" property="cleanScore"/>
+		<result column="AVG_ACCURACY" property="accuracyScore"/>
+		<result column="AVG_COMMUNICATION" property="communicationScore"/>
+		<result column="AVG_LOCATION" property="locationScore"/>
+		<result column="AVG_CHECKIN" property="checkinScore"/>
+		<result column="AVG_VALUE" property="valueScore"/>
+		<result column="AVG_CONVENIENCE" property="convenienceScore"/>
+		<result column="AVG_TOTAL" property="totalScore"/>
+		<association property="disabledDate" column="acc_no" select="kr.co.airbnb.mapper.AccommodationMapper.getDisabledByAccNo"/>
 		<association property="user" column="USER_NO" select="kr.co.airbnb.mapper.UserMapper.getUserByNo"/>
 	</resultMap>
  	
@@ -81,12 +89,20 @@
  		values (#{wishlistNo}, #{accNo})
  	</insert>
  	
- 	<!-- void changeWishlist(int wishlistNo, int accNo); -->
+ 	<!-- void changeWishlist(int wishlistNo, int accNo); 숙소를 다른 위시리스트 폴더로 변경할 때 -->
  	<update id="changeWishlist">
  		update airbnb_wishlist_accommodations
  	     set 
  	      wishlist_no = #{wishlistNo}
  	    where acc_no = ${accNo}
+ 	</update>
+ 	
+ 	<!-- void updateWishlist(Wishlist wishlist); -->
+ 	<update id="updateWishlist" parameterType="Wishlist">
+ 		update airbnb_wishlists
+ 		 set
+ 		  wishlist_name = #{name}
+ 		where wishlist_no = #{no}
  	</update>
  	
  	
