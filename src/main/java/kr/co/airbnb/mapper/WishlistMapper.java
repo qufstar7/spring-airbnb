@@ -1,5 +1,6 @@
 package kr.co.airbnb.mapper;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -21,5 +22,6 @@ public interface WishlistMapper {
 	
 	// 다른 위시리스트 폴더로 변경
 	void changeWishlist(@Param("wishlistNo")int wishlistNo, @Param("accNo") int accNo);
+	List<Accommodation> getWishlistAccsWithConditions(@Param("wishlistNo")int wishlistNo, @Param("checkInDate") Date checkIndate, @Param("checkOutDate") Date checkOutDate, @Param("guestCount") int guestCount);
 	
 }
