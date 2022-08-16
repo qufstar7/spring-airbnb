@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import kr.co.airbnb.annotation.LoginUser;
 import kr.co.airbnb.criteria.AccCriteria;
+import kr.co.airbnb.criteria.SearchCriteria;
 import kr.co.airbnb.vo.AccConvenience;
 
 import kr.co.airbnb.vo.AccDiscount;
@@ -32,8 +33,6 @@ public interface AccommodationMapper {
 
 	// 숙소 상세 정보
 	Accommodation getAcc(int accNo);
-	// 모든 숙소 조회
-	List<Accommodation> getAllAcc();
 	// 크리테리아로 모든 숙소 조회
 	List<Accommodation> getAllAccByCriteria(AccCriteria criteria);
 	// 숙소의 타입1,2,3 조회
@@ -51,23 +50,6 @@ public interface AccommodationMapper {
       
 	// 숙소 종류 리스트
 	List<Type> getTypesByTypeNo(int typeNo);
-
-	/*
-	// 객실 리스트 
-	List<AccRoom> getAccRoomsByAccNo(int accNo);
-	// 위시리스트 리스트
-	List<Wishlist> getWishlistByAccNo(int accNo);
-	// 조회 정보 리스트
-	List<AccViewCount> getViewCountsByAccNo(int accNo); 
-	// 예약정보 리스트
-	List<Reservation> getReservationByAccNo(int accNo); 
-	// 리뷰 리스트
-	List<Review> getReviewByAccNo(int accNo);  
-	// 할인정보 리스트
-	List<AccDiscount> getDiscountByAccNo(int accNo); 
-	// 태그 리스트
-	List<Tag> getTagByAccNo(int accNo);
-	*/
 	
 
 	// 숙소 자랑거리?
@@ -81,5 +63,9 @@ public interface AccommodationMapper {
 	
 	// 번호만 가지고 있는 숙소 데이터 생성(insert into)
 	void insertAcc(Accommodation acc);
+	
+	// nav검색으로 list조회
+	List<Accommodation> searchAccByKeyword(SearchCriteria searchCriteria);
+	
 
 }

@@ -17,7 +17,6 @@
 <script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
 <script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
 
-
 <nav class="navbar ${page eq 'subNav' ? '' : 'sticky-top' } py-0" id="nav">
 		<!-- 로고가 있는 navbar -->
 		<div class="container">
@@ -28,110 +27,127 @@
 			</div>
 			<div id="search" class="box d-flex justify-content-center">
 				<!-- 메인페이지에서 사용하는 검색창 -->
+				<form id="search-form" method="get" action="list">
 				<div id="navSearch" class="p-1 position-relative" type="button" style="border:1px solid #D8D8D8; border-radius: 25px; width:360px; height:48px;box-shadow: 1px 4px 7px 0px rgba(0,0,0,0.1);">
 					<div class="allSpace" style="width:366px; padding: 2px 0px;">
 						<div class="btn-group position-static" >
 							<div id="where" class="btn-group position-static">
-								<button type="button" class="btn p-0" data-bs-toggle="dropdown" aria-expanded="false" onclick='searchFn()'>
-									<strong>어디든지</strong>	<!-- 주소만 검색 -->
-									<input type="text" name="" value="" style="background-color:transparent; border:none; display:none;"/>
+								<button type="button" id="btn-open-where" class="btn p-0 " data-bs-toggle="dropdown" aria-expanded="false" >
+									<span class="search-title">어디든지</span>	<!-- 주소만 검색 -->
+									<input type="text" id="where-field" name="keyword" value=""  style="display: none; border: none !important;"/>
 								</button>
 								<div class="dropdown-menu m-0" style="left:55%; top: 62px;">
 									<div class="" style="width:40%; float: left;">
-									<h3 class="h6 p-3">최근 검색어</h3>
+										<h3 class="h6 p-3">최근 검색어</h3>
 									</div>
 									<div class=" d-flex flex-wrap justify-content-center" style="width:50%; float: left;">
-									<h3 class="h6 p-3" style="width:100%">지역으로 검색하기</h3>
-										<div style="width:30%"><a class="dropdown-item" href="#"><img src="https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg" alt="" class="w-100"><p>컨텐츠1</p></a></div>
-										<div style="width:30%"><a class="dropdown-item" href="#"><img src="https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg" alt="" class="w-100"><p>컨텐츠2</p></a></div>
-										<div style="width:30%"><a class="dropdown-item" href="#"><img src="https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg" alt="" class="w-100"><p>컨텐츠3</p></a></div>
-										<div style="width:30%"><a class="dropdown-item" href="#"><img src="https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg" alt="" class="w-100"><p>컨텐츠4</p></a></div>
-										<div style="width:30%"><a class="dropdown-item" href="#"><img src="https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg" alt="" class="w-100"><p>컨텐츠5</p></a></div>
-										<div style="width:30%"><a class="dropdown-item" href="#"><img src="https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg" alt="" class="w-100"><p>컨텐츠6</p></a></div>
+									<h3 class="h6 p-3" style="width:100%">대한민국 내 인기 여행지</h3>
+										<div style="width:30%">
+											<button type="button" class="area-btn" data-area="서울">
+												<img src="https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg" alt="" class="w-100"> <div style="text-align: center;">서울</div>
+												
+											</button>
+										</div>
+										<div style="width:30%">
+											<button type="button" class="area-btn" data-area="제주">
+												<img src="https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg" alt="" class="w-100"> <div style="text-align: center;">제주</div>
+												
+											</button>
+										</div>
+										<div style="width:30%">
+											<button type="button" class="area-btn" data-area="부산">
+												<img src="https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg" alt="" class="w-100"> <div style="text-align: center;">부산</div>
+												
+											</button>
+										</div>
+										<div style="width:30%">
+											<button type="button" class="area-btn" data-area="강릉">
+												<img src="https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg" alt="" class="w-100"> <div style="text-align: center;">강릉</div>
+												
+											</button>
+										</div>
+										<div style="width:30%">
+											<button type="button" class="area-btn" data-area="여수">
+												<img src="https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg" alt="" class="w-100"> <div style="text-align: center;">여수</div>
+												
+											</button>
+										</div>
+										<div style="width:30%">
+											<button type="button" class="area-btn" data-area="경주">
+												<img src="https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg" alt="" class="w-100"> <div style="text-align: center;">경주</div>
+												
+											</button>
+										</div>
 									</div>
 								</div>
 							</div>
 							<span style="padding: 2px; color: lightgray;">|</span>
 							<div id="when" class="btn-group position-static">
-								<button type="button" class="btn p-0" data-bs-toggle="dropdown" aria-expanded="false" style="" onclick='dateFn()'>
-									<strong>언제든 일주일</strong>
+								<button type="button" id="btn-open-when" class="btn p-0" data-bs-toggle="dropdown" aria-expanded="false" style="">
+									<span class="search-title">언제든 일주일</span>
 								</button>
-								<div class="dropdown-menu m-0" style="left:50%; top: 62px;">
-									<input class="dateSelector" placeholder="ex) 2020-09-01" style="left: 50px"/>
+								<div class="dropdown-menu m-0" style="left:50%; top: 62px; padding:40px">
+									<div class="ckindate" style="float:left;">
+										<!-- 달력 from -->
+										<label for="startDate" style="font-size:15px;">체크인</label>
+										<input type="text" class="c-from" name="startDate" id="startDate" pattern="yyyy-dd-mm" value="" />
+									</div>
+									<div class="ckoutdate" style="float:right;">
+										<!-- 달력 to -->
+										<label for="endDate" style="font-size:15px;">체크아웃</label>
+										<input type="text" class="c-to" name="endDate" id="endDate" pattern="yyyy-dd-mm" value="" />
+									</div>
+									<!-- 달력2 <input class="dateSelector" placeholder="ex) 2020-09-01" style="left: 50px"/> -->
 									<!-- 달력1 <input type="text" id="demo" name="demo" value="" /> -->
 								</div>
 							</div>
 							<span style="padding: 2px; color: lightgray;">|</span>
 							<div id="who" class="btn-group position-static">
-								<button type="button" class="btn p-0" data-bs-toggle="dropdown" aria-expanded="false" style=""onclick='countFn()'>게스트 추가</button>  <!-- onclick="searchFunction()" -->
+								<button type="button"  id="btn-open-who" class="btn p-0" data-bs-toggle="dropdown" aria-expanded="false" style=""><span class="search-title">게스트 추가</span></button>  <!-- onclick="searchFunction()" -->
 								<div id="count-dropdown" class="dropdown-menu m-0" style="left:50%; top: 62px;">
 									<ul class="list-group list-group-flush mx-3">
 										<li class="list-group-item d-flex justify-content-between align-items-center">
 											<div><p class="mt-3 mb-0"><strong>성인</strong></p><p class="mb-3">13세 이상</p></div>
 											<div class="adultCount d-flex align-items-center">
 												<button type="button" class="btn" id="adultDown"><i class="bi bi-dash-circle h3 text-black-50"></i></button>
-												<input type="text" name="adultCount" value="0" readonly="readonly" style="text-align:center; width:30px; border:none; font-size:20px;"/>
+												<input type="text" name="adult" value="0" readonly="readonly" style="text-align:center; width:30px; border:none; font-size:20px;"/>
 												<button type="button" class="btn" id="adultUp"><i class="bi bi-plus-circle h3 text-black-50"></i></button>
 											</div>
 										</li>
 										<li class="list-group-item d-flex justify-content-between align-items-center">
 											<div><p class="mt-3 mb-0"><strong>어린이</strong></p><p class="mb-3">만 2~12세</p></div>
 											<div class="d-flex align-items-center">
-												<button type="button" class="btn" ><i class="bi bi-dash-circle h3 text-black-50"></i></button>
-												<input type="text h4" name="result" value="0" readonly="readonly" style="text-align:center; width:30px; border:none; font-size:20px;"/>
-												<button type="button" class="btn" ><i class="bi bi-plus-circle h3 text-black-50"></i></button>
+												<button type="button" class="btn" id="childDown" ><i class="bi bi-dash-circle h3 text-black-50"></i></button>
+												<input type="text h4" name="child" value="0" readonly="readonly" style="text-align:center; width:30px; border:none; font-size:20px;"/>
+												<button type="button" class="btn" id="childUp" ><i class="bi bi-plus-circle h3 text-black-50"></i></button>
 											</div>
 										</li>
 										<li class="list-group-item d-flex justify-content-between align-items-center">
 											<div><p class="mt-3 mb-0"><strong>유아</strong></p><p class="mb-3">만 2세 미만</p></div>
 											<div class="d-flex align-items-center">
-												<button type="button" class="btn" onclick=''><i class="bi bi-dash-circle h3 text-black-50"></i></button>
-												<input type="text h4" name="result" value="0" readonly="readonly" style="text-align:center; width:30px; border:none; font-size:20px;"/>
-												<button type="button" class="btn" onclick=''><i class="bi bi-plus-circle h3 text-black-50"></i></button>
+												<button type="button" class="btn" id="infantDown"><i class="bi bi-dash-circle h3 text-black-50"></i></button>
+												<input type="text h4" name="infant" value="0" readonly="readonly" style="text-align:center; width:30px; border:none; font-size:20px;"/>
+												<button type="button" class="btn" id="infantUp"><i class="bi bi-plus-circle h3 text-black-50"></i></button>
 											</div>
 										</li>
 										<li class="list-group-item d-flex justify-content-between align-items-center">
 											<div><p class="mt-3 mb-0"><strong>반려동물</strong></p><p class="mb-3"><a href="#" data-bs-toggle="modal" data-bs-target="#" style="color:gray;">보조동물을 동반하시나요?</a></p></div>
 											<div class="d-flex align-items-center">
-												<button type="button" class="btn" onclick=''><i class="bi bi-dash-circle h3 text-black-50"></i></button>
-												<input type="text h4" name="result" value="0" readonly="readonly" style="text-align:center; width:30px; border:none; font-size:20px;"/>
-												<button type="button" class="btn" onclick=''><i class="bi bi-plus-circle h3 text-black-50"></i></button>
+												<button type="button" class="btn" id="petDown"><i class="bi bi-dash-circle h3 text-black-50"></i></button>
+												<input type="text h4" name="pet" value="0" readonly="readonly" style="text-align:center; width:30px; border:none; font-size:20px;"/>
+												<button type="button" class="btn" id="petUp"><i class="bi bi-plus-circle h3 text-black-50"></i></button>
 											</div>
 										</li>
 									</ul>
 								</div>
 							</div>
-							<button class="search-btn p-0">
+							<button id="btn-search" class="search-btn p-0" type="submit">
 								<span class="material-symbols-outlined">search</span>
 							</button>
 						</div>
 					</div>
 				</div>
-				<!-- 클릭하면 커지는 검색창 Offcanvas 
-				<div class="p-1 position-relative overlay" type="" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" style="width:370px; height:48px;">
-					<div class="d-inline-flex p-2 position-absolute top-50 start-50 translate-middle" style="width:366px;">
-						<button class="p-0" style="background-color:transparent; border: none; width:29%; font-size: 16px;">숙소</button>
-						
-						<button class="p-0" style="background-color:transparent; border: none; width:35%; font-size: 16px;">체험</button>
-						
-						<button class="p-0" style="background-color:transparent; border: none; width:32%; font-size: 16px;">온라인 체험</button>
-					</div>
-					
-				</div>
-				-->
-				
-					<!-- 숙소 상세페이지에서 사용하는 검색창 -->
-					<!--
-					<div class="shadow p-1 position-relative" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" style="border:1px solid #E6E6E6; border-radius: 25px; width:400px; height:48px;">
-					<div class="d-inline-flex p-2 position-absolute top-50 start-50 translate-middle " style="width:366px;">
-						<button class="position-absolute top-50 start-50 translate-middle" style="background-color:transparent; border: none; width:80%; font-size: 14px;">
-							<div class="float-start">검색 시작하기</div>
-							<div class="p-0 float-end" style="background-color:red; border: none; border-radius: 50px; width:9%">
-								<i class="bi bi-search" style="color:#FFFFFF"></i>
-							</div>
-						</button>
-					</div> 
-				</div> -->	
+				</form>
 			</div>
 			<div class="box justify-content-between">
 				<div class="row align-items-center" id="userbtn">
@@ -139,7 +155,7 @@
 						<button class="hostbtn" type="button">호스트모드로 전환</button>
 					</div>
 					<div class="dropdown col">
-					  <button onclick="myFunction()" class="dropbtn">
+					  <button class="dropbtn" id="btn-toggle-mymenu">
 					  <a>
 					  	<div>
 					    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
@@ -185,123 +201,328 @@
 					  </c:choose>
 					  </div>
 					</div>
-					<!-- <div class="col-3 position-relative" style="border:1px solid #E6E6E6; border-radius: 25px; width:77px; height:42px;">
-						<div class="position-absolute top-50 start-50 translate-middle">
-							<button class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="background-color:transparent; border: none; width:26%;">
-								<a>
-									가로줄 3개 아이콘
-									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-				 							<path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
-									</svg>
-									프로필 이미지 대신합니다.
-									<span style="border-radius: 50px">
-										<img class="acc-thumbnail rounded-0" src="/resources/images/acc/sample-home.jpg" alt="프로필이미지" style="vertical-align: middle; width: 35px; height: 35px; border-radius: 50%">
-									</span>
-								</a>
-							</button>
-							읽지 않은 알람표시
-							<span class="position-absolute top-0 end-0 translate-middle badge border border-light rounded-circle bg-danger p-2"><span class="visually-hidden">unread messages</span></span>
-							<div class="dropdown-menu dropdown-menu-end" style="">
-								로그인 하지 않았을 때
-								<a class="dropdown-item" href="#">로그인</a>
-								<a class="dropdown-item" href="#">회원 가입</a>
-								로그인 했을 때
-								<a class="dropdown-item" href="#"><strong>메시지</strong></a>
-								<a class="dropdown-item" href="#"><strong>알림</strong></a>
-								<a class="dropdown-item" href="#"><strong>여행</strong></a>
-								<a class="dropdown-item" href="#"><strong>위시리스트</strong></a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="/host">숙소 호스트 되기</a>
-								<a class="dropdown-item" href="#">계정</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="#">로그아웃</a>
-							</div>
-							</div>
-					</div> -->
 				</div>
 			</div>
 		</div>
 
 <script>
-/* 숙소리스트페이지에서 map위에 dropdown 출현 */
-function myFunction() {
-   document.getElementById("myDropdown").classList.toggle("show");   
-   if (!$("#myDropdown").hasClass("show")) {
-      $(".sticky-top").css('z-index', "4");
-      $("#mySidebar").css('z-index', "5")
-   } else {
-      $(".sticky-top").css('z-index', "5")
-      $("#mySidebar").css('z-index', "4")
-   }
-}
-/* 드롭다운 바깥을 클릭했을 때 드롭다운이 닫힘 */
-window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-  
-}
-function searchFn() {
-	$("#navSearch").css('width', "500px");
-	$(".allSpace").css('width', "100%");
-	$("#where").css('width', "220px");
+$(function() { 
+	// 숙소리스트페이지에서 map위에 dropdown 출현 
+	$("#btn-toggle-mymenu").click(function() {
+		
+		document.getElementById("myDropdown").classList.toggle("show");   
+		if (!$("#myDropdown").hasClass("show")) {
+			$(".sticky-top").css('z-index', "4");
+			$("#mySidebar").css('z-index', "5")
+		} else {
+			$(".sticky-top").css('z-index', "5")
+			$("#mySidebar").css('z-index', "4")
+		}
+	});
 	
-	$("#when").css('width', "109px");
-	$("#who").css('width', "95px");
-	
-	$('#where').find('strong').show();
-	$('#where').find('input').hide();
-	
-	$('#where').find('strong').toggle();
-	
-	if ($('#where').find('input').show()) {
-		let currentDisabled = $('#where').find('input').prop("disabled");
-		$('#where').find('input').prop("disabled", !currentDisabled);
+	// dropdown외의 영역을 클릭했을 때 dropdown 닫기
+	$(window).click(function(event) {
+		if (!event.target.matches('.dropbtn')) {
+			var dropdowns = document.getElementsByClassName("dropdown-content");
+			var i;
+			for (i = 0; i < dropdowns.length; i++) {
+				var openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains('show')) {
+					openDropdown.classList.remove('show');
+				}
+			}
+  		}
+	});
+
+	// list 페이지에서 z-index 설정하기
+	function myFunction() {
+	   document.getElementById("myDropdown").classList.toggle("show");   
+	   if (!$("#myDropdown").hasClass("show")) {
+	      $(".sticky-top").css('z-index', "4");
+	      $("#mySidebar").css('z-index', "5")
+	   } else {
+	      $(".sticky-top").css('z-index', "5")
+	      $("#mySidebar").css('z-index', "4")
+	   }
 	}
-}
-function dateFn() {
-	$("#navSearch").css('width', "500px")
-	$(".allSpace").css('width', "100%");
-	$("#when").css('width', "230px");
 	
-	$("#where").css('width', "97px");
-	$("#who").css('width', "95px");
+	// 어디든지를 클릭했을 때
+	$("#btn-open-where").click(function() {
+		$("#navSearch").css('width', "500px");
+		$(".allSpace").css('width', "100%");
+		$("#where").css('width', "220px").find('span.search-title').hide();
+		$("#when").css('width', "109px").find('span.search-title').removeClass('fw-bold fs-6');
+		$("#who").css('width', "95px").find('span.search-title').removeClass('fw-bold fs-6');
+		
+		$("#where-field").show().trigger("focus");
+	});
 	
-}
-function countFn() {
-	$("#navSearch").css('width', "500px")
-	$(".allSpace").css('width', "100%");
-	$("#who").css('width', "217px");
+	// 대한민국 내 인기 여행지 - 버튼 클릭  
+	$(".area-btn").click(function() {
+		var area = $(this).attr("data-area")
+		$("#where-field").val(area);
+	});
 	
-	$("#where").css('width', "97px");
-	$("#when").css('width', "109px");
-}
-/* (테스트) 드롭다운 클릭해도 닫히지 않게 
-function searchFunction() {
-	 document.getElementById("count-dropdown").classList.toggle("show");
-}
-document.getElementById("count-dropdown").onclick = function(event) {
-	if (event.target.matches('.btn')) {
-    var dropdowns = document.getElementsByClassName("dropdown-menu");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-} */
+	// 언제든 일주일을 클릭했을 때
+	$("#btn-open-when").click(function() {
+		$("#navSearch").css('width', "500px");
+		$(".allSpace").css('width', "100%");
+		$("#where").css('width', "97px")
+		$("#when").css('width', "230px").find('span.search-title').addClass('fw-bold fs-6');
+		$("#who").css('width', "95px").find('span.search-title').removeClass('fw-bold fs-6');
+		
+		
+		if ($("#where-field").val() != "") {
+			$("#where").find('span.search-title').hide()
+		} else {
+			$("#where").find('span.search-title').show()
+			$("#where-field").hide();
+		}
+	});
+	
+	// 게스트 추가를 클릭했을 때
+	$("#btn-open-who").click(function() {
+		$("#navSearch").css('width', "500px");
+		$(".allSpace").css('width', "100%");
+		$("#where").css('width', "97px").find('span.search-title').show()
+		$("#when").css('width', "109px").find('span.search-title').removeClass('fw-bold fs-6');
+		$("#who").css('width', "217px").find('span.search-title').addClass('fw-bold fs-6');
+		
+		if ($("#where-field").val() != "") {
+			$("#where").find('span.search-title').hide()
+		} else {
+			$("#where").find('span.search-title').show()
+			$("#where-field").hide();
+		}
+	});
+// nav 검색 기능 
+	$("#btn-search").click(function(){
+		// 게스트추가만 클릭하고 검색한 경우 현재페이지 리다이렉션 ++ 언제든지 &&로 추가
+		
+			var whereKeyword = $("#where-field").val();	// 어디든지 검색어 & 버튼클릭
+
+			// 언제든 일주일 - 기간 검색 (yyyy-dd-mm)
+			var startDate = $("input[id='startDate']").val();
+			var endDate = $("input[id='endDate']").val();
+			
+			// 게스트 검색
+			var adultCount = parseInt($("input[name='adult']").val());
+			var childCount = parseInt($("input[name='child']").val());
+			var infantCount = parseInt($("input[name='infant']").val());
+			var petCount = parseInt($("input[name='pet']").val());
+		
+			// location.href = "/list?keyword="+whereKeyword+"&adult="+adultCount+"&childCount="+childCount+"&infantCount="+infantCount+"&petCount="+petCount 
+		
+		searchByKeyword();
+		return false;	
+	})
+
+	
+	
+// 게스트추가 - 카운팅
+	// 성인 인원수 증감시키기
+	$("#adultUp").on("click",function(){
+		var inp = parseInt($("input[name='adult']").val());
+		$("input[name='adult']").val(++inp);
+		return false;
+	})
+	$("#adultDown").on("click",function(){
+		var inp = parseInt($("input[name='adult']").val());
+		inp--;
+		inp = inp <= 1 ? 0 : inp;
+		$("input[name='adult']").val(inp);
+		return false; // 기본값 제거 -- 드롭다운 창 닫힘 제거
+	})
+	
+	// 어린이 인원수 증감시키기
+	$("#childUp").on("click",function(){
+		// 성인 인원수가 0일 때, 어린이 인원수 증가시 성인 인원추가
+		if(parseInt($("input[name='adult']").val())===0) {
+			$("input[name='adult']").val(1);
+		}
+		
+		var inp = parseInt($("input[name='child']").val());
+		$("input[name='child']").val(++inp);
+		
+		return false;	// 기본값 제거 -- 드롭다운 창 닫힘 제거
+	})
+	$("#childDown").on("click",function(){
+		var inp = parseInt($("input[name='child']").val());
+		inp--;
+		inp = inp <= 1 ? 0 : inp;
+		$("input[name='child']").val(inp);
+		return false;
+	})
+	// 유아 인원수 증감시키기
+	$("#infantUp").on("click",function(){
+		// 성인 인원수가 0일 때, 유아 인원수 증가시 성인 인원추가
+		if(parseInt($("input[name='adult']").val())===0) {
+			$("input[name='adult']").val(1);
+		}
+		var inp = parseInt($("input[name='infant']").val());
+		$("input[name='infant']").val(++inp);
+		return false;	// 기본값 제거 -- 드롭다운 창 닫힘 제거
+	})
+	$("#infantDown").on("click",function(){
+		var inp = parseInt($("input[name='infant']").val());
+		inp--;
+		inp = inp <= 1 ? 0 : inp;
+		$("input[name='infant']").val(inp);
+		return false;
+	})
+	// 반려동물 수 증감시키기
+	$("#petUp").on("click",function(){
+		// 성인 인원수가 0일 때, 반려동물 수 증가시 성인 인원추가
+		if(parseInt($("input[name='adult']").val())===0) {
+			$("input[name='adult']").val(1);
+		}
+		var inp = parseInt($("input[name='pet']").val());
+		$("input[name='pet']").val(++inp);
+		return false;	// 기본값 제거 -- 드롭다운 창 닫힘 제거
+	})
+	$("#petDown").on("click",function(){
+		var inp = parseInt($("input[name='pet']").val());
+		inp--;
+		inp = inp <= 1 ? 0 : inp;
+		$("input[name='pet']").val(inp);
+		return false;
+	})
+	
+	// nav 검색 -- 리스트로 이동
+	function searchByKeyword() {
+	
+		let navQueryString = $("#search-form").serialize();
+		
+		let $acc = $("#accList").empty();
+		
+		let navXhr = new XMLHttpRequest();
+		navXhr.onreadystatechange = function() {
+			if (navXhr.readyState === 4 && navXhr.status === 200) {
+				let jsonText = navXhr.responseText;
+				let accs = JSON.parse(jsonText);
+				
+				
+				if (accs.length == 0) {
+					let content = `
+						<div class="col-12">
+							<p class="text-center">검색결과가 존재하지 않습니다.</p>
+						</div>
+					`;
+					
+					$acc.append(content);
+				} else {
+					$.each(accs, function(index, acc) {
+						let content = `
+							<div id="accList" class="grid-main">
+							<!-- acc.status = '운영중' 인 숙소만 리스트업 --> 
+							<c:forEach var="acc" items="${acc }">
+								<div class="card-container" OnClick="href='/detail?no=${acc.accNo }'" style="text-decoration-line: none; color: black">
+									<div class="card-box p-1">
+										<div class="" style="width: 300px">
+											<!-- 숙소 섬네일 슬라이드쇼 시작 -->
+											<!-- 아이디에 acc_no나 img_no를 사용하는게 좋을 것 같습니다. / id - 아래 3개의 버튼, prev버튼, next버튼 -->
+											<div id="acc-slide${acc.accNo }" class="carousel slide" data-interval="false">
+												<div class="carousel-indicators">
+													<button type="button"
+														data-bs-target="#acc-slide${acc.accNo }"
+														data-bs-slide-to="0" class="active" aria-current="true"
+														aria-label="Slide 1"></button>
+													<button type="button"
+														data-bs-target="#acc-slide${acc.accNo }"
+														data-bs-slide-to="1" aria-label="Slide 2"></button>
+													<button type="button"
+														data-bs-target="#acc-slide${acc.accNo }"
+														data-bs-slide-to="2" aria-label="Slide 3"></button>
+												</div>
+												<!-- 위시리스트 하트 버튼 -->
+												<div class="wishlist-icon">
+													<c:if test="${empty LOGIN_USER }">
+														<a class="unwish" href="#" data-bs-toggle="modal" data-bs-target="#email-login-modal"
+															style="position:absolute; top:15px; right:15px; z-index:2">
+															<span class="material-icons" style="color:white">favorite</span>
+														</a>
+													</c:if>
+													<%-- <c:choose>
+														<c:when test="${acc.accNo eq user.wishlist.no }"> <!-- wishlist 모달 넣어주기-->
+															<a class="wished" href="#" style="position:absolute; top:20px; right:30px; z-index:2">
+																<span class="material-icons" style="color:#FF7977">favorite</span>
+															</a>
+														</c:when>
+														<c:otherwise>
+															<a class="unwish" href="#" data-bs-toggle="modal" data-bs-target="#"	
+																style="position:absolute; top:20px; right:30px; z-index:2">
+																<span class="material-icons" style="color:white">favorite</span>
+															</a>
+														</c:otherwise>
+													</c:choose> --%>
+												</div>
+												<!-- 슬라이드쇼 이미지 /image-cover, room_image_no -->
+												<div class="carousel-inner" style="border-radius: 25px;">
+													<div class="carousel-item active"> 		
+														<img class="acc-thumbnail rounded-0"
+															src="/resources/images/acc/${acc.imageCover }.jpg" alt="숙소이미지"
+															style="object-fit: cover; width: 300px; height: 300px;">
+													</div>
+													<div class="carousel-item">
+														<img class="acc-thumbnail rounded-0"
+															src="/resources/images/acc/2.jpg" alt="숙소이미지"
+															style="object-fit: cover; width: 300px; height: 300px;">
+													</div>
+													<div class="carousel-item">				<%-- ${acc.room.image.no } --%>
+														<img class="acc-thumbnail rounded-0"
+															src="/resources/images/acc/3.jpg" alt="숙소이미지"
+															style="object-fit: cover; width: 300px; height: 300px;">
+													</div>
+												</div>
+
+												<button class="carousel-control-prev" type="button"
+													data-bs-target="#acc-slide${acc.accNo }"
+													data-bs-slide="prev">
+													<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+													<span class="visually-hidden">Previous</span>
+												</button>
+
+												<button class="carousel-control-next" type="button"
+													data-bs-target="#acc-slide${acc.accNo }"
+													data-bs-slide="next">
+													<span class="carousel-control-next-icon" aria-hidden="true"></span>
+													<span class="visually-hidden">Next</span>
+												</button>
+											</div>
+											<!-- 숙소 설명 -->
+											<div class="row my-2">
+												<div class="col-8">
+													<div class="card-title"><span>${acc.user.name }</span>의 <span>${acc.types[0].name }</span></div>
+													<div class="card-text text-muted">${acc.name }</div>
+													<div class="card-subtitle text-muted">침대 <span>${room.bed }</span>개</div>		<!-- room_bed -->
+													<div class="card-subtitle mb-2 text-muted">12월 6일 ~ 1월 3일</div>
+													<div class="card-text">
+														<strong>₩<fmt:formatNumber value="${acc.price }" /></strong>/월	<!-- acc_price * 선택한 날짜(default 1일) -->
+													</div>
+												</div>
+												<div class="col-4 text-end">★<span>4.5</span>(<span>120</span>)</div>	<!-- total_score (리뷰개수) -->
+											</div>
+										</div>
+									</div>
+								</div>
+								</c:forEach>
+							</div>
+						`;
+						$acc.append(content);
+					})
+				}
+				
+			}
+		}
+		navXhr.open("GET", "/list?" + navQueryString);
+		navXhr.send();
+	}
+	
+})
 
 /* 언제든지-달력 */
-/* $(function () {
+/* 달력1
+$(function () {
     $('#demo').daterangepicker({
         "locale": {
             "format": "YYYY-MM-DD",
@@ -324,6 +545,7 @@ document.getElementById("count-dropdown").onclick = function(event) {
     });
 }); */
 
+/* 달력 2
 var dateSelector = document.querySelector('.dateSelector');
 dateSelector.flatpickr({
 	mode: "range",
@@ -331,59 +553,30 @@ dateSelector.flatpickr({
 	minDate: "today",    
 	dateFormat: "Y-m-d",
 	showMonths: 1
-	/* disable: [
+	 disable: [
 		function(date) { 
  	 		// disable every multiple of 8            
  	 		return !(date.getDate() % 8);   
  	 	}    
-	] */
+	] 
+}); */
+	
+var fp1 = flatpickr(document.getElementById("startDate"), {
+	"inline": true,
+	"locale": "ko",
+	"minDate" : "today"
+});
+var fp2 = flatpickr(document.getElementById("endDate"), {
+	"inline": true,
+	"locale": "ko",
+	"minDate" : "today"
+});
+
+fp1.config.onChange.push(function(selectedDates) {
+	fp2.config.minDate = selectedDates[0].fp_incr(1)
 });
 
 
-/* 게스트추가 - 카운트 */
-$(document).ready(function(){
-	var inp =$("input[name='adultCount']").val();
-	$("#adultUp").on("click",function(){
-		setTimeout(function(){
-		if (inp == 300)
-		{
-			inp;
-		}
-		else{inp ++;}
-		$("input[name='adultCount']").val(inp);
-		},500);
-	});
-	$("#adultDown").on("click",function(){
-		setTimeout(function(){
-		if (inp == 100)
-		{
-			inp;
-		}
-		else if(inp <= 300)
-		{
-			inp--;
-		}
-		$("input[name='adultCount']").val(inp);
-		},500);
-	});
-});
-
-/* function count(type)  {
-  // 결과를 표시할 element
-  const adult = document.getElementById('result-adult');
-  // 현재 화면에 표시된 값
-  let numberAdult = adult.innerText;
-  
-  // 더하기/빼기
-	if(type === 'plus') {
-		number = parseInt(numberAdult) + 1;
-	} else if(type === 'minus')  {
-		number = parseInt(numberAdult) - 1;
-	}
-	// 결과 출력
-	resultElement.innerText = numberAdult;
-}
- */
 </script>
 </nav>
 
