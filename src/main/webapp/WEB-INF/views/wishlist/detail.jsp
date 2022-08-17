@@ -172,10 +172,13 @@
 	 	});
 	}	
 	// 마커 삭제?
-	function clearOverlays(accNo) {
-		markers["acc" + accNo].setMap(null); // 지도에서 삭제?
-		delete markers["acc" + accNo];			// 객체에서 해당키값 삭제
-		//$(".labelTest").html("");
+	function clearOverlays(accs) {
+		let objectName;
+		$.each(accs, function(i, acc) {
+			objectName = "acc" + acc.accNo
+			markers[objectName].setMap(null); // 지도에서 삭제?
+			delete markers[objectName];			// 객체에서 해당키값 삭제
+		});
 	}
 	
 	// 여기서 jstl 사용가능?
@@ -204,8 +207,8 @@
 	        //mapTypeId: 'terrain'
 	        };
 	   map = new google.maps.Map(document.getElementById('googleMap'), defaultOptions);
-	   
 	   createMarker(map, accs);
+	   
 	}
 	
 	let accs = new Array();
@@ -600,6 +603,7 @@ $(function () {
 		$("#btn-guest-count").text("인원 " + totalGuestCount + "명");
 		$("#hidden-guest-count").val(totalGuestCount);
 		$("h2").click();
+		refreshWithConditions();
 	});
 
 	///////// 날짜 or 인원 검색
@@ -620,6 +624,7 @@ $(function () {
 	} */
 	// jsp 우회해서 사용하기 ? 1.마커도 반영해야..  2. get방식도 가능?
 	function refreshWithConditions() {
+		
 		var formData = new FormData(document.getElementById("form-hidden-conditions")); //formData 객체 생성
 		//formData.append("tab", tab);
 		$.ajax({
@@ -640,54 +645,42 @@ $(function () {
 	     	var $div = $('<div>').html(result);
 			var contents = $div.find("div#indexListAjax").html();
 			//console.log(contents);
+			$("#tabl1").html("");
 			$("#tabl1").html(contents);
 			
+			let availableAccNo = new Array();		// 예약가능한 숙소 번호 배열
 			$("#tabl1").find("div.card").each(function() {
-				let accNo = parseInt($(this).attr("id").replace("card-", ""));
+				availableAccNo.push(parseInt($(this).attr("id").replace("card-", "")));
+			});
+			console.log("가능한번호: " + availableAccNo);
+			$.each(accs, function(i, acc) {
+				if(availableAccNo.indexOf(acc.accNo) >= 0) {	
+					acc.disabled = false;						// 예약가능한 숙소번호배열에 위시리스트의 숙소번호가 있는 경우
+				} else {			
+					acc.disabled = true;						// 예약가능한 숙소번호배열에 위시리스트의 숙소번호가 없는 경우
+				}
+				console.log("accNo: " + acc.accNo + " disabled: " + acc.disabled );
+			});
+			
+			// 기존 마커지우기
+			clearOverlays(accs);
+			initMap();
+			
+			// 講師コード
+			/* $("#tabl1").find("div.card").each(function() {
+				let accNo = parseInt($(this).attr("id").replace("card-", "")); // 해당 날짜와 인원수 예약가능한 숙소번호
 				let index = accs.findIndex(function(acc) {
-					return acc.accNo === accNo;
+					return acc.accNo === accNo;  // accs의 배열의 요소에서 accNo 속성의 값이 우변의 accNo인 배열 요소의 인덱스를 반환한다.
 				});
-				
 				if(index >= 0) {
 					accs[index].disabled = false;
-				}
+				} 
 			})
 			
 			$.each(accs, function(index, acc) {
 				if(!acc.hasOwnProperty('disabled')) {
 					acc.disabled = true;
 				}
-				clearOverlays(acc.accNo);	
-			})
-			/* $.each(accs, function(index, acc) {
-				
-				$("#tabl1").find("div.card").each(function() {
-					//console.log("id값: " + $(this).attr("id"));
-					let accNo = $(this).attr("id").replace("card-", "");
-					//console.log("accNo : " + accNo);		// 여기의 accNo는 날짜, 인원 조건에 알맞는 숙소번호
-					
-					
-					let foundIndex = accs.findIndex(function(x) {
-						return x.accNo == accNo;
-					});
-					
-					if (foundIndex >= 0) {
-						accs[foundIndex].disabled = false;
-						
-					} else {
-						accs[foundIndex].disabled = true;
-					}
-					
-				})
-			}) */
-
-			// 마커지우기
-			//$(".labelTest").html("");
-			
-			createMarker(map, accs);
-			
-			/* $.each(accNos, function(i, accNo) {
-				console.log($(".labels").find("#label-" + accNo));
 			}) */
 			
 		}).fail(function (jqXHR, textStatus, errorThrown) {

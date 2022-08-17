@@ -104,17 +104,23 @@ public class WishlistController {
 	
 	@PostMapping(path="/detail/refresh")
 	//@ResponseBody
-	public String refreshWithConditions(@RequestParam("wishlistNo") int wishlistNo, @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, 
-	@RequestParam("guestCount") int guestCount, Model model) throws ParseException {
+	public String refreshWithConditions(@RequestParam("wishlistNo") int wishlistNo, @RequestParam(name="startDate", required= false) String startDate, @RequestParam(name="endDate", required= false) String endDate, 
+	@RequestParam(name="guestCount", required= false, defaultValue = "1") int guestCount, Model model) throws ParseException {
 		
+		Date checkInDate = null;
+		Date checkOutDate = null;
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		Date checkInDate = format.parse(startDate);
-		Date checkOutDate = format.parse(endDate);
+		if (!startDate.isBlank() && !endDate.isBlank()) {
+			 checkInDate = format.parse(startDate);
+			 checkOutDate = format.parse(endDate);
+		}
 		
 		System.out.println("wishlistNo: " + wishlistNo);
 		System.out.println("checkInDate: " + checkInDate);
 		System.out.println("endDate: " + checkOutDate);
 		System.out.println("totalGuestCount: " + guestCount);
+		System.out.println("startDate: " + startDate);
+		System.out.println("endDate: " + endDate);
 		
 		
 		Wishlist wishlist = wishlistService.getWishlistWithCondition(wishlistNo, checkInDate, checkOutDate, guestCount);
