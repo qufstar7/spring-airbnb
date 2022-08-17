@@ -60,7 +60,8 @@
 												class="sm-profile-img back-img"
 												src="/resources/images/host/michael-dam.jpg"
 												aria-hidden="true">
-										</div> <span class="profile-text">슈퍼호스트에게 물어보기</span>
+										</div> <span class="profile-text">${LOGIN_USER.name }님의 숙소
+											등록하기</span>
 								</a></li>
 								<li class="nav-item"><a
 									class="right-nav-btn nav-link active border rounded-pill"
@@ -106,15 +107,15 @@
 						</div>
 						<div class="form-floating">
 							<input type="text" class="form-control ps-3" name="roadName"
-								id="locationFormRoadName" placeholder="도로명" value=""> <label
-								class="input-form-label fs-6 ps-3" for="locationFormRoadName">도로명</label>
+								id="locationFormRoadName" placeholder="도로명 (필수)" value=""> <label
+								class="input-form-label fs-6 ps-3" for="locationFormRoadName">도로명 (필수)</label>
 						</div>
 						<div class="form-floating">
 							<input type="text" class="form-control ps-3" name="specificAddress"
 								id="locationFormSpecificAddress"
-								placeholder="아파트이름, 동호수 등(선택사항)" value=""> <label
+								placeholder="아파트이름, 동호수 등" value=""> <label
 								class="input-form-label fs-6 ps-3"
-								for="locationFormSpecificAddress">아파트이름, 동호수 등(선택사항)</label>
+								for="locationFormSpecificAddress">아파트이름, 동호수 등</label>
 						</div>
 						<div class="form-floating">
 							<input type="text" class="form-control ps-3" name="zipCode"
@@ -186,7 +187,7 @@
 					</div>
 					<div class="">
 						<button id="next-btn" class="float-start btn btn-dark float-end" form="locationRegisterForm"
-							type="submit" style="width: 80px; height: 48px;">
+							type="submit" disabled style="width: 80px; height: 48px;">
 							다음</a>
 					</div>
 				</div>
@@ -199,6 +200,12 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1cab848c52c03c8f8a6cb0e9effb127a&libraries=services"></script>
 <script>
 $(function() {
+	// 엔터키방지
+	document.addEventListener('keydown', function(event) {
+		if (event.keyCode === 13) {
+			event.preventDefault();
+		};
+	}, true);
 	
 	// 카카오맵 1
 	var bgMapContainer = document.getElementById('bgMap'), // 지도를 표시할 div 
@@ -272,8 +279,44 @@ $(function() {
 		console.log("도로명주소는 " + roadName);
 		console.log("우편번호는 " + zipCode);
 		
-		// 주/도 필드에 값이 있는지 체크하기
+		// 도로명주소 유효성 체크하기
+		isEmpty(roadName);
+		if (isEmpty(roadName)) {
+			$("#checkAlert").removeClass("text-primary");
+			$("#checkAlert").addClass("text-danger");
+			$("#checkAlert").css('display', 'flex');
+			$("#checkAlert span").text("도로명주소를 입력해주세요.");
+			return false;
+		}
+		
+		// 도로명주소 정규식
+		var addressReg = /^[가-힣A-Za-z·\d~\-\.]+(로|길)$/;
+		//var re = new RegExp(addressReg);
+		var myArray = addressReg.exec(roadName);
+		console.log("myArray: " + myArray);
+		if (isEmpty(myArray)) {
+			$("#checkAlert").removeClass("text-primary");
+			$("#checkAlert").addClass("text-danger");
+			$("#checkAlert").css('display', 'flex');
+			$("#checkAlert span").text("주소를 인식하지 못했습니다. 주소를 정확히 입력하셨나요?");
+			return false;
+		}
+		
+		// 제대로 된 주소 입력 시
+		if (!isEmpty(roadName) && !isEmpty(myArray)) {
+			$("#checkAlert").removeClass("text-danger");
+			$("#checkAlert").addClass("text-primary");
+			$("#checkAlert").css('display', 'flex');
+			$("#checkAlert span").text("주소가 인식되었습니다.");
+		}
+		
 		/*
+		// 우편번호에 값이 있는지 체크하기
+		if (zipCode === "") {
+			$("#checkAlert").css('display', 'flex');
+			$("#checkAlert span").text("우편번호를 입력해주세요.");	
+		}
+		// 주/도 필드에 값이 있는지 체크하기
 		if (stateRegionValue === "") {
 			$("#checkAlert").css('display', 'flex');
 			$("#checkAlert span").text("주/도를 입력해주세요.");	
@@ -287,17 +330,9 @@ $(function() {
 		} 
 		*/
 		
-		// 도로명이 작성 되어있는지 체크하기
-		if (roadName === "") {
-			$("#checkAlert").css('display', 'flex');
-			$("#checkAlert span").text("도로명주소를 입력해주세요.");
-		}		
-		// 우편번호에 값이 있는지 체크하기
-		if (zipCode === "") {
-			$("#checkAlert").css('display', 'flex');
-			$("#checkAlert span").text("우편번호를 입력해주세요.");	
-		}
-		
+		// 유효성 검사 통과시
+		$("#next-btn").removeAttr("disabled");
+
 	 	// 지도의 현재 중심좌표를 얻어옵니다 
 	    var center = map.getCenter(); 
 	    // 지도의 현재 레벨을 얻어옵니다
@@ -359,6 +394,39 @@ $(function() {
 		}
 		// 구체적숙소위치알려주기여부(N/Y) 변경 함수 실행
 		markSpecificLoc();
+		
+		// 입력한 주소 객체 생성
+		var stateRegionValue = $.trim( $(":input[name=stateRegion]").val() );
+		var city = $.trim( $(":input[name=city]").val() );
+		var roadName = $.trim( $(":input[name=roadName]").val() );
+		var zipCode = parseInt( $(":input[name=zipCode]").val() );
+		console.log("도로명주소는 " + roadName);
+		console.log("우편번호는 " + zipCode);
+		
+		// 도로명주소 유효성 체크하기
+		if (roadName === "") {
+			alert("최소한의 주소 등록을 위한 키워드를 입력해주세요!")
+			return false;
+		}
+		/*
+		// 우편번호에 값이 있는지 체크하기
+		if (zipCode === "") {
+			$("#checkAlert").css('display', 'flex');
+			$("#checkAlert span").text("우편번호를 입력해주세요.");	
+		}
+		// 주/도 필드에 값이 있는지 체크하기
+		if (stateRegionValue === "") {
+			$("#checkAlert").css('display', 'flex');
+			$("#checkAlert span").text("주/도를 입력해주세요.");	
+			return false;
+		}		
+		// 도시 필드에 올바른 값이 설정되었는지 체크하기
+		if (city === "") {
+			$("#checkAlert").css('display', 'flex');
+			$("#checkAlert span").text("도시를 입력해주세요.");	
+			return false;
+		} 
+		*/
 
 	})
 	
@@ -367,6 +435,15 @@ $(function() {
 	function markSpecificLoc() {
 		
 	}
+	
+	// empty 값 체크
+	var isEmpty = function(value){
+		if ( value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ) ) {
+			return true
+		} else {
+			return false
+        }
+    };
 	
 })
 </script>
