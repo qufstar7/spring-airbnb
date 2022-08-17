@@ -27,6 +27,17 @@
 				font-size: large;
 				padding: 10px 20px;		
 				}	 
+	.userImg {
+ 			width: 55px;
+			height: 55px;  		
+			border-radius: 100%;	
+   	}
+	.rectangleImg {
+			width: 90px;
+			height: 55px;
+			overflow: hidden;
+			border-radius: 20%;
+	}
 </style>
 </head>
 <body>
@@ -111,42 +122,68 @@
 					<h3 class="fw-bold mb-3 ms-2">후기 4개</h3>
 				</div>
 				<div>
+				<h4>게스트가 남긴 후기</h4>
+					<div class="row">
+						<div class="col-10">
+							<h5>Turtle Bay Floating Villa Homestay Eco House 숙소 이름 </h5>
+							<p class="text-muted">7월 2022</p>
+						</div>
+						<div class="col-2">
+							<a href="../detail?no=102">
+								<img src="/resources/images/acc/1.jpg" class="rectangleImg mb-3">
+							</a>							
+						</div>
+					</div>
+					<div>
+						<p>The accommodation is beautiful and as the picture shows. The decor is quaint and the room is very cosy. 
+							The facilities were clean and adequate. Overall, a wonderful stay and highly recommended place… 더 보기
+						</p>
+					</div>
+					<div class="row">
+						<div class="col-1">
+							<a href="../profile?no=1">
+								<img src="/resources/images/profile/no-image.png" class="userImg mb-3">
+							</a>
+						</div>
+						<div class="col">
+							<p class="mb-0 ps-3"><strong>이름님, 포르투갈</strong></p>
+							<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">2015</span>
+						</div>
+					</div>
+					
+
+				<h4>호스트가 남긴 후기</h4>
 					<div class="mb-5">
 						<div>
 							<p class="text-muted">6월2019</p>
-							<p class="fs-5">친절하고 예의바른 게스트</p>
+							<p>성원에 머무르게 되어 기뻤습니다. 커뮤니케이션이 훌륭했고, 다른 호스트를 추천해 드립니다.</p>
 						</div>
-						<div style="display:inline-block;vertical-align: top;">
-							<a href=""><img src="/resources/logo.png" alt="프로필사진"></a> 
-							<div style="display:inline-block;">
-								<span class="fs-5 fw-bold">Isa님,</span><span class="fs-5 fw-bold">피렌체, 이탈리아</span>
-								<div class="fs-5 text-muted">회원가입:2014</div>
+						<div class="row">
+							<div class="col-1">
+								<a href="../profile?no=1">
+									<img src="/resources/images/profile/no-image.png" class="userImg mb-3">
+								</a>
+							</div>
+							<div class="col">
+								<p class="mb-0 ps-3"><strong>이름님, 포르투갈</strong></p>
+								<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">2015</span>
 							</div>
 						</div>
 					</div>
 					<div class="mb-5">
 						<div>
 							<p class="text-muted">6월2019</p>
-							<p class="fs-5">친절하고 예의바른 게스트</p>
+							<p>성원에 머무르게 되어 기뻤습니다. 커뮤니케이션이 훌륭했고, 다른 호스트를 추천해 드립니다.</p>
 						</div>
-						<div style="display:inline-block;vertical-align: top;">
-							<a href=""><img src="/resources/logo.png" alt="프로필사진"></a> 
-							<div style="display:inline-block;">
-								<span class="fs-5 fw-bold">Isa님,</span><span class="fs-5 fw-bold">피렌체, 이탈리아</span>
-								<div class="fs-5 text-muted">회원가입:2014</div>
+						<div class="row">
+							<div class="col-1">
+								<a href="../profile?no=1">
+									<img src="/resources/images/profile/no-image.png" class="userImg mb-3">
+								</a>
 							</div>
-						</div>
-					</div>
-					<div class="mb-5">
-						<div>
-							<p class="text-muted">6월2019</p>
-							<p class="fs-5">친절하고 예의바른 게스트</p>
-						</div>
-						<div style="display:inline-block;vertical-align: top;">
-							<a href=""><img src="/resources/logo.png" alt="프로필사진"></a> 
-							<div style="display:inline-block;">
-								<span class="fs-5 fw-bold">Isa님,</span><span class="fs-5 fw-bold">피렌체, 이탈리아</span>
-								<div class="fs-5 text-muted">회원가입:2014</div>
+							<div class="col">
+								<p class="mb-0 ps-3"><strong>이름님, 포르투갈</strong></p>
+								<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">2015</span>
 							</div>
 						</div>
 					</div>

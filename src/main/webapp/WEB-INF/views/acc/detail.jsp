@@ -35,10 +35,9 @@
 <body >
 <c:set var="menu" value="detaile"/>
 	<!-- 스파이스크롤 -->
-	<nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom" id="nav-1">
-		<div class="col"></div>
-		<div class="col-6">
-			<ul class="navbar-nav me-auto justify-content-center">
+	<nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom justify-content-between" id="nav-1">
+		<div class="col-3">
+			<ul class="navbar-nav me-auto">
 			  <li class="nav-item">
 			    <a class="nav-link" href="#btn-open-image-modal">사진</a>
 			  </li>
@@ -53,9 +52,29 @@
 			  </li>
 			</ul>
 		</div>
-		<div class="col"></div>
+		<div class="row align-items-center" id="navR">
+				<!-- 날짜 입력 안했을때 -->
+				<div class="col-10 p-2 text-end ndate" style="width: 320px;">
+					<h6>요금을 확인하려면 날짜를 입력하세요.</h6>
+					<button type="button" style="font-size: 12px;" class="btn btn-link text-decoration-underline text-dark openReviewModal"><i class="bi bi-star-fill"></i> ${acc.reviewScore }<span class="text-decoration-underline"> · 후기 ${acc.reviewCount }개</span></button>
+				</div>
+				<div class="col-2 p-3 text-end ndate" style="width: 200px;" >
+					<button type="button" class="btn btn-danger r-btn text-white text-center" id="days-focus" style="width: 100%">예약가능 여부 보기</button>
+				</div>
+		</div>
+		<div class="row align-items-center" id="navR2">
+			<!-- 날짜 입력 했을때 -->
+			<div class="col-10 p-2 text-end" style="width: 320px;">
+				<h4><strong><fmt:formatNumber value="${acc.price }"/></strong>/박</h4>
+				<button type="button" style="font-size: 12px;" class="btn btn-link text-decoration-underline text-dark openReviewModal"><i class="bi bi-star-fill"></i> ${acc.reviewScore }<span class="text-decoration-underline"> · 후기 ${acc.reviewCount }개</span></button>
+			</div>
+			<div class="col-2 p-3 text-end" style="width: 200px;" >
+				<button class="btn btn-danger r-btn text-white text-center" form="form-reservation" style="width: 100%">예약하기</button>
+			</div>
+		</div> 
 	</nav>
-	<%@ include file="../common/nav2.jsp" %>
+ 	<%@ include file="../common/nav2.jsp" %> 
+	<%@ include file="../user/home.jsp" %>
 	<div class="container"> 
 		<!-- 타이틀 -->
 		<div class="row p-2 mb-2" id="top-div" >
@@ -76,7 +95,16 @@
 					<button type="button" class="btn btn-link text-decoration-underline text-dark btn-sm" id="btn-open-map-modal">${acc.address }</button>
 					<span class="float-end">
 						<button type="button" class="btn btn-link text-decoration-underline text-dark" id="btn-open-share-modal"><i class="bi bi-share-fill"></i> 공유</button>
-						<button type="button" class="btn btn-link text-decoration-underline text-dark" id="btn-open-save-modal"><i class="bi bi-heart"></i> 저장</button>
+						<c:choose>
+					  	<c:when test="${empty LOGIN_USER}">
+								<!-- 로그인 하지 않았을 때 -->
+							<button type="button" class="btn btn-link text-decoration-underline text-dark" data-bs-toggle="modal" data-bs-target="#email-login-modal"><i class="bi bi-heart"></i> 저장</button>
+						</c:when>
+						<c:otherwise>
+								<!-- 로그인 했을 때 -->
+							<button type="button" class="btn btn-link text-decoration-underline text-dark" id="btn-open-save-modal"><i class="bi bi-heart"></i> 저장</button>
+						</c:otherwise>
+					  </c:choose>
 					</span>
 				</p>
 			</div>
@@ -171,10 +199,13 @@
 							<span>최근 숙박한 게스트 중 90%가 위치에 별점 5점을 준 숙소입니다.</span>
 						</div>
 					</c:if>
+					<div class="mb-3">
+						<h6><i class="bi bi-bookmark-check"></i> 체크인 일주일전까진 무료로 취소가 가능합니다.</h6>
+					</div>
 				</div>
 				<hr>
 				<div>
-					<div class="mt-5 mb-2">
+					<div class="mt-5 mb-3">
 						<img id="air-cover" alt="" src="https://a0.muscache.com/im/pictures/51a7f002-b223-4e05-a2af-0d4838411d92.jpg">
 					</div>
 					<div class="mb-5">
@@ -200,10 +231,14 @@
 						</span>
 						<div>
 							<c:if test="${acc.rooms.bedroom gt 0 }">
+							<div>
 								<span>침실 ${acc.rooms.bedroom }개</span>
+							</div>
 							</c:if>
 							<c:if test="${acc.rooms.bed gt 0 }">
+							<div>
 								<span>침대 ${acc.rooms.bed }개</span>
+							</div>
 							</c:if>
 						</div>
 					</div>
@@ -224,7 +259,7 @@
 						<h4>숙소 편의시설</h4>
 					</span>
 					<c:forEach items="${acc.conveniences }" var="accConvenience" end="5">
-						<div class="col-6 mb-2 convenience">
+						<div class="col-6 mb-2 convenience d-flex align-items-center">
 							<p><span class="material-symbols-outlined"> ${accConvenience.convenience.iconName }</span> ${accConvenience.convenience.name }</p>
 						</div>
 					</c:forEach>
@@ -255,8 +290,8 @@
 				</div> -->
 			</div> 
 			<div class="col-4" id="side">
+				<div id="sticky" >
 				<form id="form-reservation" method="post" action="">
-				<div class="sticky" >
 					<div class="row shadow-lg bg-body rounded" id="box">
 						<div class="col-6 boxhd reservation" >
 							<h4><strong><fmt:formatNumber value="${acc.price }"/></strong>/
@@ -281,6 +316,7 @@
 								<input type="hidden" name="infantNum" id="infantNum" value="0">
 								<input type="hidden" name="petNum" id="petNum" value="0">
 								<input type="hidden" name="totalGuest" id="totalGuest" value="0">
+								<input type="hidden" name="day" id="input-day" value="">
 							</div>
 						</div>
 						<div class="m-0 p-0 text-center">
@@ -290,7 +326,7 @@
 								<i class="bi bi-caret-up-fill float-end" id="up"></i>
 							</button>
 							<div class="rounded" id="guest">
-								<div class="mb-4 row justify-content-between align-middle guest-box" >
+								<div class="mb-4 row justify-content-between d-flex align-items-center guest-box" >
 									<div class="col-4">
 										<p>성인
 									</div>
@@ -300,7 +336,7 @@
 											<button type="button" class="btn btn-outline-dark btn-sm p_btn guestbtn hu_p_btn">+</button>
 									</div>
 								</div>
-								<div class="mb-4 row justify-content-between align-middle guest-box" >
+								<div class="mb-4 row justify-content-between d-flex align-items-center guest-box" >
 									<div class="col-4">
 										어린이
 									</div>
@@ -310,7 +346,7 @@
 											<button type="button" class="btn btn-outline-dark btn-sm p_btn guestbtn hu_p_btn">+</button>
 									</div>
 								</div>
-								<div class="mb-4 row justify-content-between align-middle guest-box" >
+								<div class="mb-4 row justify-content-between d-flex align-items-center guest-box" >
 									<div class="col-4">
 										유아
 									</div>
@@ -320,7 +356,7 @@
 											<button type="button" class="btn btn-outline-dark btn-sm p_btn guestbtn hu_p_btn">+</button>
 									</div>
 								</div>
-								<div class="mb-4 row justify-content-between align-middle guest-box" >
+								<div class="mb-4 row justify-content-between d-flex align-items-center guest-box" >
 									<div class="col-4">
 										반려
 									</div>
@@ -332,13 +368,22 @@
 								</div>
 								<div class="mb-4 row justify-content-between align-middle guest-box" >
 									<div class="col">
-										<span>이 숙소의 최대 숙박 인원은 ${acc.guest }명(유아 포함)입니다. 반려동물을 3마리 이상 동반하는 경우, 호스트에게 알려주세요.</span>
+										<span>이 숙소의 최대 숙박 인원은 ${acc.guest }명(유아 포함)입니다. 
+										<c:choose>
+											<c:when test="${acc.pet eq 0 }">
+												반려동물 동반을 허용하지 않습니다.
+											</c:when>
+											<c:otherwise>
+												반려동물을 3마리 이상 동반하는 경우, 호스트에게 알려주세요.
+											</c:otherwise>
+										</c:choose>
+										</span>
 									</div>
 									
 								</div>
 							</div>
 						</div>
-						<button type="submit" class="btn btn-outline-dark p-2 mt-2 reservation" >예약하기</button>
+						<button type="submit" class="btn btn-danger p-2 mt-2 reservation r-btn" >예약하기</button>
 						<div class="mb-3 text-center mt-2">
 							<span>예약 확정 전에는 요금이 청구되지 않습니다.</span>
 						</div>
@@ -360,10 +405,23 @@
 						</div>
 					</div>
 					<div class="text-center">
-						<button type="button" class="btn btn-link text-decoration-underline text-dark" id="btn-open-report-modal"><i class="bi bi-flag-fill"></i> 숙소 신고하기</button>
+					<c:choose>
+					  	<c:when test="${empty LOGIN_USER}">
+								<!-- 로그인 하지 않았을 때 -->
+								<a href="" data-bs-toggle="modal" data-bs-target="#email-login-modal">
+									<button type="button" class="btn btn-link text-decoration-underline text-dark"><i class="bi bi-flag-fill"></i> 숙소 신고하기</button>
+								</a>
+						</c:when>
+						<c:otherwise>
+								<!-- 로그인 했을 때 -->
+								<a href="">
+									<button type="button" class="btn btn-link text-decoration-underline text-dark"><i class="bi bi-flag-fill"></i> 숙소 신고하기</button>
+								</a>
+						</c:otherwise>
+					</c:choose>
 					</div>
-				</div>
 				</form>
+				</div>
 				
 			</div>
 			<hr>
@@ -376,7 +434,7 @@
 						<p class="mt-3">여행에 차질이 없도록 최선을 다해 도와드리겠습니다. <br/> 모든 예약은 에어비앤비의 게스트 환불 정책에 따라 보호를 받습니다.</p>
 					</c:when>
 					<c:otherwise>
-						<div>
+						<div class="border bg-light p-3 mb-3">
 							<div class="mb-4" id="box-score">
 								<h4><i class="bi bi-star-fill"></i> <span>${acc.reviewScore }</span><span>점</span>
 								<span class="text-decoration"> · 후기 ${acc.reviewCount }</span><span>개</span></h4>
@@ -551,9 +609,20 @@
 				<div class="col-6 mb-2">
 					<p>응답률: 100%</p>
 					<p>응답 시간: 1시간 이내</p>
-					<a href="">
-						<button type="button" class="btn btn-outline-dark btn-lg p-2">호스트에게 연락하기</button>
-					</a>
+					<c:choose>
+					  	<c:when test="${empty LOGIN_USER}">
+								<!-- 로그인 하지 않았을 때 -->
+								<a href="" data-bs-toggle="modal" data-bs-target="#email-login-modal">
+									<button type="button" class="btn btn-outline-dark btn-lg p-2">호스트에게 연락하기</button>
+								</a>
+						</c:when>
+						<c:otherwise>
+								<!-- 로그인 했을 때 -->
+								<a href="">
+									<button type="button" class="btn btn-outline-dark btn-lg p-2">호스트에게 연락하기</button>
+								</a>
+						</c:otherwise>
+					  </c:choose>
 				</div>
 			</div>
 			<hr>
@@ -659,7 +728,7 @@
 			</div>
 			<div class="modal-body">
 				<div class="row">
-					<div class="row mb-3">
+					<div class="row mb-3 d-flex align-items-center">
 						<div class="col-2 rounded">
 							<c:forEach items="${acc.photos }" var="photo">
 								<c:if test="${photo.num eq '1' }">
@@ -673,24 +742,27 @@
 							</span>
 						</div>
 					</div>
+					
+					<input type="text" id="text" value="https://localhost/detail?no=${acc.accNo }" style="display: none;"/>
+					<div class="col-6 mb-3 d-grid gap-2">
+						<button type="button" id="btnUrl" class="btn btn-outline-secondary btn-lg p-3" onclick="fn_final()"><i class="bi bi-link"></i> 링크 복사</button>
+					</div>
 					<!-- <div class="col-6 mb-3 d-grid gap-2">
-						<button class="btn btn-outline-secondary btn-lg p-3"><i class="bi bi-link"></i> 링크 복사</button>
+						<button type="button" class="btn btn-outline-secondary btn-lg p-3"><i class="bi bi-envelope"></i> 이메일</button>
 					</div>
 					<div class="col-6 mb-3 d-grid gap-2">
-						<button class="btn btn-outline-secondary btn-lg p-3"><i class="bi bi-envelope"></i> 이메일</button>
+						<button type="button" class="btn btn-outline-secondary btn-lg p-3"><i class="bi bi-chat"></i> 메세지</button>
 					</div>
 					<div class="col-6 mb-3 d-grid gap-2">
-						<button class="btn btn-outline-secondary btn-lg p-3"><i class="bi bi-chat"></i> 메세지</button>
-					</div>
+						<button type="button" class="btn btn-outline-secondary btn-lg p-3"><i class="bi bi-whatsapp"></i> 왓츠앱</button>
+					</div> -->
 					<div class="col-6 mb-3 d-grid gap-2">
-						<button class="btn btn-outline-secondary btn-lg p-3"><i class="bi bi-whatsapp"></i> 왓츠앱</button>
-					</div>
-					<div class="col-6 mb-3 d-grid gap-2">
-						<button onclick="" id="btnKakao" class="btn btn-outline-secondary btn-lg p-3"><img src="" alt="카카오톡 공유" /></button>
-					</div>
-					<button onclick="shareKakao()">
-  							<img src="/img/icon_kakao.png" alt="카카오톡 공유" />
-					</button> -->
+						<a type="button" id="create-kakaotalk-sharing-btn" class="btn btn-outline-secondary btn-lg p-3"><img
+					    src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
+					    alt="카카오톡 공유 보내기 버튼" style="width: 20px; height: 20px"
+					  		/> 카카오톡</a>
+					</div> 
+					
 					<div class="col-6 mb-3 d-grid gap-2">
 						<a id="btnFacebook" class="btn btn-outline-secondary btn-lg p-3" href="javascript:shareFacebook();"><i class="bi bi-facebook"></i> 페이스북</a>
 					</div>
@@ -717,15 +789,51 @@
 			</div>
 			<div class="modal-body">
 				<div class="row">
-					<h6>욕실</h6>
-					<p>
-						<i class="bi bi-wifi"></i> 헤어드라이기
-					</p>
-					<hr>
-					<p>
-						<i class="bi bi-wifi"></i> 헤어드라이기
-					</p>
-					<hr>
+					<div class="row mb-3 align-items-center">
+						<div class="col-2 rounded">
+							<button type="button" class="btn" id="btn-open-save2-modal"><i class="bi bi-plus h3 text-black-50"></i></button>
+						</div>
+						<div class="col-10">
+							<span>
+								<p>새로운 위시리스트 만들기</p>
+							</span>
+						</div>
+					</div>
+					<div class="row mb-3 align-items-center">
+						<div class="col-2 rounded">
+							<button type="button" class="btn" id="" ><i class="bi bi-plus h3 text-black-50"></i></button>
+						</div>
+						<div class="col-10">
+							<span>
+								<p>새로운 위시리스트 만들기</p>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 위시리스트2 -->
+<div class="modal" id="modal-save2-acc">
+	<div class="modal-dialog modal-Default">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">위시 리스트</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body">
+				<div class="row  p-3">
+					<form action="/insert" method="post" >
+					<div class="row mb-3 align-items-center">
+						<label>이름</label>
+						<input class="form-control rounded" type="text" placeholder="이름을 입력하시오" aria-label="default input example" name="wishlistName">
+						<input type="hidden" name="accNo" value="${acc.accNo }">
+					</div>
+					<div class="row mb-3 align-items-center">
+						<button type="submit" class="btn btn-dark">새로 만들기</button>
+					</div>
+					</form>					
 				</div>
 			</div>
 		</div>
@@ -775,7 +883,7 @@
 
 <!-- 이미지 모달 -->
 <div class="modal" id="modal-image-acc">
-	<div class="modal-dialog modal-fullscreen">
+	<div class="modal-dialog modal-fullscreen" style="width: 100%">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -890,7 +998,7 @@
 
 	<!-- 지도 모달 -->
 <div class="modal" id="modal-map-acc">
-	<div class="modal-dialog modal-fullscreen">
+	<div class="modal-dialog modal-fullscreen" style="width: 100%;">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">호스팅 지역</h4>
@@ -1032,12 +1140,10 @@
 										<div class="col-12">
 											<div id="box-review">
 												<div>
-													<form>
-														<div class="search-box mb-3">
-															<i class="bi bi-search"></i>
-															<input type="search" placeHolder="후기 검색" class="searchKeyword" id="search-keyword" name="keyword"/> 
-														</div>
-													</form>
+													<div class="search-box mb-3">
+														<i class="bi bi-search"></i>
+														<input type="search" placeHolder="후기 검색" class="searchKeyword" id="search-keyword" name="keyword"/> 
+													</div>
 												</div>
 												<div id="box-show-reviews">
 													<!-- 리뷰 리스트 -->
@@ -1070,13 +1176,27 @@
 </div>
 
 <script type="text/javascript">
+function clip(){
 
+	var url = '';
+	var textarea = document.createElement("textarea");
+	document.body.appendChild(textarea);
+	url = window.document.location.href;
+	console.log(url)
+	$("textarea").text(url);
+	console.log($("textarea").text())
+	textarea.select();
+	document.execCommand("copy");
+	document.body.removeChild(textarea);
+	alert("URL이 복사되었습니다.")
+}
 
 $(function() {
 	// 모달 객체
 	let accConvenienceModal = new bootstrap.Modal(document.getElementById("modal-con-acc"));
 	let accShareModal = new bootstrap.Modal(document.getElementById("modal-share-acc"));
 	let accSaveModal = new bootstrap.Modal(document.getElementById("modal-save-acc"));
+	let accSave2Modal = new bootstrap.Modal(document.getElementById("modal-save2-acc"));
 	let accImageModal = new bootstrap.Modal(document.getElementById("modal-image-acc"));
 	let accCoverModal = new bootstrap.Modal(document.getElementById("modal-cover-acc"));
 	let accReportModal = new bootstrap.Modal(document.getElementById("modal-report-acc"));
@@ -1087,6 +1207,10 @@ $(function() {
 	// 위시리스트 저장 모달
 	$("#btn-open-save-modal").click(function() {
 		accSaveModal.show();
+	});
+	// 위시리스트2 저장 모달
+	$("#btn-open-save2-modal").click(function() {
+		accSave2Modal.show();
 	});
 	
 	// 숙소 설명 모달
@@ -1158,7 +1282,7 @@ $(function() {
 	
 	$(".openReviewModal").click(function() {
 		currentPage = 1;
-		let canRequest = true;
+		canRequest = true;
 		$reviewBox.empty();
 		
 		getReviews();
@@ -1177,14 +1301,21 @@ $(function() {
 		}
 	})
 
+	// 숙소 번호에 해당하는 리뷰를 가져온다.
 	function getReviews() {
 		let params = new URLSearchParams(document.location.search);
 		let no = params.get("no");
 		
+		let data = {no:no, page: currentPage};
+		let text = $("#search-keyword").val()
+		if (text != '') {
+			data['keyword'] = text;
+		}
+		
 		$.ajax({
 			type: 'GET',
 			url: "review/reviews",				// no / accNo 같음
-			data: {no:no, page: currentPage},
+			data: data,
 			dataType: 'json',
 			success: function(data) {
 				let reviews = data.items;
@@ -1192,21 +1323,30 @@ $(function() {
 				if (reviews.length <  10) {
 					canRequest = false;
 				}
+				
+				if (currentPage == 1 && reviews.length == 0) {
+					let rcontent2 = '';
+					rcontent2 += '<p class="text-center"><strong>'+  $("#search-keyword").val() +'에 대한 검색결과가 없습니다.</strong></p>';
+					rcontent2 += '<p class="text-center">다른 언어에서 번역된 후기는 나타나지 않습니다. 원문으로 검색해 주세요.</p>';
 
-				$.each(reviews, function(index, review) {
-					let content = '';
-					content += '<div class="row-4 mb-3">';
-					content += '	<img src="/resources/images/profile/'+ (review.user.profileImage ? review.user.profileImage : "no-image.png") +'" id="user-image">';
-					content += '	<span class="noMargin reviewContent"><strong>' + review.user.name + '</strong></span>';
-					content += '	<span class="noMargin reviewContent">' + review.createdDate + '</span>';
-					content += '</div>';
-					content += '<div class="row-8 mb-5 boxReviewContent">';
-					content += '	<p class="reviewContent">'+ review.content +' </p>';
-					content += '</div>';
-					
-					
-					$reviewBox.append(content);
-				})		
+					$reviewBox.html(rcontent2);
+				} else {
+
+					$.each(reviews, function(index, review) {
+						let content = '';
+						content += '<div class="row-4 mb-3">';
+						content += '	<img src="/resources/images/profile/'+ (review.user.profileImage ? review.user.profileImage : "no-image.png") +'" id="user-image">';
+						content += '	<span class="noMargin reviewContent"><strong>' + review.user.name + '</strong></span>';
+						content += '	<span class="noMargin reviewContent">' + review.createdDate + '</span>';
+						content += '</div>';
+						content += '<div class="row-8 mb-5 boxReviewContent">';
+						content += '	<p class="reviewContent">'+ review.content +' </p>';
+						content += '</div>';
+						
+						
+						$reviewBox.append(content);
+					})		
+				}
 				
 				// 글 긴거 더보기
 			   $(".boxReviewContent").each(function(){
@@ -1246,85 +1386,95 @@ $(function() {
 
 	}
 	
-	// 하단 리뷰 조회
+	// 숙소 상세 하단 리뷰(6개) 조회 용도입니다.
 	let $reviewBoxUnder = $("#box-under-review");
 	$(document).ready(function(){
 		let params = new URLSearchParams(document.location.search);
 		let no = params.get("no");
 		
 		$.ajax({
-			type: 'GET',
-			url: "review/reviewsUnder",				
+			type: 'GET',		
+			url: "review/reviews",				
 			data: {no:no},
 			dataType: 'json',
 			success: function(data) {
 				let reviews = data.items;
 				console.log(reviews);
 
+				let contentUnder = '<div class="row">';
 				$.each(reviews, function(index, review) {
-					let contentUnder = '';
 					
 					if (index > 5) {
 						return false;
 					}
 					
-					contentUnder += '<div class="row">';
-					contentUnder += '	<div class="col-6">';
-					contentUnder += '		<div class="row">';
+					contentUnder += '	<div class="col-6 mb-4">';
+					contentUnder += '		<div class="row mb-3">';
 					contentUnder += '			<div class="col-1">';
 					contentUnder += '				<img src="/resources/images/profile/'+ (review.user.profileImage ? review.user.profileImage : "no-image.png") +'" id="user-image">';
 					contentUnder += '			</div>';
-					contentUnder += '			<div class="col-3">';
+					contentUnder += '			<div class="col-4 ps-3">';
 					contentUnder += '				<h4 class="noMargin reviewContent"><strong>'+ review.user.name + '</strong></h4>';
 					contentUnder += '				<span class="noMargin reviewContent">'+ review.createdDate + '</span>';
-					contentUnder += '				</div>';
 					contentUnder += '			</div>';
-					contentUnder += '			<div class="">';
-					contentUnder += '				<p class="reviewContent mb-0">'+ review.content +'</p>';
-					contentUnder += '				<button type="button" class="btn btn-link text-decoration-underline text-dark openReviewModal"><strong>  </strong></button>';
-					contentUnder += '			</div>';
-					contentUnder += '		</div>';
-					contentUnder += '	</div>';
-					contentUnder += '	<div class="col-6">';
-					contentUnder += '		<div class="row">';
-					contentUnder += '			<div class="col-1">';
-					contentUnder += '				<img src="/resources/images/profile/'+ (review.user.profileImage ? review.user.profileImage : "no-image.png") +'" id="user-image">';
-					contentUnder += '			</div>';
-					contentUnder += '			<div class="col-3">';
-					contentUnder += '				<h4 class="noMargin reviewContent"><strong>' + review.user.name + '</strong></h4>';
-					contentUnder += '				<span class="noMargin reviewContent">' +review.createdDate + '</span>';
-					contentUnder += '				</div>';
-					contentUnder += '			</div>';
-					contentUnder += '			<div class="">';
-					contentUnder += '				<p class="reviewContent mb-0">'+ review.content +'</p>';
-					contentUnder += '				<button type="button" class="btn btn-link text-decoration-underline text-dark openReviewModal"><strong>  </strong></button>';
-					contentUnder += '			</div>';
-					contentUnder += '		</div>';
-					contentUnder += '	</div>';
-					contentUnder += '</div>';
 					
-
-					$reviewBoxUnder.append(contentUnder);
+					contentUnder += '		</div>';
+					contentUnder += '		<div class="row">'
+					contentUnder += '			<div class="col pe-5 underBoxReviewContent">';
+					contentUnder += '				<p class="reviewContent mb-0 underReviewContent">'+ review.content +'</p>';
+					contentUnder += '			</div>';
+					contentUnder += '		</div>';
+					contentUnder += '	</div>';
 				})		
 				
+				contentUnder += '</div>';
+				$reviewBoxUnder.append(contentUnder);
+				
+			   $(".underBoxReviewContent").each(function(){
+			        let underContent = $(this).children('.underReviewContent');
+			        let underContent_txt = underContent.text();
+			        let underContent_txt_short = underContent_txt.substring(0,30)+"...";
+			        let btn_more = $('<a href="javascript:void(0)" class="more link-dark"><strong>더보기<i class="bi bi-chevron-right"></strong></i></a>');
+
+			        $(this).append(btn_more);
+			        
+			        if(underContent_txt.length >= 30){
+			        	underContent.html(underContent_txt_short)
+			            
+			        }else{
+			            btn_more.hide()
+			        }
+			        
+			        btn_more.click(function() {
+			        	currentPage = 1;
+			    		canRequest = true;
+			    		$reviewBox.empty();
+			    		
+			    		getReviews();
+			    		accReviewModal.show();
+			        });
+
+			        
+			    });
 			}
 		})
 		
 	});
+	
+	
+	// 리뷰 모달창의 검색 기능입니다.
+	$("#search-keyword").keydown(function(e){
+		if (e.keyCode == 13) {
+			currentPage = 1;
+			canRequest = true;
+			$reviewBox.empty();
+			
+			getReviews();
+		}
+	}) 
+	
+	
 
-	/*  리뷰 검색 기능
-	
-	$("input[name='searchKeyword']").keydown(function(e) {
-			if (e.keyCode == 13) {
-				// Do Something
-				// 검색 버튼 클릭 효과라던지..
-            //$("#btnSearch").trigger('click');
-			}
-	});
-	*/
-	
-	
-	
 	/* console.log(latitude);
 	console.log(longitude); */
 	
@@ -1341,6 +1491,7 @@ $(function() {
 	
 	var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 	
+	
 	// 마커가 표시될 위치입니다 
 	var markerPosition  = new kakao.maps.LatLng(longitude,latitude); 
 	
@@ -1348,12 +1499,22 @@ $(function() {
 	var marker = new kakao.maps.Marker({
 	    position: markerPosition
 	});
-	
+	// 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+	// marker.setMap(null); 
 	// 마커가 지도 위에 표시되도록 설정합니다
 	marker.setMap(map);
 	
-	// 아래 코드는 지도 위의 마커를 제거하는 코드입니다
-	// marker.setMap(null);    
+	// 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
+	var mapTypeControl = new kakao.maps.MapTypeControl();
+
+	// 지도에 컨트롤을 추가해야 지도위에 표시됩니다
+	// kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
+	map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+	// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+	var zoomControl = new kakao.maps.ZoomControl();
+	map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+	
 	
 	// 카카오 맵
 	var mapContainer2 = document.getElementById('map2'), // 지도를 표시할 div 
@@ -1375,6 +1536,7 @@ $(function() {
 	// 마커가 지도 위에 표시되도록 설정합니다
 	marker.setMap(map2);
 	
+	
 	// 모달창 등에 지도사용시 다시불러오기 필요
 	function relayout() {   
 		
@@ -1395,6 +1557,17 @@ $(function() {
 	// 아래 코드는 지도 위의 마커를 제거하는 코드입니다
 	// marker.setMap(null);    
 	
+	// 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
+	var mapTypeControl2 = new kakao.maps.MapTypeControl();
+
+	// 지도에 컨트롤을 추가해야 지도위에 표시됩니다
+	// kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
+	map2.addControl(mapTypeControl2, kakao.maps.ControlPosition.TOPRIGHT);
+
+	// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+	var zoomControl2 = new kakao.maps.ZoomControl();
+	map2.addControl(zoomControl2, kakao.maps.ControlPosition.RIGHT);
+
 	let disabledDate = ('${acc.disabledDate}').split(",");
 	console.log(disabledDate) 
 	
@@ -1411,38 +1584,79 @@ $(function() {
  			return;
  		}
  		
- 		console.log(selectedDates[0])
- 		$("#checkInDate").val((selectedDates[0]))
-		$("#checkOutDate").val((selectedDates[1]))
-		console.log($("#checkInDate").val)
-		console.log($("#checkOutDate").val)
-		let diffDate = Date.parse(selectedDates[1])-Date.parse(selectedDates[0])
+ 		$("#checkInDate").val((selectedDates[0]));
+		$("#checkOutDate").val((selectedDates[1]));
+		let diffDate = Date.parse(selectedDates[1])-Date.parse(selectedDates[0]);
 
- 		let day = Math.floor(diffDate / (1000 * 60 * 60 * 24))
- 		$(".day").text(day)
- 		
- 		let sum = ${acc.price } * day
- 		$("#day-price").text(sum.toLocaleString())
- 		$("#price").val(sum)
+ 		let day = Math.floor(diffDate / (1000 * 60 * 60 * 24));
+ 		$(".day").text(day);
+ 		$("#input-day").val(day);
+ 		let sum = ${acc.price } * day;
+ 		$("#day-price").text(sum.toLocaleString());
+ 		$("#price").val(sum);
  		
  		
  		let totalPrice = ${acc.cleaningPrice} + sum
  		$("#totalPrice").text(totalPrice.toLocaleString())
  		$("#totalPriceValue").val(totalPrice)
 	}) 
-    	  $(".reservation").hide();
+   	$(".reservation").hide();
+	
+	$("#nav-1").hide();
+	$("#navR2").hide();
 	
 	$("#days").on('input',function(){
       if (!$("#days").empty()){
     	  $(".reservation").hide();
     	  $(".not-reservation").show();
+    	  
+    	  $("#navR2").hide();
+	      $("#navR").show();
+    	  
       } else {
     	  $(".reservation").show();
     	  $(".not-reservation").hide();
+    	  $("#navR").hide();
+		  $("#navR2").show();
       }
 
    })
+	
+   $("#profile").click(function() {
+			$("host").focus();
+		})
 
+		
+
+		$(window).scroll(function() {
+			let scrollTop = $(document).scrollTop();
+			if (scrollTop > 600) {
+				$("#nav-1").show();
+			} else {
+
+				$("#nav-1").hide();
+			}
+			
+			/* if (scrollTop > 2100 && $("#days").empty()) {
+				$("#navR").show();
+				
+			} else {
+
+				$("#navR").hide();
+			} */
+			/* if (scrollTop > 2100) {
+					
+				} else{
+					
+					
+				}
+			} else {
+				$("#navR2").hide();
+				$("#navR").hide();
+			} */
+		})
+		
+   
 	/* $("#edate").flatpickr({
 		minDate: new Date(),
 		defaultDate : new Date(),
@@ -1552,21 +1766,6 @@ $(function() {
 		} 
 		 */
 		
-		$("#profile").click(function() {
-			$("host").focus();
-		})
-
-		$("#nav-1").hide();
-
-		$(window).scroll(function() {
-			let scrollTop = $(document).scrollTop();
-			if (scrollTop > 600) {
-				$("#nav-1").show();
-			} else {
-
-				$("#nav-1").hide();
-			}
-		})
 		
 		// 스크롤스파이
 		var scrollSpy = new bootstrap.ScrollSpy(document.body, {
@@ -1577,54 +1776,22 @@ $(function() {
 		$("#btnTwitter").click(
 				function() {
 					var sendText = "aircnc"; // 전달할 텍스트
-					var sendUrl = "devpad.tistory.com/"; // 전달할 URL
+					var sendUrl = "https://localhost/detail?no="+${acc.accNo}; // 전달할 URL
 					window.open("https://twitter.com/intent/tweet?text="
 							+ sendText + "&url=" + sendUrl);
 				})
 		$("#btnFacebook").click(
 				function() {
-					var sendUrl = "devpad.tistory.com/"; // 전달할 URL
+					var sendUrl = "https://localhost/detail?no="+${acc.accNo}; // 전달할 URL
 					window.open("http://www.facebook.com/sharer/sharer.php?u="
 							+ sendUrl);
 				})
-		/* $("#btnKakao").click(function() {
-			 
-			  // 사용할 앱의 JavaScript 키 설정
-			  Kakao.init('6ec6d52326b138f515a86c55e152676c');
-			 
-			  // 카카오링크 버튼 생성
-			  Kakao.Link.createDefaultButton({
-			    container: '#btnKakao', // 카카오공유버튼ID
-			    objectType: 'feed',
-			    content: {
-			      title: "개발새발", // 보여질 제목
-			      description: "개발새발 블로그입니다", // 보여질 설명
-			      imageUrl: "devpad.tistory.com/", // 콘텐츠 URL
-			      link: {
-			         mobileWebUrl: "devpad.tistory.com/",
-			         webUrl: "devpad.tistory.com/"
-			      }
-			    }
-			  });
-			} */
 
-		/* if (!Kakao.isInitialized()) {
-			  Kakao.init('6ec6d52326b138f515a86c55e152676c');
-			}
-		var sendKakao = function() {
-		    // 메시지 공유 함수
-		  Kakao.Link.sendScrap({
-		    requestUrl: 'http://localhost:80/', // 페이지 url
-		    templateId:  80693, // 메시지템플릿 번호
-		    templateArgs: {
-		            PROFILE : ${THU} // 프로필 이미지 주소 ${PROFILE}
-		      THUMB: ${THU}, // 썸네일 주소 ${THUMB}
-		      TITLE: ${TITLE}, // 제목 텍스트 ${TITLE}
-		      DESC: ${DESC}, // 설명 텍스트 ${DESC}
-		    },
-		  });
-		}; */
-
+	$("#days-focus").click(function() {
+		$("#days").focus();
+	})
+				
+	// 인원 버튼
 	$("#guest").hide();
 	$("#up").hide();
 	
@@ -1645,6 +1812,10 @@ $(function() {
 	if (petLimit === 0) {
 		$(".pet_p_btn").addClass("disabled")
 	}
+	
+	/* $("#adultCount").hide();
+	$("#infantCount").hide();
+	$("#petCount").hide(); */
 	
 	$(".guestbtn").click(function() {
 		
@@ -1678,6 +1849,12 @@ $(function() {
 			$("#totalGuest").val(total)
 			
 			
+			/* if ($("#adultNum").val === 0) {
+				$("#adultCount").hide
+			} else {
+				$("#adultCount").show();
+				
+			} */
 		})
 		
 	})
@@ -1718,6 +1895,23 @@ $(function() {
                target.text(num);
            });
 	});
+	
+	$("#form-reservation").submit(function() {
+		
+		// 인원수
+		let totalValue = $.trim($("#totalGuest").val());
+		if (totalValue < 1) {
+			alert("인원은 필수 입력값입니다.");
+			return false;
+		}
+		/* let totalValue = $.trim($("#totalGuest").val());
+		if (totalValue < 1) {
+			alert("인원은 필수 입력값입니다.");
+			return false;
+		} */
+			
+		return true;
+	})
 	
 	// 글 긴거 더보기
 	$('.contentbox3').each(function(){
@@ -1766,10 +1960,75 @@ $(function() {
     });
 	
 	
+	
+	
+		
+	Kakao.Share.createDefaultButton({
+	    container: '#create-kakaotalk-sharing-btn',
+	    objectType: 'feed',
+	    content: {
+	      title: '${acc.name}',
+	      description: '${acc.description}',
+	      imageUrl:
+		  		'https://localhost/resources/logo-home.png',
+	      link: {
+	        mobileWebUrl: 'https://localhost/detail?no=${acc.accNo }',
+	        webUrl: 'https://localhost/detail?no=${acc.accNo }',
+	      },
+	    },   
+	    buttons: [
+	      {
+	        title: '웹으로 보기',
+	        link: {
+	          mobileWebUrl: 'https://localhost/detail?no=${acc.accNo }',
+	          webUrl: 'https://localhost/detail?no=${acc.accNo }',
+	        },
+	      },
+	      {
+	        title: '앱으로 보기',
+	        link: {
+	          mobileWebUrl: 'https://localhost/detail?no=${acc.accNo }',
+	          webUrl: 'https://localhost/detail?no=${acc.accNo }',
+	        },
+	      },
+	    ],
+	  }) 
+	  
+	  $("#btn-create-wishlist").click(function() {
+		 let accNo = ${acc.accNo }
+		 $("#icon-heart-" + accNo ).removeClass("fa-regular").addClass("fa-solid").css("color", "#FF385C");
+		 let querystring = $("#form-create-wishlist").serialize();
+		 
+			$.post("/wishlists/insert", querystring, function(result) {
+				wishlists = result.wishlists;
+				let content = '';
+				$.each(wishlists, function() {
+					content += '<div class="mt-3" style="display: flex; height: 64px;">';
+					content += '  <input type="hidden" name="wishlistNo" value="' + this.no + '">';
+					content += '  <img src="https://a0.muscache.com/im/pictures/da1a2f06-efb0-4079-abce-0f6fc82089e0.jpg" alt="" style="vertical-align:middle;">';
+					content += '  <span class="ms-3 fw-bold" style="margin-top:20px;">' + this.name + '</span>';
+					content += '</div>';
+				});
+				
+				$("#div-wishlists").html(content);
+			})
+			createListModal.hide();	
+			//saveToListModal.show();
+	 });
 })
 
-
+// 링크복사
+function fn_final() {
+			var url = document.getElementById('text');
+			url.style.display='block';	// 숨겨둔 input 태그 block처리
+			url.select();	// 복사할 text 블럭
+			document.execCommand('copy');	// 드레그된 text 클립보드에 복사
+			url.style.display='none';	// 다시 숨기기
+			alert("주소 복사가 완료되었습니다.");
+	    }
 </script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6ec6d52326b138f515a86c55e152676c"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 </body>
 </html>

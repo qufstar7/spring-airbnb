@@ -81,12 +81,13 @@ public class ReviewRestController {
 	}
 	
 	@GetMapping(path = "/reviews")
-	public ListResponseData<Review> reviews(@RequestParam("no") int accNo, @RequestParam(name="page", required=false, defaultValue="1")int pageNo) {
+	public ListResponseData<Review> reviews(@RequestParam("no") int accNo, @RequestParam(name="page", required=false, defaultValue="1")int pageNo, 
+			@RequestParam(name="keyword", required=false) String keyword) {
 		int rows = 10;										// 한 페이지에 나오는 행 갯수	
 		int beginIndex = (pageNo - 1) * rows + 1;			// 시작 번호
 		int endIndex = pageNo * rows;						// 끝 번호
 		
-		List<Review> reviews = reviewService.getReviews(accNo, beginIndex, endIndex);
+		List<Review> reviews = reviewService.getReviews(accNo, beginIndex, endIndex, keyword);
 		
 		return ListResponseData.create(reviews);
 	} 
@@ -94,13 +95,6 @@ public class ReviewRestController {
 	@GetMapping(path = "/reviewsUnder")
 	public ListResponseData<Review> reviewsUnder(@RequestParam("no") int accNo) {
 		List<Review> reviews = reviewService.getReviewsUnder(accNo);
-		
-		return ListResponseData.create(reviews);
-	}
-	
-	@GetMapping(path = "/search")
-	public ListResponseData<Review> searchReview(@RequestParam("keyword") String keyword) {
-		List<Review> reviews = reviewService.getSearchReview(keyword);
 		
 		return ListResponseData.create(reviews);
 	}

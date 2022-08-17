@@ -104,7 +104,7 @@ public class ReviewService {
 		accommodation.setConvenienceScore(avgConvenience);
 
 		double allScore = ((review.getTotalScore() + review.getCleanScore() + review.getAccuracyScore() + review.getCommunicationScore()
-						+ review.getLocationScore() + review.getCheckinScore() + review.getValueScore() + review.getConvenienceScore())/8); 
+						+ review.getLocationScore() + review.getCheckinScore() + review.getValueScore() + review.getConvenienceScore())/8.0); 
 		double totalReviewScore = accommodation.getReviewScore() * accommodation.getReviewCount() + allScore;	
 		double avgAllScore = Double.parseDouble(form.format(totalReviewScore/(accommodation.getReviewCount() + 1)));
 		accommodation.setReviewScore(avgAllScore);
@@ -140,24 +140,24 @@ public class ReviewService {
 		double avgObservance = Double.parseDouble(form.format(observanceScore/(user.getReviewCount() + 1)));
 		user.setObservanceScore(avgObservance);
 		
-		double allScore = ((review.getTotalScore() + review.getCleanScore() + review.getCommunicationScore() + review.getObservanceScore())/4);
+		double allScore = ((review.getTotalScore() + review.getCleanScore() + review.getCommunicationScore() + review.getObservanceScore())/4.0);
 		double totalReviewScore = user.getReviewScore() * user.getReviewCount() + allScore;
 		double avgAllScore = Double.parseDouble(form.format(totalReviewScore/(user.getReviewCount() + 1)));
+		System.out.println(allScore);
+		System.out.println(totalReviewScore);
+		System.out.println(avgAllScore);
+		
 		user.setReviewScore(avgAllScore);
 		
 		userMapper.updateAvgScore(user);
 	}
 
-	public List<Review> getReviews(int accNo, int beginIndex, int endIndex) {
-		return reviewMapper.getReviews(accNo, beginIndex, endIndex);
+	public List<Review> getReviews(int accNo, int beginIndex, int endIndex, String keyword) {
+		return reviewMapper.getReviews(accNo, beginIndex, endIndex, keyword);
 	}
 	
 	public List<Review> getReviewsUnder(int accNo) {
 		return reviewMapper.getReviewsUnder(accNo);
 	}
 
-	public List<Review> getSearchReview(String keyword) {
-		return reviewMapper.getReviewsbyKeyword(keyword);
-	}
-	
 }

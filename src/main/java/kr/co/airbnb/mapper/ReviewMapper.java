@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import kr.co.airbnb.vo.Accommodation;
 import kr.co.airbnb.vo.GuestRequest;
 import kr.co.airbnb.vo.HostRequest;
 import kr.co.airbnb.vo.Review;
@@ -20,7 +19,6 @@ public interface ReviewMapper {
 	Integer getDuplicateReviewByNo(@Param("reservationNo") int reservationNo, @Param("userNo") int userNo);	// integer 
 	Integer getOverdueReviewByNo(@Param("reservationNo") int reservationNo, @Param("userNo") int userNo);
 	
-	List<Review> getReviews(@Param("accNo") int accNo, int beginIndex, int endIndex);
+	List<Review> getReviews(@Param("accNo") int accNo, int beginIndex, int endIndex, @Param("keyword") String keyword);
 	List<Review> getReviewsUnder(int accNo);
-	List<Review> getReviewsbyKeyword(String keyword);
 }

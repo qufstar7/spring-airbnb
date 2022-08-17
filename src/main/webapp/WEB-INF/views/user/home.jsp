@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
 <!-- google gsi -->
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://apis.google.com/js/platform.js" async defer></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 <!-- 카카오 로그인지원 자바스크립트 라이브러리 -->
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <!-- 페이스북 -->
@@ -41,10 +41,12 @@ pageEncoding="UTF-8"%>
 		opacity: 0.5;
 	}
 	
-	.modal-dialog {
-		
-		width: 550px !important;
+
+	.myModal-dialog {
+		width: 600px;
 	}
+
+
 	
 	#agree1, #agree2 {zoom:3.0;}
 	#password-helper p {font-size: small; margin: 0%;}
@@ -96,7 +98,7 @@ pageEncoding="UTF-8"%>
 
 <!-- 이메일 입력 모달1 -->
 <div style="z-index: 5000;" class="modal fade" id="email-login-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered" style="width: 580px; height: 590px;">
+  <div class="modal-dialog modal-dialog-centered myModal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title fw-bold w-100 text-center fs-6" id="exampleModalLabel">로그인 또는 회원가입</h5>
@@ -154,7 +156,7 @@ pageEncoding="UTF-8"%>
 
 <!-- 로그인의 경우 비밀번호 입력 모달2 -->
 <div class="modal fade" id="login-password-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered" style="width: 580px;">
+  <div class="modal-dialog modal-lg modal-dialog-centered myModal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title fw-bold w-100 text-center fs-6">로그인</h5>
@@ -195,7 +197,7 @@ pageEncoding="UTF-8"%>
 
 <!-- Modal -->
 <div class="modal fade" id="email-register-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered myModal-dialog">
     <div class="modal-content">
        <div class="modal-header">
         <h5 class="modal-title fw-bold w-100 text-center" id="exampleModalLabel">회원 가입 완료하기</h5>
@@ -286,7 +288,7 @@ pageEncoding="UTF-8"%>
 </button> -->
 
 <div class="modal fade" id="register-complete-modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
+  <div class="modal-dialog modal-dialog-centered modal-lg myModal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title fw-bold w-100 text-center" id="exampleModalLabel">프로필 생성하기</h5>
@@ -304,7 +306,7 @@ pageEncoding="UTF-8"%>
   </div>
 </div>
 <div class="modal fade" id="upload-profile-modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
+  <div class="modal-dialog modal-dialog-centered modal-lg myModal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title w-100 text-center">프로필 생성하기</h5>

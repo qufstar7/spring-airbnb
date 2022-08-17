@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class filterCriteria {
+public class FilterCriteria {
 
 	private int accNo;
 	// 숙소유형
