@@ -299,21 +299,20 @@ $(function() {
 	$("#btn-search").click(function(){
 		// 게스트추가만 클릭하고 검색한 경우 현재페이지 리다이렉션 ++ 언제든지 &&로 추가
 		
-			var whereKeyword = $("#where-field").val();	// 어디든지 검색어 & 버튼클릭
+		// 어디든지 검색어 & 버튼클릭	
+		var whereKeyword = $("#where-field").val();
 
-			// 언제든 일주일 - 기간 검색 (yyyy-dd-mm)
-			var startDate = $("input[id='startDate']").val();
-			var endDate = $("input[id='endDate']").val();
-			
-			// 게스트 검색
-			var adultCount = parseInt($("input[name='adult']").val());
-			var childCount = parseInt($("input[name='child']").val());
-			var infantCount = parseInt($("input[name='infant']").val());
-			var petCount = parseInt($("input[name='pet']").val());
+		// 언제든 일주일 - 기간 검색 (yyyy-dd-mm)
+		var startDate = $("input[id='startDate']").val();
+		var endDate = $("input[id='endDate']").val();
 		
-			// location.href = "/list?keyword="+whereKeyword+"&adult="+adultCount+"&childCount="+childCount+"&infantCount="+infantCount+"&petCount="+petCount 
-		
-		searchByKeyword();
+		// 게스트 검색
+		var adultCount = parseInt($("input[name='adult']").val());
+		var childCount = parseInt($("input[name='child']").val());
+		var infantCount = parseInt($("input[name='infant']").val());
+		var petCount = parseInt($("input[name='pet']").val());
+	
+		document.getElementById('#search-form').submit();
 		return false;	
 	})
 
@@ -388,12 +387,15 @@ $(function() {
 		return false;
 	})
 	
-	// nav 검색 -- 리스트로 이동
+	
+	
+	<%-- // tag검색할 때 참고
+	
 	function searchByKeyword() {
 	
 		let navQueryString = $("#search-form").serialize();
 		
-		let $acc = $("#accList").empty();
+		let $acc = $("#card-container").empty();
 		
 		let navXhr = new XMLHttpRequest();
 		navXhr.onreadystatechange = function() {
@@ -442,7 +444,7 @@ $(function() {
 															<span class="material-icons" style="color:white">favorite</span>
 														</a>
 													</c:if>
-													<%-- <c:choose>
+													<c:choose>
 														<c:when test="${acc.accNo eq user.wishlist.no }"> <!-- wishlist 모달 넣어주기-->
 															<a class="wished" href="#" style="position:absolute; top:20px; right:30px; z-index:2">
 																<span class="material-icons" style="color:#FF7977">favorite</span>
@@ -454,7 +456,7 @@ $(function() {
 																<span class="material-icons" style="color:white">favorite</span>
 															</a>
 														</c:otherwise>
-													</c:choose> --%>
+													</c:choose>
 												</div>
 												<!-- 슬라이드쇼 이미지 /image-cover, room_image_no -->
 												<div class="carousel-inner" style="border-radius: 25px;">
@@ -468,7 +470,7 @@ $(function() {
 															src="/resources/images/acc/2.jpg" alt="숙소이미지"
 															style="object-fit: cover; width: 300px; height: 300px;">
 													</div>
-													<div class="carousel-item">				<%-- ${acc.room.image.no } --%>
+													<div class="carousel-item">				${acc.room.image.no }
 														<img class="acc-thumbnail rounded-0"
 															src="/resources/images/acc/3.jpg" alt="숙소이미지"
 															style="object-fit: cover; width: 300px; height: 300px;">
@@ -516,7 +518,7 @@ $(function() {
 		}
 		navXhr.open("GET", "/list?" + navQueryString);
 		navXhr.send();
-	}
+	} --%>
 	
 })
 
@@ -560,7 +562,8 @@ dateSelector.flatpickr({
  	 	}    
 	] 
 }); */
-	
+
+// 체크인, 체크아웃 달력
 var fp1 = flatpickr(document.getElementById("startDate"), {
 	"inline": true,
 	"locale": "ko",

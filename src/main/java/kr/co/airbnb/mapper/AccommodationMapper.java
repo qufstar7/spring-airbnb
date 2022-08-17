@@ -77,4 +77,8 @@ public interface AccommodationMapper {
 	// nav검색으로 list조회
 	List<Accommodation> searchAccByKeyword(SearchCriteria searchCriteria);
 
+	// 모든 태그 조회
+	List<Tag> getAllTag();
+
+
 }

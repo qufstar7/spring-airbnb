@@ -10,6 +10,8 @@ import lombok.ToString;
 @Setter
 @ToString
 public class SearchCriteria {
+	// 숙소 type검색
+	private List<String> accTypes;
 	
 	// nav검색 - 어디든지 : 주소검색, 대한민국 내 인기 여행지 - 버튼 클릭
 	private String keyword;
