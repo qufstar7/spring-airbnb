@@ -61,7 +61,7 @@
 												class="sm-profile-img back-img"
 												src="/resources/images/host/michael-dam.jpg"
 												aria-hidden="true">
-										</div> <span class="profile-text">슈퍼호스트에게 물어보기</span>
+										</div> <span class="profile-text">${LOGIN_USER.name }님의 숙소 등록하기</span>
 								</a></li>
 								<li class="nav-item"><a
 									class="right-nav-btn nav-link active border rounded-pill"
