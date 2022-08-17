@@ -83,9 +83,26 @@
  	</select>
  	
  	<!-- List<Accommodation> getWishlistAccsWithConditions(@Param("wishlistNo")int wishlistNo, @Param("checkInDate") Date checkIndate, @Param("checkOutDate") Date checkOutDate, @Param("guestCount") int guestCount); -->
- 	<!-- 확인질문!!!!!!!!!!!!!!! -->
+ 	<!-- 확인!!!!!!!!!!!!!!! -->
  	<select id="getWishlistAccsWithConditions" resultMap="AccResultMap">
- 		select *
+ 		WITH test_accommodations
+		 AS ( select *
+		 		from airbnb_accommodations
+		 		where acc_no in (select acc_no
+		 		                 from airbnb_wishlist_accommodations
+		 		                 where wishlist_no = #{wishlistNo}))
+		SELECT distinct T.*
+		FROM test_accommodations T, airbnb_reservations R
+		WHERE T.acc_no = R.acc_no(+)
+		and T.acc_guest &gt;= #{guestCount}						<!-- 게스트는 없어도 기본값 1 -->
+		and T.acc_status = '운영중'
+		<if test="checkInDate != null and checkOutDate != null">   
+		 AND (R.check_out_date &lt;= #{checkInDate} 
+		 OR R.check_in_date &gt;= #{checkOutDate} 
+		 OR R.check_in_date is null)
+		</if>        
+ 	
+ 		<!-- select *
  		from airbnb_accommodations
  		where acc_no in (select acc_no
  		                 from airbnb_wishlist_accommodations
@@ -98,7 +115,7 @@
     	</if>
     	<if test="guestCount != null">
     		and acc_guest &lt;= #{guestCount}
-    	</if>
+    	</if> -->
  	</select>
  	
  	<!-- void createWishlist(Wishlist wishlist); -->

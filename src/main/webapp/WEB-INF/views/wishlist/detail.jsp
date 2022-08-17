@@ -17,6 +17,7 @@
 <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Google+Sans:400,500,700|Google+Sans+Text:400&amp;lang=ko">
 <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans+Text:400&amp;text=%E2%86%90%E2%86%92%E2%86%91%E2%86%93&amp;lang=ko">
 <link rel="stylesheet" type="text/css" href="/resources/css/wishlist-detail.css">
+<script src="https://kit.fontawesome.com/2628157b3b.js"></script>
 <title>${wishlist.name }-에어씨엔씨</title>
 <style type="text/css">
 	
@@ -167,8 +168,19 @@
 		$.each(markers, function() {
 	 		$(this.label.element).removeClass("bg-black")
 	 		$(this.label.element).css({"color":"black", "transform":"scale(1.0)", "z-index":"0"});
+	 		$(this.label.element).find(".fa-ban").removeClass("text-white").addClass("text-dark");
 	 	});
+	}	
+	// 마커 삭제?
+	function clearOverlays(accs) {
+		let objectName;
+		$.each(accs, function(i, acc) {
+			objectName = "acc" + acc.accNo
+			markers[objectName].setMap(null); // 지도에서 삭제?
+			delete markers[objectName];			// 객체에서 해당키값 삭제
+		});
 	}
+	
 	// 여기서 jstl 사용가능?
 	let firstLatLng;
 	let zoom;
@@ -180,6 +192,7 @@
 		firstLatLng = {lat: ${wishlist.accs[0].latitude}, lng: ${wishlist.accs[0].longitude}};
 		zoom = 14;
 	</c:if>
+	let map; 
 	function initMap() {
 		
 	    var defaultOptions = {
@@ -193,9 +206,9 @@
 	        pixelRatio: window.devicePixelRatio || 1
 	        //mapTypeId: 'terrain'
 	        };
-	   let map = new google.maps.Map(document.getElementById('googleMap'), defaultOptions);
-	   
+	   map = new google.maps.Map(document.getElementById('googleMap'), defaultOptions);
 	   createMarker(map, accs);
+	   
 	}
 	
 	let accs = new Array();
@@ -203,7 +216,7 @@
 		accs.push({accNo: ${acc.accNo}, lat: ${acc.latitude}, lng: ${acc.longitude}, name: "${acc.name}", price:${acc.price}, reviewScore:${acc.reviewScore}, reviewCount: ${acc.reviewCount}});
 	</c:forEach>
 		
-	let markers = [];
+	let markers = {}; // 배열이 아닌 객체로 재생성
 	let marker = null;
 	function createMarker(map, accs) {
 		
@@ -211,12 +224,19 @@
 		
 		 $.each(accs, function(index, acc) {
 			    //google의 마커를 프로토타입으로 받았기 때문에 google marker의 옵션들도 이용 가능하다
+			    let labelContent = '';
+		        if (acc.disabled) {
+			        labelContent = '<div class="labelTest" id="label-' + acc.accNo + '"><i class="fa-solid fa-ban text-dark"></i><i class="bi bi-heart-fill ps-1"></i></div>'; //이런식으로 div 추가 가능
+		        } else {
+			        labelContent =  '<div class="labelTest" id="label-' + acc.accNo + '"> ₩' + acc.price.toLocaleString() +' <i class="bi bi-heart-fill ps-1"></i></div>'; //이런식으로 div 추가 가능
+		        }
+		     // console.log("accNo:" + acc.accNo + " disabled: " + acc.disabled);
 		        marker = new markerWithLabel.MarkerWithLabel({
 			        position: {lat: acc.lat, lng: acc.lng},
 			        map: map,
-			        icon: ' ',  //마커의 기본 아이콘을 없에려면 공백을 넣으면 된다.
+			        icon: ' ',  //마커의 기본 아이콘을 x. 공백을 넣으면 된다.
 			        //title: acc.accNo,
-			        labelContent: '<div class="test"> ₩' + acc.price.toLocaleString() +' <i class="bi bi-heart-fill ps-1"></i></div>', //이런식으로 div 추가 가능
+			         labelContent:  labelContent, 
 			        labelAnchor: new google.maps.Point(-30, -30),  //라벨의 상대적 위치를 지정함(px단위)이며 google map api의 anchor와 같은 개념이다.
 			        labelClass: "labels",      // the CSS class for the label
 			        labelStyle: {opacity: 0.75},
@@ -246,6 +266,7 @@
 			      
 		    	  $(this.label.element).addClass('bg-black');
 		  	  	  $(this.label.element).css({"color":"white", "transform":"scale(1.2)", "z-index":"1"});
+		  	  	  $(this.label.element).find(".fa-ban").removeClass("text-dark").addClass("text-white");
 		  	  	  
 		  	  	  let infoWindow_content = '<a href="/detail?no=' + acc.accNo + '"  style="text-decoration: none; color: black;">';
 		    	      infoWindow_content += '<div class="card" style="width: 16rem; height:16rem;">';
@@ -303,12 +324,13 @@
 	                currentInfoWindow = infowindow; 
 	                
 				}); 
-			      markers.push(marker);
+			     // markers.push(marker);
+			      markers["acc" + acc.accNo] = marker; // markers 객체에 "acc" + acc.accNo 키이름으로 marker 추가
 		    })
 		    return markers;
 	}
 	
-	
+
 	
 	
 $(function () {
@@ -321,17 +343,20 @@ $(function () {
 		});
 	 
 	 $(".card").hover(function() {
-		 	
-	 	let index = $(this).data("index");
-	 	let marker = markers[index];
+		let accNo = $(this).attr("id").replace("card-", ""); 	
+	 	//let index = $(this).data("index");
+	 	//let marker = markers[index];
+	 	//marker = markers[index];
+	 	marker = markers["acc" + accNo];
 	 	
 	 	$(marker.label.element).addClass('bg-black');
 	  	$(marker.label.element).css({"color":"white", "transform":"scale(1.2)", "z-index":"1"});
 	  	
 	 	//google.maps.event.trigger(marker, 'mouseover');
 	 }, function() {
-		 defaultLabel(markers);
+		defaultLabel(markers);
 	 });
+	 
 	 // 외부영역 클릭시 infoWindow 닫기
 	 $(document).click(function(event) {
 		defaultLabel(markers);
@@ -564,8 +589,6 @@ $(function () {
 		return false;
 	});
 	
-	
-	
 	$("#btn-reset-all-count").click(function() {
 		$inputAdultCount.val(1);
 		$inputChildrenCount.val(0);
@@ -578,6 +601,7 @@ $(function () {
 		$("#btn-guest-count").text("인원 " + totalGuestCount + "명");
 		$("#hidden-guest-count").val(totalGuestCount);
 		$("h2").click();
+		refreshWithConditions();
 	});
 
 	///////// 날짜 or 인원 검색
@@ -597,9 +621,10 @@ $(function () {
 		})
 	} */
 	// jsp 우회해서 사용하기 ? 1.마커도 반영해야..  2. get방식도 가능?
-	function refreshWithConditions(tab) {
+	function refreshWithConditions() {
+		
 		var formData = new FormData(document.getElementById("form-hidden-conditions")); //formData 객체 생성
-		formData.append("tab", tab);
+		//formData.append("tab", tab);
 		$.ajax({
 			url : "/wishlists/detail/refresh",
 			type : "post",
@@ -609,11 +634,52 @@ $(function () {
 		    processData: false,
 			cache : false
 	    }).done(function(result) {
-			  console.log("결과확인");
-	     		var html = jQuery('<div>').html(result);
-				var contents = html.find("div#indexListAjax").html();
-				 console.log(contents);
-					$("#tabl1").html(contents);
+			/*
+				1. result는 JSP의 실행결과로 생성된 HTML 컨텐츠다.
+				2. div 태그를 생성하고 $("<div>"), 그 div 태그에 응답으로 받은 HTML 컨텐츠를 담는다. 
+				3. $div에서 이 div#indexListAjax 선택자에 해당하는 엘리먼트에 포함된 HTML 컨텐츠를 조회한다.
+				4. tabl1에 조회한 htm 컨텐츠를 반영한다.
+			*/
+	     	var $div = $('<div>').html(result);
+			var contents = $div.find("div#indexListAjax").html();
+			//console.log(contents);
+			$("#tabl1").html("");
+			$("#tabl1").html(contents);
+			
+			let availableAccNo = new Array();		// 예약가능한 숙소 번호 배열
+			$("#tabl1").find("div.card").each(function() {
+				availableAccNo.push(parseInt($(this).attr("id").replace("card-", "")));
+			});
+			console.log("가능한번호: " + availableAccNo);
+			$.each(accs, function(i, acc) {
+				if(availableAccNo.indexOf(acc.accNo) >= 0) {	
+					acc.disabled = false;						// 예약가능한 숙소번호배열에 위시리스트의 숙소번호가 있는 경우
+				} else {			
+					acc.disabled = true;						// 예약가능한 숙소번호배열에 위시리스트의 숙소번호가 없는 경우
+				}
+				console.log("accNo: " + acc.accNo + " disabled: " + acc.disabled );
+			});
+			
+			// 기존 마커지우기
+			clearOverlays(accs);
+			initMap();
+			
+			
+			/* $("#tabl1").find("div.card").each(function() {
+				let accNo = parseInt($(this).attr("id").replace("card-", "")); // 해당 날짜와 인원수 예약가능한 숙소번호
+				let index = accs.findIndex(function(acc) {
+					return acc.accNo === accNo;  // accs의 배열의 요소에서 accNo 속성의 값이 우변의 accNo인 배열 요소의 인덱스를 반환한다.
+				});
+				if(index >= 0) {
+					accs[index].disabled = false;
+				} 
+			})
+			
+			$.each(accs, function(index, acc) {
+				if(!acc.hasOwnProperty('disabled')) {
+					acc.disabled = true;
+				}
+			}) */
 			
 		}).fail(function (jqXHR, textStatus, errorThrown) {
 			console.log("에러");
