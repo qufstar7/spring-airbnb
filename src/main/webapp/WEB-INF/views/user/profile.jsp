@@ -12,7 +12,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://kit.fontawesome.com/cbcad42a26.js" crossorigin="anonymous"></script>
-<title>[회원이름]님의 프로필 -에어씨앤씨</title>
+<title>${user.name}님의 프로필 -에어씨앤씨</title>
 <style type="text/css">
 	/* .col-3 * {text-align: left;		} */
 	.pop:hover { text-decoration: underline;
@@ -116,78 +116,169 @@
 					</form>	
 				</div>
 				<hr class="mt-4"/>
-				<!-- 후기 -->
-				<div class="d-flex justify-content-start fs-5 mt-5 mb-4">
+				
+				<!-- 후기 탭 -->
+				<div class="d-flex justify-content-start fs-5 mt-5 mb-4" id="aaa">
 					<i class="bi bi-star-fill"></i>
-					<h3 class="fw-bold mb-3 ms-2">후기 4개</h3>
-				</div>
-				<div>
-				<h4>게스트가 남긴 후기</h4>
-					<div class="row">
-						<div class="col-10">
-							<h5>Turtle Bay Floating Villa Homestay Eco House 숙소 이름 </h5>
-							<p class="text-muted">7월 2022</p>
-						</div>
-						<div class="col-2">
-							<a href="../detail?no=102">
-								<img src="/resources/images/acc/1.jpg" class="rectangleImg mb-3">
-							</a>							
-						</div>
-					</div>
-					<div>
-						<p>The accommodation is beautiful and as the picture shows. The decor is quaint and the room is very cosy. 
-							The facilities were clean and adequate. Overall, a wonderful stay and highly recommended place… 더 보기
-						</p>
-					</div>
-					<div class="row">
-						<div class="col-1">
-							<a href="../profile?no=1">
-								<img src="/resources/images/profile/no-image.png" class="userImg mb-3">
-							</a>
-						</div>
-						<div class="col">
-							<p class="mb-0 ps-3"><strong>이름님, 포르투갈</strong></p>
-							<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">2015</span>
-						</div>
-					</div>
-					
+					<h4 class="fw-bold mb-3 ms-2">후기 4개 (guest + host)</h4>
+				</div>				
+				<ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+					<li class="nav-item" role="presentation">
+				    	<button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">게스트가 남긴 후기(132개)</button>
+				    </li>
+				    <li class="nav-item" role="presentation">
+				  		<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">호스트의 후기(15개)</button>
+				    </li>
+				</ul>
+				
+				<!-- 탭 리뷰 컨텐츠 -->
 
-				<h4>호스트가 남긴 후기</h4>
-					<div class="mb-5">
-						<div>
-							<p class="text-muted">6월2019</p>
-							<p>성원에 머무르게 되어 기뻤습니다. 커뮤니케이션이 훌륭했고, 다른 호스트를 추천해 드립니다.</p>
-						</div>
-						<div class="row">
-							<div class="col-1">
-								<a href="../profile?no=1">
-									<img src="/resources/images/profile/no-image.png" class="userImg mb-3">
-								</a>
+				<div class="tab-content" id="myTabContent">
+				    <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
+						<div class="mb-5">
+							<div class="row">
+								<div class="col-10">
+									<h5><string>Turtle Bay Floating Villa Homestay Eco House 숙소 이름 </string></h5>
+									<p class="text-muted">7월 2022</p>
+								</div>
+								<div class="col-2">
+									<a href="../detail?no=102">
+										<img src="/resources/images/acc/1.jpg" class="rectangleImg mb-3">
+									</a>							
+								</div>
 							</div>
-							<div class="col">
-								<p class="mb-0 ps-3"><strong>이름님, 포르투갈</strong></p>
-								<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">2015</span>
+							<div>
+								<p>The accommodation is beautiful and as the picture shows. The decor is quaint and the room is very cosy. 
+									The facilities were clean and adequate. Overall, a wonderful stay and highly recommended place… 더 보기
+								</p>
+							</div>
+							<div class="row">
+								<div class="col-1">
+									<a href="../profile?no=1">
+										<img src="/resources/images/profile/no-image.png" class="userImg mb-3">
+									</a>
+								</div>
+								<div class="col">
+									<p class="mb-0 ps-3"><strong>이름님, 포르투갈</strong></p>
+									<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">2015</span>
+								</div>
+							</div>
+						</div>				    
+						<div class="mb-5">
+							<div class="row">
+								<div class="col-10">
+									<h5><string>Turtle Bay Floating Villa Homestay Eco House 숙소 이름 </string></h5>
+									<p class="text-muted">7월 2022</p>
+								</div>
+								<div class="col-2">
+									<a href="../detail?no=102">
+										<img src="/resources/images/acc/1.jpg" class="rectangleImg mb-3">
+									</a>							
+								</div>
+							</div>
+							<div>
+								<p>The accommodation is beautiful and as the picture shows. The decor is quaint and the room is very cosy. 
+									The facilities were clean and adequate. Overall, a wonderful stay and highly recommended place… 더 보기
+								</p>
+							</div>
+							<div class="row">
+								<div class="col-1">
+									<a href="../profile?no=1">
+										<img src="/resources/images/profile/no-image.png" class="userImg mb-3">
+									</a>
+								</div>
+								<div class="col">
+									<p class="mb-0 ps-3"><strong>이름님, 포르투갈</strong></p>
+									<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">2015</span>
+								</div>
+							</div>
+						</div>				    
+						<div class="mb-5">
+							<div class="row">
+								<div class="col-10">
+									<h5><string>Turtle Bay Floating Villa Homestay Eco House 숙소 이름 </string></h5>
+									<p class="text-muted">7월 2022</p>
+								</div>
+								<div class="col-2">
+									<a href="../detail?no=102">
+										<img src="/resources/images/acc/1.jpg" class="rectangleImg mb-3">
+									</a>							
+								</div>
+							</div>
+							<div>
+								<p>The accommodation is beautiful and as the picture shows. The decor is quaint and the room is very cosy. 
+									The facilities were clean and adequate. Overall, a wonderful stay and highly recommended place… 더 보기
+								</p>
+							</div>
+							<div class="row">
+								<div class="col-1">
+									<a href="../profile?no=1">
+										<img src="/resources/images/profile/no-image.png" class="userImg mb-3">
+									</a>
+								</div>
+								<div class="col">
+									<p class="mb-0 ps-3"><strong>이름님, 포르투갈</strong></p>
+									<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">2015</span>
+								</div>
+							</div>
+						</div>				    
+				    </div>
+				    <div class="tab-pane " id="profile" role="tabpanel" aria-labelledby="profile-tab">
+						<div class="mb-5">
+							<div>
+								<p class="text-muted">6월2019</p>
+								<p>성원에 머무르게 되어 기뻤습니다. 커뮤니케이션이 훌륭했고, 다른 호스트에게도 추천해 드립니다.</p>
+							</div>
+							<div class="row">
+								<div class="col-1">
+									<a href="../profile?no=1">
+										<img src="/resources/images/profile/no-image.png" class="userImg mb-3">
+									</a>
+								</div>
+								<div class="col">
+									<p class="mb-0 ps-3"><strong>이름님, 포르투갈</strong></p>
+									<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">2015</span>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="mb-5">
-						<div>
-							<p class="text-muted">6월2019</p>
-							<p>성원에 머무르게 되어 기뻤습니다. 커뮤니케이션이 훌륭했고, 다른 호스트를 추천해 드립니다.</p>
-						</div>
-						<div class="row">
-							<div class="col-1">
-								<a href="../profile?no=1">
-									<img src="/resources/images/profile/no-image.png" class="userImg mb-3">
-								</a>
+						<div class="mb-5">
+							<div>
+								<p class="text-muted">6월2019</p>
+								<p>성원에 머무르게 되어 기뻤습니다. 커뮤니케이션이 훌륭했고, 다른 호스트에게도 추천해 드립니다.</p>
 							</div>
-							<div class="col">
-								<p class="mb-0 ps-3"><strong>이름님, 포르투갈</strong></p>
-								<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">2015</span>
+							<div class="row">
+								<div class="col-1">
+									<a href="../profile?no=1">
+										<img src="/resources/images/profile/no-image.png" class="userImg mb-3">
+									</a>
+								</div>
+								<div class="col">
+									<p class="mb-0 ps-3"><strong>이름님, 포르투갈</strong></p>
+									<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">2015</span>
+								</div>
+							</div>
+						</div>
+						<div class="mb-5">
+							<div>
+								<p class="text-muted">6월2019</p>
+								<p>성원에 머무르게 되어 기뻤습니다. 커뮤니케이션이 훌륭했고, 다른 호스트에게도 추천해 드립니다.</p>
+							</div>
+							<div class="row">
+								<div class="col-1">
+									<a href="../profile?no=1">
+										<img src="/resources/images/profile/no-image.png" class="userImg mb-3">
+									</a>
+								</div>
+								<div class="col">
+									<p class="mb-0 ps-3"><strong>이름님, 포르투갈</strong></p>
+									<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">2015</span>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+				
+
 			</div>
 		</div>
 	</div>
@@ -269,13 +360,21 @@ $(function () {
 		$("#btn-change-profile").removeClass("disabled");
 		$("#div-profile").removeClass("d-none");
 	});
-	
-	
-	
-	
-	
-	
-	
+	/*
+	// 유저의 리뷰 리스트를 불러온다.
+	$("#aaa").ready(function() {
+		
+		$.ajax({
+			type: 'GET',							// HTTP 요청 방식
+			url: "../review/profile",					// 요청 URL
+			//data: {no:no},						// 서버로 보내는 데이터 (유저 번호)
+			dataType: 'json',						// 서버로부터 받을 것으로 예상되는 응답메세지의 컨텐츠 타입
+			success: function(data) {				
+				let reviews = data.items;
+				console.log(reviews);
+			}
+		})
+	})*/
 	
 })
 
