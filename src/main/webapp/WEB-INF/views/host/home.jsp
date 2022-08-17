@@ -17,7 +17,7 @@
 <link rel="stylesheet" type="text/css"
 	href="${path}/resources/css/hostingstyle.css">
 </head>
-<body>
+<body style="overflow:hidden">
 
 	<!-- 로고 홈링크 -->
 	<a id="logo-link" href="/">
@@ -26,8 +26,10 @@
 		</svg>
 	</a>
 
-	<!-- 왼쪽 호스팅 시작하기 영역 -->
+	<!-- 전체 박스 -->
 	<div id="starting-host" class="position-relative">
+	
+		<!-- 왼쪽 영역 -->
 		<div class="text-center bg-black" id="left-div">
 			<div class="align-self-center d-inline">
 				<div role="text" class="left-main-text text-white fw-bold">
@@ -50,7 +52,7 @@
 			</div>
 		</div>
 
-		<!-- 오른쪽 동영상 영역 -->
+		<!-- 오른쪽 영역 -->
 		<div id="right-div">
 			<div class="align-self-center">
 				<!-- 동영상 -->

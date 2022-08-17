@@ -2,9 +2,8 @@ package kr.co.airbnb.form;
 
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import kr.co.airbnb.vo.Type;
+import kr.co.airbnb.vo.AccConvenience;
+import kr.co.airbnb.vo.AccPhoto;
 import kr.co.airbnb.vo.Tag;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,15 +14,19 @@ import lombok.ToString;
 @ToString
 public class AccRegisterForm {
 
-	private List<Type> accTypes;
-	private String location;
-	private int numberOfPeople;
-	private List<Boolean> ConvenienceFacilityInfo;
-	private List<MultipartFile> imageFiles;
+	private int accNo;
+	private int mainType;
+	private int subType;
+	private int privacyType;
+	private String roadName; // address
+	private String latitude;
+	private String longitude;
+	private int guests;
+	private List<AccConvenience> facilities;
+	private List<AccPhoto> imageFiles;
 	private String name;
 	private List<Tag> tags;
 	private String description;
-	private String price;
+	private int price;
 	private List<Boolean> legalChecks;
-	
 }

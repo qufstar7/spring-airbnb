@@ -27,6 +27,10 @@ public class AccommodationService {
 	@Autowired
 	AccommodationMapper accommodationMapper;
 	
+	public void updateAcc(Accommodation acc) {
+		accommodationMapper.updateAcc(acc);
+	}
+	
 	
 	public Accommodation getAccommodation(int no) {
 		
@@ -79,7 +83,12 @@ public class AccommodationService {
 	public void insertAcc(@LoginUser User loginUser) {
 		Accommodation acc = new Accommodation();
 		acc.setUser(loginUser);
+		acc.setStatus("등록미완");
 		accommodationMapper.insertAcc(acc);
+	}
+
+	public int getAccommodationNoByUser(@LoginUser User loginUser) {
+		return accommodationMapper.getAccNoByUser(loginUser);
 	}
 	
 	// nav검색으로 list조회

@@ -15,7 +15,7 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<title>일반 건물 유형 선택</title>
+<title>호스트 시작하기</title>
 <link rel="stylesheet" type="text/css"
 	href="${path}/resources/css/hostingstyle.css">
 </head>
@@ -51,7 +51,7 @@
 							<ul class="navbar-nav">
 								<li class="nav-item nav-ask-superhost"><a
 									class="profile-btn right-nav-btn nav-link active border rounded-pill"
-									href="">
+									href="" style="cursor:context-menu;">
 										<div>
 											<img class="sm-profile-img front-img"
 												src="/resources/images/host/julian-wan.jpg"
@@ -70,7 +70,7 @@
 									href="">도움말</a></li>
 								<li class="nav-item"><a
 									class="right-nav-btn nav-link active border rounded-pill"
-									href="">저장 및 나가기</a></li>
+									href="/host">저장 및 나가기</a></li>
 							</ul>
 						</div>
 					</div>
@@ -117,7 +117,7 @@
 									<div class="py-3">
 										
 										<!-- 선택버튼 -->
-										<button id="accRegister" type="button" class="btn btn-types btn-maintypes bg-white container p-4 my-2" onclick="location.href='/become-a-host/register'">
+										<button id="accRegister" type="button" class="btn btn-types btn-maintypes bg-white container p-4 my-2" onclick="location.href='/host/become-a-host/register'">
 											<!-- 플러스 아이콘 -->														
 											<span class="float-start">													
 												<svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
