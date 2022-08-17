@@ -589,8 +589,6 @@ $(function () {
 		return false;
 	});
 	
-	
-	
 	$("#btn-reset-all-count").click(function() {
 		$inputAdultCount.val(1);
 		$inputChildrenCount.val(0);
@@ -666,7 +664,7 @@ $(function () {
 			clearOverlays(accs);
 			initMap();
 			
-			// 講師コード
+			
 			/* $("#tabl1").find("div.card").each(function() {
 				let accNo = parseInt($(this).attr("id").replace("card-", "")); // 해당 날짜와 인원수 예약가능한 숙소번호
 				let index = accs.findIndex(function(acc) {

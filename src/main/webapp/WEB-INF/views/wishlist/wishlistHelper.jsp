@@ -65,7 +65,6 @@
 			</a>
 		</c:forEach>
 	</c:if>
-	<h4 class="fw-bold">예약 불가능 숙소</h4>
 </div>
 
 

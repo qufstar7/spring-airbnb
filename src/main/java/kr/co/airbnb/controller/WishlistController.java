@@ -128,6 +128,20 @@ public class WishlistController {
 		//Map<String, Object> result = new HashMap<>();
 		//result.put("wishlist", wishlist);
 		
+		// test
+		Wishlist testWishlist = wishlistService.getWishlistByNo(wishlistNo); 
+		List<Accommodation> unavailableAccsInWishlist = testWishlist.getAccs();    // 해당 위시리스트의 모든 숙소배열
+		System.out.println("모든 숙소 개수: " + unavailableAccsInWishlist.size());
+		
+		List<Accommodation> availableAccsInWishlist = wishlist.getAccs();  // 위에서 구한 예약가능한 숙소들
+		System.out.println("예약가능숙소개수: " + availableAccsInWishlist.size());
+		
+		System.out.println(unavailableAccsInWishlist.containsAll(availableAccsInWishlist));
+		
+		unavailableAccsInWishlist.removeAll(availableAccsInWishlist);
+		model.addAttribute("unavailableWishlist", unavailableAccsInWishlist);
+		System.out.println("불가능한 숙소 사이즈: " + unavailableAccsInWishlist.size());
+		
 		return "wishlist/wishlistHelper";
 	}
 	
