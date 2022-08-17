@@ -9,8 +9,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import kr.co.airbnb.form.CardRegisterForm;
 import kr.co.airbnb.form.ReservationForm;
+import kr.co.airbnb.form.ReservationRegisterForm;
 import kr.co.airbnb.mapper.AccommodationMapper;
 import kr.co.airbnb.mapper.ReservationMapper;
 import kr.co.airbnb.vo.Accommodation;
@@ -26,41 +26,46 @@ public class ReservationService {
 	@Autowired
 	private AccommodationMapper accommodationMapper;
 	
-	public void  addNewCard(CardRegisterForm cardRegisterForm) throws IOException {
+	public void  addNewReservation(User loginUser, ReservationRegisterForm reservationRegisterForm) throws IOException {
 		
 		Card card = new Card();
-		BeanUtils.copyProperties(cardRegisterForm, card);
+		card.setId(reservationRegisterForm.getId());
+		card.setCvv(reservationRegisterForm.getCvv());
+		card.setExpiryDate(reservationRegisterForm.getExpiryDate());
+		card.setRegion(reservationRegisterForm.getRegion());
+		card.setZipCode(reservationRegisterForm.getZipCode());
 
 		reservationMapper.insertCard(card);
+		
+		Reservation reservation = new Reservation();
+		reservation.setCheckInDate(reservationRegisterForm.getCheckInDate());
+		reservation.setCheckOutDate(reservationRegisterForm.getCheckOutDate());
+		reservation.setAdultNum(reservationRegisterForm.getAdultNum());
+		reservation.setChildrenNum(reservationRegisterForm.getChildrenNum());
+		reservation.setInfantNum(reservationRegisterForm.getInfantNum());
+		reservation.setPetNum(reservationRegisterForm.getPetNum());
+		reservation.setTotalGuest(reservationRegisterForm.getTotalGuest());
+		reservation.setMessageToHost(reservationRegisterForm.getMessageToHost());
+		reservation.setServiceFee(reservationRegisterForm.getPrice() *0.15);
+		reservation.setPrice(reservationRegisterForm.getPrice());
+		reservation.setTotalPrice(reservationRegisterForm.getPrice() + reservation.getServiceFee());
+		reservation.setEntirePay(reservationRegisterForm.getTotalPrice());
+		reservation.setLeftPay(reservationRegisterForm.getTotalPrice() * 0.3);
+		
+		
+		
+		reservationMapper.insertReservation(reservation);
+		
 	}
 	
-	public Accommodation getAcc(int no) {
-		return accommodationMapper.getAcc(no);
+	public Accommodation getAcc(int accNo) {
+		return accommodationMapper.getAcc(accNo);
 	}
 	
 	public List<Reservation> getAllReservationByUsers(int no) {
 		return reservationMapper.getReservationByUserNo(no);
 	}
 	
-	public void addNewReservation(User loginUser, ReservationForm reservationForm) throws IOException {
-		Reservation reservation = new Reservation();
-		reservation.setCheckInDate(reservationForm.getCheckInDate());
-		reservation.setCheckOutDate(reservationForm.getCheckOutDate());
-		reservation.setAdultNum(reservationForm.getAdultNum());
-		reservation.setChildrenNum(reservationForm.getChildrenNum());
-		reservation.setInfantNum(reservationForm.getInfantNum());
-		reservation.setPetNum(reservationForm.getPetNum());
-		reservation.setTotalGuest(reservationForm.getAdultNum() + reservationForm.getChildrenNum() + reservationForm.getInfantNum());
-		reservation.setMessageToHost(reservationForm.getMessageToHost());
-		reservation.setServiceFee(reservationForm.getServiceFee());
-		reservation.setPrice(reservationForm.getPrice());
-		reservation.setTotalPrice(reservationForm.getServiceFee() + reservationForm.getPrice());
-		
-		
-		
-		
-		reservationMapper.insertReservation(reservation);
-	}
 	
 	
 	

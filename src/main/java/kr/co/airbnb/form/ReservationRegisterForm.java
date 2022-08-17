@@ -1,8 +1,10 @@
-package kr.co.airbnb.vo;
+package kr.co.airbnb.form;
 
 import java.util.Date;
 
-import org.apache.ibatis.type.Alias;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Getter;
@@ -12,10 +14,14 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Alias("Reservation")
-public class Reservation {
+public class ReservationRegisterForm {
 
-	private int no;
+	private String id;
+	private String expiryDate;
+	private String cvv;
+	private String zipCode;
+	private String region;
+	
 	private int accNo;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date checkInDate;
@@ -26,17 +32,11 @@ public class Reservation {
 	private int infantNum;
 	private int petNum;
 	private int totalGuest;
+	private String payment;
 	private String messageToHost;
-	private Date createdDate;
-	private Date updatedDate;
-	private double serviceFee;
 	private int price;
-	private double totalPrice;
+	private int totalPrice;
 	private int entirePay;
-	private double leftPay;
-	private Accommodation accommodation;
-	private User user;
-	
-	
+	private int leftPay;
 	
 }
