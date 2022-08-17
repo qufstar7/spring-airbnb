@@ -3,7 +3,6 @@ package kr.co.airbnb.controller;
 import java.io.IOException;
 import java.util.List;
 
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,13 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 
 import kr.co.airbnb.annotation.LoginUser;
-import kr.co.airbnb.form.CardRegisterForm;
-import kr.co.airbnb.form.ReservationForm;
+import kr.co.airbnb.form.ReservationRegisterForm;
 import kr.co.airbnb.service.AccommodationService;
 import kr.co.airbnb.service.ReservationService;
 import kr.co.airbnb.vo.Accommodation;
@@ -28,37 +25,27 @@ import kr.co.airbnb.vo.User;
 
 @Controller
 @RequestMapping("/book")
-@SessionAttributes({"reservationForm"})
 public class ReservationController {
 	
 	@Autowired
 	private ReservationService reservationService;
 	
 	@GetMapping(path = "/register")
-	public String book(@RequestParam("no") int no, Model model) {
-		Accommodation accommodation  = reservationService.getAcc(no);
+	public String book(@RequestParam("no") int accNo, Model model) {
+		Accommodation accommodation  = reservationService.getAcc(accNo);
 		model.addAttribute("accommodation", accommodation);
-		model.addAttribute("cardRegisterForm", new CardRegisterForm());
+		model.addAttribute("ReservationRegisterForm", new ReservationRegisterForm());
 		
 		return "reservation/book";
 	}
 	
 	@PostMapping(path ="/register")
-	public String register(@Valid CardRegisterForm cardRegisterForm, BindingResult errors) throws Exception {
+	@RequestMapping(value="/completed", method = {RequestMethod.POST})
+	public String register(@LoginUser User loginUser, ReservationRegisterForm reservaionRegisterForm) throws IOException {
 		
-		if (errors.hasErrors()) {
-			return "reservation/book/register";
-		}
-		
-		reservationService.addNewCard(cardRegisterForm);
+		reservationService.addNewReservation(loginUser, reservaionRegisterForm);
 				
 		return "/reservation/completed";
-	}
-	
-	@PostMapping
-	public String insert(@LoginUser User loginUser, @ModelAttribute("reservationForm") ReservationForm reservationForm,
-			SessionStatus sessionStatus) throws IOException {
-		return "redirect:/reservation/completed";
 	}
 
 	@GetMapping(path = "/completed")

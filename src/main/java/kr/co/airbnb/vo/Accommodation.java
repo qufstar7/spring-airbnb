@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.type.Alias;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -28,7 +29,9 @@ public class Accommodation {
 	private int price;
 	private int guest;
 	private int pet;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date checkIn;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date checkOut;
 	private String checkInType;
 	private String status;

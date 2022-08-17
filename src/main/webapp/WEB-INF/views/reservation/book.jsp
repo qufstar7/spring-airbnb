@@ -27,7 +27,7 @@
 			<div class="col border bg-white rounded">
 					<div class="mb-3">
 						<span style="font-weight:bold; font-size:small;">저렴한 요금</span>
-						<p >검색하시는 날짜의 요금은 지난 3개월의 평균 1박 요금보다 $ 저렴합니다.</p>
+						<p >검색하시는 날짜의 요금은 지난 3개월의 평균 1박 요금보다 $ 저렴합니다. ${accommodation.accNo }</p>
 					</div>
 			</div>
 		</div>
@@ -37,12 +37,12 @@
 					<span>날짜</span>
 					<button type ="button" class="btn btn-sm" style="background-color:white; border-color:white; float:right;"><u>수정</u></button>
 					<br>
-					<p class ="small"><fmt:formatDate value="${accommodation.checkIn }"/> - <fmt:formatDate value="${accommodation.checkOut }"/></p>	
+					<p class ="small"><fmt:formatDate value="${accommodation.checkIn }"/> - <fmt:formatDate value="${accommodation.checkOut }"/></p>
 				</div>
 				<div>
 					<span>게스트</span>
 					<button type ="button" class="btn btn-sm" style="background-color:white; border-color:white; float:right;"><u>수정</u></button>
-					<br>	
+					<br>
 					<span>게스트 ${accommodation.guest }명</span>
 				</div>
 			</div>
@@ -71,13 +71,13 @@
 							<strong>요금 일부는 지금 결제, 나머지는 나중에 결제</strong>
 						</div>
 						<div class="col-4 text-end">
-							<strong>￦ <fmt:formatNumber value=" ${accommodation.price / 2}"/> 원</strong>
+							<strong>￦ <fmt:formatNumber value=" ${accommodation.price *0.3}"/> 원</strong>
 							<input class="form-check-input"  type="radio" name="payment"  id="radio-left">
 						</div>
 					</div>
 					<div class="row p-3">
 						<div class-col-9>
-							지금 ₩110,909을(를) 결제하시면, 나머지 금액(₩443,632)은 동일한 결제수단으로 
+							지금 ₩<fmt:formatNumber value=" ${accommodation.price *0.3}"/>을(를) 결제하시면, 나머지 금액(₩<fmt:formatNumber value=" ${accommodation.price *0.7}"/>)은 동일한 결제수단으로 
 							2022년 11월 18일 자동 청구됩니다. 추가 수수료는 없습니다.
 							<br>
 							<button type ="button" class="btn btn-sm" id="btn-howtouse" style="background-color:white; border-color:white;"><u>상세정보</u></button>
@@ -149,30 +149,29 @@
 			<div class="insertCard">
 				<div class="row" style="padding:20px">
 					<div class="col border bg-white rounded">
-						<form:form class="col" method="post" action="register" modelAttribute="cardRegisterForm">
+						<form class="col" id="form-reservation" method="post" action="completed" modelAttribute="reservationRegisterForm">
 							<div class="mb-3">
 								<label for="id-field" class="form-label">카드번호</label>
-			                	<input class="form-control" path="id" id="id-field" placeholder="카드 번호"/>
+			                	<input class="form-control" name="id" id="id-field" placeholder="카드 번호"/>
 							</div>
 							<div class ="row"> 
 								<div class="col mb-3">
 									<label for="expiryDate-field" class="form-label">만료일</label>
-                					<form:input class="form-control" path="expiryDate" id="expiryDate-field" placeholder="MM/YY"/>
+                					<input class="form-control" name="expiryDate" id="expiryDate-field" placeholder="MM/YY"/>
 								</div>
 								<div class="col mb-3">
 									<label for="cvv-field" class="form-label">CVV</label>
-                					<form:input class="form-control" path="cvv" id="cvv-field" placeholder="123"/>
+                					<input class="form-control" name="cvv" id="cvv-field" placeholder="123"/>
 								</div>
 							</div>
 							<div class="mb-3">
 								<label for="zipCode-field" class="form-label">우편번호</label>
-                				<form:input class="form-control" path="zipCode" id="zipCode-field" placeholder="12345"/>
+                				<input class="form-control" name="zipCode" id="zipCode-field" placeholder="12345"/>
 							</div>
 							 <div class="mb-3">
 			                	<label for="region-field" class="form-label">지역</label>
-			                	<form:input class="form-control" path="region" id="region-field" placeholder="한국"/>
+			                	<input class="form-control" name="region" id="region-field" placeholder="한국"/>
 			                </div>
-						</form:form>
 							<div class="mb-3">
 								<div class="modal" id="modal-how-to-use" tabindex="-1">
 									<div class="modal-dialog">
@@ -223,7 +222,7 @@
 					</div>
 				</div>
 				<div>
-					<textarea rows="2" class="form-control" name="hostMessage"></textarea>
+					<textarea rows="2" class="form-control" name="messageToHost"></textarea>
 				</div>
 			</div>
 			<hr>
@@ -240,7 +239,18 @@
 				</small></p>
 				<p><small class="text-muted">또한, 개정된 이용 약관과 결제 서비스 약관 및 개인정보 처리방침에도 동의합니다.</small></p>
 			</div>
+			<div class="reservationFrom">
+				<input type="hidden" name="accNo" value="${accommodation.accNo }">	
+				<input type="hidden" name="checkInDate" value='<fmt:formatDate value="${accommodation.checkIn}" pattern="yyyy-MM-dd" />'>	
+				<input type="hidden" name="checkOutDate" value='<fmt:formatDate value="${accommodation.checkOut}" pattern="yyyy-MM-dd" />'>
+				<input type="hidden" name="totalGuest" value="${accommodation.guest }">	
+				<input type="hidden" name="price" value="${accommodation.price }">
+				<button type="submit" class="btn btn-lg" style="background-color:#d80765; color:white;">확인 및 결제</a>
+			</div>
+					</form>	
+			<div>				
 				<a href="/book/completed" class="btn btn-lg" style="background-color:#d80765; color:white;">확인 및 결제</a>
+			</div>
 	</div>
 	<!-- 오른쪽 -->
 	<div class='right-box'>
@@ -323,11 +333,11 @@
 							<div class="divide2">
 								<div class="border bg-white border-white">
 									<span>지급일: 지금</span>
-									<span style="float:right"">￦<fmt:formatNumber value="${accommodation.price *0.5}" /></span>
+									<span style="float:right"">￦<fmt:formatNumber value="${accommodation.price *0.3}" /></span>
 								</div>
 								<div>
 									<span>지급일:<fmt:formatDate value="${accommodation.checkIn}"  /></span>
-									<span style="float:right">￦<fmt:formatNumber value="${accommodation.price *0.5}" /></span>
+									<span style="float:right">￦<fmt:formatNumber value="${accommodation.price *0.7}" /></span>
 								</div>
 							</div>
 						</div>
@@ -395,6 +405,7 @@ $(function(){
 	      	  alert(msg);
 	    });
 	});  
+	
 
 })
 </script>
