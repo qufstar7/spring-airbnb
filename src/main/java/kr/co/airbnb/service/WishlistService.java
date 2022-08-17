@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.co.airbnb.mapper.WishlistMapper;
+import kr.co.airbnb.vo.AccWishlist;
 import kr.co.airbnb.vo.Accommodation;
 import kr.co.airbnb.vo.Wishlist;
 
@@ -73,6 +74,9 @@ public class WishlistService {
 		wishlistMapper.deleteWishlistAcc(wishlistNo, accNo);
 	}
 	
+	public List<AccWishlist> getAccNoByUserNo(int userNo) {
+		return wishlistMapper.getAccNoByUserNo(userNo);
+	}
 }
 	
 

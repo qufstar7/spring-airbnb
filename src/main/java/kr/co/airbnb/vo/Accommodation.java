@@ -50,6 +50,7 @@ public class Accommodation {
 	// private int typeNo = accTypes.get(0).getNo();
 	
 	private List<AccConvenience> conveniences;
+	private List<Wishlist> wishlists;
 	private List<AccPhoto> photos;
 	private AccRoom rooms;
 	private List<String> disabledDate;
