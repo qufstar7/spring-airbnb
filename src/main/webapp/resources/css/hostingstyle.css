@@ -217,7 +217,6 @@ body {
 
 /* become-a-host 페이지 */
 
-
 /* 숙소 유형 선택 페이지 */
 /*  header */
 .right-div-header {
@@ -247,8 +246,6 @@ body {
 	box-shadow: 0px 0px 0px 1px #DDDDDD inset, 0px 2px 4px
 		rgba(0, 0, 0, 0.18);
 }
-
-
 
 .right-nav-btn {
 	background-color: #f7f7f7;
@@ -350,7 +347,7 @@ body {
 	height: 2px;
 }
 
-/* 위치 등록 페이지 */
+/* 주소 등록 페이지 */
 .location-form {
 	background-color: #FFFFFF !important;
 	position: absolute;
@@ -390,11 +387,50 @@ body {
 	cursor: none;
 }
 
-/* 구글 지도 */
-#mapSmall button {
-	display: none !important;
+#locationRightDivHeader {
+	z-index: 2;
+	background-color: transparent !important;
+	top: 0px !important;
+	right: 0px;
+	position: fixed !important;
+	width: 50vw !important;
+	pointer-events: none !important;
+	background: transparent;
 }
 
-.gm-svpc, .gmnoprint, .gmnoprint div {
-	display: none;
+#locationProfileBtn {
+	box-shadow: none;
+	background-color: black !important;
+	color: white;
+	position: relative;
+}
+
+#locationProfileImgBox {
+	position: absolute;
+	top: 7px;
+	right: 83px;
+}
+
+#locationProfileImg {
+	border: none;
+}
+
+#locationProfileText {
+	position: absolute;
+	top: 7px;
+	right: -60px;
+}
+/* 주소 상세 페이지 */
+/* 구글지도 */
+.mapBox {
+	position: absolute !important;
+	top: 0px !important;
+	left: 50% !important;
+	width: 50% !important;
+	height: -webkit-calc(100% - 80px) !important;
+	height: -moz-calc(100% - 80px) !important;
+	height: calc(100% - 80px) !important;
+	-webkit-transition: none !important;
+	-moz-transition: none !important;
+	transition: none !important;
 }
