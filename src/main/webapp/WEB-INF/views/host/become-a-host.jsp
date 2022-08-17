@@ -99,7 +99,7 @@
 									</span>
 									
 									<!-- 메인타입 + 숙소 + 등록일 -->
-									<span class="text-lg-center fw-bolder text-dark float-start ms-3" style="padding-top:5px;">${userAcc.types[0].name } 숙소 <c:if test="${not empty userAcc.updatedDate }">등록일: ${userAcc.updatedDate }</c:if></span>
+									<span class="text-lg-center fw-bolder text-dark float-start ms-3" style="padding-top:5px;">숙소: ${userAcc.types[0].name }<c:if test="${not empty userAcc.updatedDate }"></c:if></span>
 									
 									<!-- 화살표 모양 아이콘 -->
 									<span class="float-end fs-5 fw-bolder"> 
