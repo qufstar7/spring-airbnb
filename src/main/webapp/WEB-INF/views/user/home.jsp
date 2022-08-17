@@ -42,7 +42,7 @@ pageEncoding="UTF-8"%>
 	}
 	
 	.myModal-dialog {
-		width: 600px;
+		width: 620px !important;
 	}
 
 	

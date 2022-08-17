@@ -12,6 +12,7 @@
 	<c:if test="${not empty wishlist.accs}">
 		<c:forEach var="acc" items="${wishlist.accs}" varStatus="loop" >
 		<a href="" style="color: black; text-decoration: none;">
+		<%-- <input type="hidden" name="hiddenAccNo" value="${acc.accNo }"> --%>
 			<div class="card mb-3" data-index="${loop.index}" id="card-${acc.accNo }">
 			  <div class="row g-0 position-relative">
 			    <div class="col-md-5">
@@ -64,6 +65,7 @@
 			</a>
 		</c:forEach>
 	</c:if>
+	<h4 class="fw-bold">예약 불가능 숙소</h4>
 </div>
 
 
