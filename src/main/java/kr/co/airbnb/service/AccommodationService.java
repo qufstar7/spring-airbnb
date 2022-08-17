@@ -51,11 +51,7 @@ public class AccommodationService {
 	public List<Type> searchTypesByAccNo(int accNo) {
 		return accommodationMapper.getAllTypesByAccNo(accNo);
 	}
-	// nav의 장소검색으로 숙소 조회
-	/*
-	 * public List<Accommodation> searchAccByKeyword(String keyword) { return
-	 * accommodationMapper.searchAccByKeyword(keyword); }
-	 */
+	 
 	
 	/*
 	 * public Image getImage(int no) { Image image = new Image(); List<AccPhoto>

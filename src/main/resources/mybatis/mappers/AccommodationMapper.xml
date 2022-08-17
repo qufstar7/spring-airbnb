@@ -205,8 +205,13 @@
 		select *
 		from airbnb_accommodations
 		<where>
+			<if test="accTypes != null">
+				acc_no in (select acc_no
+						   from airbnb_acc_types
+						   where acc_no = #{accNo})
+			</if>
 			<if test="keyword != ''">
-				acc_address like '%'||#{keyword}||'%'
+				and acc_address like '%'||#{keyword}||'%'
 			</if>
 			<!-- <if test="startDate != '' ">
 				endDate를 지정하지 않는 경우 1박 2일으로 자동 설정
