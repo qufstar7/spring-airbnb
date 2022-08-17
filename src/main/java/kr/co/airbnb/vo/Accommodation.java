@@ -1,6 +1,5 @@
 package kr.co.airbnb.vo;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -53,6 +52,7 @@ public class Accommodation {
 	private List<AccPhoto> photos;
 	private AccRoom rooms;
 	private List<String> disabledDate;
+	private List<Tag> tags;
 	
 	private double reviewScore;
 	private double totalScore;

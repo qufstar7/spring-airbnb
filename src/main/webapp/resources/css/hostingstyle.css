@@ -248,6 +248,8 @@ body {
 		rgba(0, 0, 0, 0.18);
 }
 
+
+
 .right-nav-btn {
 	background-color: #f7f7f7;
 	cursor: pointer;
@@ -389,7 +391,7 @@ body {
 }
 
 /* 구글 지도 */
-#googleMapSmall button {
+#mapSmall button {
 	display: none !important;
 }
 
