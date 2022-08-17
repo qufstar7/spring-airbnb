@@ -444,14 +444,14 @@ input[type="range"]::-moz-range-thumb{
 									</a>
 								</c:if>
 								<%-- <c:choose>
-									<c:when test="${acc.accNo eq user.wishlist.no }"> <!-- wishlist 모달 넣어주기-->
-										<a class="wished" href="#" style="position:absolute; top:20px; right:30px; z-index:2">
+									<c:when test="${list.accNo eq user.wishlist.no }"> <!-- wishlist 모달 넣어주기-->
+										<a class="wished" href="#" style="position:absolute; top:15px; right:15px; z-index:2">
 											<span class="material-icons" style="color:#FF7977">favorite</span>
 										</a>
 									</c:when>
 									<c:otherwise>
 										<a class="unwish" href="#" data-bs-toggle="modal" data-bs-target="#"	
-											style="position:absolute; top:20px; right:30px; z-index:2">
+											style="position:absolute; top:15px; right:15px; z-index:2">
 											<span class="material-icons" style="color:white">favorite</span>
 										</a>
 									</c:otherwise>

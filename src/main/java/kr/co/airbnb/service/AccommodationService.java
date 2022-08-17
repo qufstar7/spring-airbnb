@@ -18,6 +18,7 @@ import kr.co.airbnb.vo.Accommodation;
 import kr.co.airbnb.vo.User;
 
 import kr.co.airbnb.vo.Boast;
+import kr.co.airbnb.vo.Tag;
 import kr.co.airbnb.vo.Type;
 
 
@@ -81,6 +82,11 @@ public class AccommodationService {
 	// nav검색으로 list조회
 	public List<Accommodation> searchAccByKeyword(SearchCriteria searchCriteria) {
 		return accommodationMapper.searchAccByKeyword(searchCriteria);
+	}
+
+	// 모든 태그 조회
+	public List<Tag> getAllTags() {
+		return  accommodationMapper.getAllTag();
 	}
 
 }

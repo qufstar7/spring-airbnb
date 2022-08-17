@@ -562,7 +562,8 @@ dateSelector.flatpickr({
  	 	}    
 	] 
 }); */
-	
+
+// 체크인, 체크아웃 달력
 var fp1 = flatpickr(document.getElementById("startDate"), {
 	"inline": true,
 	"locale": "ko",

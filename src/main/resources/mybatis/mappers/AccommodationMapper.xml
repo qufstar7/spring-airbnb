@@ -84,6 +84,15 @@
 		and   B.type_no = #{value}
 	</select> 
 	
+	<!-- List<Tag> getAllTag(); -->
+	<select id="getAllTag" resultType="Tag">
+		select 	 tag_id     as id,
+		         tag_name   as name,
+		         tag_icon   as icon
+		from airbnb_tags 
+		order by tag_id asc
+	</select>
+	
 	<!-- List<AccRoom> getAccRoomsByAccNo(int accNo); 
 	<select id="getAccRoomsByAccNo" parameterType="int" resultType="AccRoom">
 		select A.acc_no as accNo, 
