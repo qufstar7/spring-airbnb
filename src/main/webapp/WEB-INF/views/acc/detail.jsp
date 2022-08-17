@@ -98,11 +98,27 @@
 						<c:choose>
 					  	<c:when test="${empty LOGIN_USER}">
 								<!-- 로그인 하지 않았을 때 -->
-							<button type="button" class="btn btn-link text-decoration-underline text-dark" data-bs-toggle="modal" data-bs-target="#email-login-modal"><i class="bi bi-heart"></i> 저장</button>
+							<button type="button" class="btn btn-link text-decoration-underline text-dark" data-bs-toggle="modal" data-bs-target="#email-login-modal"><i id="icon-heart-${acc.accNo}" class="fa-regular fa-heart fs-6"></i> 저장</button>
 						</c:when>
 						<c:otherwise>
 								<!-- 로그인 했을 때 -->
-							<button type="button" class="btn btn-link text-decoration-underline text-dark" id="btn-open-save-modal"><i class="bi bi-heart"></i> 저장</button>
+							<c:set var="flag" value="N" />
+							<c:forEach items="${wishlistAccNo }" var="wishlist">
+								<c:choose>
+									<c:when test="${wishlist.accNo eq acc.accNo and flag eq 'N' }">
+										<c:set var="flag" value="Y" />
+										<form action="delete">
+											<input type="hidden" value="${wishlist.wishlist.no }" name="wishlistNo" id="wishlistNo">
+											<input type="hidden" value="${wishlist.wishlist.no }" name="accNo" id="wishlistNo">
+											<button type="submit" class="btn btn-link text-decoration-underline text-dark btn-delete-wishlistAcc" data-accNo="${acc.accNo}" ><i id="icon-heart-${acc.accNo}" class="fa-solid fa-heart fs-6 " style="color: #FF385C;"></i> <span id="saveList">저장 목록</span></button>
+										</form>
+									</c:when>
+									<c:when test="${wishlist.accNo ne acc.accNo and flag eq 'N' }">
+										<c:set var="flag" value="Y" />
+										<button type="button" class="btn btn-link text-decoration-underline text-dark btn-open-save-modal" ><i id="icon-heart-${acc.accNo}" class="fa-regular fa-heart fs-6"></i> 안똑</button>
+									</c:when>
+								</c:choose>
+							</c:forEach>
 						</c:otherwise>
 					  </c:choose>
 					</span>
@@ -327,8 +343,13 @@
 							</button>
 							<div class="rounded" id="guest">
 								<div class="mb-4 row justify-content-between d-flex align-items-center guest-box" >
-									<div class="col-4">
-										<p>성인
+									<div class="col-8">
+										<div class="text-start">
+											성인
+										</div>
+										<div class="text-start">
+											만 13세 이상
+										</div>
 									</div>
 									<div class="col-4 adult">
 											<button type="button" class="btn btn-outline-dark btn-sm m_btn guestbtn adultM">-</button>
@@ -337,8 +358,13 @@
 									</div>
 								</div>
 								<div class="mb-4 row justify-content-between d-flex align-items-center guest-box" >
-									<div class="col-4">
-										어린이
+									<div class="col-8">
+										<div class="text-start">
+											어린이
+										</div>
+										<div class="text-start">
+											만 2~12세
+										</div>
 									</div>
 									<div class="col-4 adult">
 											<button type="button" class="btn btn-outline-dark btn-sm m_btn guestbtn childrenM">-</button>
@@ -347,8 +373,13 @@
 									</div>
 								</div>
 								<div class="mb-4 row justify-content-between d-flex align-items-center guest-box" >
-									<div class="col-4">
-										유아
+									<div class="col-8">
+										<div class="text-start">
+											유아
+										</div>
+										<div class="text-start">
+											만 2세 미만
+										</div>
 									</div>
 									<div class="col-4 adult">
 											<button type="button" class="btn btn-outline-dark btn-sm m_btn guestbtn infantM">-</button>
@@ -357,8 +388,13 @@
 									</div>
 								</div>
 								<div class="mb-4 row justify-content-between d-flex align-items-center guest-box" >
-									<div class="col-4">
-										반려
+									<div class="col-8">
+										<div class="text-start">
+											반려 동물
+										</div>
+										<div class="text-start">
+											보조동물을 동반하시나요?
+										</div>
 									</div>
 									<div class="col-4 adult">
 											<button type="button" class="btn btn-outline-dark btn-sm m_btn guestbtn petM">-</button>
@@ -789,31 +825,34 @@
 			</div>
 			<div class="modal-body">
 				<div class="row">
-					<div class="row mb-3 align-items-center">
-						<div class="col-2 rounded">
-							<button type="button" class="btn" id="btn-open-save2-modal"><i class="bi bi-plus h3 text-black-50"></i></button>
+					<div class="row mb-3 align-items-center" id="div-wishlists">
+						<div class="mt-3" style="display: flex; height: 64px;">
+							<button type="button" class="btn" id="btn-open-save2-modal" style="width: 90px; height: 78px;"><i class="bi bi-plus h3" style="width: 64px; height: 64px;"></i></button>
+							<span class="ms-3 fw-bold" style="margin-top:20px;">새로운 위시리스트 만들기</span>
 						</div>
-						<div class="col-10">
-							<span>
-								<p>새로운 위시리스트 만들기</p>
-							</span>
-						</div>
-					</div>
-					<div class="row mb-3 align-items-center">
-						<div class="col-2 rounded">
-							<button type="button" class="btn" id="" ><i class="bi bi-plus h3 text-black-50"></i></button>
-						</div>
-						<div class="col-10">
-							<span>
-								<p>새로운 위시리스트 만들기</p>
-							</span>
-						</div>
-					</div>
+						<c:forEach items="${wishlists }" var="wishlist">
+							<div class="mt-3" style="display: flex; height: 64px;">
+								<form action="save">
+									<input type="hidden" name="wishlistNo" value="${wishlist.no }">
+									<input type="hidden" name="accNo" value="${acc.accNo }">
+									<c:forEach items="${acc.photos }" var="photo">
+										<c:if test="${photo.num eq '1' }">
+											<button type="submit" class="btn">
+												<img class="rounded" src="/resources/images/acc/${photo.name }" style="width: 64px; height: 64px;">
+											</button>
+										</c:if>
+									</c:forEach>
+									<span class="ms-3 fw-bold" style="margin-top:20px;">${wishlist.name }</span>
+								</form>
+							</div>
+						</c:forEach>
+					</div> 
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
 <!-- 위시리스트2 -->
 <div class="modal" id="modal-save2-acc">
 	<div class="modal-dialog modal-Default">
@@ -824,14 +863,13 @@
 			</div>
 			<div class="modal-body">
 				<div class="row  p-3">
-					<form action="/insert" method="post" >
+					<form action="/insert" method="post" id="form-create-wishlist">
 					<div class="row mb-3 align-items-center">
-						<label>이름</label>
 						<input class="form-control rounded" type="text" placeholder="이름을 입력하시오" aria-label="default input example" name="wishlistName">
 						<input type="hidden" name="accNo" value="${acc.accNo }">
 					</div>
 					<div class="row mb-3 align-items-center">
-						<button type="submit" class="btn btn-dark">새로 만들기</button>
+						<button type="button" class="btn btn-dark" id="btn-create-wishlist">새로 만들기</button>
 					</div>
 					</form>					
 				</div>
@@ -839,7 +877,6 @@
 		</div>
 	</div>
 </div>
-
 <!-- 에어커버 모달 -->
 <div class="modal" id="modal-cover-acc">
 	<div class="modal-dialog modal-xl">
@@ -1205,11 +1242,12 @@ $(function() {
 	let accdescriptionModal = new bootstrap.Modal(document.getElementById("modal-description-acc"));
 
 	// 위시리스트 저장 모달
-	$("#btn-open-save-modal").click(function() {
+	$(".btn-open-save-modal").click(function() {
 		accSaveModal.show();
-	});
+	}); 
 	// 위시리스트2 저장 모달
 	$("#btn-open-save2-modal").click(function() {
+		accSaveModal.hide();
 		accSave2Modal.show();
 	});
 	
@@ -1993,13 +2031,11 @@ $(function() {
 	      },
 	    ],
 	  }) 
-	  
-	  $("#btn-create-wishlist").click(function() {
+	
+	 /*  $("#btn-open-save-modal").click(function() {
 		 let accNo = ${acc.accNo }
-		 $("#icon-heart-" + accNo ).removeClass("fa-regular").addClass("fa-solid").css("color", "#FF385C");
-		 let querystring = $("#form-create-wishlist").serialize();
 		 
-			$.post("/wishlists/insert", querystring, function(result) {
+		 $.post("/acc/wishlist", function(result) {
 				wishlists = result.wishlists;
 				let content = '';
 				$.each(wishlists, function() {
@@ -2012,9 +2048,34 @@ $(function() {
 				
 				$("#div-wishlists").html(content);
 			})
-			createListModal.hide();	
+			accSaveModal.show();
+	  }); */
+	  $("#btn-create-wishlist").click(function() {
+		 let accNo = ${acc.accNo }
+		 $("#icon-heart-" + accNo ).removeClass("fa-regular").addClass("fa-solid").css("color", "#FF385C");
+		 let querystring = $("#form-create-wishlist").serialize();
+		 
+			$.post("/acc/insert", querystring, function(result) {
+				wishlists = result.wishlists;
+				let content = '';
+				$("#div-wishlists > div").remove();
+				$.each(wishlists, function() {
+					content += '<div class="mt-3" style="display: flex; height: 64px;">';
+					content += '  <input type="hidden" name="wishlistNo" value="' + this.no + '">';
+					content += '  <img src="https://a0.muscache.com/im/pictures/da1a2f06-efb0-4079-abce-0f6fc82089e0.jpg" alt="" style="vertical-align:middle;">';
+					content += '  <span class="ms-3 fw-bold" style="margin-top:20px;">' + this.name + '</span>';
+					content += '</div>';
+				});
+				
+				$("#div-wishlists").html(content);
+			})
+			accSave2Modal.hide();	
+			accSaveModal.show();	
 			//saveToListModal.show();
+			
 	 });
+	  
+	
 })
 
 // 링크복사

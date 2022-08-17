@@ -28,7 +28,9 @@ public class Wishlist {
 		this.user = user;
 	}
 	
-	
+	public Wishlist(int no) {
+		this.no = no;
+	}
 	
 	
 }

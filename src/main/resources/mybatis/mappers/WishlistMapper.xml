@@ -9,6 +9,7 @@
 		<result column="wishlist_updated_date" property="updatedDate"/>
 		<association column="user_no" property= "user" select="kr.co.airbnb.mapper.UserMapper.getUserByNo" />
 		<collection column="acc_no" property="accs" select="kr.co.airbnb.mapper.AccommodationMapper.getAcc"/>
+		<collection column="acc_no" property="acc" select="kr.co.airbnb.mapper.AccommodationMapper.getAcc"/>
 	</resultMap> 
  
  	<!-- List<Wishlist> getWishlistsByUserNo(int userNo); -->
@@ -17,6 +18,14 @@
  		from airbnb_wishlists
  		where user_no = #{value}
  		order by wishlist_no desc
+ 	</select>
+ 	<!-- int getAccNoByUserNo(int userNo); -->
+ 	<select id="getAccNoByUserNo" parameterType="int" resultType="AccWishlist">
+ 		select  a.wishlist_no as "Wishlist.no",
+ 				b.acc_no as accNo
+ 		from airbnb_wishlists a, AIRBNB_WISHLIST_ACCOMMODATIONS b
+ 		where a.user_no = #{value}
+        and a.WISHLIST_NO = b.WISHLIST_NO
  	</select>
  	
  	<!-- Wishlist getWishlistByNo(int wishlistNo); -->

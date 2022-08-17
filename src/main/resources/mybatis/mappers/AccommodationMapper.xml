@@ -160,7 +160,7 @@
 		<collection property="tag" column="ACC_NO" select=""></collection> -->
 	</resultMap>
 	
-	<!-- Accommodation getAccommodation(int no); -->
+	<!-- Accommodation getAcc(int no); -->
 	<select id="getAcc" parameterType="int" resultMap="AccDetailResultMap">
 		select *
 		from AIRBNB_ACCOMMODATIONS
