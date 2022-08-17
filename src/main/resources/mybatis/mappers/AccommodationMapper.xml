@@ -169,7 +169,7 @@
 		<collection property="tag" column="ACC_NO" select=""></collection> -->
 	</resultMap>
 	
-	<!-- Accommodation getAccommodation(int no); -->
+	<!-- Accommodation getAcc(int no); -->
 	<select id="getAcc" parameterType="int" resultMap="AccDetailResultMap">
 		select *
 		from AIRBNB_ACCOMMODATIONS
@@ -260,6 +260,50 @@
 		where acc_no = #{value}
 	</select>
 	
+	<!-- int getAccNoByUser(User loginUser); -->
+	<select id="getAccNoByUser" parameterType="User" resultType="int">
+		select Max(acc_no)
+		from airbnb_accommodations
+		where user_no = #{no}
+	</select>
+	
+	<!-- void updateAcc(Accommodation acc); -->
+	<update id="updateAcc" parameterType="Accommodation">
+		update airbnb_accommodations
+		set 
+			user_no = #{user.no},
+			acc_review_score = #{reviewScore},
+			acc_name = #{name},
+			acc_description = #{description},
+			acc_address = #{address},
+			acc_latitude = #{latitude},
+			acc_longitude = #{longitude},
+			acc_price = #{price},
+			acc_guest = #{guest},
+			acc_pet = #{pet},
+			acc_check_in = #{checkIn},
+			acc_check_out = #{checkOut},
+			acc_check_In_Type = #{checkInType},
+			acc_status = #{status},
+			acc_updated_Date = sysdate,
+			acc_view_Count = #{viewCount},
+			acc_min_day = #{minDay},
+			acc_max_day = #{maxDay},
+			acc_rent = #{rent},
+			acc_traffic_description = #{trafficDescription},
+			acc_refound_description = #{refoundDescription},
+			acc_cleaning_price = #{cleaningPrice},
+			image_cover = #{imageCover},			
+			avg_total = #{totalScore},
+			avg_cleanliness = #{cleanScore},
+			avg_accuracy = #{accuracyScore},
+			avg_communication = #{communicationScore},
+			avg_location = #{locationScore},
+			avg_checkin = #{checkinScore},
+			avg_value = #{valueScore},
+			avg_convenience = #{convenienceScore}
+		where acc_no = #{accNo}
+	</update>
 
 	<!-- void updateReview(Accommodation accommodation) -->
 	<update id="updateAvgScore" parameterType="kr.co.airbnb.vo.Accommodation">
@@ -278,7 +322,6 @@
 		where acc_no = #{accNo}
 	</update>
 	
-	<!-- // 번호만 가지고 있는 숙소 데이터 생성(insert into) -->
 	<!-- void insertAcc(Accommodation acc); -->	
 	<insert id="insertAcc" parameterType="Accommodation">
 		<selectKey keyProperty="accNo" resultType="int" order="BEFORE">
@@ -286,11 +329,21 @@
 			from dual
 		</selectKey>
 		insert into airbnb_accommodations
-		(acc_no, user_no)
+		(acc_no, user_no, acc_status)
 		values
-		(#{accNo}, #{user.no})
+		(#{accNo}, #{user.no}, #{status})
 	</insert>
-	
 
+	<!-- void insertAccType(AccType accType); -->
+ 	<insert id="insertAccType" parameterType="AccType">
+		INSERT INTO airbnb_acc_types (acc_no, type_no)
+		SELECT #{accNo}
+		     , #{type.no}
+		  FROM dual
+		 WHERE NOT EXISTS (SELECT *
+		                     FROM airbnb_acc_types
+		                    WHERE type_no = #{type.no}
+		                    and acc_no = #{accNo})
+	</insert>
 	
 </mapper>

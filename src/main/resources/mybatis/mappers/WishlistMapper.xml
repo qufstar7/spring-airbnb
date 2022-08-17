@@ -9,6 +9,7 @@
 		<result column="wishlist_updated_date" property="updatedDate"/>
 		<association column="user_no" property= "user" select="kr.co.airbnb.mapper.UserMapper.getUserByNo" />
 		<collection column="acc_no" property="accs" select="kr.co.airbnb.mapper.AccommodationMapper.getAcc"/>
+		<collection column="acc_no" property="acc" select="kr.co.airbnb.mapper.AccommodationMapper.getAcc"/>
 	</resultMap> 
  
  	<!-- List<Wishlist> getWishlistsByUserNo(int userNo); -->
@@ -17,6 +18,14 @@
  		from airbnb_wishlists
  		where user_no = #{value}
  		order by wishlist_no desc
+ 	</select>
+ 	<!-- int getAccNoByUserNo(int userNo); -->
+ 	<select id="getAccNoByUserNo" parameterType="int" resultType="AccWishlist">
+ 		select  a.wishlist_no as "Wishlist.no",
+ 				b.acc_no as accNo
+ 		from airbnb_wishlists a, AIRBNB_WISHLIST_ACCOMMODATIONS b
+ 		where a.user_no = #{value}
+        and a.WISHLIST_NO = b.WISHLIST_NO
  	</select>
  	
  	<!-- Wishlist getWishlistByNo(int wishlistNo); -->
@@ -71,6 +80,25 @@
  		where acc_no in (select acc_no
  		                 from airbnb_wishlist_accommodations
  		                 where wishlist_no = #{value})
+ 	</select>
+ 	
+ 	<!-- List<Accommodation> getWishlistAccsWithConditions(@Param("wishlistNo")int wishlistNo, @Param("checkInDate") Date checkIndate, @Param("checkOutDate") Date checkOutDate, @Param("guestCount") int guestCount); -->
+ 	<!-- 확인질문!!!!!!!!!!!!!!! -->
+ 	<select id="getWishlistAccsWithConditions" resultMap="AccResultMap">
+ 		select *
+ 		from airbnb_accommodations
+ 		where acc_no in (select acc_no
+ 		                 from airbnb_wishlist_accommodations
+ 		                 where wishlist_no = #{wishlistNo})
+    	<if test="checkInDate != null">         
+    		and acc_check_in &lt;= #{checkInDate}
+    	</if>
+    	<if test="checkOutDate != null">
+    		and acc_check_out &gt;= #{checkOutDate}
+    	</if>
+    	<if test="guestCount != null">
+    		and acc_guest &lt;= #{guestCount}
+    	</if>
  	</select>
  	
  	<!-- void createWishlist(Wishlist wishlist); -->

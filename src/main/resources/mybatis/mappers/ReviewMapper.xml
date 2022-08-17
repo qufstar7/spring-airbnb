@@ -20,33 +20,31 @@
 		<association property="user" column="USER_NO" select="kr.co.airbnb.mapper.UserMapper.getUserByNo"/>
 	</resultMap>
 	
-	<!-- List<Review> getReviews(@Param("accNo") int accNo); -->
-	<select id="getReviews" parameterType="int" resultMap="reviewResultMap">
+	<!-- List<Review> getReviews(@Param("accNo") int accNo, int beginIndex, int endIndex, @Param("keyword") String keyword); -->
+	<select id="getReviews"  resultMap="reviewResultMap">
 		select *
 		from (select ROW_NUMBER() OVER (ORDER BY REVIEW_CREATED_DATE desc) row_number, 
 		      REVIEW_NO, ACC_NO, USER_NO, REVIEW_CONTENT, REVIEW_CREATED_DATE, TOTAL_SCORE, CLEANLINESS_SCORE, ACCURACY_SCORE, COMMUNICATION_SCORE,
 		      LOCATION_SCORE, CHECKIN_SCORE, VALUE_SCORE, OBSERVANCE_SCORE, PRIVATE_NOTE, REVIEW_REPLY, POSITIVE_FEEDBACK, NAGATIVE_FEEDBACK,
 		      WANT_MEET_AGAIN, CONVENIENCE_SCORE, REVIEW_UPDATED_DATE, REVIEW_DELETED, USER_TYPE, RESERVATION_NO
-		      from AIRBNB_REVIEWS)
+		      from AIRBNB_REVIEWS 
+		      where USER_TYPE = 'guest'
+		      and acc_no = #{accNo}
+		      <if test="keyword != null">
+		      	and review_content like '%' || #{keyword} || '%'
+		      </if>)
 		where row_number &gt;= #{beginIndex} and row_number &lt;= #{endIndex}
+			  and USER_TYPE = 'guest'
 	</select>
 	
 	<!-- List<Review> getReviewsUnder(int accNo); -->
 	<select id="getReviewsUnder" parameterType="int" resultMap="reviewResultMap">
 		select *
 		from AIRBNB_REVIEWS
+		where USER_TYPE = 'guest'
 		order by REVIEW_CREATED_DATE desc
 	</select>
-	
-	<!-- List<Review> getReviewsbyKeyword(String keyword); 
-	<select id="getReviewsbyKeyword" parameterType="map" resultMap="reviewResultMap">
-		select *
-		from  AIRBNB_REVIEWS
-		where ACC_NO = #{accNo}
-		 	  REVIEW_CONTENT like '%' || #{keyword} || '%'
-		order by REVIEW_CREATED_DATE desc
-	</select>
--->
+
 	<!-- void insertReview(Review review); -->
 	<!-- 리뷰 갯수 올라갈 때마다 ACCOMMODATIONS의 리뷰 갯수가 올라가게 해야 한다. -->
 	<insert id="insertReviewGuest" parameterType="kr.co.airbnb.vo.Review">

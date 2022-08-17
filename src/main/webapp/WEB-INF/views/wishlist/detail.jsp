@@ -8,98 +8,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script> -->
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <script src="https://kit.fontawesome.com/2628157b3b.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
 <script src="https://unpkg.com/@googlemaps/markerwithlabel/dist/index.min.js"></script>
 <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Google+Sans:400,500,700|Google+Sans+Text:400&amp;lang=ko">
 <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans+Text:400&amp;text=%E2%86%90%E2%86%92%E2%86%91%E2%86%93&amp;lang=ko">
-<!-- 달력 -->
-<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-
+<link rel="stylesheet" type="text/css" href="/resources/css/wishlist-detail.css">
 <title>${wishlist.name }-에어씨엔씨</title>
 <style type="text/css">
-	/* .modal-backdrop {opacity: 0 !important;} */
-	.carousel-inner img{ object-fit: contain;}
-	#googleMap {width: 100vw; height: 100vh; max-width: 58%; position: fixed;}
-	#div-sub button {border: none; padding: 3px;}
-	#div-sub button:hover {background-color: #F5F5F5;}
-	.card {border:none;}
-	hr {opacity: 0.1;}
-	#googleMap i, .card-body i {color: #FF385C;}
-	.btn-delete-wishlistAcc {border: none; padding: 10px;}
-	.btn-delete-wishlistAcc:hover {background-color: #F5F5F5;}
-	
-	.labels {
-	  position: absolute;
-	  top: 0;
-	  left: 0;
-	  /* transform: translate(-50%, -100%); */
-	  background-color: white;
-	  padding: 0 10px;
-	  border-radius: 28px;
-	  box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 0px 1px,
-	    rgba(0, 0, 0, 0.18) 0px 1px 2px;
-	  overflow-y: auto;
-	  height: 28px;
-	  line-height: 28px;
-	  font-weight: bold;
-	  cursor: pointer;
-	  transition: transform 0.15s ease-in-out;
-	  font-size: 14px;
-	  vertical-align: middle;
-	} 
-	
-	/* infoWindow 스타일 */
-	.gm-style .gm-style-iw-d {overflow: hidden !important;}
-	
-	.gm-style .gm-style-iw-c{
-		border-radius: 15px;
-		padding: 0px;
-	}
-	/* infowWindow의 x버튼과 화살표 숨김 */
-	.gm-ui-hover-effect, .gm-style-iw-tc {display: none !important;}
-	
-	.daterangepicker .drp-calendar.right {
-    position: absolute !important;
-    right: 0 !important;
-    top: 0 !important;
-}
-    /* 한개의 달력만 출력 */
-	.daterangepicker .drp-calendar.right {
-    position: absolute !important;
-    right: 0 !important;
-    top: 0 !important;
-	}
-	
-	.daterangepicker .drp-calendar.right tbody {
-	    display: none !important;
-	}
-	
-	.daterangepicker .drp-calendar.right thead > tr:nth-child(2) {
-	    display: none !important;
-	}
-	
-	.daterangepicker .drp-calendar.right th.month {
-	    display: none !important;
-	}
-	
-	.daterangepicker .drp-calendar.right .calendar-table {
-	    background: transparent !important;
-	}
-	
-	.daterangepicker .daterangepicker.ltr .ranges, .daterangepicker.ltr .drp-calendar {
-	    float: none !important;
-	}
-	
-	.daterangepicker .drp-calendar.right .daterangepicker_input {
-	    position: absolute !important;
-	}
-
 	
 	
 </style>
@@ -116,8 +35,55 @@
 			<div class="ms-2" >
 				<h2 class="fw-bold mb-3">${wishlist.name }</h2>
 				<div class="mb-5">
-					<button type="button" class="btn btn-outline-secondary rounded-pill" id="demo">날짜</button>
-					<button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-toggle="modal" data-bs-target="#modal-guest-count">인원</button>
+					<button type="button" class="myButton" id="btn-date">날짜</button>
+					<form id="form-hidden-conditions" class="d-none">
+						<input type="text" name="wishlistNo" value="${wishlist.no}">
+						<input type="date" name="startDate" id="hidden-start-date">
+						<input type="date" name="endDate" id="hidden-end-date">
+						<input type="text" name="guestCount" id="hidden-guest-count"> 
+					</form>
+					<div class="dropdown" id="dropdown-guest-count">
+						<button type="button" class="myButton" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside" id="btn-guest-count">인원</button>
+						<div class="dropdown-menu" id="my-dropdown-menu">
+							<div class="myDropdown-menu">
+								<div class="d-flex justify-content-between mb-3">
+									<span style="margin-top: 8px;">성인</span>
+									<div class="d-flex align-items-center">
+										<button type="button" class="countButton" id="btn-adult-down"><i class="bi bi-dash-circle h3 text-black-50"></i></button>
+										<input type="text" name="adultCount" value="1" readonly="readonly" style="text-align:center; width:30px; border:none; font-size:20px;"/>
+										<button type="button" class="countButton" id="btn-adult-up"><i class="bi bi-plus-circle h3 text-black-50"></i></button>
+									</div>
+								</div>
+								<div class="d-flex justify-content-between mb-3">
+									<div>
+										<span>어린이</span><br/>
+										<small class="mb-3">만 2~12세</small>
+									</div>
+									<div class="d-flex align-items-center">
+										<button type="button" class="countButton" id="btn-children-down"><i class="bi bi-dash-circle h3 text-black-50"></i></button>
+										<input type="text" name="childrenCount" value="0"  readonly="readonly" style="text-align:center; width:30px; border:none; font-size:20px;"/>
+										<button type="button" class="countButton" id="btn-children-up"><i class="bi bi-plus-circle h3 text-black-50"></i></button>
+									</div>
+								</div>
+								<div class="d-flex justify-content-between mb-3">
+									<div>
+										<span>유아</span><br/>
+										<small class="mb-3">만 2세 미만</small>
+									</div>
+									<div class="d-flex align-items-center">
+										<button type="button" class="countButton" id="btn-infant-down"><i class="bi bi-dash-circle h3 text-black-50"></i></button>
+										<input type="text" name="infantCount" value="0" readonly="readonly" style="text-align:center; width:30px; border:none; font-size:20px;"/>
+										<button type="button" class="countButton" id="btn-infant-up"><i class="bi bi-plus-circle h3 text-black-50"></i></button>
+									</div>
+								</div>
+							</div>
+							<hr/>
+							<div class="d-flex justify-content-between pe-4 mb-4">
+								<button class="btn btn-link text-reset fw-bold ms-2" id="btn-reset-all-count">모두 지우기</button>
+								<button class="btn btn-dark px-4 py-2 fw-bold" id="btn-change-guest-count">저장</button>
+							</div>
+						</div>
+					</div>
 				</div>
 				<!-- 위시리스트 폴더에 등록된 숙소가 없는 경우 -->
 				<c:if test="${empty wishlist.accs}">
@@ -126,61 +92,64 @@
 					<a href="/" class="btn btn-dark btn-lg mt-3 py-3 px-4 fs-6 fw-bold">둘러보기</a>
 				</c:if>
 				<!-- 위시리스트 폴더에 등록된 숙소가 있는 경우 -->
-				<c:if test="${not empty wishlist.accs}">
-					<c:forEach var="acc" items="${wishlist.accs}" varStatus="loop" >
-					<a href="" style="color: black; text-decoration: none;">
-						<div class="card mb-3" data-index="${loop.index}" id="card-${acc.accNo }">
-						  <div class="row g-0 position-relative">
-						    <div class="col-md-5">
-						      <div id="carouselExampleIndicators-${acc.accNo }" class="carousel slide" data-interval="false">
-								<!-- 숙소 섬네일 슬라이드쇼 -->
-								<div class="carousel-indicators">
-									<button type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-									<button type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide-to="1" aria-label="Slide 2"></button>
-									<button type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide-to="2" aria-label="Slide 3"></button>
+				
+				<div id="tabl1">
+					<c:if test="${not empty wishlist.accs}">
+						<c:forEach var="acc" items="${wishlist.accs}" varStatus="loop" >
+						<a href="" style="color: black; text-decoration: none;">
+							<div class="card mb-3" data-index="${loop.index}" id="card-${acc.accNo }">
+							  <div class="row g-0 position-relative">
+							    <div class="col-md-5">
+							      <div id="carouselExampleIndicators-${acc.accNo }" class="carousel slide" data-interval="false">
+									<!-- 숙소 섬네일 슬라이드쇼 -->
+									<div class="carousel-indicators">
+										<button type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+										<button type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide-to="1" aria-label="Slide 2"></button>
+										<button type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide-to="2" aria-label="Slide 3"></button>
+									</div>
+									<!-- 슬라이드쇼 이미지 -->
+									<div class="carousel-inner">
+										<div class="carousel-item active">
+											<img class="acc-thumbnail rounded-4 w-100" src="/resources/images/acc/sky.jpg" alt="숙소이미지"  style="object-fit: cover; height: 200px;">
+										</div>
+										<div class="carousel-item">
+											<img class="acc-thumbnail rounded-4 w-100" src="/resources/images/acc/sky.jpg" alt="숙소이미지" style="object-fit: cover; height: 200px;">
+										</div>
+										<div class="carousel-item">
+											<img class="acc-thumbnail rounded-4 w-100" src="/resources/images/acc/sky.jpg" alt="숙소이미지" style="object-fit: cover; height: 200px;">
+										</div>
+									</div>
+									<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide="prev">
+										<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+										<span class="visually-hidden">Previous</span>
+									</button>
+									<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide="next">
+										<span class="carousel-control-next-icon" aria-hidden="true"></span>
+										<span class="visually-hidden">Next</span>
+									</button>
 								</div>
-								<!-- 슬라이드쇼 이미지 -->
-								<div class="carousel-inner" style="border-radius: 15px;">
-									<div class="carousel-item active">
-										<img class="acc-thumbnail rounded-0" src="/resources/images/acc/sky.jpg" alt="숙소이미지"  style="object-fit: cover; width: 350px; height: 200px;">
-									</div>
-									<div class="carousel-item">
-										<img class="acc-thumbnail rounded-0" src="/resources/images/acc/sky.jpg" alt="숙소이미지" style="object-fit: cover; width: 350px; height: 200px;">
-									</div>
-									<div class="carousel-item">
-										<img class="acc-thumbnail rounded-0" src="/resources/images/acc/sky.jpg" alt="숙소이미지" style="object-fit: cover; width: 350px; height: 200px;">
-									</div>
-								</div>
-								<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide="prev">
-									<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-									<span class="visually-hidden">Previous</span>
-								</button>
-								<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide="next">
-									<span class="carousel-control-next-icon" aria-hidden="true"></span>
-									<span class="visually-hidden">Next</span>
-								</button>
+							    </div>
+							    <div class="col-md-7">
+							      <div class="card-body pt-0 h-100">
+							      	<div class="d-flex justify-content-between">
+								        <span class="card-text text-muted">${acc.address }</span>
+								        <button type="button" class="btn rounded-circle btn-delete-wishlistAcc" data-accNo="${acc.accNo}"><i id="icon-heart-${acc.accNo}" class="fa-solid fa-heart fs-4"></i></button>
+							      	</div>
+								    <span class="card-title">${acc.name }</span>
+							        <p class="card-text text-muted">최대 인원 2명 원룸 침대2개 욕실 1개</p>
+							        <div class="d-flex justify-content-between"  style="margin-top: 72px;">
+						        	  <strong><i class="bi bi-star-fill"></i>${acc.reviewScore}<span class="text-black-50">(후기 ${acc.reviewCount}개)</span></strong>
+						        	  <span class="fs-5"><strong>₩<fmt:formatNumber value="${acc.price}"/></strong> /박 </span>
+							        </div>
+							      </div>
+							    </div>
+							  </div>
+								<hr>
 							</div>
-						    </div>
-						    <div class="col-md-7">
-						      <div class="card-body pt-0 h-100">
-						      	<div class="d-flex justify-content-between">
-							        <span class="card-text text-muted">${acc.address }</span>
-							        <button type="button" class="btn rounded-circle btn-delete-wishlistAcc" data-accNo="${acc.accNo}"><i id="icon-heart-${acc.accNo}" class="fa-solid fa-heart fs-4"></i></button>
-						      	</div>
-							    <span class="card-title">${acc.name }</span>
-						        <p class="card-text text-muted">최대 인원 2명 원룸 침대2개 욕실 1개</p>
-						        <div class="d-flex justify-content-between"  style="margin-top: 72px;">
-					        	  <strong><i class="bi bi-star-fill"></i>${acc.reviewScore}<span class="text-black-50">(후기 ${acc.reviewCount}개)</span></strong>
-					        	  <span class="fs-5"><strong>₩<fmt:formatNumber value="${acc.price}"/></strong> /박 </span>
-						        </div>
-						      </div>
-						    </div>
-						  </div>
-							<hr>
-						</div>
-						</a>
-					</c:forEach>
-				</c:if>
+							</a>
+						</c:forEach>
+					</c:if>
+					</div>
 				</div>
 				<div>
 			</div>
@@ -477,7 +446,7 @@ $(function () {
 	}); */
 	
 	// 달력 test
-	$('#demo').daterangepicker({
+	$('#btn-date').daterangepicker({
 		
     "locale": {
         "format": "YYYY-MM-DD",
@@ -491,29 +460,168 @@ $(function () {
         "daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
         "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
     },
-   
-    "startDate": new Date(),
-    "endDate": new Date(),
-    "minDate": new Date(), 	// 지난 날짜 disable하기
-    "drops": "auto"
+    alwaysShowCalendars: true,
+    startDate: new Date(),
+    endDate: new Date(),
+    minDate: new Date(), 	// 지난 날짜 disable하기
+    drops: "auto"
+    
 }, function (start, end, label) {
     console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+    $("#btn-date").text(start.format('M월D일') + '~' + end.format('M월D일'));
+    $("#hidden-start-date").val(start.format('YYYY-MM-DD'));
+    $("#hidden-end-date").val(end.format('YYYY-MM-DD'));
+    refreshWithConditions();
 });
-	  $('#demo').on('cancel.daterangepicker', function(ev, picker) {
-		 alert("cancel");
-		 $(this).val('');
-		 picker.setStartDate({});
-		 picker.setEndDate({});
-		 ev.stopPropagation();
-	  }); 
-	 
-	 /* $(".cancelBtn").click(function(ev, picker) {
-		 alert("cancel");
-		picker.setStartDate(new Date());
-		 picker.setEndDate(new Date()); 
-		 ev.stopPropagation();
-	 }) */
- 
+	
+	
+	
+	
+	
+	 /* let myDropdown = new bootstrap.Dropdown(document.getElementById('dropdown-guest-count'),{
+	  popperConfig: function (defaultBsPopperConfig) {
+	    var newPopperConfig = {autoClose:"outside"}
+	    return newPopperConfig
+	  }
+	}) */
+	 /*
+	$("#test").click(function() {
+		myDropdown.show();
+	}) */
+	
+	// data-bs-auto-close="outside" 속성은 data-bs-toggle="dropdown"이 있는 버튼 속성으로 같이 설정한다.
+	
+	let $inputAdultCount = $(":input[name=adultCount]");
+	let $inputChildrenCount = $(":input[name=childrenCount]")
+	let $inputInfantCount = $(":input[name=infantCount]");
+	// 인원 드롭다운
+	var myDropdownEl = document.getElementById('dropdown-guest-count')
+	myDropdownEl.addEventListener('show.bs.dropdown', function (event) {
+		let adultCount = parseInt($inputAdultCount.val());
+		if(adultCount <= 1) {
+			$inputAdultCount.val("1");
+		}
+	})
+	// 사칙연산 + 는 자동변환안됨.
+	$("#btn-adult-down").click(function() {
+		let adultCount = $inputAdultCount.val();
+		if(adultCount <= 1) {
+			$(this).css("cursor", "not-allowed");
+			return false;
+		} else {
+			$inputAdultCount.val(adultCount - 1);
+			return false;
+		}
+	});
+	$("#btn-adult-up").click(function() {
+		let adultCount = parseInt($inputAdultCount.val());
+		if(adultCount >= 16) {
+			$(this).css("cursor", "not-allowed");
+			return false;
+		}		
+		//console.log(adultCount);
+		$inputAdultCount.val(adultCount + 1);
+		return false;
+	});
+	
+	$("#btn-children-down").click(function() {
+		let childrenCount =  $inputChildrenCount.val();
+		if(childrenCount <= 0) {
+			$(this).css("cursor", "not-allowed");
+			return false;
+		} else {
+			$inputChildrenCount.val(childrenCount - 1);
+			return false;
+		}
+	});
+	$("#btn-children-up").click(function() {
+		let childrenCount = parseInt($inputChildrenCount.val());
+		if(childrenCount >= 15) {
+			$(this).css("cursor", "not-allowed");
+			return false;
+		}	
+		$inputChildrenCount.val(childrenCount + 1);
+		return false;
+	});
+	
+	$("#btn-infant-down").click(function() {
+		let infantCount =  $inputInfantCount.val();
+		if(infantCount <= 0) {
+			$(this).css("cursor", "not-allowed");
+			return false;
+		} else {
+			$inputInfantCount.val(infantCount - 1);
+			return false;
+		}
+	});
+	$("#btn-infant-up").click(function() {
+		let infantCount = parseInt($inputInfantCount.val());
+		if(infantCount >= 5) {
+			$(this).css("cursor", "not-allowed");
+			return false;
+		}	
+		$inputInfantCount.val(infantCount + 1);
+		return false;
+	});
+	
+	
+	
+	$("#btn-reset-all-count").click(function() {
+		$inputAdultCount.val(1);
+		$inputChildrenCount.val(0);
+		$inputInfantCount.val(0);
+		return false;
+	});
+	
+	$("#btn-change-guest-count").click(function() {
+		let totalGuestCount = parseInt($inputAdultCount.val()) + parseInt($inputChildrenCount.val());
+		$("#btn-guest-count").text("인원 " + totalGuestCount + "명");
+		$("#hidden-guest-count").val(totalGuestCount);
+		$("h2").click();
+	});
+
+	///////// 날짜 or 인원 검색
+	/* function refreshWithConditions() {
+		let startDate = $("#hidden-start-date").val();
+		let endDate = $("#hidden-end-date").val();
+		
+		let totalGuestCount = parseInt($inputAdultCount.val()) + parseInt($inputChildrenCount.val());
+		
+		let queryString = $("#form-hidden-conditions").serialize();
+		
+		$.getJSON("/wishlists/detail/refresh", queryString)
+		 .done(function(result) {
+			 var html = jQuery('<div>').html(result);
+				var contents = html.find("div#indexListAjax").html();
+					$("#tabl1").html(contents);
+		})
+	} */
+	// jsp 우회해서 사용하기 ? 1.마커도 반영해야..  2. get방식도 가능?
+	function refreshWithConditions(tab) {
+		var formData = new FormData(document.getElementById("form-hidden-conditions")); //formData 객체 생성
+		formData.append("tab", tab);
+		$.ajax({
+			url : "/wishlists/detail/refresh",
+			type : "post",
+			dataType : "text",
+			data : formData,
+			contentType: false,
+		    processData: false,
+			cache : false
+	    }).done(function(result) {
+			  console.log("결과확인");
+	     		var html = jQuery('<div>').html(result);
+				var contents = html.find("div#indexListAjax").html();
+				 console.log(contents);
+					$("#tabl1").html(contents);
+			
+		}).fail(function (jqXHR, textStatus, errorThrown) {
+			console.log("에러");
+			console.log(jqXHR);
+			console.log(textStatus);
+			console.log(errorThrown);
+		});
+	}
 	
 	
 	
