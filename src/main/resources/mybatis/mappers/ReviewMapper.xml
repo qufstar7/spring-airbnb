@@ -3,7 +3,7 @@
 <mapper namespace="kr.co.airbnb.mapper.ReviewMapper">
 
 	<!-- resultMap? -->
-	<resultMap type="kr.co.airbnb.vo.Review" id="reviewResultMap">
+	<resultMap type="Review" id="reviewResultMap">
 		<id column="REVIEW_NO" property="no" />
 		<result column="ACC_NO" property="accNo"/>
 		<result column="USER_TYPE" property="userType"/>
@@ -35,14 +35,6 @@
 		      </if>)
 		where row_number &gt;= #{beginIndex} and row_number &lt;= #{endIndex}
 			  and USER_TYPE = 'guest'
-	</select>
-	
-	<!-- List<Review> getReviewsUnder(int accNo); -->
-	<select id="getReviewsUnder" parameterType="int" resultMap="reviewResultMap">
-		select *
-		from AIRBNB_REVIEWS
-		where USER_TYPE = 'guest'
-		order by REVIEW_CREATED_DATE desc
 	</select>
 
 	<!-- void insertReview(Review review); -->
@@ -136,11 +128,31 @@
 		where  CHECK_OUT_DATE > SYSDATE - 14
         and    RESERVATION_NO = #{reservationNo} AND USER_NO = #{userNo}
 	</select>
-		<!-- List<Review> getReviews(@Param("accNo") int accNo);
-	<select id="getReviews" parameterType="int" resultMap="reviewResultMap">
-		select *
-		from AIRBNB_REVIEWS
-		order by REVIEW_CREATED_DATE asc
+	
+	<!-- Map<String, Object> getReceivedReviewByGuest(int no); 
+	<select id="getReceivedReviewByGuest" parameterType="int" resultMap="reviewResultMap">
+		select A.ACC_NAME, A.IMAGE_COVER, TO_CHAR(R.REVIEW_CREATED_DATE, 'YYYY"년" MM"월"'), R.REVIEW_CONTENT, U.USER_PROFILE_IMAGE, U.USER_NAME, U.USER_ADDRESS, TO_CHAR(U.USER_CREATED_DATE, 'YYYY')
+		from AIRBNB_ACCOMMODATIONS A, AIRBNB_USERS U, AIRBNB_REVIEWS R, AIRBNB_RESERVATIONS V
+		where U.USER_NO = 2
+		    AND A.USER_NO = U.USER_NO
+		    AND A.ACC_NO = R.ACC_NO
+		    AND V.RESERVATION_NO = R.RESERVATION_NO
+		    AND R.USER_TYPE = 'guest'
+		order by R.REVIEW_CREATED_DATE DESC
+	</select>
+	 -->
+	<!-- Map<String, Object> getReceivedReviewByHost(int no);
+	<select id="getReceivedReviewByHost" parameterType="int" resultMap="reviewResultMap">
+		select  R.REVIEW_CONTENT, E.USER_NAME, E.USER_ADDRESS, E.USER_PROFILE_IMAGE, TO_CHAR(R.REVIEW_CREATED_DATE, 'YYYY"년" MM"월"') 리뷰작성일, TO_CHAR(E.USER_CREATED_DATE, 'YYYY') 회원가입년도
+		from AIRBNB_USERS U, AIRBNB_USERS E, AIRBNB_REVIEWS R, AIRBNB_RESERVATIONS V, AIRBNB_ACCOMMODATIONS A, AIRBNB_USER_HOSTS H
+		where U.USER_NO = 2                       
+		    AND U.USER_NO = V.USER_NO                  
+		    AND V.RESERVATION_NO = R.RESERVATION_NO    
+		    AND V.ACC_NO = A.ACC_NO                     
+		    AND A.USER_NO = H.USER_NO                   
+		    AND H.USER_NO = E.USER_NO                
+		    AND R.USER_TYPE = 'host'                   
+		order by R.REVIEW_CREATED_DATE DESC
 	</select>
 	 -->
 </mapper>
