@@ -201,15 +201,14 @@ $(function(){
 		
  		// 다음버튼 누르면 주소등록페이지로 갈수있게 버튼 속성 변경
 		$("#next-btn").attr("type", "submit");
-
 	});
 	
 	// 다음 버튼 클릭시
 	$("#next-btn").click(function() {
 		let hf1 = Number($(".hiddenField1").val());
 		let hf2 = Number($(".hiddenField2").val());
-		let hf3 = Number($(".hiddenFiled3").val());
-		
+		let hf3 = Number($(".hiddenField3").val());
+
 		// 유형을 선택하지 않고 다음버튼 클릭시
 		if (step == 0 && hf1 == 0 || step == 1 && hf2 == 0 || step == 2  && hf3 == 0) {
 			alert("숙소 유형을 선택해주세요.");
@@ -230,15 +229,9 @@ $(function(){
 		}
 		
 		// step2, 프라이버시유형 선택 후 다음버튼 클릭시
-/* 		if (step == 2 && hf3 != 0) {
+ 		if (step == 2 && hf3 != 0) {
 			
-			$("#form-select-type").submit(function( event ) {
-		  		alert("Handler for .submit() called.");
- 				event.preventDefault();
-			});
-			//#(this).location.href = "/host/insertType?privacyType=" + $(".hiddenField3").val();
-			location.href = '/host/location';
-		} */
+		}
 		
 	});
 	
@@ -286,6 +279,10 @@ $(function(){
 		step = 2;
 		let $box = $("#right-content-box").empty();
 		
+		$(".main-box").css("display", "table");
+		$("#form-select-type").css("display", "table-cell");
+		$("#form-select-type").css("vertical-align", "middle");
+
 		$.getJSON("/host/searchType2?subType=" + $(".hiddenField2").val(), function(privacyTypes) {
 			if (privacyTypes.length == 0) {
 				let content = `
@@ -307,8 +304,7 @@ $(function(){
                 }) 
 			}
 		})
-		$("#next-btn").attr("onclick","location.href='/host/submit'");		
-		
+
 	}
 	
 })

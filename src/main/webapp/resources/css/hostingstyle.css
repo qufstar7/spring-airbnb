@@ -369,6 +369,18 @@ body {
 	max-height: 55vh !important;
 }
 
+@media ( max-height : 1100px ) {
+	.location-form {
+		height: 65vh !important;
+	}
+}
+
+@media ( max-height : 1100px ) {
+	.location-form-scroll {
+		max-height: 45vh !important;
+	}
+}
+
 .flex-box {
 	justify-content: space-between;
 }
@@ -420,17 +432,70 @@ body {
 	top: 7px;
 	right: -60px;
 }
+
+#locationRightNavBtn {
+	background-color: black;
+	border: 1px solid black !important;
+	color: white;
+}
+
+#locationFooter {
+	position: absolute;
+	bottom: 0;
+	width: 50%;
+	z-index: 3;
+}
+
+#locationBackBtnBox {
+	font-size: 25px;
+	margin-top: 25px;
+}
+
+#locationNextBtnBox {
+	margin: 30px;
+	margin-right: 40px;
+	font-size: 20px;
+}
+
 /* 주소 상세 페이지 */
 /* 구글지도 */
 .mapBox {
-	position: absolute !important;
-	top: 0px !important;
-	left: 50% !important;
-	width: 50% !important;
-	height: -webkit-calc(100% - 80px) !important;
-	height: -moz-calc(100% - 80px) !important;
-	height: calc(100% - 80px) !important;
-	-webkit-transition: none !important;
-	-moz-transition: none !important;
-	transition: none !important;
+	width: 100% !important;
+}
+
+/* 인원 수 페이지 */
+.plusMiusBox {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: space-between !important;
+	min-width: 104px; font-weight : 400 !important;
+	font-size: 16px !important;
+	line-height: 20px !important;
+	font-weight: 400 !important;
+}
+
+.plusMinusIconSpan {
+	padding: 5px;
+}
+
+.plusMinusBtn {
+	width: 32px !important;
+	height: 32px !important;
+	flex-grow: 0 !important;
+	flex-shrink: 0 !important;
+	cursor: pointer !important;
+	display: inline-flex !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	text-align: center !important;
+	text-decoration: none !important;
+	border-width: 1px !important;
+	border-style: solid !important;
+	border-color: #B0B0B0 !important;
+	color: #717171 !important;
+	touch-action: manipulation !important;
+	align-items: center !important;
+	justify-content: center !important;
+	background: white;
+	border-radius: 50% !important;
 }
