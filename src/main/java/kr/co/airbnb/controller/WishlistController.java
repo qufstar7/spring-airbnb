@@ -53,9 +53,23 @@ public class WishlistController {
 		return "wishlist/detail";
 	}
 	
+	/** // 질문
+	 * 위시리스트 폴더 삭제 작업
+	 * @return
+	 */
+	@GetMapping(path="/delete")
+	public String deleteWishlist(@LoginUser User loginUser, @RequestParam("no") int wishlistNo) {
+		
+		wishlistService.deleteWishlist(wishlistNo);
+		
+		return "redirect:/wishlists";
+	}
+	
+	
+	// 특정 위시리스트 폴더에 저장된 숙소를 삭제한다.
 	@GetMapping(path="/delete/acc")
 	@ResponseBody
-	public Map<String, Object> deleteWishlistAcc(@RequestParam("accNo") int accNo, @RequestParam("wishlistNo") int wishlistNo) {		// 나중에 @LoginUser 추가하기
+	public Map<String, Object> deleteWishlistAcc(@LoginUser User loginUser, @RequestParam("accNo") int accNo, @RequestParam("wishlistNo") int wishlistNo) {		// 나중에 @LoginUser 추가하기
 		wishlistService.deleteWishlistAcc(wishlistNo, accNo);
 		return null;
 	}

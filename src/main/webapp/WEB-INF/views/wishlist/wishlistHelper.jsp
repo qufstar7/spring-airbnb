@@ -12,7 +12,7 @@
 <div id="indexListAjax">
 	<c:if test="${not empty availableWishlist.accs}">
 		<c:forEach var="acc" items="${availableWishlist.accs}" varStatus="loop" >
-		<a href="" style="color: black; text-decoration: none;">
+		<a href="/acc/detail?no=${acc.accNo}" style="color: black; text-decoration: none;">
 		<%-- <input type="hidden" name="hiddenAccNo" value="${acc.accNo }"> --%>
 			<div class="card availableCard mb-3" data-index="${loop.index}" id="card-${acc.accNo }">
 			  <div class="row g-0 position-relative">
@@ -53,7 +53,7 @@
 				        <button type="button" class="btn rounded-circle btn-delete-wishlistAcc" data-accNo="${acc.accNo}"><i id="icon-heart-${acc.accNo}" class="fa-solid fa-heart fs-4"></i></button>
 			      	</div>
 				    <span class="card-title">${acc.name }</span>
-			        <p class="card-text text-muted">최대 인원 2명 원룸 침대2개 욕실 1개</p>
+			        <p class="card-text text-muted">최대 인원 ${acc.guest}명 원룸 침대2개 욕실 1개</p>
 			        <div class="d-flex justify-content-between"  style="margin-top: 72px;">
 		        	  <strong><i class="bi bi-star-fill"></i>${acc.reviewScore}<span class="text-black-50">(후기 ${acc.reviewCount}개)</span></strong>
 		        	  <span class="fs-5"><strong>₩<fmt:formatNumber value="${acc.price}"/></strong> /박 </span>
@@ -67,9 +67,9 @@
 		</c:forEach>
 	</c:if>
 	<c:if test="${not empty unavailableWishlist.accs}">
-		<h4 class="fw-bold">예약 불가능 숙소 ${fn:length(unavailableWishlist.accs)} 개</h4>
+		<h4 class="fw-bold mb-5">예약 불가능 숙소 ${fn:length(unavailableWishlist.accs)}개</h4>
 		<c:forEach var="acc" items="${unavailableWishlist.accs}" varStatus="loop" >
-		<a href="" style="color: black; text-decoration: none;">
+		<a href="/acc/detail?no=${acc.accNo}" style="color: black; text-decoration: none;">
 			<div class="card mb-3" data-index="${loop.index}" id="card-${acc.accNo }">
 			  <div class="row g-0 position-relative">
 			    <div class="col-md-5">
@@ -109,10 +109,10 @@
 				        <button type="button" class="btn rounded-circle btn-delete-wishlistAcc" data-accNo="${acc.accNo}"><i id="icon-heart-${acc.accNo}" class="fa-solid fa-heart fs-4"></i></button>
 			      	</div>
 				    <span class="card-title">${acc.name }</span>
-			        <p class="card-text text-muted">최대 인원 2명 원룸 침대2개 욕실 1개</p>
+			        <p class="card-text text-muted">최대 인원 ${acc.guest}명 원룸 침대2개 욕실 1개</p>
 			        <div class="d-flex justify-content-between"  style="margin-top: 72px;">
 		        	  <strong><i class="bi bi-star-fill"></i>${acc.reviewScore}<span class="text-black-50">(후기 ${acc.reviewCount}개)</span></strong>
-		        	  <span class="fs-5"><strong>₩<fmt:formatNumber value="${acc.price}"/></strong> /박 </span>
+		        	  <span class="fs-5 d-none"><strong>₩<fmt:formatNumber value="${acc.price}"/></strong> /박 </span>
 			        </div>
 			      </div>
 			    </div>

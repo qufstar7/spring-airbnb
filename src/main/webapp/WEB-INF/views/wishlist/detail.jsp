@@ -18,11 +18,10 @@
 <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans+Text:400&amp;text=%E2%86%90%E2%86%92%E2%86%91%E2%86%93&amp;lang=ko">
 <link rel="stylesheet" type="text/css" href="/resources/css/wishlist-detail.css">
 <script src="https://kit.fontawesome.com/2628157b3b.js"></script>
-<title>${wishlist.name }-에어씨엔씨</title>
 <style type="text/css">
-	
-	
+
 </style>
+<title>${wishlist.name }-에어씨엔씨</title>
 </head>
 <body>
 <%@ include file="../common/nav.jsp"%>
@@ -97,7 +96,7 @@
 				<div id="tabl1">
 					<c:if test="${not empty wishlist.accs}">
 						<c:forEach var="acc" items="${wishlist.accs}" varStatus="loop" >
-						<a href="" style="color: black; text-decoration: none;">
+						<a href="/acc/detail?no=${acc.accNo}" style="color: black; text-decoration: none;">
 							<div class="card mb-3" data-index="${loop.index}" id="card-${acc.accNo }">
 							  <div class="row g-0 position-relative">
 							    <div class="col-md-5">
@@ -137,7 +136,7 @@
 								        <button type="button" class="btn rounded-circle btn-delete-wishlistAcc" data-accNo="${acc.accNo}"><i id="icon-heart-${acc.accNo}" class="fa-solid fa-heart fs-4"></i></button>
 							      	</div>
 								    <span class="card-title">${acc.name }</span>
-							        <p class="card-text text-muted">최대 인원 2명 원룸 침대2개 욕실 1개</p>
+							        <p class="card-text text-muted">최대 인원 ${acc.guest}명 원룸 침대2개 욕실 1개</p>
 							        <div class="d-flex justify-content-between"  style="margin-top: 72px;">
 						        	  <strong><i class="bi bi-star-fill"></i>${acc.reviewScore}<span class="text-black-50">(후기 ${acc.reviewCount}개)</span></strong>
 						        	  <span class="fs-5"><strong>₩<fmt:formatNumber value="${acc.price}"/></strong> /박 </span>
@@ -225,10 +224,18 @@
 		 $.each(accs, function(index, acc) {
 			    //google의 마커를 프로토타입으로 받았기 때문에 google marker의 옵션들도 이용 가능하다
 			    let labelContent = '';
+			    let priceContent = '';
 		        if (acc.disabled) {
-			        labelContent = '<div class="labelTest" id="label-' + acc.accNo + '"><i class="fa-solid fa-ban text-dark"></i><i class="bi bi-heart-fill ps-1"></i></div>'; //이런식으로 div 추가 가능
+			        labelContent = '<div class="labelTest" id="label-' + acc.accNo + '">';
+			        labelContent +=  '<i class="fa-solid fa-ban text-dark position-relative">';
+			        labelContent +=  '  <i class="bi ban bi-heart-fill position-absolute top-0 start-100 translate-middle badge"></i>';
+			        labelContent +=  '</i>';
+			        labelContent +='</div>'; //이런식으로 div 추가 가능
+		        	priceContent = '<span class="card-text fs-6"><strong><i class="fa-solid fa-ban text-dark"> 예약불가</strong></span>';
+		        
 		        } else {
 			        labelContent =  '<div class="labelTest" id="label-' + acc.accNo + '"> ₩' + acc.price.toLocaleString() +' <i class="bi bi-heart-fill ps-1"></i></div>'; //이런식으로 div 추가 가능
+		        	priceContent = '<span class="card-text fs-6"><strong>₩ ' + acc.price.toLocaleString() +  '</strong>/박 </span>';
 		        }
 		     // console.log("accNo:" + acc.accNo + " disabled: " + acc.disabled);
 		        marker = new markerWithLabel.MarkerWithLabel({
@@ -237,7 +244,7 @@
 			        icon: ' ',  //마커의 기본 아이콘을 x. 공백을 넣으면 된다.
 			        //title: acc.accNo,
 			         labelContent:  labelContent, 
-			        labelAnchor: new google.maps.Point(-30, -30),  //라벨의 상대적 위치를 지정함(px단위)이며 google map api의 anchor와 같은 개념이다.
+			        labelAnchor: new google.maps.Point(-40, -40),  //라벨의 상대적 위치를 지정함(px단위)이며 google map api의 anchor와 같은 개념이다.
 			        labelClass: "labels",      // the CSS class for the label
 			        labelStyle: {opacity: 0.75},
 			        labelInBackground: false,
@@ -268,14 +275,19 @@
 		  	  	  $(this.label.element).css({"color":"white", "transform":"scale(1.2)", "z-index":"1"});
 		  	  	  $(this.label.element).find(".fa-ban").removeClass("text-dark").addClass("text-white");
 		  	  	  
-		  	  	  let infoWindow_content = '<a href="/detail?no=' + acc.accNo + '"  style="text-decoration: none; color: black;">';
-		    	      infoWindow_content += '<div class="card" style="width: 16rem; height:16rem;">';
+		  	  	  let infoWindow_content = '<a href="/acc/detail?no=' + acc.accNo + '"  style="text-decoration: none; color: black;">';
+		    	      infoWindow_content += '<div class="card" style="width: 16rem;">';
 		    	  	  infoWindow_content += '<div id="carousel-info' + acc.accNo + '" class="carousel slide" data-bs-ride="carousel">';
 		    	  	  infoWindow_content +=	'	<div class="carousel-indicators">';
 	    	  		  infoWindow_content +=	'		<button type="button" data-bs-target="#carousel-info' + acc.accNo + '" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>';
 	    	  		  infoWindow_content +=	'		<button type="button" data-bs-target="#carousel-info' + acc.accNo + '" data-bs-slide-to="1" aria-label="Slide 2"></button>';
 	    	  		  infoWindow_content +=	'		<button type="button" data-bs-target="#carousel-info' + acc.accNo + '" data-bs-slide-to="2" aria-label="Slide 3"></button>';
 	    	  		  infoWindow_content +=	'	</div>';
+		    	  	  infoWindow_content +=	'	<div class="wishlist-icon">';
+		    	  	  infoWindow_content +=	'     <a class="btn-delete-wishlistAcc" data-accNo="' + acc.accNo + '" style="position:absolute; top:10px; right:15px; z-index:2; padding:0px;">';
+		    	  	  infoWindow_content += '       <i class="bi bi-suit-heart-fill" id="map-icon-heart-' + acc.accNo + '" style="font-size: x-large;"></i>';
+		    	  	  infoWindow_content += '     </a>';
+		    	  	  infoWindow_content += '   </div>';
 	    	  		  infoWindow_content +=	'	<div class="carousel-inner">';
 	    	  		  infoWindow_content +=	'		<div class="carousel-item active">';
 	    	  		  infoWindow_content +=	'	  		<img src="/resources/images/acc/sample-home.jpg" class="d-block w-100" alt="...">';
@@ -286,7 +298,7 @@
 	    	  		  infoWindow_content +=	'	    <div class="carousel-item">';
 	    	  		  infoWindow_content +=	'	      <img src="/resources/images/acc/sample-home.jpg" class="d-block w-100" alt="...">';
 	    	  		  infoWindow_content +=	'	    </div>';
-	    	  		  infoWindow_content +=	'	 </div>';
+	    	  		  infoWindow_content +=	'	</div>';
 	    	  		  infoWindow_content +=	'	 <button class="carousel-control-prev" type="button" data-bs-target="#carousel-info' + acc.accNo + '" data-bs-slide="prev">';
 	    	  		  infoWindow_content +=	'	    <span class="carousel-control-prev-icon" aria-hidden="true"></span>';
 	    	  		  infoWindow_content +=	'	    <span class="visually-hidden">Previous</span>';
@@ -298,10 +310,10 @@
 	    	  		  infoWindow_content += '  	 </div>';
 		    	  
 		    	  /* 	  infoWindow_content += $("#carouselExampleIndicators-" + acc.accNo).closest('.col-md-4').html() */
-		    		  infoWindow_content += 	'<div class="card-body d-flex flex-column">';
+		    		  infoWindow_content += 	'<div class="card-body d-flex flex-column d-grid gap-1">';
 	    			  infoWindow_content += 		'<span class="card-text"><i class="bi bi-star-fill"></i>' + acc.reviewScore + '(' + acc.reviewCount + ')</span>';
 	    			  infoWindow_content += 		'<span class="card-text fs-6">' + acc.name + '</span>';
-	    			  infoWindow_content +=  		'<span class="card-text fs-6"><strong>₩ ' + acc.price.toLocaleString() +  '</strong>/박 </span>';
+	    			  infoWindow_content +=  		priceContent;
 	    			  infoWindow_content += 	'</div>';
 	    			  infoWindow_content += '</div>';
 	    			  infoWindow_content += '</a>';
@@ -351,6 +363,7 @@ $(function () {
 	 	
 	 	$(marker.label.element).addClass('bg-black');
 	  	$(marker.label.element).css({"color":"white", "transform":"scale(1.2)", "z-index":"1"});
+	  	$(marker.label.element).find(".fa-ban").removeClass("text-dark").addClass("text-white");
 	  	
 	 	//google.maps.event.trigger(marker, 'mouseover');
 	 })
@@ -372,16 +385,17 @@ $(function () {
 		  keyboard: false
 		})
 	 
-	 // wishlist 숙소 하트 아이콘 클릭
-	 $(".btn-delete-wishlistAcc").click(function() {
-		 
-	 	 let accNo = $(this).attr("data-accNo");
+	 // wishlist 숙소 하트 아이콘 클릭시 발생(미래이벤트로 변경)
+	 $("body").on("click", '.btn-delete-wishlistAcc', function() {
+		 let accNo = $(this).attr("data-accNo");
 		 $heartIcon = $("#icon-heart-" + accNo);
+		 $mapHeartIcon = $("#map-icon-heart-" + accNo);
 		 
-		 if($heartIcon.hasClass("fa-solid")) {
+		 if($heartIcon.hasClass("fa-solid") || $mapHeartIcon.hasClass("bi-suit-heart-fill")) {
 			 // 위시리스트에서 숙소 삭제 구현하기
 			 $.getJSON("/wishlists/delete/acc", "wishlistNo=" + ${wishlist.no} + "&accNo=" + accNo)
 			 $heartIcon.removeClass("fa-solid").addClass("fa-regular").css("color", "black");
+			 $mapHeartIcon.removeClass("bi-suit-heart-fill").addClass("bi-suit-heart").css("color", "black");
 			 // 라벨에서 하트 없애기 구현하기
 		 } else {
 			 // 다시 추가
@@ -391,7 +405,7 @@ $(function () {
 		 }
 		 
 		 return false;
-	 });
+		 });
 	 
 	 let createListModal = new bootstrap.Modal(document.getElementById('modal-create-wishlist'), {
 		  keyboard: false
@@ -694,35 +708,74 @@ $(function () {
 	
 });
 </script>
+
+<!-- 모달 전용 -->
+<script type="text/javascript">
+$(function () {
+	$("#delete-this-wishlist").click(function(e) {
+		e.stopPropagation();
+		$("#mh-delete-wishlist").removeClass("d-none");
+		$("#mb-delete-wishlist").removeClass("d-none");
+		
+		$("#mh-change-name").addClass("d-none");
+		$("#mb-change-name").addClass("d-none");
+	});
+	
+	$("#btn-delete-this-modal").click(function() {
+		
+		
+		
+	});
+})
+	
+</script>
 <!-- 위시리스트 폴더 이름 변경 모달 -->
-<div class="modal" id="modal-change-name" tabindex="-1">
+<div class="modal" id="modal-change-name" tabindex="-1" style="background: rgba(0, 0, 0, 0) !important;">
 	  <div class="modal-dialog modal-dialog-centered" style="width: 400px; height: 172px;">
 	    <div class="modal-content">
-	      <div class="modal-header w-100 d-flex justify-content-between">
-	      		<div>
-			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="vertical-align: middle;"></button>
-	      		</div>
-	      		<div>
-			        <span class="modal-title fw-bold">설정</span>
-	      		</div>
-	      		<div>
-			        <a href=""  class="text-dark fw-bold">삭제</a>
-	      		</div>
+	      <div class="modal-header w-100 d-flex justify-content-between" id="mh-change-name">
+      		<div>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="vertical-align: middle;"></button>
+      		</div>
+      		<div>
+		        <span class="modal-title fw-bold">설정</span>
+      		</div>
+      		<div>
+		        <a href="#" id="delete-this-wishlist" class="text-dark fw-bold">삭제</a>
+      		</div>
 	      </div>
-		      <form id="form-change-name" method="post" action="/wishlists/update/wishlist">
-	      <div class="modal-body py-5 px-4">
-		        <div class="form-floating">
-		      		<input type="hidden" name="wishlistNo" value="${wishlist.no }">
-			     	<input type="text" class="form-control" name="changedName" value="${wishlist.name}" placeholder="위시리스트이름">
-			     	<label for="floatingInput">위시리스트 이름</label>
-			     	<small>최대 50자</small>
-				</div>
+	      <!-- 삭제버튼 클릭한 경우 modal-header -->
+	      <div class="modal-header d-none" id="mh-delete-wishlist">
+	      	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      	<span class="modal-title fw-bold w-100 text-center">위시리스트 삭제하기</span>
 	      </div>
-	      <div class="modal-footer d-flex justify-content-between">
-	        <button type="button" class="btn btn-link text-reset fw-bold fs-6" data-bs-dismiss="modal" aria-label="Close">취소</button>
-	        <button type="submit" class="btn btn-dark" id="btn-change-wishlist-name">저장</button>
+	     
+	     <div id="mb-change-name">
+		  <form id="form-change-name" method="post" action="/wishlists/update/wishlist">
+		      <div class="modal-body py-5 px-4">
+			        <div class="form-floating">
+			      		<input type="hidden" name="wishlistNo" value="${wishlist.no }">
+				     	<input type="text" class="form-control" name="changedName" value="${wishlist.name}" placeholder="위시리스트이름">
+				     	<label for="floatingInput">위시리스트 이름</label>
+				     	<small>최대 50자</small>
+					</div>
+		      </div>
+		      <div class="modal-footer d-flex justify-content-between">
+		        <button type="button" class="btn btn-link text-reset fw-bold fs-6" data-bs-dismiss="modal" aria-label="Close">취소</button>
+		        <button type="submit" class="btn btn-dark" id="btn-change-wishlist-name">저장</button>
+		      </div>
+		  </form>
+	     </div>
+		   <!-- 삭제버튼 클릭한 경우 modal-body -->
+	      <div class="d-none" id="mb-delete-wishlist">
+		      <div class="modal-body">
+		      	<span class="m-3">${wishlist.name}(을)를 정말로 삭제하시겠어요?</span>
+		      </div>
+	          <div class="modal-footer d-flex justify-content-between">
+	          	<button type="button" class="btn btn-link text-reset fw-bold fs-6" data-bs-dismiss="modal" aria-label="Close">취소</button>
+		        <a href="/wishlists/delete?no=${wishlist.no}" class="btn btn-dark">삭제하기</a>
+	          </div>
 	      </div>
-			</form>
 	    </div>
 	  </div>
 </div>

@@ -91,17 +91,47 @@
 		 		from airbnb_accommodations
 		 		where acc_no in (select acc_no
 		 		                 from airbnb_wishlist_accommodations
+		 		                 where wishlist_no = #{wishlistNo}) )
+		select *
+		 		from airbnb_accommodations
+		 		where acc_no in (select acc_no
+		 		                 from airbnb_wishlist_accommodations
+		 		                 where wishlist_no = #{wishlistNo})
+		minus
+		
+		SELECT DISTINCT T.*
+		FROM test_accommodations T, airbnb_reservations R
+		WHERE T.acc_no = R.acc_no(+)
+		<choose>
+			<when test="checkInDate != null and checkOutDate != null">
+				AND (T.acc_status != '운영중' 
+				     OR T.acc_guest &lt; #{guestCount}
+				     OR (R.check_out_date &gt; #{checkInDate}  and #{checkInDate} &gt;= R.check_in_date)                              
+				     OR (R.check_out_date &gt; #{checkOutDate}  and  R.check_in_date &lt; #{checkOutDate})
+				     OR (R.check_in_date &gt;= #{checkInDate}  and R.check_out_date &lt;= #{checkOutDate}))
+			</when>
+			<otherwise>
+				AND (T.acc_status != '운영중'  OR T.acc_guest &lt; #{guestCount})
+			</otherwise>
+		</choose>
+ 	
+ 	
+ 		<!-- WITH test_accommodations
+		 AS ( select *
+		 		from airbnb_accommodations
+		 		where acc_no in (select acc_no
+		 		                 from airbnb_wishlist_accommodations
 		 		                 where wishlist_no = #{wishlistNo}))
 		SELECT distinct T.*
 		FROM test_accommodations T, airbnb_reservations R
 		WHERE T.acc_no = R.acc_no(+)
-		and T.acc_guest &gt;= #{guestCount}						<!-- 게스트는 없어도 기본값 1 -->
+		and T.acc_guest &gt;= #{guestCount}						게스트는 없어도 기본값 1
 		and T.acc_status = '운영중'
 		<if test="checkInDate != null and checkOutDate != null">   
 		 AND (R.check_out_date &lt;= #{checkInDate} 
 		 OR R.check_in_date &gt;= #{checkOutDate} 
 		 OR R.check_in_date is null)
-		</if>        
+		</if>        --> 
  	</select>
  	
  	
@@ -109,6 +139,29 @@
  	<!-- List<Accommodation> getUnableWishlistAccsWithConditions -->
  	<select id="getUnavailableWishlistAccsWithConditions" resultMap="AccResultMap">
  		WITH test_accommodations
+		 AS ( select *
+		 		from airbnb_accommodations
+		 		where acc_no in (select acc_no
+		 		                 from airbnb_wishlist_accommodations
+		 		                 where wishlist_no = #{wishlistNo}) )
+		SELECT DISTINCT T.*
+		FROM test_accommodations T, airbnb_reservations R
+		WHERE T.acc_no = R.acc_no(+)
+		<choose>
+			<when test="checkInDate != null and checkOutDate != null">
+				AND (T.acc_status != '운영중' 
+				     OR T.acc_guest &lt; #{guestCount}
+				     OR (R.check_out_date &gt; #{checkInDate}  and #{checkInDate} &gt;= R.check_in_date)                              
+				     OR (R.check_out_date &gt; #{checkOutDate}  and  R.check_in_date &lt; #{checkOutDate})
+				     OR (R.check_in_date &gt;= #{checkInDate}  and R.check_out_date &lt;= #{checkOutDate}))
+			</when>
+			<otherwise>
+				AND (T.acc_status != '운영중'  OR T.acc_guest &lt; #{guestCount})
+			</otherwise>
+		</choose>
+	
+ 	
+ 		<!-- WITH test_accommodations
 		 AS ( select *
 		 		from airbnb_accommodations
 		 		where acc_no in (select acc_no
@@ -130,7 +183,7 @@
 		 AND (R.check_out_date &lt;= #{checkInDate} 
 		 OR R.check_in_date &gt;= #{checkOutDate} 
 		 OR R.check_in_date is null)
-		</if>  
+		</if>   -->
  	</select>
  	
  	<!-- void createWishlist(Wishlist wishlist); -->
@@ -165,12 +218,21 @@
  		where wishlist_no = #{no}
  	</update>
  	
+ 	<!-- void deleteWishlist(int wishlistNo); -->
+ 	<delete id="deleteWishlist" parameterType="int">
+ 		delete 
+ 		from airbnb_wishlists
+ 		where wishlist_no = #{value}
+ 	</delete>
  	
  	<!-- void deleteWishlistAcc(int accNo, int wishlistNo); -->
  	<delete id="deleteWishlistAcc">
  		delete 
 		from airbnb_wishlist_accommodations
-		where wishlist_no = #{wishlistNo} and acc_no = #{accNo} 
+		where wishlist_no = #{wishlistNo} 
+		<if test="accNo != 0">
+		and acc_no = #{accNo} 
+		</if>
  	</delete>
  
  

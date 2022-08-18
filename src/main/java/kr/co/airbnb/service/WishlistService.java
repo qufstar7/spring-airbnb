@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.airbnb.mapper.WishlistMapper;
 import kr.co.airbnb.vo.AccWishlist;
@@ -16,6 +17,7 @@ import kr.co.airbnb.vo.Accommodation;
 import kr.co.airbnb.vo.Wishlist;
 
 @Service
+@Transactional
 public class WishlistService {
 
 	@Autowired
@@ -27,6 +29,14 @@ public class WishlistService {
 		return wishlist;
 	}
 	
+	/**
+	 * 해당 위시리스트에서 날짜, 인원 조건별 예약가능, 불가능 숙소 출력
+	 * @param wishlistNo
+	 * @param checkInDate 사용자가 설정한 체크인 날짜
+	 * @param checkOutDate 사용자가 설정한 체크아웃 날짜
+	 * @param guestCount 숙박인원
+	 * @return
+	 */
 	public Map<String, Wishlist> getWishlistWithCondition(int wishlistNo, Date checkInDate, Date checkOutDate, int guestCount) {
 		
 		Map<String, Wishlist> wishlist = new HashMap<>();
@@ -84,6 +94,12 @@ public class WishlistService {
 		wishlist.setName(changedName);
 		
 		wishlistMapper.updateWishlist(wishlist);
+	}
+
+	// 질문
+	public void deleteWishlist(int wishlistNo) {
+		wishlistMapper.deleteWishlistAcc(wishlistNo, 0);
+		wishlistMapper.deleteWishlist(wishlistNo);
 	}
 	
 	public void deleteWishlistAcc(int wishlistNo, int accNo) {

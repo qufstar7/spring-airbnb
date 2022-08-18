@@ -1,7 +1,6 @@
 package kr.co.airbnb.mapper;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -20,6 +19,7 @@ public interface WishlistMapper {
 	void createWishlist(Wishlist wishlist);
 	void saveWishlistAcc(@Param("wishlistNo")int wishlistNo, @Param("accNo") int accNo);
 	void updateWishlist(Wishlist wishlist);
+	void deleteWishlist(int wishlistNo);
 	void deleteWishlistAcc(@Param("wishlistNo") int wishlistNo, @Param("accNo") int accNo);
 	
 	List<AccWishlist> getAccNoByUserNo(int userNo);
