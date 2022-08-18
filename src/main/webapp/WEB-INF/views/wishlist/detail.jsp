@@ -342,7 +342,7 @@ $(function () {
 		return false;
 		});
 	 
-	 $(".card").hover(function() {
+	 $("#tabl1").on("mouseenter", '.card', function() {				// 날짜, 인원 검색시 미래에 새로 생기는 엘리먼트에도 적용시키기 위해
 		let accNo = $(this).attr("id").replace("card-", ""); 	
 	 	//let index = $(this).data("index");
 	 	//let marker = markers[index];
@@ -353,7 +353,8 @@ $(function () {
 	  	$(marker.label.element).css({"color":"white", "transform":"scale(1.2)", "z-index":"1"});
 	  	
 	 	//google.maps.event.trigger(marker, 'mouseover');
-	 }, function() {
+	 })
+	 $("#tabl1").on("mouseleave", '.card', function() {
 		defaultLabel(markers);
 	 });
 	 
@@ -640,19 +641,19 @@ $(function () {
 				3. $div에서 이 div#indexListAjax 선택자에 해당하는 엘리먼트에 포함된 HTML 컨텐츠를 조회한다.
 				4. tabl1에 조회한 htm 컨텐츠를 반영한다.
 			*/
-	     	var $div = $('<div>').html(result);
+	     	var $div = $('<div>').html(result);    // 동적태그생성
 			var contents = $div.find("div#indexListAjax").html();
 			//console.log(contents);
 			$("#tabl1").html("");
 			$("#tabl1").html(contents);
 			
-			let availableAccNo = new Array();		// 예약가능한 숙소 번호 배열
-			$("#tabl1").find("div.card").each(function() {
-				availableAccNo.push(parseInt($(this).attr("id").replace("card-", "")));
+			let availableAccNos = new Array();		// 예약가능한 숙소 번호 배열
+			$("#tabl1").find("div.availableCard").each(function() {
+				availableAccNos.push(parseInt($(this).attr("id").replace("card-", "")));
 			});
-			console.log("가능한번호: " + availableAccNo);
+			console.log("가능한번호: " + availableAccNos);
 			$.each(accs, function(i, acc) {
-				if(availableAccNo.indexOf(acc.accNo) >= 0) {	
+				if(availableAccNos.indexOf(acc.accNo) >= 0) {	
 					acc.disabled = false;						// 예약가능한 숙소번호배열에 위시리스트의 숙소번호가 있는 경우
 				} else {			
 					acc.disabled = true;						// 예약가능한 숙소번호배열에 위시리스트의 숙소번호가 없는 경우

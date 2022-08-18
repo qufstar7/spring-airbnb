@@ -82,9 +82,10 @@
  		                 where wishlist_no = #{value})
  	</select>
  	
- 	<!-- List<Accommodation> getWishlistAccsWithConditions(@Param("wishlistNo")int wishlistNo, @Param("checkInDate") Date checkIndate, @Param("checkOutDate") Date checkOutDate, @Param("guestCount") int guestCount); -->
+ 	<!-- List<Accommodation> getAvailableWishlistAccsWithConditions(@Param("wishlistNo")int wishlistNo, @Param("checkInDate") Date checkIndate, @Param("checkOutDate") Date checkOutDate, @Param("guestCount") int guestCount); -->
+ 	<!-- 위시리스트에서 날짜, 인원 조건에 맞고 예약가능한 숙소들 -->
  	<!-- 확인!!!!!!!!!!!!!!! -->
- 	<select id="getWishlistAccsWithConditions" resultMap="AccResultMap">
+ 	<select id="getAvailableWishlistAccsWithConditions" resultMap="AccResultMap">
  		WITH test_accommodations
 		 AS ( select *
 		 		from airbnb_accommodations
@@ -101,21 +102,35 @@
 		 OR R.check_in_date &gt;= #{checkOutDate} 
 		 OR R.check_in_date is null)
 		</if>        
+ 	</select>
  	
- 		<!-- select *
- 		from airbnb_accommodations
- 		where acc_no in (select acc_no
- 		                 from airbnb_wishlist_accommodations
- 		                 where wishlist_no = #{wishlistNo})
-    	<if test="checkInDate != null">         
-    		and acc_check_in &lt;= #{checkInDate}
-    	</if>
-    	<if test="checkOutDate != null">
-    		and acc_check_out &gt;= #{checkOutDate}
-    	</if>
-    	<if test="guestCount != null">
-    		and acc_guest &lt;= #{guestCount}
-    	</if> -->
+ 	
+ 	<!-- 위시리스트에서 날짜, 인원 조건에 예약불가한 숙소리스트 -->
+ 	<!-- List<Accommodation> getUnableWishlistAccsWithConditions -->
+ 	<select id="getUnavailableWishlistAccsWithConditions" resultMap="AccResultMap">
+ 		WITH test_accommodations
+		 AS ( select *
+		 		from airbnb_accommodations
+		 		where acc_no in (select acc_no
+		 		                 from airbnb_wishlist_accommodations
+		 		                 where wishlist_no = #{wishlistNo}) )
+		 select *
+		 		from airbnb_accommodations
+		 		where acc_no in (select acc_no
+		 		                 from airbnb_wishlist_accommodations
+		 		                 where wishlist_no = #{wishlistNo})                         
+		MINUS
+		
+		SELECT  distinct T.*
+		FROM test_accommodations T, airbnb_reservations R
+		WHERE T.acc_no = R.acc_no(+)
+		and T.acc_guest &gt;= #{guestCount}	
+		and T.acc_status = '운영중'
+		<if test="checkInDate != null and checkOutDate != null">   
+		 AND (R.check_out_date &lt;= #{checkInDate} 
+		 OR R.check_in_date &gt;= #{checkOutDate} 
+		 OR R.check_in_date is null)
+		</if>  
  	</select>
  	
  	<!-- void createWishlist(Wishlist wishlist); -->

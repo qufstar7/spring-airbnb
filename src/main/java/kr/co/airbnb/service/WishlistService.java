@@ -3,7 +3,9 @@ package kr.co.airbnb.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,9 +27,24 @@ public class WishlistService {
 		return wishlist;
 	}
 	
-	public Wishlist getWishlistWithCondition(int wishlistNo, Date checkInDate, Date checkOutDate, int guestCount) {
-		Wishlist wishlist = wishlistMapper.getWishlistByNo(wishlistNo);
-		wishlist.setAccs(wishlistMapper.getWishlistAccsWithConditions(wishlistNo, checkInDate, checkOutDate, guestCount));
+	public Map<String, Wishlist> getWishlistWithCondition(int wishlistNo, Date checkInDate, Date checkOutDate, int guestCount) {
+		
+		Map<String, Wishlist> wishlist = new HashMap<>();
+		
+		Wishlist availableWishlist = wishlistMapper.getWishlistByNo(wishlistNo);
+		availableWishlist.setAccs(wishlistMapper.getAvailableWishlistAccsWithConditions(wishlistNo, checkInDate, checkOutDate, guestCount));
+		System.out.println("예약가능한 숙소 개수: " +availableWishlist.getAccs().size() );
+		
+		Wishlist unavailableWishlist = wishlistMapper.getWishlistByNo(wishlistNo);
+		unavailableWishlist.setAccs(wishlistMapper.getUnavailableWishlistAccsWithConditions(wishlistNo, checkInDate, checkOutDate, guestCount));
+		System.out.println("예약불가능한 숙소 개수: " +unavailableWishlist.getAccs().size() );
+		
+		wishlist.put("availableWishlist", availableWishlist);
+		wishlist.put("unavailableWishlist", unavailableWishlist);
+		
+		
+		//Wishlist wishlist = wishlistMapper.getWishlistByNo(wishlistNo);
+		//wishlist.setAccs(wishlistMapper.getWishlistAccsWithConditions(wishlistNo, checkInDate, checkOutDate, guestCount));
 		
 		return wishlist;
 	}
