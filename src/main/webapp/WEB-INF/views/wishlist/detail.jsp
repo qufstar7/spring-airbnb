@@ -110,13 +110,13 @@
 									<!-- 슬라이드쇼 이미지 -->
 									<div class="carousel-inner">
 										<div class="carousel-item active">
-											<img class="acc-thumbnail rounded-4 w-100" src="/resources/images/acc/sky.jpg" alt="숙소이미지"  style="object-fit: cover; height: 200px;">
+											<img class="acc-thumbnail rounded-4 w-100" src="/resources/images/acc/${acc.imageCover}" alt="숙소이미지"  style="object-fit: cover; height: 200px;">
 										</div>
 										<div class="carousel-item">
-											<img class="acc-thumbnail rounded-4 w-100" src="/resources/images/acc/sky.jpg" alt="숙소이미지" style="object-fit: cover; height: 200px;">
+											<img class="acc-thumbnail rounded-4 w-100" src="/resources/images/acc/${acc.imageCover}" alt="숙소이미지" style="object-fit: cover; height: 200px;">
 										</div>
 										<div class="carousel-item">
-											<img class="acc-thumbnail rounded-4 w-100" src="/resources/images/acc/sky.jpg" alt="숙소이미지" style="object-fit: cover; height: 200px;">
+											<img class="acc-thumbnail rounded-4 w-100" src="/resources/images/acc/${acc.imageCover}" alt="숙소이미지" style="object-fit: cover; height: 200px;">
 										</div>
 									</div>
 									<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide="prev">
