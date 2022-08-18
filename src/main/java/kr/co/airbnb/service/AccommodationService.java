@@ -1,7 +1,9 @@
 package kr.co.airbnb.service;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,11 +14,13 @@ import kr.co.airbnb.annotation.LoginUser;
 import kr.co.airbnb.criteria.AccCriteria;
 import kr.co.airbnb.criteria.SearchCriteria;
 import kr.co.airbnb.mapper.AccommodationMapper;
+import kr.co.airbnb.mapper.WishlistMapper;
 import kr.co.airbnb.vo.AccRoom;
 import kr.co.airbnb.vo.Accommodation;
 
 import kr.co.airbnb.vo.User;
-
+import kr.co.airbnb.vo.Wishlist;
+import kr.co.airbnb.vo.WishlistImage;
 import kr.co.airbnb.vo.Boast;
 import kr.co.airbnb.vo.Tag;
 import kr.co.airbnb.vo.Type;
@@ -28,10 +32,25 @@ public class AccommodationService {
 	@Autowired
 	AccommodationMapper accommodationMapper;
 	
+	@Autowired
+	WishlistMapper wishlistMapper;
+	
+	
 	public void updateAcc(Accommodation acc) {
 		accommodationMapper.updateAcc(acc);
 	}
 	
+	public List<Wishlist> getMyWishlists(int userNo) {
+		List<Wishlist> wishlists = wishlistMapper.getWishlistsByUserNo(userNo);
+		for (Wishlist wishlist : wishlists) {
+			wishlist.setAccs(wishlistMapper.getWishlistAccsByNo(wishlist.getNo()));
+			Map<String, Object> map = new HashMap<>();
+			map.put("wishlistNo", wishlist.getNo());
+			map.put("userNo", userNo);
+			wishlist.setWishlistImage(wishlistMapper.getImageByUserNo(map));
+		}
+		return wishlists;
+	}
 	
 	public Accommodation getAccommodation(int no) {
 		
@@ -57,7 +76,6 @@ public class AccommodationService {
 		return accommodationMapper.getAllTypesByAccNo(accNo);
 	}
 	 
-	
 	/*
 	 * public Image getImage(int no) { Image image = new Image(); List<AccPhoto>
 	 * photos = accommodationMapper.getAccPhotosByAccNo(no);

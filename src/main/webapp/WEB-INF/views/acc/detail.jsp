@@ -93,7 +93,7 @@
 						</c:otherwise>
 					</c:choose>
 					<button type="button" class="btn btn-link text-decoration-underline text-dark btn-sm" id="btn-open-map-modal">${acc.address }</button>
-					<span class="float-end">
+					<span class="float-end" id="append-save">
 						<button type="button" class="btn btn-link text-decoration-underline text-dark" id="btn-open-share-modal"><i class="bi bi-share-fill"></i> 공유</button>
 						<c:choose>
 					  	<c:when test="${empty LOGIN_USER}">
@@ -102,23 +102,31 @@
 						</c:when>
 						<c:otherwise>
 								<!-- 로그인 했을 때 -->
-							<c:set var="flag" value="N" />
+							<c:choose>
+								<c:when test="${not empty wishlistAccNo.accNo  }">
+									<a href="delete?accNo=${acc.accNo }&wishlistNo=${wishlistAccNo.wishlist.no }" class="btn btn-link text-decoration-underline text-dark btn-delete-wishlistAcc" ><i id="icon-heart-${acc.accNo}" class="fa-solid fa-heart fs-6 " style="color: #FF385C;"></i> <span id="saveList">저장 목록</span></a>
+								</c:when>
+								<c:when test="${empty wishlist.accNo }">
+									<button type="button" class="btn btn-link text-decoration-underline text-dark btn-open-save-modal" id="save-btn"><i id="icon-heart-${acc.accNo}" class="fa-regular fa-heart fs-6"></i> 저장</button>
+								</c:when>
+							</c:choose>
+							<%-- <c:set var="flag" value="N" />
 							<c:forEach items="${wishlistAccNo }" var="wishlist">
 								<c:choose>
+									<c:when test="${empty wishlist.accNo }">
+										<c:set var="flag" value="Y" />
+										<button type="button" class="btn btn-link text-decoration-underline text-dark btn-open-save-modal" ><i id="icon-heart-${acc.accNo}" class="fa-regular fa-heart fs-6"></i> 저장</button>
+									</c:when>
 									<c:when test="${wishlist.accNo eq acc.accNo and flag eq 'N' }">
 										<c:set var="flag" value="Y" />
-										<form action="delete">
-											<input type="hidden" value="${wishlist.wishlist.no }" name="wishlistNo" id="wishlistNo">
-											<input type="hidden" value="${wishlist.wishlist.no }" name="accNo" id="wishlistNo">
-											<button type="submit" class="btn btn-link text-decoration-underline text-dark btn-delete-wishlistAcc" data-accNo="${acc.accNo}" ><i id="icon-heart-${acc.accNo}" class="fa-solid fa-heart fs-6 " style="color: #FF385C;"></i> <span id="saveList">저장 목록</span></button>
-										</form>
+										<a href="delete?accNo=${acc.accNo }&wishlistNo=${wishlist.wishlist.no}" class="btn btn-link text-decoration-underline text-dark btn-delete-wishlistAcc" ><i id="icon-heart-${acc.accNo}" class="fa-solid fa-heart fs-6 " style="color: #FF385C;"></i> <span id="saveList">저장 목록</span></a>
 									</c:when>
 									<c:when test="${wishlist.accNo ne acc.accNo and flag eq 'N' }">
 										<c:set var="flag" value="Y" />
-										<button type="button" class="btn btn-link text-decoration-underline text-dark btn-open-save-modal" ><i id="icon-heart-${acc.accNo}" class="fa-regular fa-heart fs-6"></i> 안똑</button>
+										<button type="button" class="btn btn-link text-decoration-underline text-dark btn-open-save-modal" ><i id="icon-heart-${acc.accNo}" class="fa-regular fa-heart fs-6"></i> 저장</button>
 									</c:when>
 								</c:choose>
-							</c:forEach>
+							</c:forEach> --%>
 						</c:otherwise>
 					  </c:choose>
 					</span>
@@ -307,7 +315,7 @@
 			</div> 
 			<div class="col-4" id="side">
 				<div id="sticky" >
-				<form id="form-reservation" method="post" action="">
+				<form id="form-reservation" method="post" action="/book/register?no=${acc.accNo }">
 					<div class="row shadow-lg bg-body rounded" id="box">
 						<div class="col-6 boxhd reservation" >
 							<h4><strong><fmt:formatNumber value="${acc.price }"/></strong>/
@@ -666,11 +674,11 @@
 				<h4>알아두어야 할 사항</h4>
 				<div class="col-4">
 					<h6>숙소 이용 규칙</h6>
-					<p>체크인: 오후 4:00 - 오후 11:00</p>
-					<p>체크아웃 시간: 오전 11:00</p>
-					<p>열쇠 보관함(으)로 셀프 체크인</p>
-					<p>흡연 금지</p>
-					<p>어린이와 유아에게 적합하지 않음</p>
+					<p><i class="bi bi-alarm-fill"></i> 체크인: 오후 4:00 - 오후 11:00</p>
+					<p><i class="bi bi-alarm-fill"></i> 체크아웃 시간: 오전 11:00</p>
+					<p><i class="bi bi-door-closed"></i> 열쇠 보관함(으)로 셀프 체크인</p>
+					<p><i class="bi bi-x-octagon"></i> 흡연 금지</p>
+					<p><i class="bi bi-x-octagon"></i> 어린이와 유아에게 적합하지 않음</p>
 				</div>
 				<div class="col-4">
 					<h6>건강과 안전</h6>
@@ -679,7 +687,7 @@
 				</div>
 				<div class="col-4">
 					<h6>환불 정책</h6>
-					<p>하루전 까지 환불 가능</p>
+					<p>일주일 전까지 무료 환불 가능</p>
 				</div>
 			</div>
 		</div>
@@ -835,13 +843,16 @@
 								<form action="save">
 									<input type="hidden" name="wishlistNo" value="${wishlist.no }">
 									<input type="hidden" name="accNo" value="${acc.accNo }">
-									<c:forEach items="${acc.photos }" var="photo">
-										<c:if test="${photo.num eq '1' }">
-											<button type="submit" class="btn">
-												<img class="rounded" src="/resources/images/acc/${photo.name }" style="width: 64px; height: 64px;">
+										<c:if test="${not empty wishlist.wishlistImage }">
+											<button type="submit" class="btn" >
+												<img class="rounded" src="/resources/images/acc/${wishlist.wishlistImage.imageName }" style="width: 64px; height: 64px;">
 											</button>
 										</c:if>
-									</c:forEach>
+										<c:if test="${empty wishlist.wishlistImage }">
+											<button type="submit" class="btn btn btn-secondary" style="width: 64px; height: 64px;">
+												
+											</button>
+										</c:if>
 									<span class="ms-3 fw-bold" style="margin-top:20px;">${wishlist.name }</span>
 								</form>
 							</div>
@@ -863,14 +874,14 @@
 			</div>
 			<div class="modal-body">
 				<div class="row  p-3">
-					<form action="/insert" method="post" id="form-create-wishlist">
-					<div class="row mb-3 align-items-center">
-						<input class="form-control rounded" type="text" placeholder="이름을 입력하시오" aria-label="default input example" name="wishlistName">
-						<input type="hidden" name="accNo" value="${acc.accNo }">
-					</div>
-					<div class="row mb-3 align-items-center">
-						<button type="button" class="btn btn-dark" id="btn-create-wishlist">새로 만들기</button>
-					</div>
+					<form action="insert" method="get" id="form-create-wishlist">
+						<div class="row mb-3 align-items-center">
+							<input class="form-control rounded" type="text" placeholder="이름을 입력하시오" aria-label="default input example" name="wishlistName">
+							<input type="hidden" name="accNo" value="${acc.accNo }">
+						</div>
+						<div class="row mb-3 align-items-center">
+							<button type="submit" class="btn btn-dark" id="btn-create-wishlist">새로 만들기</button>
+						</div>
 					</form>					
 				</div>
 			</div>
@@ -2032,48 +2043,58 @@ $(function() {
 	    ],
 	  }) 
 	
-	 /*  $("#btn-open-save-modal").click(function() {
+	  /* $("#btn-create-wishlist").click(function() {
 		 let accNo = ${acc.accNo }
+		 $("#save-btn").remove()
 		 
-		 $.post("/acc/wishlist", function(result) {
-				wishlists = result.wishlists;
-				let content = '';
-				$.each(wishlists, function() {
-					content += '<div class="mt-3" style="display: flex; height: 64px;">';
-					content += '  <input type="hidden" name="wishlistNo" value="' + this.no + '">';
-					content += '  <img src="https://a0.muscache.com/im/pictures/da1a2f06-efb0-4079-abce-0f6fc82089e0.jpg" alt="" style="vertical-align:middle;">';
-					content += '  <span class="ms-3 fw-bold" style="margin-top:20px;">' + this.name + '</span>';
-					content += '</div>';
-				});
-				
-				$("#div-wishlists").html(content);
-			})
-			accSaveModal.show();
-	  }); */
-	  $("#btn-create-wishlist").click(function() {
-		 let accNo = ${acc.accNo }
-		 $("#icon-heart-" + accNo ).removeClass("fa-regular").addClass("fa-solid").css("color", "#FF385C");
 		 let querystring = $("#form-create-wishlist").serialize();
 		 
 			$.post("/acc/insert", querystring, function(result) {
 				wishlists = result.wishlists;
-				let content = '';
 				$("#div-wishlists > div").remove();
+				let content = '';
+				content += '<div class="mt-3" style="display: flex; height: 64px;">';
+				content += '<button type="button" class="btn" id="btn-open-save2-modal" style="width: 90px; height: 78px;"><i class="bi bi-plus h3" style="width: 64px; height: 64px;"></i></button>';
+				content += '<span class="ms-3 fw-bold" style="margin-top:20px;">새로운 위시리스트 만들기</span>';
+				content += '</div>';
+				
 				$.each(wishlists, function() {
-					content += '<div class="mt-3" style="display: flex; height: 64px;">';
-					content += '  <input type="hidden" name="wishlistNo" value="' + this.no + '">';
-					content += '  <img src="https://a0.muscache.com/im/pictures/da1a2f06-efb0-4079-abce-0f6fc82089e0.jpg" alt="" style="vertical-align:middle;">';
-					content += '  <span class="ms-3 fw-bold" style="margin-top:20px;">' + this.name + '</span>';
-					content += '</div>';
+					if (this.wishlistImage != null) {
+						
+						content += '<div class="mt-3" style="display: flex; height: 64px;">';
+						content += '<form action="save">';
+						content += '<input type="hidden" name="wishlistNo" value="' + this.no + '">';
+						content += '<input type="hidden" name="accNo" value="'+accNo+'">';
+						content += '<button type="submit" class="btn" >';
+						content += '<img class="rounded" src="/resources/images/acc/' +this.wishlistImage.imageName + '" style="width: 64px; height: 64px;">';
+						content += '</button>';
+						content += '<span class="ms-3 fw-bold" style="margin-top:20px;">' + this.name + '</span>';
+						content += '</form>';
+						content += '</div>';
+					}
+					
+					if (this.wishlistImage === null) {
+						content += '<div class="mt-3" style="display: flex; height: 64px;">';
+						content += '<form action="save">';
+						content += '<input type="hidden" name="wishlistNo" value="' + this.no + '">';
+						content += '<input type="hidden" name="accNo" value="'+accNo+'">';
+						content += '<button type="submit" class="btn btn btn-secondary" style="width: 64px; height: 64px;">';
+						content += '</button>';
+						content += '<span class="ms-3 fw-bold" style="margin-top:20px;">' + this.name + '</span>';
+						content += '</form>';
+						content += '</div>';
+					}
+					
 				});
 				
 				$("#div-wishlists").html(content);
+				let spanContent = '<a href="delete?accNo='+ accNo +'&wishlistNo='+result.wishlistNo.wishlist.no+'" class="btn btn-link text-decoration-underline text-dark btn-delete-wishlistAcc" ><i id="icon-heart-'+ accNo +'" class="fa-solid fa-heart fs-6 " style="color: #FF385C;"></i> <span id="saveList">저장 목록</span></a>';
+				$("#append-save").append(spanContent);
 			})
 			accSave2Modal.hide();	
 			accSaveModal.show();	
 			//saveToListModal.show();
-			
-	 });
+	 }); */
 	  
 	
 })

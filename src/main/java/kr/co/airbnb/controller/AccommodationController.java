@@ -1,6 +1,9 @@
 package kr.co.airbnb.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,9 +23,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.airbnb.annotation.LoginUser;
 import kr.co.airbnb.criteria.SearchCriteria;
+import kr.co.airbnb.form.ReservationRegisterForm;
 import kr.co.airbnb.service.AccommodationService;
 import kr.co.airbnb.service.ConvenienceService;
 import kr.co.airbnb.service.WishlistService;
@@ -45,37 +51,39 @@ public class AccommodationController {
 	
 	@GetMapping(path = "/detail")
 	public String detail(@LoginUser User loginUser ,@RequestParam("no") int no,Model model) {
-		Accommodation acc = accommodationService.getAccommodation(no);
 		if (loginUser != null) {
 			
-			List<Wishlist> wishlists = wishlistService.getMyWishlists(loginUser.getNo());
-			/*
-			 * Wishlist wishlist = wishlists.get(0);
-			 * System.out.println(wishlist.getAcc().getAccNo());
-			 */
-			model.addAttribute("wishlists", wishlists);
-			model.addAttribute("wishlistAccNo",wishlistService.getAccNoByUserNo(loginUser.getNo()));
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("accNo", no);
+			map.put("userNo", loginUser.getNo());
+			
+			model.addAttribute("wishlists", accommodationService.getMyWishlists(loginUser.getNo()));
+			model.addAttribute("wishlistAccNo",wishlistService.getAccNoByUserNo(map));
 		}
 		model.addAttribute("acc", accommodationService.getAccommodation(no));
 		model.addAttribute("cons", ConvenienceService.getMainConveniences());
 		model.addAttribute("Boast", accommodationService.getBoast(no));
-		
+		model.addAttribute("reservationRegisterForm", new ReservationRegisterForm());
 		return "acc/detail";
 	}
 	
-	@PostMapping(path="/insert") // 새로운 위시리스트 폴더 생성 후 해당 숙소 저장하기
-	@ResponseBody
-	public Map<String, Object> insertNewWishlist(@RequestParam("wishlistName") String wishlistName, @RequestParam("accNo") int accNo, @LoginUser User loginUser) {
+	
+	@GetMapping(path="/insert") // 새로운 위시리스트 폴더 생성 후 해당 숙소 저장하기
+	public String insertNewWishlist(@RequestParam("wishlistName") String wishlistName, @RequestParam("accNo") int accNo, @LoginUser User loginUser) {
 		
 		
 		wishlistService.createWishlistAndSaveAcc(new Wishlist(wishlistName, loginUser), accNo);
 		
 		// refresh wishlists
-		List<Wishlist> wishlists = wishlistService.getMyWishlists(loginUser.getNo());
-		Map<String, Object> result = new HashMap<>();
-		result.put("wishlists", wishlists);
+//		List<Wishlist> wishlists = accommodationService.getMyWishlists(loginUser.getNo());
+//		Map<String, Object> result = new HashMap<>();
+//		Map<String, Object> result2 = new HashMap<>();
+//		result2.put("accNo", accNo);
+//		result2.put("userNo", loginUser.getNo());
+//		result.put("wishlists", wishlists);
+//		result.put("wishlistNo", wishlistService.getAccNoByUserNo(result2));
 		
-		return result;
+		return "redirect:/acc/detail?no="+accNo;
 	}
 	
 	@GetMapping(path = "/save")

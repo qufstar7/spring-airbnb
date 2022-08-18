@@ -39,6 +39,8 @@
 		<association property="user" column="USER_NO" select="kr.co.airbnb.mapper.UserMapper.getUserByNo"/>
 	</resultMap>
 	
+	
+	
 	<!-- List<AccConvenience> getAccConveniencesByAccNo(int accNo); -->
 	<select id="getAccConveniencesByAccNo" parameterType="int" resultType="AccConvenience">
 		select A.ACC_NO as accNo, 
@@ -49,6 +51,17 @@
 		from AIRBNB_ACC_CONVENIENCES A, AIRBNB_CONVENIENCES B
 		where A.ACC_NO = #{value}
 		and A.CONVENIENCE_NO = B.CONVENIENCE_NO
+	</select>
+	
+	<select id="getAccWishlistByUserNoAccNo" parameterType="map" resultType="AccWishlist">
+		select *
+		from (select ROWNUM as num,b.wishlist_no, c.image_name
+			from AIRBNB_WISHLIST_ACCOMMODATIONS a, AIRBNB_WISHLISTS b, AIRBNB_ACC_PHOTOS c
+			where a.wishlist_no = b.wishlist_no
+			and a.acc_no = c.acc_no
+			and b.user_no = ${userNo}
+			and b.wishlist_no = #{value}) photo
+			where photo.num = 1;
 	</select>
 	
 	<!-- List<AccPhoto> getAccPhotosByAccNo(int accNo); -->
@@ -152,6 +165,8 @@
 		CONNECT BY CHECK_IN_DATE +(LEVEL-1) <![CDATA[<=]]> CHECK_OUT_DATE)
 		order by YMD asc
 	</select>
+	
+	
 	
 	
 	<resultMap type="Accommodation" id="AccDetailResultMap" extends="AccResultMap">

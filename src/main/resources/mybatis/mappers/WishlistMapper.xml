@@ -20,12 +20,24 @@
  		order by wishlist_no desc
  	</select>
  	<!-- int getAccNoByUserNo(int userNo); -->
- 	<select id="getAccNoByUserNo" parameterType="int" resultType="AccWishlist">
+ 	<select id="getAccNoByUserNo" parameterType="map" resultType="AccWishlist">
  		select  a.wishlist_no as "Wishlist.no",
  				b.acc_no as accNo
  		from airbnb_wishlists a, AIRBNB_WISHLIST_ACCOMMODATIONS b
- 		where a.user_no = #{value}
+ 		where a.user_no = #{userNo}
+ 		and b.acc_no = #{accNo}
         and a.WISHLIST_NO = b.WISHLIST_NO
+ 	</select>
+ 	<!-- WishlistImage getImageByUserNo(int userNo); -->
+ 	<select id="getImageByUserNo" parameterType="map" resultType="WishlistImage">
+		select *
+		from (select ROWNUM as num,b.wishlist_no as wishlitNo, c.image_name as imageName
+		from AIRBNB_WISHLIST_ACCOMMODATIONS a, AIRBNB_WISHLISTS b, AIRBNB_ACC_PHOTOS c
+		where a.wishlist_no = b.wishlist_no
+		and a.acc_no = c.acc_no
+		and b.user_no = #{userNo}
+		and b.wishlist_no = #{wishlistNo}) photo
+		where photo.num = 1 	
  	</select>
  	
  	<!-- Wishlist getWishlistByNo(int wishlistNo); -->
