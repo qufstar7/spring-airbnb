@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kr.co.airbnb.mapper.AccommodationMapper;
 import kr.co.airbnb.mapper.WishlistMapper;
 import kr.co.airbnb.vo.AccWishlist;
 import kr.co.airbnb.vo.Accommodation;
@@ -22,6 +23,8 @@ public class WishlistService {
 
 	@Autowired
 	private WishlistMapper wishlistMapper;
+	@Autowired
+	AccommodationMapper accommodationMapper;
 	
 	public Wishlist getWishlistByNo(int wishlistNo) {
 		Wishlist wishlist = wishlistMapper.getWishlistByNo(wishlistNo);
@@ -117,8 +120,8 @@ public class WishlistService {
 		wishlistMapper.deleteWishlistAcc(wishlistNo, accNo);
 	}
 	
-	public List<AccWishlist> getAccNoByUserNo(int userNo) {
-		return wishlistMapper.getAccNoByUserNo(userNo);
+	public AccWishlist getAccNoByUserNo(Map<String, Object> map) {
+		return wishlistMapper.getAccNoByUserNo(map);
 	}
 }
 	

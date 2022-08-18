@@ -2,6 +2,7 @@ package kr.co.airbnb.mapper;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -9,6 +10,7 @@ import org.apache.ibatis.annotations.Param;
 import kr.co.airbnb.vo.AccWishlist;
 import kr.co.airbnb.vo.Accommodation;
 import kr.co.airbnb.vo.Wishlist;
+import kr.co.airbnb.vo.WishlistImage;
 
 @Mapper
 public interface WishlistMapper {
@@ -23,7 +25,8 @@ public interface WishlistMapper {
 	void deleteWishlist(int wishlistNo);
 	void deleteWishlistAcc(@Param("wishlistNo") int wishlistNo, @Param("accNo") int accNo);
 	
-	List<AccWishlist> getAccNoByUserNo(int userNo);
+	AccWishlist getAccNoByUserNo(Map<String,Object> map);
+	WishlistImage getImageByUserNo(Map<String,Object> map);
 	
 	// 다른 위시리스트 폴더로 변경
 	void changeWishlist(@Param("wishlistNo")int wishlistNo, @Param("accNo") int accNo);
