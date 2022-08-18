@@ -47,7 +47,7 @@ public class HostController {
 	public String becomeAHost(@LoginUser User loginUser, Model model) {
 		// 로그인유저가 없으면 홈으로
 		if (loginUser == null) {
-			return "/host/home";
+			return "host/home";
 		}
 
 		// 사용자의 숙소 전체 검색해서 모델객체에 저장
@@ -113,7 +113,6 @@ public class HostController {
 	@ResponseBody
 	public List<Type> type2(int mainType, @RegisterAcc Accommodation registerAcc) {
 		insertType(mainType, registerAcc);
-		System.out.println("타입2(서브타입) 선택 페이지 등록중인 숙소번호: "+registerAcc.getAccNo());
 		// 모든 서브 타입 조회
 		return hostService.getAllSubTypes(mainType);
 	}
@@ -123,7 +122,6 @@ public class HostController {
 	@ResponseBody
 	public List<Type> type3(int subType, @RegisterAcc Accommodation registerAcc) {
 		insertType(subType, registerAcc);
-		System.out.println(" 타입3(프라이버시타입) 선택 페이지 등록중인 숙소번호: "+registerAcc.getAccNo());
 		// 모든 프라이버시타입 조회
 		return hostService.getAllPrivacyTypes();
 	}
@@ -133,11 +131,10 @@ public class HostController {
 	public String submitTypes(Model model, @RegisterAcc Accommodation registerAcc, 
 			@ModelAttribute("accRegisterForm") AccRegisterForm accRegisterForm,
 			SessionStatus sessionStatus) {
-		System.out.println("타입 제출(프라이버시타입 저장) 등록중인 숙소번호: "+registerAcc.getAccNo());
 		int privacyType = accRegisterForm.getPrivacyType();
 		insertType(privacyType, registerAcc);
-		
-		// 세션에 "accRegisterForm"이름으로 저장된 객체를 clear 시킨다.
+	
+		// 세션 accRegisterForm 객체를 clear 시킨다.
 		sessionStatus.setComplete();
 		
 		return "redirect:/host/location";
@@ -147,11 +144,9 @@ public class HostController {
 	public void insertType(int typeNo, @RegisterAcc Accommodation registerAcc) {
 		// 등록중인숙소 세션객체 조회
 		int accNo = registerAcc.getAccNo();
-		System.out.println("숙소 유형 정보 저장 등록중인 숙소번호: "+accNo);
-		
+
 		AccType accType = new AccType(accNo, typeNo);
 		hostService.insertAccType(accType);
-		System.out.println("유형 저장" + accType);
 	}
 	
 	// 주소 페이지
@@ -167,13 +162,16 @@ public class HostController {
 			@ModelAttribute("accRegisterForm") AccRegisterForm accRegisterForm,
 			SessionStatus sessionStatus) throws IOException {
 		
-		System.out.println(" 주소 제출 등록중인 숙소번호: "+registerAcc.getAccNo());
-		System.out.println(accRegisterForm);
-		String lat = accRegisterForm.getLatitude();
-		String lng = accRegisterForm.getLongitude();
-		System.out.println("위도: " + lat + "경도: " + lng);
+		if (registerAcc == null) {
+			return "host/become-a-host";
+		}
 
 		hostService.updateAcc(registerAcc, loginUser, accRegisterForm);
+		
+		// 세션 수정
+		Accommodation acc = accService.getAccommodation(registerAcc.getAccNo());
+		SessionUtils.removeAttribute("REGISTER_ACC");
+		SessionUtils.addAttribute("REGISTER_ACC", acc);
 		
 		// 세션에 "accRegisterForm"이름으로 저장된 객체를 clear 시킨다.
 		sessionStatus.setComplete();
@@ -183,7 +181,9 @@ public class HostController {
 	
 	// 주소 디테일 페이지
 	@GetMapping("/locationDetail")
-	public String locationDetail(Model model) {
+	public String locationDetail(Model model, @RegisterAcc Accommodation registerAcc) {
+		model.addAttribute("registerAcc", registerAcc);
+		
 		return "/host/locationDetail";
 	}
 

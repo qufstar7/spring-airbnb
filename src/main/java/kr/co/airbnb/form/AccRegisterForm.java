@@ -18,7 +18,11 @@ public class AccRegisterForm {
 	private int mainType;
 	private int subType;
 	private int privacyType;
-	private String roadName; // address
+	private String stateRegion;
+	private String city;
+	private String roadName;
+	private String specificAddress;
+	private String zipcode;
 	private String latitude;
 	private String longitude;
 	private int guests;

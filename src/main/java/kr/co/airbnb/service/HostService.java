@@ -59,7 +59,7 @@ public class HostService {
 	public void updateAcc(Accommodation registerAcc, User loginUser, AccRegisterForm arf) throws IOException {
 		System.out.println("updateAcc loginUser : "+loginUser);
 		System.out.println("updateAcc arf : "+arf);
-		System.out.println("updateAcc registerAcc no : "+registerAcc.getAccNo());
+		System.out.println("updateAcc registerAcc no : "+registerAcc);
 		
 		Accommodation acc = new Accommodation();
 		
@@ -71,7 +71,9 @@ public class HostService {
 //		types.set(2, hostMapper.getTypeByNo(arf.getPrivacyType()));
 				
 		// 4. 주소
-		acc.setAddress(arf.getRoadName());
+		String fullAddress = ( arf.getStateRegion().trim() +" "+ arf.getCity().trim() +" "+ arf.getRoadName().trim() +" "+ arf.getSpecificAddress().trim() );
+		System.out.println("모든 주소 합친 값: " + fullAddress);
+		acc.setAddress(fullAddress);
 		acc.setLatitude(arf.getLatitude());
 		acc.setLongitude(arf.getLongitude());
 		
