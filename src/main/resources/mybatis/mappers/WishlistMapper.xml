@@ -19,6 +19,16 @@
  		where user_no = #{value}
  		order by wishlist_no desc
  	</select>
+ 	
+ 	<!-- Wishlist getNewWishlistByUserNo(int userNo); -->
+ 	<select id="getNewWishlistByUserNo" parameterType="int" resultMap="WishlistResultMap">
+ 		select * 
+		from airbnb_wishlists 
+		where wishlist_no = (select max(wishlist_no) 
+		                                       from airbnb_wishlists
+		                                       where user_no = #{value})
+ 	</select>
+ 	
  	<!-- int getAccNoByUserNo(int userNo); -->
  	<select id="getAccNoByUserNo" parameterType="int" resultType="AccWishlist">
  		select  a.wishlist_no as "Wishlist.no",

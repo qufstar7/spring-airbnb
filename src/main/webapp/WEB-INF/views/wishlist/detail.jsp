@@ -415,6 +415,7 @@ $(function () {
 	 $("#div-create-wishlist").click(function() {
 		 saveToListModal.hide();
 		 createListModal.show();
+		 $(":input[name=wishlistName]").val('');
 		
 		 
 	 })
@@ -430,7 +431,8 @@ $(function () {
 	 // 빈하트 다시 클릭 -> 위시리스트 폴더 이름 생성 -> 새로 만들기 버튼
 	 // 1. 새로운 이름의 위시리스트 생성
 	 // 2. 빈하트를 눌렀던 숙소는 다시 위시리스트 안에 생성되고 채워진 하트로 변경
-	 $("#btn-create-wishlist").click(function() {
+	 // 08-19 : 에어비앤비 페이지와 다르게 새로운 위시리스트 폴더로 리다이렉트로 변경
+/*	 $("#btn-create-wishlist").click(function() {
 		 let accNo = $(":input[name=accNo]").val();
 		 $("#icon-heart-" + accNo ).removeClass("fa-regular").addClass("fa-solid").css("color", "#FF385C");
 		 let querystring = $("#form-create-wishlist").serialize();
@@ -449,8 +451,9 @@ $(function () {
 				$("#div-wishlists").html(content);
 			})
 			createListModal.hide();	
-			//saveToListModal.show();
-	 });
+			//saveToListModal.show();      
+			
+	 });  */
 	 
 	 
 	$("#div-wishlists").on('click', "div", function() {
@@ -712,28 +715,24 @@ $(function () {
 <!-- 모달 전용 -->
 <script type="text/javascript">
 $(function () {
-	$("#delete-this-wishlist").click(function(e) {
+	
+	var modalChangeName = new bootstrap.Modal(document.getElementById('modal-change-name'));
+	var modalDeleteWishlist = new bootstrap.Modal(document.getElementById('modal-delete-wishlist'));
+	
+	$("#a-delete-wishlist").click(function(e) {
 		e.stopPropagation();
-		$("#mh-delete-wishlist").removeClass("d-none");
-		$("#mb-delete-wishlist").removeClass("d-none");
-		
-		$("#mh-change-name").addClass("d-none");
-		$("#mb-change-name").addClass("d-none");
+		modalChangeName.hide();
+		modalDeleteWishlist.show();
 	});
 	
-	$("#btn-delete-this-modal").click(function() {
-		
-		
-		
-	});
 })
 	
 </script>
 <!-- 위시리스트 폴더 이름 변경 모달 -->
-<div class="modal" id="modal-change-name" tabindex="-1" style="background: rgba(0, 0, 0, 0) !important;">
+<div class="modal" id="modal-change-name" tabindex="-1">
 	  <div class="modal-dialog modal-dialog-centered" style="width: 400px; height: 172px;">
 	    <div class="modal-content">
-	      <div class="modal-header w-100 d-flex justify-content-between" id="mh-change-name">
+	      <div class="modal-header w-100 d-flex justify-content-between">
       		<div>
 		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="vertical-align: middle;"></button>
       		</div>
@@ -741,16 +740,9 @@ $(function () {
 		        <span class="modal-title fw-bold">설정</span>
       		</div>
       		<div>
-		        <a href="#" id="delete-this-wishlist" class="text-dark fw-bold">삭제</a>
+		        <a href="#" id="a-delete-wishlist" class="text-dark fw-bold">삭제</a>
       		</div>
 	      </div>
-	      <!-- 삭제버튼 클릭한 경우 modal-header -->
-	      <div class="modal-header d-none" id="mh-delete-wishlist">
-	      	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	      	<span class="modal-title fw-bold w-100 text-center">위시리스트 삭제하기</span>
-	      </div>
-	     
-	     <div id="mb-change-name">
 		  <form id="form-change-name" method="post" action="/wishlists/update/wishlist">
 		      <div class="modal-body py-5 px-4">
 			        <div class="form-floating">
@@ -765,20 +757,29 @@ $(function () {
 		        <button type="submit" class="btn btn-dark" id="btn-change-wishlist-name">저장</button>
 		      </div>
 		  </form>
-	     </div>
-		   <!-- 삭제버튼 클릭한 경우 modal-body -->
-	      <div class="d-none" id="mb-delete-wishlist">
-		      <div class="modal-body">
-		      	<span class="m-3">${wishlist.name}(을)를 정말로 삭제하시겠어요?</span>
-		      </div>
-	          <div class="modal-footer d-flex justify-content-between">
-	          	<button type="button" class="btn btn-link text-reset fw-bold fs-6" data-bs-dismiss="modal" aria-label="Close">취소</button>
-		        <a href="/wishlists/delete?no=${wishlist.no}" class="btn btn-dark">삭제하기</a>
-	          </div>
-	      </div>
 	    </div>
 	  </div>
 </div>
+
+<div class="modal" id="modal-delete-wishlist" tabindex="-1">
+	  <div class="modal-dialog modal-dialog-centered" style="width: 400px; height: 172px;">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	      	<button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#modal-change-name"></button>
+	      	<span class="modal-title fw-bold w-100 text-center">위시리스트 삭제하기</span>
+	      </div>
+	      <div class="modal-body">
+	      	<span class="m-3">${wishlist.name}(을)를 정말로 삭제하시겠어요?</span>
+	      </div>
+          <div class="modal-footer d-flex justify-content-between">
+          	<button type="button" class="btn btn-link text-reset fw-bold fs-6" data-bs-toggle="modal" data-bs-target="#modal-change-name">취소</button>
+	        <a href="/wishlists/delete?no=${wishlist.no}" class="btn btn-dark">삭제하기</a>
+          </div>
+	    </div>
+	  </div>
+</div>
+
+
 
 <!-- 빈하트 클릭시 나타나는 Modal -->
 <div class="modal fade" id="modal-save-to-list" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -817,21 +818,21 @@ $(function () {
         <h5 class="modal-title fw-bold w-100 text-center fs-6">위시리스트 이름 정하기</h5>
         <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#modal-save-to-list"></button>
       </div>
+      <form id="form-create-wishlist" method="post" action="/wishlists/insert">
       <div class="modal-body mb-4">
-      	<form id="form-create-wishlist" method="post">
 	      	<div class="form-floating">
 	      		<input type="hidden" name="accNo">
 		     	<input type="text" class="form-control" name="wishlistName" placeholder="이름">
 		     	<label for="floatingInput">이름</label>
 			</div>
 			<small>최대 50자</small>
-      	</form>
       </div>
       <div class="modal-footer">
         <div class="d-grid gap-2 w-100">
-		  <button class="btn btn-dark fw-bold btn-lg fs-6" type="button" id="btn-create-wishlist" disabled>새로 만들기</button>
+		  <button class="btn btn-dark fw-bold btn-lg fs-6" type="submit" id="btn-create-wishlist" disabled>새로 만들기</button>
 		</div>
       </div>
+      </form>
     </div>
   </div>
 </div>

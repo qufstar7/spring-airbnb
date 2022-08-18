@@ -75,20 +75,21 @@ public class WishlistController {
 	}
 	
 	@PostMapping(path="/insert") // 새로운 위시리스트 폴더 생성 후 해당 숙소 저장하기
-	@ResponseBody
-	public Map<String, Object> insertNewWishlist(@RequestParam("wishlistName") String wishlistName, @RequestParam("accNo") int accNo, @LoginUser User loginUser) {
+	//@ResponseBody // 08-19 : 에어비앤비 페이지와 다르게 새로운 위시리스트 폴더로 리다이렉트로 변경
+	public String insertNewWishlist(@RequestParam("wishlistName") String wishlistName, @RequestParam("accNo") int accNo, @LoginUser User loginUser) {
 		
 		System.out.println("새로운 wishlistName: " + wishlistName);
 		System.out.println("accNo: " + accNo);
 		
 		wishlistService.createWishlistAndSaveAcc(new Wishlist(wishlistName, loginUser), accNo);
+		Wishlist newWishlist = wishlistService.getNewWishlistByUserNo(loginUser.getNo());
 		
 		// refresh wishlists
-		List<Wishlist> wishlists = wishlistService.getMyWishlists(loginUser.getNo());
-		Map<String, Object> result = new HashMap<>();
-		result.put("wishlists", wishlists);
+		//List<Wishlist> wishlists = wishlistService.getMyWishlists(loginUser.getNo());
+		//Map<String, Object> result = new HashMap<>();
+		//result.put("wishlists", wishlists);
 		
-		return result;
+		return "redirect:/wishlists/detail?no=" + newWishlist.getNo() ;
 	}
 	
 	/**

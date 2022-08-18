@@ -29,6 +29,13 @@ public class WishlistService {
 		return wishlist;
 	}
 	
+	public Wishlist getNewWishlistByUserNo(int userNo) {
+		Wishlist newWishlist = wishlistMapper.getNewWishlistByUserNo(userNo);
+		newWishlist.setAccs(wishlistMapper.getWishlistAccsByNo(newWishlist.getNo()));
+		
+		return newWishlist;
+	}
+	
 	/**
 	 * 해당 위시리스트에서 날짜, 인원 조건별 예약가능, 불가능 숙소 출력
 	 * @param wishlistNo
@@ -97,8 +104,12 @@ public class WishlistService {
 	}
 
 	// 질문
+	/**
+	 * 해당 위시리스트 폴더 및 모든 숙소 정보를 삭제한다.
+	 * @param wishlistNo
+	 */
 	public void deleteWishlist(int wishlistNo) {
-		wishlistMapper.deleteWishlistAcc(wishlistNo, 0);
+		deleteWishlistAcc(wishlistNo, 0);
 		wishlistMapper.deleteWishlist(wishlistNo);
 	}
 	

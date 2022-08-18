@@ -14,6 +14,7 @@ import kr.co.airbnb.vo.Wishlist;
 public interface WishlistMapper {
 
 	Wishlist getWishlistByNo(int wishlistNo);
+	Wishlist getNewWishlistByUserNo(int userNo);
 	List<Wishlist> getWishlistsByUserNo(int userNo);
 	List<Accommodation> getWishlistAccsByNo(int wishlistNo);
 	void createWishlist(Wishlist wishlist);
