@@ -15,4 +15,5 @@ import lombok.ToString;
 public class AccCriteria {
 
 	private List<String> accTypes;
+	private List<String> accTags;
 }

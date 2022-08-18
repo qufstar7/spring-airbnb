@@ -189,6 +189,11 @@
 	background: transparent;
 	border: none;
 	padding: 0 16px;
+	color: black;
+    text-decoration: none;
+}
+.tagBtn:hover {
+	color: black;
 }
 .tagBtn-prev, .tagBtn-next {
 	background: white;
@@ -321,36 +326,49 @@ input[type="range"]::-moz-range-thumb{
 						</strong>
 					</button>
 				</div>
-				<form id="tag-form" action="" method="GET">
+				
 				<div style="margin:auto">
-					<ul class="tagSlides" style="padding:0;">
-						<c:forEach var="tag" items="${tag }" begin="0" end="10">
-						<li style="list-style-type:none; float:left;">
-							<button class="tagBtn" type="submit" value="${tag.id }" data-area="${tag.name }"> 
-								<img alt="${tag.name }" src="${tag.icon }" style="width: 30px; color:#424242;">
-								<div style="text-align: center;font-size: 13px; padding: 10px 0 0 0;">${tag.name }</div>
-							</button>
+					<ul class="tagSlides d-none" id="tagSlide-1" style="padding: 5px 0;">
+						<c:forEach var="tag" items="${tags }" begin="0" end="10">
+						<li style="list-style-type:none; float:left; padding: 15px;">
+							<a class="tagBtn" href="/?id=${tag.id }" data-area="${tag.name }"> 
+								<img alt="${tag.name }" src="${tag.icon }" style="width: 30px;">
+								<div style="text-align: center;font-size: 13px; padding: 10px 0 0 0;" class="${tag.id eq param.id ? 'fw-bolder text-success' : ''}">${tag.name }</div>
+							</a>
 						</li>
 						</c:forEach>
-						<%-- <c:forEach var="tag" items="${tag }" begin="11" end="22">
-						<li style="list-style-type:none; float:left;">
-							<button class="tagBtn" type="button" data-area="${tag.name }"> 
-								<img alt="${tag.name }" src="${tag.icon }" style="width: 30px; color:#424242;">
-								<div style="text-align: center;font-size: 13px; padding: 10px 0 0 0;">${tag.name }</div>
-							</button>
+					</ul>
+					<ul class="tagSlides" id="tagSlide-2" style="padding: 5px 0;">
+						<c:forEach var="tag" items="${tags }" begin="11" end="21">
+						<li style="list-style-type:none; float:left; padding: 15px;">
+							<a class="tagBtn" href="/?id=${tag.id }" data-area="${tag.name }"> 
+								<img alt="${tag.name }" src="${tag.icon }" style="width: 30px;">
+								<div style="text-align: center;font-size: 13px; padding: 10px 0 0 0;" class="${tag.id eq param.id ? 'fw-bolder text-success' : ''}">${tag.name }</div>
+							</a>
 						</li>
 						</c:forEach>
-						<c:forEach var="tag" items="${tag }" begin="23" end="33">
-						<li style="list-style-type:none; float:left;">
-							<button class="tagBtn" type="button" data-area="${tag.name }"> 
-								<img alt="${tag.name }" src="${tag.icon }" style="width: 30px; color:#424242;">
-								<div style="text-align: center;font-size: 13px; padding: 10px 0 0 0;">${tag.name }</div>
-							</button>
+					</ul>
+					<ul class="tagSlides d-none" id="tagSlide-3" style="padding: 5px 0;">
+						<c:forEach var="tag" items="${tags }" begin="22" end="30">
+						<li style="list-style-type:none; float:left; padding: 15px;">
+							<a class="tagBtn" href="/?id=${tag.id }" data-area="${tag.name }"> 
+								<img alt="${tag.name }" src="${tag.icon }" style="width: 30px;">
+								<div style="text-align: center;font-size: 13px; padding: 10px 0 0 0;" class="${tag.id eq param.id ? 'fw-bolder text-success' : ''}">${tag.name }</div>
+							</a>
 						</li>
-						</c:forEach> --%>
+						</c:forEach>
+					</ul>
+					<ul class="tagSlides d-none" id="tagSlide-4" style="padding: 5px 0;">
+						<c:forEach var="tag" items="${tags }" begin="31" end="33">
+						<li style="list-style-type:none; float:left; padding: 15px;">
+							<a class="tagBtn" href="/?id=${tag.id }" data-area="${tag.name }"> 
+								<img alt="${tag.name }" src="${tag.icon }" style="width: 30px;">
+								<div style="text-align: center;font-size: 13px; padding: 10px 0 0 0;" class="${tag.id eq param.id ? 'fw-bolder text-success' : ''}">${tag.name }</div>
+							</a>
+						</li>
+						</c:forEach>
 					</ul>
 				</div>
-				</form>
 				<div style="margin:auto">
 					<button class="tagBtn-next" type="button" style="float:right">
 						<strong>
@@ -374,8 +392,8 @@ input[type="range"]::-moz-range-thumb{
 	<div class="container my-3">
 		<div id="box-acc" class="grid-main">
 		<!-- acc.status = '운영중' 인 숙소만 리스트업 --> 
-		<c:forEach var="acc" items="${acc }">
-			<div class="card-container" OnClick="href='/detail?no=${acc.accNo }'" style="text-decoration-line: none; color: black">
+			<c:forEach var="acc" items="${accommodations }">
+			<div class="card-container" OnClick="location.href='/acc/detail?no=${acc.accNo }'" style="text-decoration-line: none; color: black">
 				<div class="card-box p-1">
 					<div class="" style="width: 300px">
 						<!-- 숙소 섬네일 슬라이드쇼 시작 -->
@@ -453,10 +471,10 @@ input[type="range"]::-moz-range-thumb{
 							<div class="col-8">
 								<div class="card-title"><span>${acc.user.name }</span>의 <span>${acc.types[0].name }</span></div>
 								<div class="card-text text-muted">${acc.name }</div>
-								<div class="card-subtitle text-muted">침대 <span>${room.bed }</span>개</div>		<!-- room_bed -->
+								<div class="card-subtitle text-muted">침대 <span>${acc.rooms.bed }</span>개</div>		<!-- room_bed -->
 								<div class="card-subtitle mb-2 text-muted">12월 6일 ~ 1월 3일</div>
 								<div class="card-text">
-									<strong>₩<fmt:formatNumber value="${acc.price }" /></strong>/월	<!-- acc_price * 선택한 날짜(default 1일) -->
+									<strong>₩<fmt:formatNumber value="${acc.price }" /></strong>/박	<!-- acc_price * 선택한 날짜(default 1일) -->
 								</div>
 							</div>
 							<div class="col-4 text-end">★<span>4.5</span>(<span>120</span>)</div>	<!-- total_score (리뷰개수) -->
@@ -465,7 +483,6 @@ input[type="range"]::-moz-range-thumb{
 				</div>
 			</div>
 			</c:forEach>
-			
 			</div> 
 			
 			
@@ -1176,7 +1193,7 @@ input[type="range"]::-moz-range-thumb{
 					<button id="unchecked" type="button" class="btn btn-link" style="color: black;font-weight:bold;">
 						전체 해제
 					</button>
-					<button class="btn btn-dark btn-lg" onclick="location.href='/list'"
+					<button class="btn btn-dark btn-lg" onclick="location.href='/acc/list'"
 						data-bs-target="#exampleModalToggle" data-bs-toggle="modal"
 						data-bs-dismiss="modal" id="submit">
 						<h6 id="result" class="m-0 mx-auto" style="font-weight:bold; text-align: center;">
@@ -1249,14 +1266,14 @@ input[type="range"]::-moz-range-thumb{
 
      };
 	/* 필터-범위 슬라이더*/
-	const rangeInput = document.querySelectorAll(".range-input input"),
-	priceInput = document.querySelectorAll(".price-input input"),
+	const rangeInput = document.querySelectorAll(".range-input input"),	// 슬라이더 막대기
+	priceInput = document.querySelectorAll(".price-input input"),		// 값 입력하는 창
 	range = document.querySelector(".slider .progress");
-	let priceGap = 10;	// 최소 갭은 여기서 수정
+	let priceGap = 100;	// 최소 갭은 여기서 수정
 	priceInput.forEach(input =>{
 	    input.addEventListener("input", e =>{
-	        let minPrice = parseInt(priceInput[0].value),
-	        maxPrice = parseInt(priceInput[1].value);
+	        let minPrice = parseInt(priceInput[0].value),	// 첫번째 input 의 val
+	        maxPrice = parseInt(priceInput[1].value);		// 두번째 input 의 val
 	        
 	        if((maxPrice - minPrice >= priceGap) && maxPrice <= rangeInput[1].max){
 	            if(e.target.className === "input-min"){
@@ -1267,6 +1284,7 @@ input[type="range"]::-moz-range-thumb{
 	                range.style.right = 100 - (maxPrice / rangeInput[1].max) * 100 + "%";
 	            }
 	        }
+            // console.log(minPrice+","+maxPrice);
 	    });
 	});
 	rangeInput.forEach(input =>{
@@ -1285,16 +1303,26 @@ input[type="range"]::-moz-range-thumb{
 	            range.style.left = ((minVal / rangeInput[0].max) * 100) + "%";
 	            range.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
 	        }
+	        // console.log(minVal+","+maxVal);
 	    });
 	});
+     
+
 
 $(function() {	
 	// tag 슬라이드 버튼
-	
-	// tag 검색 기능
-	$(".tagBtn").click(function() {
-		// alert($(this).val());
-		document.getElementById('#tag-form').submit();
+	$(".tagBtn-prev").click(function() {
+		if ($("#tagSlide-1").attr("id") == 'tagSlide-1') {
+			$(".tagBtn-prev").attr("disabled", true);
+		} else {
+			if($("#tagSlide-2").attr("id") == 'tagSlide-2') {
+			$("#tagSlide-2").css('display', 'none');
+			$("#tagSlide-1").css('display', '');
+			}
+		}
+	})
+	$(".tagBtn-next").click(function() {
+		alert()
 	})
 	
 	
@@ -1318,6 +1346,7 @@ $(function() {
 		$(".fold-content").toggleClass("d-none");
 	});
 	
+
 	/* 필터-전체 해제 */
 	$("#unchecked").click(function() {
 		$("input:checkbox[id='accCheck']").prop("checked", false);	
@@ -1327,6 +1356,25 @@ $(function() {
 		$('.bedrooms').removeClass("active");
 		$('.beds').removeClass("active");
 		$('.bathrooms').removeClass("active");
+
+		if($("#house-1").is(":disabled")) {
+			$('#btn-house-1').css('background-color', 'white');
+			$('#btn-house-1').css('color', 'black');
+		}
+		if($("#house-2").is(":disabled")) {
+			$('#btn-house-2').css('background-color', 'white');
+			$('#btn-house-2').css('color', 'black');
+		}
+		if($("#house-3").is(":disabled")) {
+			$('#btn-house-3').css('background-color', 'white');
+			$('#btn-house-3').css('color', 'black');
+		}
+		if($("#house-4").is(":disabled")) {
+			$('#btn-house-4').css('background-color', 'white');
+			$('#btn-house-4').css('color', 'black');
+		}
+		
+		
 	});
 	
 	/* 필터-'건물유형' 버튼 복수개 선택 */
@@ -1338,9 +1386,11 @@ $(function() {
 			$('#btn-house-1').css('background-color', 'black');
 			$('#btn-house-1').css('color', 'white');
 		}
+		
 		let currentDisabled = $("#house-1").prop("disabled");
 		$("#house-1").prop("disabled", !currentDisabled);
 	});
+	
 	$('#btn-house-2').click(function() {
 		if($("#house-2").is(":disabled")) {
 			$('#btn-house-2').css('background-color', 'white');
@@ -1351,7 +1401,9 @@ $(function() {
 		}
 		let currentDisabled = $("#house-2").prop("disabled");
 		$("#house-2").prop("disabled", !currentDisabled);
+		// alert($("#house-2").attr("disabled"))
 	});
+	
 	$('#btn-house-3').click(function() {
 		if($("#house-3").is(":disabled")) {
 			$('#btn-house-3').css('background-color', 'white');
@@ -1435,7 +1487,7 @@ $(function() {
 	$(":checkbox[name=convenience]").change(function() {
 		searchForm();
 	});
-
+	
 	// 필터 검색
 	function searchForm() {
 		let queryString = $("#filter-search").serialize();

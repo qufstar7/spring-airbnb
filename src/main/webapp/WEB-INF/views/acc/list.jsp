@@ -522,8 +522,7 @@ input[type="range"]::-moz-range-thumb{
 		</div>
 	</div>
 	<!-- filter modal -->
-	<div class="modal fade" id="filterModal" tabindex="-1"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-scrollable modal-lg">
 			<div class="modal-content"> 
 				<div class="modal-header d-flex justify-content-between" style="height:63px">

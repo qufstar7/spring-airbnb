@@ -15,6 +15,7 @@ import kr.co.airbnb.vo.AccViewCount;
 import kr.co.airbnb.vo.Boast;
 import kr.co.airbnb.vo.AccPhoto;
 import kr.co.airbnb.vo.AccRoom;
+import kr.co.airbnb.vo.AccTag;
 import kr.co.airbnb.vo.AccType;
 import kr.co.airbnb.vo.Accommodation;
 import kr.co.airbnb.vo.Convenience;
@@ -35,7 +36,7 @@ public interface AccommodationMapper {
 	// 숙소 상세 정보
 	Accommodation getAcc(int accNo);
 	// 크리테리아로 모든 숙소 조회
-	List<Accommodation> getAllAccByCriteria(AccCriteria criteria);
+	List<Accommodation> getPopularAccommodations();
 	// 유저(호스트)의 모든 숙소 조회
 	List<Accommodation> getAllAccsByUser(User loginUser);
 	// 숙소의 타입1,2,3 조회
@@ -79,6 +80,12 @@ public interface AccommodationMapper {
 
 	// 모든 태그 조회
 	List<Tag> getAllTag();
-
+	
+	// 태그id로 숙소 조회
+	List<Accommodation> searchAccByTag(String id);
+	
+	// room 조회
+	//List<AccRoom> getAllRoomsByAccNo(int accNo);
+	
 
 }

@@ -13,6 +13,7 @@ import kr.co.airbnb.criteria.AccCriteria;
 import kr.co.airbnb.criteria.SearchCriteria;
 import kr.co.airbnb.mapper.AccommodationMapper;
 import kr.co.airbnb.vo.AccRoom;
+import kr.co.airbnb.vo.AccTag;
 import kr.co.airbnb.vo.Accommodation;
 
 import kr.co.airbnb.vo.User;
@@ -48,14 +49,15 @@ public class AccommodationService {
 		return accommodationMapper.getBoast(no);
 	}
 	
-	// 크리테리아로 모든 숙소 조회
-	public List<Accommodation> searchAllAcc(AccCriteria criteria) {
-		return accommodationMapper.getAllAccByCriteria(criteria);
+	// 크리테리아로 인기 숙소 조회
+	public List<Accommodation> getPopularAccommodations() {
+		return accommodationMapper.getPopularAccommodations();
 	}
 	// 숙소의 타입1,2,3 조회
 	public List<Type> searchTypesByAccNo(int accNo) {
 		return accommodationMapper.getAllTypesByAccNo(accNo);
 	}
+	// 숙소의 태그 조회
 	 
 	
 	/*
@@ -97,5 +99,13 @@ public class AccommodationService {
 	public List<Tag> getAllTags() {
 		return  accommodationMapper.getAllTag();
 	}
+
+	// 태그id로 숙소 조회
+	public List<Accommodation> searchAccByTag(String id) { 
+		return accommodationMapper.searchAccByTag(id);
+	}
+
+	
+
 
 }
