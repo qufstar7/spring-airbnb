@@ -94,24 +94,23 @@ public class ReviewRestController {
 		
 		return ListResponseData.create(reviews);
 	} 
-	/*
+	
 	// 유저 프로필 페이지의 리뷰 조회
 	@GetMapping(path = "/profile")
-	public Map<String, Object> reviews(@LoginUser User loginUser) {
+	public SingleResponseData<Map<String, Object>> reviews(@LoginUser User loginUser) {
 		Map<String, Object> reviews = new HashMap<String, Object>();
+			
+		reviews.put("userType", loginUser.getIsHost());
 		
-		User user = (User) SessionUtils.getAttribute("LOGIN_USER");		
-		reviews.put("userType", user.getIsHost());
-		
-		if (user.getIsHost().equals("N")) {
-			reviews.put("reviews", reviewService.getReceivedReviewByGuest(loginUser.getNo()));
-		} else {
-			reviews.put("guestReview", reviewService.getReceivedReviewByGuest(loginUser.getNo()));
-			reviews.put("hostReview", reviewService.getReceivedReviewByHost(loginUser.getNo()));
+		if (loginUser.getIsHost().equals("N")) { // 게스트일 경우
+			reviews.put("reviews", reviewService.getGuestReceivedReviews(loginUser.getNo()));
+		} else {								 // 호스트일 경우	
+			reviews.put("guestReviews", reviewService.getGuestWritedReviews(loginUser.getNo()));
+			reviews.put("hostReviews", reviewService.getHostWriteReviews(loginUser.getNo()));
 		}
-		return ListResponseData.create(reviews);
+		return SingleResponseData.create(reviews);
 	}
-	*/
+	
 	// 유저 리뷰 페이지 조회
 	
 }

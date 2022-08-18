@@ -1352,7 +1352,7 @@ $(function() {
 		
 		$.ajax({
 			type: 'GET',
-			url: "review/reviews",				// no / accNo 같음
+			url: "../review/reviews",				// no / accNo 같음
 			data: data,
 			dataType: 'json',
 			success: function(data) {
@@ -1390,12 +1390,12 @@ $(function() {
 			   $(".boxReviewContent").each(function(){
 			        let rcontent = $(this).children('.reviewContent');
 			        let rcontent_txt = rcontent.text();
-			        let rcontent_txt_short = rcontent_txt.substring(0,30)+"...";
+			        let rcontent_txt_short = rcontent_txt.substring(0,100)+"...";
 			        let btn_more = $('<a href="javascript:void(0)" class="more link-dark">더보기 <i class="bi bi-chevron-right"></i></a>');
 
 			        $(this).append(btn_more);
 			        
-			        if(rcontent_txt.length >= 30){
+			        if(rcontent_txt.length >= 100){
 			            rcontent.html(rcontent_txt_short)
 			            
 			        }else{
@@ -1432,7 +1432,7 @@ $(function() {
 		
 		$.ajax({
 			type: 'GET',		
-			url: "review/reviews",				
+			url: "../review/reviews",				
 			data: {no:no},
 			dataType: 'json',
 			success: function(data) {

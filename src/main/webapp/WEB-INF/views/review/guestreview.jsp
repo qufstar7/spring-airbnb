@@ -353,11 +353,11 @@ $(function() {
 		$.ajax({
 			type: "GET",
 			url: "review/checkOverdue",
-			data: {reservationNo:reservationNo, accNo:accNo},
+			data: {reservationNo:reservationNo},
 			datatype: "json",
 			success: function(data) {
 				let overdue = data.item;
-				console.log(overdue);
+				console.log("overdue: " + overdue);
 				if (overdue === 'Y') {
 					$('#btn-exampleModalToggle').prop("disabled", true);
 				} 
