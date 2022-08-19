@@ -191,7 +191,7 @@
 					<h4>${acc.user.name }님이 호스팅하는 ${acc.name }</h4>
 					<p>최대 인원 ${acc.guest }명<i class="bi bi-dot">
 					
-					</i>침실 ${acc.rooms.bedroom }개<i class="bi bi-dot"></i>침대 ${acc.rooms.bed }개<i class="bi bi-dot"></i>욕실 ${acc.rooms.bathroom }개</p>
+					</i>침실 ${acc.room.bedroom }개<i class="bi bi-dot"></i>침대 ${acc.room.bed }개<i class="bi bi-dot"></i>욕실 ${acc.room.bathroom }개</p>
 				</div>
 				<hr>
 				<div class="pt-3 pb-2">
@@ -254,14 +254,14 @@
 						bed
 						</span>
 						<div>
-							<c:if test="${acc.rooms.bedroom gt 0 }">
+							<c:if test="${acc.room.bedroom gt 0 }">
 							<div>
-								<span>침실 ${acc.rooms.bedroom }개</span>
+								<span>침실 ${acc.room.bedroom }개</span>
 							</div>
 							</c:if>
-							<c:if test="${acc.rooms.bed gt 0 }">
+							<c:if test="${acc.room.bed gt 0 }">
 							<div>
-								<span>침대 ${acc.rooms.bed }개</span>
+								<span>침대 ${acc.room.bed }개</span>
 							</div>
 							</c:if>
 						</div>

@@ -118,17 +118,8 @@ public class AccommodationController {
 	}
 
 	@GetMapping(path = "/list")
-	public String list(HttpServletRequest req, SearchCriteria searchCriteria, Model model) {
-		String keyword = req.getParameter("keyword");
-		/*
-		 * String startDate = req.getParameter("startDate");
-		 * String endDate = req.getParameter("endDate");
-		 */
-		String adult = req.getParameter("adult");
-		String child = req.getParameter("child");
-		String infant = req.getParameter("infant");
-		String pet = req.getParameter("pet");
-		
+	public String list(SearchCriteria searchCriteria, Model model) {	
+		// nav의 키워드로 숙소 검색
 		List<Accommodation> accList = accommodationService.searchAccByKeyword(searchCriteria);
 		// 각 숙소의 타입1,2,3 조회
 		for (Accommodation acc : accList) {
@@ -140,20 +131,9 @@ public class AccommodationController {
 			}
 		}
 		
-		model.addAttribute("keyword", keyword);
-		/*
-		 * model.addAttribute("startDate", startDate); 
-		 * model.addAttribute("endDate", endDate);
-		 */
-		model.addAttribute("adult", adult);
-		model.addAttribute("child", child);
-		model.addAttribute("infant", infant);
-		model.addAttribute("pet", pet);
-		
 		model.addAttribute("list", accList);
 		
 		return "acc/list";
-		
 	}
 	
 	/* tag검색할 때 참고
