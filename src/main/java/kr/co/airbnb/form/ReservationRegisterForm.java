@@ -23,9 +23,9 @@ public class ReservationRegisterForm {
 	private String region;
 	
 	private int accNo;
-	//@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date checkInDate;
-	//@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date checkOutDate;
 	private int adultNum;
 	private int childrenNum;
