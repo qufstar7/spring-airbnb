@@ -33,10 +33,37 @@
 	
 		<!-- 왼쪽 영역 -->
 		<div id="left-div">
-			<!-- leftDiv text -->
-			<div class="align-self-center m-5">
-				<div role="text" class="left-main-text">숙소 사진을 등록해주세요.</div>
+			
+			<!-- 동영상 -->
+			<video class="photoVideo" autoplay muted crossorigin="anonymous" playsinline="" preload="auto" style="object-fit: cover; object-position: 0px 25%;">
+				<source src="https://a0.muscache.com/v/d6/12/d6120feb-75fc-52dd-b5bb-5755913fb756/d6120feb75fc52ddb5bb5755913fb756_4000k_1.mp4?imformat=h265" type="video/mp4; codecs=hevc">
+				<source src="https://a0.muscache.com/v/d6/12/d6120feb-75fc-52dd-b5bb-5755913fb756/d6120feb75fc52ddb5bb5755913fb756_4000k_1.mp4" type="video/mp4">
+			</video>
+			<div class="shadowBox"></div>
+			
+			<div class="downBox">
+				<button class="downBoxBtn m-3" type="button">
+					<div class="downBoxTextBtn">
+						<div>동영상 재생하기</div>
+					</div>
+					<div>
+						<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 16px; width: 16px; fill: white;">
+							<path d="M27.024 14.273L6.008 2.013c-.461-.268-1-.342-1.517-.206A2 2 0 0 0 3 3.741V28.26a2.002 2.002 0 0 0 3.008 1.728l21.015-12.26a2.003 2.003 0 0 0 .001-3.454z">
+							</path>
+						</svg>
+					</div>
+				</button>
+				<button aria-label="일시 중지" type="button" class="downBoxStopBtn">
+					<span class="position-relative" s>
+						<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 16px; width: 16px; fill: white;">
+							<path d="M13 1v14H9V1zM7 1v14H3V1z"></path>
+						</svg>
+					</span>
+				</button>
+						
+				<div role="text" class="left-photo-text">숙소 사진을 등록해주세요.</div>
 			</div>
+			
 		</div>
 
 		<!-- 오른쪽 영역 -->
@@ -73,6 +100,7 @@
 					</div>
 				</nav>
 			</div>
+			
 
 			<!-- rightDiv main -->
 			<div class="main-box align-self-center bg-white" style="overflow:hidden;">				
@@ -80,8 +108,6 @@
 				
 				</div>
 			</div>
-
-
 
 			<!-- rightDiv footer -->
 			<footer class="footer mt-auto pb-3 bg-light">
@@ -101,7 +127,7 @@
 					</div>
 					<div class="">
 						<button id="next-btn" class="float-start btn btn-dark float-end"
-							type="submit" onclick="location.href='/host/name'" style="width: 80px; height: 48px;">
+							type="submit" form="/host/submitPictures" style="width: 80px; height: 48px;">
 							다음</a>
 					</div>
 				</div>
@@ -110,6 +136,6 @@
 		</div>
 
 	</div>
-	
+
 </body>
 </html>
