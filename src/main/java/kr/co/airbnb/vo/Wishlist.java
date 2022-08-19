@@ -22,6 +22,7 @@ public class Wishlist {
 	private User user;
 	private Accommodation acc;
 	private List<Accommodation> accs;
+	private WishlistImage wishlistImage;
 	
 	public Wishlist(String name, User user) {
 		super();
