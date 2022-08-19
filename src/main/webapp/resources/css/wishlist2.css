@@ -18,14 +18,26 @@
 		    border-radius: 16px !important;
 		    padding-top: 52% !important;
         }
-     .aca5 {
+        
+        /* 회색 */
+     .aca5 {   
      	position: absolute !important;
 	    top: 0px !important;
 	    left: 0px !important;
 	    width: 67% !important;
 	    height: 100% !important;
 	    padding-right: 1px !important;
-     }   
+     }  
+     
+     ._clcy {
+		position: absolute !important;
+	    top: 0px !important;
+	    left: 0px !important;
+	    width: 100% !important;
+	    height: 100% !important;
+	    background: rgb(221, 221, 221) !important;     
+     
+     } 
      
      
 	.myImg {

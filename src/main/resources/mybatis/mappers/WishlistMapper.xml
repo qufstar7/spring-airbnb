@@ -20,14 +20,12 @@
  		order by wishlist_no desc
  	</select>
  	
- 	<!-- Wishlist getNewWishlistByUserNo(int userNo); -->
- 	<select id="getNewWishlistByUserNo" parameterType="int" resultMap="WishlistResultMap">
- 		select * 
-		from airbnb_wishlists 
-		where wishlist_no = (select max(wishlist_no) 
-		                                       from airbnb_wishlists
-		                                       where user_no = #{value})
+ 	<!-- List<Wishlist> getNextWishlists(int userNo, int startNum); -->
+ 	<select id="getNextWishlists">
+ 	
+ 	
  	</select>
+ 	
  	
  	<!-- int getAccNoByUserNo(int userNo); -->
  	<select id="getAccNoByUserNo" parameterType="map" resultType="AccWishlist">
@@ -247,14 +245,19 @@
  		where wishlist_no = #{value}
  	</delete>
  	
- 	<!-- void deleteWishlistAcc(int accNo, int wishlistNo); -->
+ 	<!-- void deleteWishlistAcc(int accNo, int wishlistNo); 수정 및 추가-->
  	<delete id="deleteWishlistAcc">
  		delete 
 		from airbnb_wishlist_accommodations
 		where wishlist_no = #{wishlistNo} 
-		<if test="accNo != 0">
 		and acc_no = #{accNo} 
-		</if>
+ 	</delete>
+ 	
+ 	<!-- void deleteWishlistAndAllAccs(@Param("wishlistNo") int wishlistNo); -->
+ 	<delete id="deleteWishlistAndAllAccs">
+ 		delete 
+		from airbnb_wishlist_accommodations
+		where wishlist_no = #{wishlistNo} 
  	</delete>
  
  
