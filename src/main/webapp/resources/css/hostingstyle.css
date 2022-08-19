@@ -463,12 +463,25 @@ body {
 	width: 100% !important;
 }
 
+.infoWindow {
+	margin: auto;
+	padding: 5px;
+	min-height: 30px;
+	min-width: 200px;
+	text-align: center;
+	align-items: center;
+	word-break: break-all;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
 /* 인원 수 페이지 */
 .plusMiusBox {
 	display: inline-flex !important;
 	align-items: center !important;
 	justify-content: space-between !important;
-	min-width: 104px; font-weight : 400 !important;
+	min-width: 104px;
+	font-weight: 400 !important;
 	font-size: 16px !important;
 	line-height: 20px !important;
 	font-weight: 400 !important;
@@ -498,4 +511,23 @@ body {
 	justify-content: center !important;
 	background: white;
 	border-radius: 50% !important;
+}
+
+.plusMinusBtn:hover {
+	color: rgb(34, 34, 34) !important;
+	border-color: rgb(34, 34, 34) !important;
+	background: rgb(255, 255, 255) !important;
+}
+
+.disabledBtn {
+	cursor: not-allowed !important;
+	color: rgb(235, 235, 235) !important;
+	border-color: rgb(235, 235, 235) !important;
+	background: rgb(255, 255, 255) !important;
+}
+
+.disabledBtn:hover {
+	color: rgb(235, 235, 235) !important;
+	border-color: rgb(235, 235, 235) !important;
+	background: rgb(255, 255, 255) !important;
 }

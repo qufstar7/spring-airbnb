@@ -15,9 +15,13 @@ import lombok.ToString;
 public class AccRegisterForm {
 
 	private int accNo;
+	
+	// 타입
 	private int mainType;
 	private int subType;
 	private int privacyType;
+	
+	// 주소
 	private String stateRegion;
 	private String city;
 	private String roadName;
@@ -25,7 +29,13 @@ public class AccRegisterForm {
 	private String zipcode;
 	private String latitude;
 	private String longitude;
-	private int guests;
+	
+	// 인원수 페이지
+	private int guest;
+	private int bed;
+	private int bedroom;
+	private int bathroom;
+
 	private List<AccConvenience> facilities;
 	private List<AccPhoto> imageFiles;
 	private String name;

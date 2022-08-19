@@ -193,6 +193,29 @@ public class HostController {
 		return "/host/guests";
 	}
 	
+	// 인원수 제출
+	@PostMapping("/submitGuests")
+	public String submitGuests(@RegisterAcc Accommodation registerAcc, @LoginUser User loginUser, Model model,
+			@ModelAttribute("accRegisterForm") AccRegisterForm accRegisterForm,
+			SessionStatus sessionStatus) throws IOException {
+		
+		if (registerAcc == null) {
+			return "host/become-a-host";
+		}
+		
+		hostService.updateAcc(registerAcc, loginUser, accRegisterForm);
+		
+		// 세션 수정
+		Accommodation acc = accService.getAccommodation(registerAcc.getAccNo());
+		SessionUtils.removeAttribute("REGISTER_ACC");
+		SessionUtils.addAttribute("REGISTER_ACC", acc);
+		
+		// 세션에 "accRegisterForm"이름으로 저장된 객체를 clear 시킨다.
+		sessionStatus.setComplete();
+		
+		return "redirect:/host/facilities";
+	}
+	
 	// 편의시설 페이지
 	@GetMapping("/facilities")
 	public String facilities(Model model) {

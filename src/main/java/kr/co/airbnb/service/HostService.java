@@ -2,6 +2,7 @@ package kr.co.airbnb.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import kr.co.airbnb.annotation.LoginUser;
 import kr.co.airbnb.form.AccRegisterForm;
 import kr.co.airbnb.mapper.AccommodationMapper;
 import kr.co.airbnb.mapper.HostMapper;
+import kr.co.airbnb.vo.AccRoom;
 import kr.co.airbnb.vo.AccType;
 import kr.co.airbnb.vo.Accommodation;
 import kr.co.airbnb.vo.Type;
@@ -64,6 +66,7 @@ public class HostService {
 		Accommodation acc = new Accommodation();
 		
 		// 1,2,3 유형
+		// insertAccType으로 insert함.
 //		List<Type> types;
 //		acc.setTypes(types);
 //		types.set(0, hostMapper.getTypeByNo(arf.getMainType()));
@@ -71,14 +74,25 @@ public class HostService {
 //		types.set(2, hostMapper.getTypeByNo(arf.getPrivacyType()));
 				
 		// 4. 주소
-		String fullAddress = ( arf.getStateRegion().trim() +" "+ arf.getCity().trim() +" "+ arf.getRoadName().trim() +" "+ arf.getSpecificAddress().trim() );
-		System.out.println("모든 주소 합친 값: " + fullAddress);
-		acc.setAddress(fullAddress);
+		if(arf.getStateRegion() != null && arf.getCity() != null && arf.getRoadName() != null && arf.getSpecificAddress() != null) {
+			String fullAddress = ( arf.getStateRegion().trim() +" "+ arf.getCity().trim() +" "+ arf.getRoadName().trim() +" "+ arf.getSpecificAddress().trim() );
+			System.out.println("full address: " + fullAddress);
+			acc.setAddress(fullAddress);
+		}
 		acc.setLatitude(arf.getLatitude());
 		acc.setLongitude(arf.getLongitude());
 		
+		
 		// 5. 인원수
-		acc.setGuest(arf.getGuests());
+		acc.setGuest(arf.getGuest());
+		AccRoom accRoom = new AccRoom();
+		accRoom.setAccNo(registerAcc.getAccNo());
+		accRoom.setBed(arf.getBed());
+		accRoom.setBedroom(arf.getBedroom());
+		accRoom.setBathroom(arf.getBathroom());
+		acc.setRoom(accRoom);
+		// 숙소 Guest페이지 정보 저장하기
+		hostMapper.insertAccRoom(accRoom);
 
 		// 6. 편의시설
 		acc.setConveniences(arf.getFacilities());
@@ -114,6 +128,7 @@ public class HostService {
 //		for (String categoryId : categoryIds) {
 //			courseMapper.insertCourseCategory(new CourseCategory(course.getNo(), categoryId));
 //		}
+		
 	}
 	
 }
