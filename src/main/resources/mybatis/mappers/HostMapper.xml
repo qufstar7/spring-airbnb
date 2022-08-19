@@ -61,13 +61,22 @@
 <!-- void insertAccRoom(AccRoom accRoom); -->
 <!-- 숙소 등록시 방을 여러개 입력받지 않는다. 1로 설정한다. -->
 <insert id="insertAccRoom" parameterType="room">
-	INSERT INTO airbnb_acc_rooms (room_no, acc_no, room_bedroom, room_bed, room_bathroom)
+	INSERT INTO airbnb_acc_rooms 
+	(room_no, acc_no, room_bedroom, room_bed, room_bathroom)
 	SELECT #{accNo}, #{accNo}, #{bedroom}, #{bed}, #{bathroom}
 	  FROM dual
 	 WHERE NOT EXISTS (SELECT *
 	 					 FROM airbnb_acc_rooms
 	 					WHERE acc_no = #{accNo})
 </insert>
+
+<!-- void updateGuestsByAccNo(Accommodation acc); -->
+<update id="updateGuestsByAccNo" parameterType="Accommodation">
+	update airbnb_accommodations
+	set 
+		acc_guest = #{guest}
+	where acc_no = #{accNo}
+</update>	
 
 <!-- void insertAccConvenience(AccConvenience accConvenience); -->
 <insert id="insertAccConvenience" parameterType="AccConvenience">
@@ -76,6 +85,18 @@
 	values
 	(#{accNo}, #{convenience.no})
 </insert>
+
+<!-- void updateAddressByAccNo(Accommodation acc); -->
+<update id="updateAddressByAccNo" parameterType="Accommodation">
+	update airbnb_accommodations
+	set 
+		acc_address = #{address},
+		acc_latitude = #{latitude},
+		acc_longitude = #{longitude}
+	where acc_no = #{accNo}
+</update>	
+	
+
 	
 <!-- void updateAcc(Accommodation acc); -->
 <update id="updateAcc" parameterType="Accommodation">

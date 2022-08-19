@@ -30,10 +30,10 @@ public class AccRegisterForm {
 	private String longitude;
 	
 	// 인원수 페이지
-	private int guest;
-	private int bed;
-	private int bedroom;
-	private int bathroom;
+	private String guest;
+	private String bed;
+	private String bedroom;
+	private String bathroom;
 
 	// 편의시설 페이지
 	private List<String> facilities;

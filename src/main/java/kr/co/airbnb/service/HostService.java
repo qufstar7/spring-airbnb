@@ -1,6 +1,5 @@
 package kr.co.airbnb.service;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,112 +50,72 @@ public class HostService {
 		return hostMapper.getAllPrivacyTypes();
 	}
 	
-	public void insertAccType(AccType accType) {
-		accMapper.insertAccType(accType);
+	public void insertAcc(@LoginUser User loginUser) {
+		Accommodation acc = new Accommodation();
+		acc.setUser(loginUser);
+		acc.setStatus("등록미완");
+		hostMapper.insertAcc(acc);
+	}
+	
+	public void insertAccType(AccType accType) { 
+		hostMapper.insertAccType(accType);
 	}
 
-//	public void insertAddress(AccRegisterForm accRegisterForm) {
-//		hostMapper.insertAccAddress(accRegisterForm);
-//	}
-
-	public void updateAcc(Accommodation registerAcc, User loginUser, AccRegisterForm arf, int step) throws IOException {
+	// 4. 주소
+	public void updateAddress(Accommodation registerAcc, User loginUser, AccRegisterForm arf) {
 		Accommodation acc = new Accommodation();
 		
-		// 1,2,3 유형
-		// insertAccType으로 insert함.
-//		List<Type> types;
-//		acc.setTypes(types);
-//		types.set(0, hostMapper.getTypeByNo(arf.getMainType()));
-//		types.set(1, hostMapper.getTypeByNo(arf.getSubType()));
-//		types.set(2, hostMapper.getTypeByNo(arf.getPrivacyType()));
-				
-		// 4. 주소
-		if (step == 4) {
-			if(arf.getStateRegion() != null && arf.getCity() != null && arf.getRoadName() != null && arf.getSpecificAddress() != null) {
-				String fullAddress = ( arf.getStateRegion().trim() +" "+ arf.getCity().trim() +" "+ arf.getRoadName().trim() +" "+ arf.getSpecificAddress().trim() );
-				acc.setAddress(fullAddress);
-			}
-			acc.setLatitude(arf.getLatitude());
-			acc.setLongitude(arf.getLongitude());
-			
+		// 주소합치기, 저장할 정보 객체에 저장
+		if(arf.getStateRegion() != null && arf.getCity() != null && arf.getRoadName() != null && arf.getSpecificAddress() != null) {
+			String fullAddress = ( arf.getStateRegion().trim() +" "+ arf.getCity().trim() +" "+ arf.getRoadName().trim() +" "+ arf.getSpecificAddress().trim() );
+			acc.setAddress(fullAddress);
 		}
-		
-		// 5. 인원수
-		if (step == 5) {
-			acc.setGuest(arf.getGuest());
-			AccRoom accRoom = new AccRoom();
-			accRoom.setAccNo(registerAcc.getAccNo());
-			accRoom.setBed(arf.getBed());
-			accRoom.setBedroom(arf.getBedroom());
-			accRoom.setBathroom(arf.getBathroom());
-			acc.setRoom(accRoom);
-			// 숙소 Guest페이지 정보 저장하기
-			hostMapper.insertAccRoom(accRoom);
-		}
-
-		// 6. 편의시설
-		if (step == 6) {
-			List<String> facilities = arf.getFacilities();
-			if (!CollectionUtils.isEmpty(facilities)) {
-				for (String fac : facilities) {
-					int facInt = Integer.parseInt(fac);
-					hostMapper.insertAccConvenience(new AccConvenience(registerAcc.getAccNo(), facInt));
-				}
-			}
-		}
-
-		// 7. 사진
-		if (step == 7) {
-			acc.setPhotos(arf.getImageFiles());
-		}
-
-		// 8. 이름
-		if (step == 8) {
-			acc.setName(arf.getName());
-		}
-		
-		// 9. 태그
-		if (step == 9) {
-			acc.setTags(arf.getTags());
-		}
-		
-		// 10. 설명
-		if (step == 10) {
-			acc.setDescription(arf.getDescription());
-		}
-		
-		// 11. 가격
-		if (step == 11) {
-			acc.setPrice(arf.getPrice());
-		}
-
-		// 12. 법관련
-		if (step == 12) {
-			
-		}
-		
-		///////////// 각 단계별로 따로 hostMapper.updateLocation 같이 만들자.!!!!!!!!!!!!!
-		///////////// guests 페이지에서 - + 최대 최소 값 도달했을 때 버튼 디자인!!!!!!!!!!!!
-		
-
-		
-		
-		
-		// 방번호
+		acc.setLatitude(arf.getLatitude());
+		acc.setLongitude(arf.getLongitude());
 		acc.setAccNo(registerAcc.getAccNo());
-		// 유저번호
-		acc.setUser(loginUser);
-		System.out.println("updateAcc acc : "+acc);
-		hostMapper.updateAcc(acc);
-		// 숙소상태
-		acc.setStatus("등록미완");
 		
-//		// 강의 카테고리정보 저장하기
-//		List<String> categoryIds = courseRegisterForm.getCategoryIds();
-//		for (String categoryId : categoryIds) {
-//			courseMapper.insertCourseCategory(new CourseCategory(course.getNo(), categoryId));
-//		}
-		
+		hostMapper.updateAddressByAccNo(acc);
 	}
+
+	// 5. 인원수
+	public void updateGuests(Accommodation registerAcc, User loginUser, AccRegisterForm arf) {
+		Accommodation acc = new Accommodation();
+		
+		System.out.println(Integer.parseInt(arf.getGuest()));
+		System.out.println(Integer.parseInt(arf.getBed()));
+		System.out.println(Integer.parseInt(arf.getBedroom()));
+		System.out.println(Integer.parseInt(arf.getBathroom()));
+		
+		// 숙소 세부 정보 저장
+		AccRoom accRoom = new AccRoom();
+		accRoom.setAccNo(registerAcc.getAccNo());
+		accRoom.setBed(Integer.parseInt(arf.getBed()));
+		accRoom.setBedroom(Integer.parseInt(arf.getBedroom()));
+		accRoom.setBathroom(Integer.parseInt(arf.getBathroom()));
+		hostMapper.insertAccRoom(accRoom);
+		
+		// 숙소 인원수 정보 저장
+		acc.setAccNo(registerAcc.getAccNo());
+		acc.setGuest(Integer.parseInt(arf.getGuest()));
+		hostMapper.updateGuestsByAccNo(acc);
+	}
+
+	// 6. 편의시설
+	public void updateConveniences(Accommodation registerAcc, User loginUser, AccRegisterForm arf) {
+		List<String> facilities = arf.getFacilities();
+		if (!CollectionUtils.isEmpty(facilities)) {
+			for (String fac : facilities) {
+				int facInt = Integer.parseInt(fac);
+				hostMapper.insertAccConvenience(new AccConvenience(registerAcc.getAccNo(), facInt));
+			}
+		}
+	}
+	
+	// 7. 사진
+	// 8. 이름
+	// 9. 태그
+	// 10. 설명
+	// 11. 가격
+	// 12. 법관련
 	
 }

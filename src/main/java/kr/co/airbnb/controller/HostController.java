@@ -17,7 +17,6 @@ import kr.co.airbnb.annotation.LoginUser;
 import kr.co.airbnb.annotation.RegisterAcc;
 import kr.co.airbnb.form.AccRegisterForm;
 import kr.co.airbnb.service.AccommodationService;
-import kr.co.airbnb.service.ConvenienceService;
 import kr.co.airbnb.service.HostService;
 import kr.co.airbnb.service.UserService;
 import kr.co.airbnb.utils.SessionUtils;
@@ -81,7 +80,7 @@ public class HostController {
 		userService.updateUserInfo(loginUser);
 
 		// 숙소 생성 (번호,유저번호,생성일,상태(등록미완) 정보 저장)
-		accService.insertAcc(loginUser);
+		hostService.insertAcc(loginUser);
 
 		// 가장 최근에 추가된 숙소데이터 조회
 		int accNo = accService.getAccommodationNoByUser(loginUser);
@@ -159,7 +158,7 @@ public class HostController {
 
 	// 주소 제출
 	@PostMapping("/submitAddress")
-	public String submitAddress(@RegisterAcc Accommodation registerAcc, @LoginUser User loginUser, Model model,
+	public String submitAddress(@RegisterAcc Accommodation registerAcc, @LoginUser User loginUser,
 			@ModelAttribute("accRegisterForm") AccRegisterForm accRegisterForm,
 			SessionStatus sessionStatus) throws IOException {
 		
@@ -167,8 +166,7 @@ public class HostController {
 			return "host/become-a-host";
 		}
 
-		int step = 4;
-		hostService.updateAcc(registerAcc, loginUser, accRegisterForm, step);
+		hostService.updateAddress(registerAcc, loginUser, accRegisterForm);
 		
 		// 세션 수정
 		Accommodation acc = accService.getAccommodation(registerAcc.getAccNo());
@@ -197,7 +195,7 @@ public class HostController {
 	
 	// 인원수 페이지 정보 제출
 	@PostMapping("/submitGuests")
-	public String submitGuests(@RegisterAcc Accommodation registerAcc, @LoginUser User loginUser, Model model,
+	public String submitGuests(@RegisterAcc Accommodation registerAcc, @LoginUser User loginUser,
 			@ModelAttribute("accRegisterForm") AccRegisterForm accRegisterForm,
 			SessionStatus sessionStatus) throws IOException {
 		
@@ -205,8 +203,7 @@ public class HostController {
 			return "host/become-a-host";
 		}
 		
-		int step = 5;	
-		hostService.updateAcc(registerAcc, loginUser, accRegisterForm, step);
+		hostService.updateGuests(registerAcc, loginUser, accRegisterForm);
 		
 		// 세션 수정
 		Accommodation acc = accService.getAccommodation(registerAcc.getAccNo());
@@ -226,7 +223,7 @@ public class HostController {
 		return "/host/facilities";
 	}
 	
-	// 편의시설 정보 제출
+	// 편의시설 정보 제출 (convenience)
 	@PostMapping("/submitFacilities")
 	public String submitFacilities(@RegisterAcc Accommodation registerAcc, @LoginUser User loginUser, Model model,
 			@ModelAttribute("accRegisterForm") AccRegisterForm accRegisterForm,
@@ -236,8 +233,7 @@ public class HostController {
 			return "host/become-a-host";
 		}
 		
-		int step = 6;
-		hostService.updateAcc(registerAcc, loginUser, accRegisterForm, step);
+		hostService.updateConveniences(registerAcc, loginUser, accRegisterForm);
 		
 		// 세션 수정
 		Accommodation acc = accService.getAccommodation(registerAcc.getAccNo());

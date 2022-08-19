@@ -75,14 +75,13 @@ public class AccommodationService {
 	 * return image; }
 	 */
 	
-	// 번호만 가지고 있는 숙소 데이터 생성(insert into)
-	// HostController에서 호출
-	public void insertAcc(@LoginUser User loginUser) {
-		Accommodation acc = new Accommodation();
-		acc.setUser(loginUser);
-		acc.setStatus("등록미완");
-		accommodationMapper.insertAcc(acc);
-	}
+	// 삭제예정
+//	public void insertAcc(@LoginUser User loginUser) {
+//		Accommodation acc = new Accommodation();
+//		acc.setUser(loginUser);
+//		acc.setStatus("등록미완");
+//		accommodationMapper.insertAcc(acc);
+//	}
 
 	public int getAccommodationNoByUser(@LoginUser User loginUser) {
 		return accommodationMapper.getAccNoByUser(loginUser);
