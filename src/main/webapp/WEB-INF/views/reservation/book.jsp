@@ -212,13 +212,13 @@
 				<br>
 				<div class="row">
 					<div class="col-2">
-						<div class="box" style="background: #BDBDBD;">
+						<div class="box1" style="background: #BDBDBD;">
 						    <img class="profile" src="../resources/images/acc/sample-home.jpg">
 						</div>
 					</div>
 					<div class="col">
 					    <span>${accommodation.user.name }</span>
-					    <p><small class="text-muted"><fmt:formatDate value="${accommodation.user.createdDate }" /></small></p>
+					    <p><small class="text-muted"><fmt:formatDate value="${accommodation.checkOut}" pattern="yyyy-MM-dd" /></small></p>
 					</div>
 				</div>
 				<div>
@@ -248,9 +248,6 @@
 				<button type="submit" class="btn btn-lg" style="background-color:#d80765; color:white;">확인 및 결제</a>
 			</div>
 					</form>	
-			<div>				
-				<a href="/book/completed" class="btn btn-lg" style="background-color:#d80765; color:white;">확인 및 결제</a>
-			</div>
 	</div>
 	<!-- 오른쪽 -->
 	<div class='right-box'>

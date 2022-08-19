@@ -9,7 +9,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import kr.co.airbnb.form.ReservationForm;
 import kr.co.airbnb.form.ReservationRegisterForm;
 import kr.co.airbnb.mapper.AccommodationMapper;
 import kr.co.airbnb.mapper.ReservationMapper;
