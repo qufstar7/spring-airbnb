@@ -4,7 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import kr.co.airbnb.form.AccRegisterForm;
+import kr.co.airbnb.vo.AccConvenience;
+import kr.co.airbnb.vo.AccRoom;
 import kr.co.airbnb.vo.Accommodation;
 import kr.co.airbnb.vo.Type;
 
@@ -17,5 +18,7 @@ public interface HostMapper {
 //	void insertAccAddress(AccRegisterForm accRegisterForm);
 	Type getTypeByNo(int typeNo);
 	void updateAcc(Accommodation acc);
+	void insertAccRoom(AccRoom accRoom);
+	void insertAccConvenience(AccConvenience accConvenience);
 	
 }

@@ -130,7 +130,8 @@
 			// 마커가 드래그 가능하도록 설정합니다 
 			// marker.setDraggable(true); 
 
-			var iwContent = '<div style="padding:5px;">' + adr + '</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+			var iwContent = '<div class="infoWindow">' + adr + '</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+			
 			iwPosition = new kakao.maps.LatLng(lat, lng); //인포윈도우 표시 위치입니다
 
 			// 인포윈도우를 생성합니다

@@ -58,24 +58,24 @@
 			<!-- rightDiv main -->
 			<div class="main-box d-flex align-content-center bg-white" style="flex-direction:column;">
 				
-				<div id="" class="m-auto d-flex align-content-center" style="width:40%; height:15%;">
+				<div id="guestBox" class="m-auto d-flex align-content-center" style="width:40%; height:15%;">
 					<span class="fs-3 m-auto" style="min-width:200px;">
 						게스트
 					</span>				
-					<div class="plusMiusBox float-end" id="stepper-item--0-stepper">
+					<div class="plusMiusBox float-end" id="guestBtnBox">
 					
-						<button class="plusMinusBtn" type="button" aria-label="감소" aria-describedby="stepper-item--0-row-title" data-testid="stepper-item--0-stepper-decrease-button">
+						<button id="guestMinusBtn" class="plusMinusBtn minusBtn" type="button" aria-label="감소">
 							<span class="plusMinusIconSpan"> <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentColor; stroke-width: 5.333333333333333; overflow: visible" aria-hidden="true" role="presentation" focusable="false">
 									<path d="m2 16h28"></path>
 								</svg>
 							</span>
 						</button>
 						
-						<div class="">
-							<span aria-hidden="true" data-testid="stepper-item--0-stepper-value">4</span>
+						<div class="" id="guestNum">
+							<span aria-hidden="true">4</span>
 						</div>
 						
-						<button class="plusMinusBtn" type="button" aria-label="증가" aria-describedby="stepper-item--0-row-title" data-testid="stepper-item--0-stepper-increase-button">
+						<button id="guestPlusBtn" class="plusMinusBtn plusBtn" type="button" aria-label="증가">
 							<span class="plusMinusIconSpan"> <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentColor; stroke-width: 5.333333333333333; overflow: visible" aria-hidden="true" role="presentation" focusable="false">
 									<path d="m2 16h28m-14-14v28"></path>
 								</svg>
@@ -84,24 +84,24 @@
 					</div>
 				</div>
 				
-				<div id="" class="m-auto d-flex align-content-center" style="width:40%; height:15%;">
+				<div id="bedBox" class="m-auto d-flex align-content-center" style="width:40%; height:15%;">
 					<span class="fs-3 m-auto" style="min-width:200px;">
 						침대
 					</span>				
-					<div class="plusMiusBox float-end" id="stepper-item--0-stepper">
+					<div class="plusMiusBox float-end" id="bedBtnBox">
 					
-						<button class="plusMinusBtn" type="button" aria-label="감소" aria-describedby="stepper-item--0-row-title" data-testid="stepper-item--0-stepper-decrease-button">
+						<button id="bedMinusBtn" class="plusMinusBtn minusBtn" type="button" aria-label="감소">
 							<span class="plusMinusIconSpan"> <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentColor; stroke-width: 5.333333333333333; overflow: visible" aria-hidden="true" role="presentation" focusable="false">
 									<path d="m2 16h28"></path>
 								</svg>
 							</span>
 						</button>
 						
-						<div class="">
-							<span aria-hidden="true" data-testid="stepper-item--0-stepper-value">4</span>
+						<div class="" id="bedNum">
+							<span aria-hidden="true">1</span>
 						</div>
 						
-						<button class="plusMinusBtn" type="button" aria-label="증가" aria-describedby="stepper-item--0-row-title" data-testid="stepper-item--0-stepper-increase-button">
+						<button id="bedPlusBtn" class="plusMinusBtn plusBtn" type="button" aria-label="증가">
 							<span class="plusMinusIconSpan"> <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentColor; stroke-width: 5.333333333333333; overflow: visible" aria-hidden="true" role="presentation" focusable="false">
 									<path d="m2 16h28m-14-14v28"></path>
 								</svg>
@@ -110,24 +110,24 @@
 					</div>
 				</div>
 				
-				<div id="" class="m-auto d-flex align-content-center" style="width:40%; height:15%;">
+				<div id="bedroomBox" class="m-auto d-flex align-content-center" style="width:40%; height:15%;">
 					<span class="fs-3 m-auto" style="min-width:200px;">
 						침실
 					</span>				
-					<div class="plusMiusBox float-end" id="stepper-item--0-stepper">
+					<div class="plusMiusBox float-end" id="bedroomBtnBox">
 					
-						<button class="plusMinusBtn" type="button" aria-label="감소" aria-describedby="stepper-item--0-row-title" data-testid="stepper-item--0-stepper-decrease-button">
+						<button id="bedroomMinusBtn" class="plusMinusBtn minusBtn" type="button">
 							<span class="plusMinusIconSpan"> <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentColor; stroke-width: 5.333333333333333; overflow: visible" aria-hidden="true" role="presentation" focusable="false">
 									<path d="m2 16h28"></path>
 								</svg>
 							</span>
 						</button>
 						
-						<div class="">
-							<span aria-hidden="true" data-testid="stepper-item--0-stepper-value">4</span>
+						<div class="" id="bedroomNum">
+							<span aria-hidden="true">1</span>
 						</div>
 						
-						<button class="plusMinusBtn" type="button" aria-label="증가" aria-describedby="stepper-item--0-row-title" data-testid="stepper-item--0-stepper-increase-button">
+						<button id="bedroomPlusBtn" class="plusMinusBtn plusBtn" type="button">
 							<span class="plusMinusIconSpan"> <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentColor; stroke-width: 5.333333333333333; overflow: visible" aria-hidden="true" role="presentation" focusable="false">
 									<path d="m2 16h28m-14-14v28"></path>
 								</svg>
@@ -136,24 +136,24 @@
 					</div>
 				</div>
 			
-				<div id="" class="m-auto d-flex align-content-center" style="width:40%; height:15%;">
+				<div id="bathroomBox" class="m-auto d-flex align-content-center" style="width:40%; height:15%;">
 					<span class="fs-3 m-auto" style="min-width:200px;">
 						욕실
 					</span>				
-					<div class="plusMiusBox float-end" id="stepper-item--0-stepper">
+					<div class="plusMiusBox float-end" id="bathroomBtnBox">
 					
-						<button class="plusMinusBtn" type="button" aria-label="감소" aria-describedby="stepper-item--0-row-title" data-testid="stepper-item--0-stepper-decrease-button">
+						<button id="bathroomMinusBtn" class="plusMinusBtn minusBtn" type="button" aria-label="감소">
 							<span class="plusMinusIconSpan"> <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentColor; stroke-width: 5.333333333333333; overflow: visible" aria-hidden="true" role="presentation" focusable="false">
 									<path d="m2 16h28"></path>
 								</svg>
 							</span>
 						</button>
 						
-						<div class="">
-							<span aria-hidden="true" data-testid="stepper-item--0-stepper-value">4</span>
+						<div class="" id="bathroomNum">
+							<span aria-hidden="true">1</span>
 						</div>
 						
-						<button class="plusMinusBtn" type="button" aria-label="증가" aria-describedby="stepper-item--0-row-title" data-testid="stepper-item--0-stepper-increase-button">
+						<button id="bathroomPlusBtn" class="plusMinusBtn plusBtn" type="button" aria-label="증가" >
 							<span class="plusMinusIconSpan"> <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentColor; stroke-width: 5.333333333333333; overflow: visible" aria-hidden="true" role="presentation" focusable="false">
 									<path d="m2 16h28m-14-14v28"></path>
 								</svg>
@@ -161,11 +161,13 @@
 						</button>						
 					</div>
 				</div>
-				
+				<form id="form-select-guests" method="post" action="/host/submitGuests">
+					<input id="guestInput" type="hidden" name="guest" value="0">
+					<input id="bedInput" type="hidden" name="bed" value="0">
+					<input id="bedroomInput" type="hidden" name="bedroom" value="0">
+					<input id="bathroomInput" type="hidden" name="bathroom" value="0">
+				</form>
 			</div>
-
-
-
 
 			<!-- rightDiv footer -->
 			<footer class="footer mt-auto pb-3 bg-light">
@@ -179,7 +181,7 @@
 						<button id="back-btn" class="float-start btn btn-none ms-4 fs-6 text-decoration-underline text-black border-0" type="button" onclick="history.go(-1)" style="padding-top: 14px">뒤로</button>
 					</div>
 					<div class="">
-						<button id="next-btn" class="float-start btn btn-dark float-end" type="submit" onclick="location.href='/host/facilities'" style="width: 80px; height: 48px;">다음</button>
+						<button id="next-btn" class="float-start btn btn-dark float-end" type="submit" form="form-select-guests" onclick="" style="width: 80px; height: 48px;">다음</button>
 					</div>
 				</div>
 			</footer>
@@ -189,42 +191,95 @@
 	</div>
 
 	<script type="text/javascript">
-		// 숫자 +/- 버튼
-		function onlyNumber() {
-			var str = 100;
-			var Mynum = document.getElementById("inptext").value;
-			Mynum = Mynum.replace(/[^0-9]/g, '');
-			document.getElementById("inptext").value = Mynum;
-			var plus = document.getElementById("inptext").value = Mynum;
-			if (plus < str) {
-				document.getElementById("inptext").value = 100;
-			} else if (plus > 300) {
-				document.getElementById("inptext").value = 300;
-			}
-		}
-		$(document).ready(function() {
-			var inp = $("input").val();
-			$(".up").on("click", function() {
-				setTimeout(function() {
-					if (inp == 300) {
-						inp;
-					} else {
-						inp++;
-					}
-					$("input").val(inp);
-				}, 500);
-			});
-			$(".down").on("click", function() {
-				setTimeout(function() {
-					if (inp == 100) {
-						inp;
-					} else if (inp <= 300) {
-						inp--;
-					}
-					$("input").val(inp);
-				}, 500);
-			});
-		});
+		$(function(){
+			var $guestNum = Number( $("#guestNum").text() );
+			var $bedNum = Number( $("#bedNum").text() );
+			var $bedroomNum = Number( $("#bedroomNum").text() );
+			var $bathroomNum = Number( $("#bathroomNum").text() );
+			
+			// 더하기버튼
+			$("#guestPlusBtn").on("click", function() {
+				if ($guestNum === 16) {
+					$(this).attr("disabled");
+					$(this).addClass("disabledBtn");
+					return false;
+				}
+				if ($guestNum === 1) {
+					$(this).attr("disabled", "");
+					$(this).removeClass("disabledBtn");
+				}
+				$guestNum += 1;
+				$("#guestNum").text($guestNum);
+			})
+			$("#bedPlusBtn").on("click", function() {
+				if ($bedNum === 50) {
+					$(this).attr("disabled");
+					$(this).addClass("disabledBtn");
+					return false;
+				}
+				$bedNum += 1;
+				$("#bedNum").text($bedNum);
+			})
+			$("#bedroomPlusBtn").on("click", function() {
+				if ($bedroomNum === 50) {
+					$(this).attr("disabled");
+					$(this).addClass("disabledBtn");
+					return false;
+				}
+				$bedroomNum += 1;
+				$("#bedroomNum").text($bedroomNum);
+			})
+			$("#bathroomPlusBtn").on("click", function() {
+				if ($bathroomNum === 50) {
+					$(this).attr("disabled");
+					$(this).addClass("disabledBtn");
+					return false;
+				}
+				$bathroomNum += 1;
+				$("#bathroomNum").text($bathroomNum);
+			})
+
+			// 뺴기버튼
+			$("#guestMinusBtn").on("click", function() {
+				if ($guestNum === 1) {
+					// 버튼 비활성화
+					$(this).attr("disabled");
+					$(this).addClass("disabledBtn");
+					
+					return false;
+				}
+				$guestNum -= 1;
+				$("#guestNum").text($guestNum);
+			})
+			$("#bedMinusBtn").on("click", function() {
+				if ($bedNum === 1) {
+					$(this).attr("disabled");
+					$(this).addClass("disabledBtn");
+					return false;
+				}
+				$bedNum -= 1;
+				$("#bedNum").text($bedNum);
+			})
+			$("#bedroomMinusBtn").on("click", function() {
+				if ($bedroomNum === 0) {
+					$(this).attr("disabled");
+					$(this).addClass("disabledBtn");
+					return false;
+				}
+				$bedroomNum -= 1;
+				$("#bedroomNum").text($bedroomNum);
+			})
+			$("#bathroomMinusBtn").on("click", function() {
+				if ($bathroomNum === 0) {
+					$(this).attr("disabled");
+					$(this).addClass("disabledBtn");
+					return false;
+				}
+				$bathroomNum -= 1;
+				$("#bathroomNum").text($bathroomNum);
+			})
+			
+		})
 	</script>
 </body>
 </html>

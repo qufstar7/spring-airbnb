@@ -17,6 +17,7 @@ import kr.co.airbnb.annotation.LoginUser;
 import kr.co.airbnb.annotation.RegisterAcc;
 import kr.co.airbnb.form.AccRegisterForm;
 import kr.co.airbnb.service.AccommodationService;
+import kr.co.airbnb.service.ConvenienceService;
 import kr.co.airbnb.service.HostService;
 import kr.co.airbnb.service.UserService;
 import kr.co.airbnb.utils.SessionUtils;
@@ -166,7 +167,8 @@ public class HostController {
 			return "host/become-a-host";
 		}
 
-		hostService.updateAcc(registerAcc, loginUser, accRegisterForm);
+		int step = 4;
+		hostService.updateAcc(registerAcc, loginUser, accRegisterForm, step);
 		
 		// 세션 수정
 		Accommodation acc = accService.getAccommodation(registerAcc.getAccNo());
@@ -193,10 +195,59 @@ public class HostController {
 		return "/host/guests";
 	}
 	
+	// 인원수 페이지 정보 제출
+	@PostMapping("/submitGuests")
+	public String submitGuests(@RegisterAcc Accommodation registerAcc, @LoginUser User loginUser, Model model,
+			@ModelAttribute("accRegisterForm") AccRegisterForm accRegisterForm,
+			SessionStatus sessionStatus) throws IOException {
+		
+		if (registerAcc == null) {
+			return "host/become-a-host";
+		}
+		
+		int step = 5;	
+		hostService.updateAcc(registerAcc, loginUser, accRegisterForm, step);
+		
+		// 세션 수정
+		Accommodation acc = accService.getAccommodation(registerAcc.getAccNo());
+		SessionUtils.removeAttribute("REGISTER_ACC");
+		SessionUtils.addAttribute("REGISTER_ACC", acc);
+		
+		// 세션에 "accRegisterForm"이름으로 저장된 객체를 clear 시킨다.
+		sessionStatus.setComplete();
+		
+		return "redirect:/host/facilities";
+	}
+	
 	// 편의시설 페이지
 	@GetMapping("/facilities")
 	public String facilities(Model model) {
+		
 		return "/host/facilities";
+	}
+	
+	// 편의시설 정보 제출
+	@PostMapping("/submitFacilities")
+	public String submitFacilities(@RegisterAcc Accommodation registerAcc, @LoginUser User loginUser, Model model,
+			@ModelAttribute("accRegisterForm") AccRegisterForm accRegisterForm,
+			SessionStatus sessionStatus) throws IOException {
+		
+		if (registerAcc == null) {
+			return "host/become-a-host";
+		}
+		
+		int step = 6;
+		hostService.updateAcc(registerAcc, loginUser, accRegisterForm, step);
+		
+		// 세션 수정
+		Accommodation acc = accService.getAccommodation(registerAcc.getAccNo());
+		SessionUtils.removeAttribute("REGISTER_ACC");
+		SessionUtils.addAttribute("REGISTER_ACC", acc);
+		
+		// 세션에 "accRegisterForm"이름으로 저장된 객체를 clear 시킨다.
+		sessionStatus.setComplete();
+		
+		return "redirect:/host/pictures";
 	}
 	
 	// 사진 페이지
