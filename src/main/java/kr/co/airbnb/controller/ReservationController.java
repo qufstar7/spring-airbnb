@@ -30,6 +30,11 @@ public class ReservationController {
 	@Autowired
 	private ReservationService reservationService;
 	
+	@GetMapping(path = "/test")
+	public String test() {
+		return "reservation/test";
+	}
+	
 	@GetMapping(path = "/register")
 	public String book(@RequestParam("no") int accNo, Model model) {
 		Accommodation accommodation  = reservationService.getAcc(accNo);

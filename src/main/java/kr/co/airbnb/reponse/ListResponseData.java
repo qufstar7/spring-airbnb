@@ -1,5 +1,6 @@
 package kr.co.airbnb.reponse;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,8 +21,4 @@ public class ListResponseData<T> extends ResponseData {
 		return responseData;
 	}
 
-	public static Map<String, Object> create(Map<String, Object> reviews) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
