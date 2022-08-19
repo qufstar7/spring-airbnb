@@ -201,7 +201,11 @@
 	padding: 5px 10px;
 	border-radius: 50%;
 	position: relative;
-    top: -2px;
+    top: -10px;
+}
+.tagBtn-prev svg, .tagBtn-next svg {
+	top: -2px;
+    position: relative;
 }
 
 /* filter-차트 & 슬라이더 */
@@ -328,21 +332,21 @@ input[type="range"]::-moz-range-thumb{
 				</div>
 				
 				<div style="margin:auto">
-					<ul class="tagSlides d-none" id="tagSlide-1" style="padding: 5px 0;">
+					<ul class="tagSlides" id="tagSlide-1" style="padding: 5px 0;">
 						<c:forEach var="tag" items="${tags }" begin="0" end="10">
 						<li style="list-style-type:none; float:left; padding: 15px;">
 							<a class="tagBtn" href="/?id=${tag.id }" data-area="${tag.name }"> 
-								<img alt="${tag.name }" src="${tag.icon }" style="width: 30px;">
+								<img alt="${tag.name }" src="${tag.icon }" style="width: 30px; position: relative; left: -8px;">
 								<div style="text-align: center;font-size: 13px; padding: 10px 0 0 0;" class="${tag.id eq param.id ? 'fw-bolder text-success' : ''}">${tag.name }</div>
 							</a>
 						</li>
 						</c:forEach>
 					</ul>
-					<ul class="tagSlides" id="tagSlide-2" style="padding: 5px 0;">
+					<ul class="tagSlides d-none" id="tagSlide-2" style="padding: 5px 0;">
 						<c:forEach var="tag" items="${tags }" begin="11" end="21">
 						<li style="list-style-type:none; float:left; padding: 15px;">
 							<a class="tagBtn" href="/?id=${tag.id }" data-area="${tag.name }"> 
-								<img alt="${tag.name }" src="${tag.icon }" style="width: 30px;">
+								<img alt="${tag.name }" src="${tag.icon }" style="width: 30px; position: relative; left: -8px;">
 								<div style="text-align: center;font-size: 13px; padding: 10px 0 0 0;" class="${tag.id eq param.id ? 'fw-bolder text-success' : ''}">${tag.name }</div>
 							</a>
 						</li>
@@ -352,7 +356,7 @@ input[type="range"]::-moz-range-thumb{
 						<c:forEach var="tag" items="${tags }" begin="22" end="30">
 						<li style="list-style-type:none; float:left; padding: 15px;">
 							<a class="tagBtn" href="/?id=${tag.id }" data-area="${tag.name }"> 
-								<img alt="${tag.name }" src="${tag.icon }" style="width: 30px;">
+								<img alt="${tag.name }" src="${tag.icon }" style="width: 30px; position: relative; left: -8px;">
 								<div style="text-align: center;font-size: 13px; padding: 10px 0 0 0;" class="${tag.id eq param.id ? 'fw-bolder text-success' : ''}">${tag.name }</div>
 							</a>
 						</li>
@@ -362,7 +366,7 @@ input[type="range"]::-moz-range-thumb{
 						<c:forEach var="tag" items="${tags }" begin="31" end="33">
 						<li style="list-style-type:none; float:left; padding: 15px;">
 							<a class="tagBtn" href="/?id=${tag.id }" data-area="${tag.name }"> 
-								<img alt="${tag.name }" src="${tag.icon }" style="width: 30px;">
+								<img alt="${tag.name }" src="${tag.icon }" style="width: 30px; position: relative; left: -8px;">
 								<div style="text-align: center;font-size: 13px; padding: 10px 0 0 0;" class="${tag.id eq param.id ? 'fw-bolder text-success' : ''}">${tag.name }</div>
 							</a>
 						</li>
@@ -471,7 +475,7 @@ input[type="range"]::-moz-range-thumb{
 							<div class="col-8">
 								<div class="card-title"><span>${acc.user.name }</span>의 <span>${acc.types[0].name }</span></div>
 								<div class="card-text text-muted">${acc.name }</div>
-								<div class="card-subtitle text-muted">침대 <span>${acc.rooms.bed }</span>개</div>		<!-- room_bed -->
+								<div class="card-subtitle text-muted">침대 <span>${acc.room.bed }</span>개</div>		<!-- room_bed -->
 								<div class="card-subtitle mb-2 text-muted">12월 6일 ~ 1월 3일</div>
 								<div class="card-text">
 									<strong>₩<fmt:formatNumber value="${acc.price }" /></strong>/박	<!-- acc_price * 선택한 날짜(default 1일) -->
@@ -1310,19 +1314,14 @@ input[type="range"]::-moz-range-thumb{
 
 
 $(function() {	
-	// tag 슬라이드 버튼
+	// tag 좌우 버튼
+	const currentClass = document.querySelector('.tagSlides');	// 현재 태그가 보이는 클래스 <-> tagSlides d-none
 	$(".tagBtn-prev").click(function() {
-		if ($("#tagSlide-1").attr("id") == 'tagSlide-1') {
-			$(".tagBtn-prev").attr("disabled", true);
-		} else {
-			if($("#tagSlide-2").attr("id") == 'tagSlide-2') {
-			$("#tagSlide-2").css('display', 'none');
-			$("#tagSlide-1").css('display', '');
-			}
-		}
+		
 	})
 	$(".tagBtn-next").click(function() {
-		alert()
+		currentClass.css() // 안보이게
+		currentClass.next(ul).css() // 보이게
 	})
 	
 	
@@ -1373,8 +1372,6 @@ $(function() {
 			$('#btn-house-4').css('background-color', 'white');
 			$('#btn-house-4').css('color', 'black');
 		}
-		
-		
 	});
 	
 	/* 필터-'건물유형' 버튼 복수개 선택 */
@@ -1525,125 +1522,4 @@ $(function() {
 
 </script>
 </body>
-<%-- // tag 검색 함수
-	function searchByTag() {
-		let tagQueryString = $("#tag-form").serialize();
-		
-		let $box = $("#box-acc").empty();
-		
-		let tagXhr = new XMLHttpRequest();
-		tagXhr.onreadystatechange = function() {
-			if (tagXhr.readyState === 4 && tagXhr.status === 200) {
-				let jsonTagText = tagXhr.responseText;
-				let tagAccs = JSON.parse(jsonTagText);
-				
-				if (tagAccs.length == 0) {
-					let content = `
-						<div class="col-12">
-							<p class="text-center">검색결과가 존재하지 않습니다.</p>
-						</div>
-					`;
-					
-					$box.append(content);
-				} else {
-					$.each(tagAccs, function(index, acc) {
-						let content = `
-							<div class="card-container" OnClick="href='/detail?no=${acc.accNo }'" style="text-decoration-line: none; color: black">
-								<div class="card-box p-1">
-									<div class="" style="width: 300px">
-										<!-- 숙소 섬네일 슬라이드쇼 시작 -->
-										<!-- 아이디에 acc_no나 img_no를 사용하는게 좋을 것 같습니다. / id - 아래 3개의 버튼, prev버튼, next버튼 -->
-										<div id="acc-slide${acc.accNo }" class="carousel slide" data-interval="false">
-											<div class="carousel-indicators">
-												<button type="button"
-													data-bs-target="#acc-slide${acc.accNo }"
-													data-bs-slide-to="0" class="active" aria-current="true"
-													aria-label="Slide 1"></button>
-												<button type="button"
-													data-bs-target="#acc-slide${acc.accNo }"
-													data-bs-slide-to="1" aria-label="Slide 2"></button>
-												<button type="button"
-													data-bs-target="#acc-slide${acc.accNo }"
-													data-bs-slide-to="2" aria-label="Slide 3"></button>
-											</div>
-											<!-- 위시리스트 하트 버튼 -->
-											<div class="wishlist-icon">
-												<c:if test="${empty LOGIN_USER }">
-													<a class="unwish" href="#" data-bs-toggle="modal" data-bs-target="#email-login-modal"
-														style="position:absolute; top:15px; right:15px; z-index:2">
-														<span class="material-icons" style="color:white">favorite</span>
-													</a>
-												</c:if>
-												/* <c:choose>
-													<c:when test="${acc.accNo eq wishlistBtn.accs }"> <!-- wishlist 모달 넣어주기-->
-														<a class="wished" href="#" style="position:absolute; top:15px; right:15px; z-index:2">
-															<span class="material-icons" style="color:#FF7977">favorite</span>
-														</a>
-													</c:when>
-													<c:otherwise>
-														<a class="unwish" href="#" data-bs-toggle="modal" data-bs-target="#"	
-															style="position:absolute; top:15px; right:15px; z-index:2">
-															<span class="material-icons" style="color:white">favorite</span>
-														</a>
-													</c:otherwise>
-												</c:choose> */
-											</div>
-											<!-- 슬라이드쇼 이미지 /image-cover, room_image_no -->
-											<div class="carousel-inner" style="border-radius: 25px;">
-												<div class="carousel-item active"> 		
-													<img class="acc-thumbnail rounded-0"
-														src="/resources/images/acc/${acc.imageCover }.jpg" alt="숙소이미지"
-														style="object-fit: cover; width: 300px; height: 300px;">
-												</div>
-												<div class="carousel-item">
-													<img class="acc-thumbnail rounded-0"
-														src="/resources/images/acc/2.jpg" alt="숙소이미지"
-														style="object-fit: cover; width: 300px; height: 300px;">
-												</div>
-												<div class="carousel-item">				${acc.room.image.no }
-													<img class="acc-thumbnail rounded-0"
-														src="/resources/images/acc/3.jpg" alt="숙소이미지"
-														style="object-fit: cover; width: 300px; height: 300px;">
-												</div>
-											</div>
-	
-											<button class="carousel-control-prev" type="button"
-												data-bs-target="#acc-slide${acc.accNo }"
-												data-bs-slide="prev">
-												<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-												<span class="visually-hidden">Previous</span>
-											</button>
-	
-											<button class="carousel-control-next" type="button"
-												data-bs-target="#acc-slide${acc.accNo }"
-												data-bs-slide="next">
-												<span class="carousel-control-next-icon" aria-hidden="true"></span>
-												<span class="visually-hidden">Next</span>
-											</button>
-										</div>
-										<!-- 숙소 설명 -->
-										<div class="row my-2">
-											<div class="col-8">
-												<div class="card-title"><span>${acc.user.name }</span>의 <span>${acc.types[0].name }</span></div>
-												<div class="card-text text-muted">${acc.name }</div>
-												<div class="card-subtitle text-muted">침대 <span>${room.bed }</span>개</div>		<!-- room_bed -->
-												<div class="card-subtitle mb-2 text-muted">12월 6일 ~ 1월 3일</div>
-												<div class="card-text">
-													<strong>₩<fmt:formatNumber value="${acc.price }" /></strong>/월	<!-- acc_price * 선택한 날짜(default 1일) -->
-												</div>
-											</div>
-											<div class="col-4 text-end">★<span>4.5</span>(<span>120</span>)</div>	<!-- total_score (리뷰개수) -->
-										</div>
-									</div>
-								</div>
-							</div>
-						`;
-						$box.append(content);
-					})
-				}
-			}
-		}
-		tagXhr.open("GET", "/?" + queryString);
-		tagXhr.send();
-	} --%>
 </html>

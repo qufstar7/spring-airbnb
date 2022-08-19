@@ -59,7 +59,7 @@ public interface AccommodationMapper {
 	// 숙소 자랑거리?
 	List<Boast> getBoast(int accNo);
 	// 룸
-	List<AccRoom> getRoomByAccNo(int accNo);
+	AccRoom getRoomByAccNo(int accNo);
 
 	// 숙소 업데이트
 	void updateAcc(Accommodation acc);

@@ -39,7 +39,7 @@ public class AccommodationService {
 		return accommodationMapper.getAcc(no);
 	}
 	
-	public List<AccRoom> getRoomByAccNo(int no) {
+	public AccRoom getRoomByAccNo(int no) {
 		
 		return accommodationMapper.getRoomByAccNo(no);
 	}

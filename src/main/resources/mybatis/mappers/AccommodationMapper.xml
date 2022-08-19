@@ -129,7 +129,7 @@
 
 
 	<!-- List<Room> getRoomByAccNo(int accNo); -->
-	<select id="getRoomByAccNo" parameterType="int" resultType="room">
+	<select id="getRoomByAccNo" parameterType="int" resultType="kr.co.airbnb.vo.AccRoom">
 		select
 			ROOM_NO as no,
 			ACC_NO as accNo,
@@ -155,11 +155,11 @@
 	
 	
 	<resultMap type="Accommodation" id="AccDetailResultMap" extends="AccResultMap">
+		<!-- <association property="room" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccRoomsByAccNo"></association> -->
 		<collection property="conveniences" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccConveniencesByAccNo"></collection>
    		<collection property="photos" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccPhotosByAccNo"></collection>
-   		<collection property="rooms" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getRoomByAccNo"></collection>
+   		<collection property="room" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getRoomByAccNo"></collection>
       	<collection property="type" column="TYPE_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getTypesByTypeNo"></collection>
-		<collection property="room" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccRoomsByAccNo"></collection>
 		<!--
 		<collection property="wishlist" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getWishlistByAccNo"></collection>
 		<collection property="view" column="ACC_NO" select=""></collection>
