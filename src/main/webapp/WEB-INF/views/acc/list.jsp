@@ -416,23 +416,23 @@ input[type="range"]::-moz-range-thumb{
 	<div id="main">
 		<div id="accList" class="grid-main">
 		<!-- acc.status = '운영중' 인 숙소만 리스트업 --> 
-		<c:forEach var="acc" items="${acc }">
-			<div class="card-container" OnClick="href='/detail?no=${acc.accNo }'" style="text-decoration-line: none; color: black">
+		<c:forEach var="list" items="${list }">
+			<div class="card-container" OnClick="href='/detail?no=${list.accNo }'" style="text-decoration-line: none; color: black">
 				<div class="card-box p-1">
 					<div class="" style="width: 300px">
 						<!-- 숙소 섬네일 슬라이드쇼 시작 -->
 						<!-- 아이디에 acc_no나 img_no를 사용하는게 좋을 것 같습니다. / id - 아래 3개의 버튼, prev버튼, next버튼 -->
-						<div id="acc-slide${acc.accNo }" class="carousel slide" data-interval="false">
+						<div id="acc-slide${list.accNo }" class="carousel slide" data-interval="false">
 							<div class="carousel-indicators">
 								<button type="button"
-									data-bs-target="#acc-slide${acc.accNo }"
+									data-bs-target="#acc-slide${list.accNo }"
 									data-bs-slide-to="0" class="active" aria-current="true"
 									aria-label="Slide 1"></button>
 								<button type="button"
-									data-bs-target="#acc-slide${acc.accNo }"
+									data-bs-target="#acc-slide${list.accNo }"
 									data-bs-slide-to="1" aria-label="Slide 2"></button>
 								<button type="button"
-									data-bs-target="#acc-slide${acc.accNo }"
+									data-bs-target="#acc-slide${list.accNo }"
 									data-bs-slide-to="2" aria-label="Slide 3"></button>
 							</div>
 							<!-- 위시리스트 하트 버튼 -->
@@ -444,14 +444,14 @@ input[type="range"]::-moz-range-thumb{
 									</a>
 								</c:if>
 								<%-- <c:choose>
-									<c:when test="${acc.accNo eq user.wishlist.no }"> <!-- wishlist 모달 넣어주기-->
-										<a class="wished" href="#" style="position:absolute; top:20px; right:30px; z-index:2">
+									<c:when test="${list.accNo eq user.wishlist.no }"> <!-- wishlist 모달 넣어주기-->
+										<a class="wished" href="#" style="position:absolute; top:15px; right:15px; z-index:2">
 											<span class="material-icons" style="color:#FF7977">favorite</span>
 										</a>
 									</c:when>
 									<c:otherwise>
 										<a class="unwish" href="#" data-bs-toggle="modal" data-bs-target="#"	
-											style="position:absolute; top:20px; right:30px; z-index:2">
+											style="position:absolute; top:15px; right:15px; z-index:2">
 											<span class="material-icons" style="color:white">favorite</span>
 										</a>
 									</c:otherwise>
@@ -461,7 +461,7 @@ input[type="range"]::-moz-range-thumb{
 							<div class="carousel-inner" style="border-radius: 25px;">
 								<div class="carousel-item active"> 		
 									<img class="acc-thumbnail rounded-0"
-										src="/resources/images/acc/${acc.imageCover }.jpg" alt="숙소이미지"
+										src="/resources/images/acc/${list.imageCover }.jpg" alt="숙소이미지"
 										style="object-fit: cover; width: 300px; height: 300px;">
 								</div>
 								<div class="carousel-item">
@@ -477,14 +477,14 @@ input[type="range"]::-moz-range-thumb{
 							</div>
 
 							<button class="carousel-control-prev" type="button"
-								data-bs-target="#acc-slide${acc.accNo }"
+								data-bs-target="#acc-slide${list.accNo }"
 								data-bs-slide="prev">
 								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 								<span class="visually-hidden">Previous</span>
 							</button>
 
 							<button class="carousel-control-next" type="button"
-								data-bs-target="#acc-slide${acc.accNo }"
+								data-bs-target="#acc-slide${list.accNo }"
 								data-bs-slide="next">
 								<span class="carousel-control-next-icon" aria-hidden="true"></span>
 								<span class="visually-hidden">Next</span>
@@ -493,12 +493,12 @@ input[type="range"]::-moz-range-thumb{
 						<!-- 숙소 설명 -->
 						<div class="row my-2">
 							<div class="col-8">
-								<div class="card-title"><span>${acc.user.name }</span>의 <span>${acc.types[0].name }</span></div>
-								<div class="card-text text-muted">${acc.name }</div>
+								<div class="card-title"><span>${list.user.name }</span>의 <span>${list.types[0].name }</span></div>
+								<div class="card-text text-muted">${list.name }</div>
 								<div class="card-subtitle text-muted">침대 <span>${room.bed }</span>개</div>		<!-- room_bed -->
 								<div class="card-subtitle mb-2 text-muted">12월 6일 ~ 1월 3일</div>
 								<div class="card-text">
-									<strong>₩<fmt:formatNumber value="${acc.price }" /></strong>/월	<!-- acc_price * 선택한 날짜(default 1일) -->
+									<strong>₩<fmt:formatNumber value="${list.price }" /></strong>/월	<!-- acc_price * 선택한 날짜(default 1일) -->
 								</div>
 							</div>
 							<div class="col-4 text-end">★<span>4.5</span>(<span>120</span>)</div>	<!-- total_score (리뷰개수) -->
@@ -522,8 +522,7 @@ input[type="range"]::-moz-range-thumb{
 		</div>
 	</div>
 	<!-- filter modal -->
-	<div class="modal fade" id="filterModal" tabindex="-1"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-scrollable modal-lg">
 			<div class="modal-content"> 
 				<div class="modal-header d-flex justify-content-between" style="height:63px">
@@ -549,7 +548,7 @@ input[type="range"]::-moz-range-thumb{
 									  <div class="progress"></div>
 									</div>
 									<div class="range-input">
-									  <input type="range" class="range-min" min="0" max="10000" value="2500" step="100">
+									  <input type="range" class="range-min" min="0" max="10000" value="" step="100">
 									  <input type="range" class="range-max" min="0" max="10000" value="7500" step="100">
 									</div>
 									<div class="price-input">

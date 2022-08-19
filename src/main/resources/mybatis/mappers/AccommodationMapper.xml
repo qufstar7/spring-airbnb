@@ -39,6 +39,8 @@
 		<association property="user" column="USER_NO" select="kr.co.airbnb.mapper.UserMapper.getUserByNo"/>
 	</resultMap>
 	
+	
+	
 	<!-- List<AccConvenience> getAccConveniencesByAccNo(int accNo); -->
 	<select id="getAccConveniencesByAccNo" parameterType="int" resultType="AccConvenience">
 		select A.ACC_NO as accNo, 
@@ -49,6 +51,17 @@
 		from AIRBNB_ACC_CONVENIENCES A, AIRBNB_CONVENIENCES B
 		where A.ACC_NO = #{value}
 		and A.CONVENIENCE_NO = B.CONVENIENCE_NO
+	</select>
+	
+	<select id="getAccWishlistByUserNoAccNo" parameterType="map" resultType="AccWishlist">
+		select *
+		from (select ROWNUM as num,b.wishlist_no, c.image_name
+			from AIRBNB_WISHLIST_ACCOMMODATIONS a, AIRBNB_WISHLISTS b, AIRBNB_ACC_PHOTOS c
+			where a.wishlist_no = b.wishlist_no
+			and a.acc_no = c.acc_no
+			and b.user_no = ${userNo}
+			and b.wishlist_no = #{value}) photo
+			where photo.num = 1;
 	</select>
 	
 	<!-- List<AccPhoto> getAccPhotosByAccNo(int accNo); -->
@@ -83,6 +96,15 @@
 		and	  C.type_no = B.type_no
 		and   B.type_no = #{value}
 	</select> 
+	
+	<!-- List<Tag> getAllTag(); -->
+	<select id="getAllTag" resultType="Tag">
+		select 	 tag_id     as id,
+		         tag_name   as name,
+		         tag_icon   as icon
+		from airbnb_tags 
+		order by tag_id asc
+	</select>
 	
 	<!-- List<AccRoom> getAccRoomsByAccNo(int accNo); 
 	<select id="getAccRoomsByAccNo" parameterType="int" resultType="AccRoom">
@@ -120,7 +142,7 @@
 
 
 	<!-- List<Room> getRoomByAccNo(int accNo); -->
-	<select id="getRoomByAccNo" parameterType="int" resultType="room">
+	<select id="getRoomByAccNo" parameterType="int" resultType="kr.co.airbnb.vo.AccRoom">
 		select
 			ROOM_NO as no,
 			ACC_NO as accNo,
@@ -145,13 +167,15 @@
 	</select>
 	
 	
+	
+	
 	<resultMap type="Accommodation" id="AccDetailResultMap" extends="AccResultMap">
+		<!-- <association property="room" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccRoomsByAccNo"></association> -->
 		<collection property="conveniences" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccConveniencesByAccNo"></collection>
    		<collection property="photos" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccPhotosByAccNo"></collection>
-   		<collection property="rooms" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getRoomByAccNo"></collection>
+   		<collection property="room" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getRoomByAccNo"></collection>
       	<collection property="type" column="TYPE_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getTypesByTypeNo"></collection>
 		<!--
-		<collection property="room" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccRoomsByAccNo"></collection>
 		<collection property="wishlist" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getWishlistByAccNo"></collection>
 		<collection property="view" column="ACC_NO" select=""></collection>
 		<collection property="reservation" column="ACC_NO" select=""></collection>
@@ -186,8 +210,41 @@
 		order by B.type_no
 	</select>
 	
-	<!-- List<Accommodation> getAllAccByCriteria(AccCriteria criteria); -->
-	<select id="getAllAccByCriteria" parameterType="kr.co.airbnb.criteria.AccCriteria" resultMap="AccResultMap">
+	<!-- List<AccRoom> getAllRoomsByAccNo(int accNo); 
+	<select id="getAllRoomsByAccNo" parameterType="int" resultType="room">
+		select 
+			B.room_no as no, 
+			B.room_bedroom as bedroom, 
+			B.room_bed as bed, 
+			B.room_bathroom as bathroom, 
+			B.room_toilet as toilet, 
+			B.room_livingroom as livingroom
+		from airbnb_accommodations A, airbnb_acc_rooms B
+		where A.acc_no = B.acc_no
+		and A.acc_no = #{value}
+	</select>-->
+	
+	<!-- List<Tag> getAllTagsByAccNo(int accNo);
+	<select id="getAllTagsByAccNo" parameterType="int" resultType="kr.co.airbnb.vo.Tag">
+		select
+			B.tag_id as id,
+			B.tag_name as name,
+			B.tag_icon as icon
+		from airbnb_accommodations A, airbnb_tags B, airbnb_acc_tags C
+		where A.acc_no = C.acc_no
+		and B.tag_id = C.tag_id
+		and A.acc_no = #{value}
+	</select>
+	 -->
+	
+	<!-- List<Accommodation> getPopularAccommodations(); -->
+	<select id="getPopularAccommodations"  resultMap="AccResultMap">
+		select *
+		from airbnb_accommodations
+	</select>
+	
+	<!-- List<Accommodation> searchAccByKeyword(SearchCriteria searchCriteria); -->
+	<select id="searchAccByKeyword" parameterType="kr.co.airbnb.criteria.SearchCriteria" resultMap="AccResultMap">
 		select *
 		from airbnb_accommodations
 		<where>
@@ -196,17 +253,8 @@
 						   from airbnb_acc_types
 						   where acc_no = #{accNo})
 			</if>
-		</where>
-	</select>
-	
-
-	<!-- List<Accommodation> searchAccByKeyword(SearchCriteria searchCriteria); -->
-	<select id="searchAccByKeyword" parameterType="kr.co.airbnb.criteria.SearchCriteria" resultMap="AccResultMap">
-		select *
-		from airbnb_accommodations
-		<where>
 			<if test="keyword != ''">
-				acc_address like '%'||#{keyword}||'%'
+				and acc_address like '%'||#{keyword}||'%'
 			</if>
 			<!-- <if test="startDate != '' ">
 				endDate를 지정하지 않는 경우 1박 2일으로 자동 설정
@@ -227,6 +275,16 @@
 			</if>
 		</where> 
 	</select> 
+	
+	<!-- List<Accommodation> searchAccByTag(Tag tag); -->
+	<select id="searchAccByTag" parameterType="string" resultMap="AccResultMap">
+		select *
+		from airbnb_accommodations A, airbnb_tags B, airbnb_acc_tags C
+		where A.acc_no = C.acc_no
+		and B.tag_id = C.tag_id
+		and B.tag_id = #{value}
+			
+	</select>
 	
 	<!-- List<Accommodation> getAllAccsByUser(User loginUser); -->
 	<select id="getAllAccsByUser" parameterType="User" resultMap="AccResultMap">

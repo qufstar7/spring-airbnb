@@ -2,6 +2,7 @@ package kr.co.airbnb.service;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -152,12 +153,24 @@ public class ReviewService {
 		userMapper.updateAvgScore(user);
 	}
 
+	// 숙소 번호에 해당하는 게스트가 단 리뷰들을 가져온다. 검색, 스크롤 기능 가능. (숙소 상세 리뷰에 사용)
 	public List<Review> getReviews(int accNo, int beginIndex, int endIndex, String keyword) {
 		return reviewMapper.getReviews(accNo, beginIndex, endIndex, keyword);
 	}
 	
-	public List<Review> getReviewsUnder(int accNo) {
-		return reviewMapper.getReviewsUnder(accNo);
+	// 유저가 게스트일 경우 실행되는 프로필 - 하단 후기 기능이다.
+	public List<Review> getGuestReceivedReviews(int no) {
+		return reviewMapper.getGuestReceivedReviews(no);
+	}
+	
+	// 유저가 호스트일 경우 실행되는 프로필 - 게스트가 적은 리뷰이다.
+	public List<Review> getGuestWritedReviews(int no) {
+		return reviewMapper.getGuestWritedReviews(no);
+	}
+	
+	// 유저가 호스트일 경우 실행되는 프로필 - 호스트가 적은 리뷰이다.
+	public List<Review> getHostWriteReviews(int no) {
+		return reviewMapper.getHostWriteReviews(no);
 	}
 
 }

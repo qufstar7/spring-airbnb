@@ -1,6 +1,7 @@
 package kr.co.airbnb.vo;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import lombok.Getter;
@@ -21,6 +22,7 @@ public class Wishlist {
 	private User user;
 	private Accommodation acc;
 	private List<Accommodation> accs;
+	private WishlistImage wishlistImage;
 	
 	public Wishlist(String name, User user) {
 		super();

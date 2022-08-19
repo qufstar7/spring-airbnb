@@ -12,7 +12,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://kit.fontawesome.com/cbcad42a26.js" crossorigin="anonymous"></script>
-<title>[회원이름]님의 프로필 -에어씨앤씨</title>
+<title>${user.name}님의 프로필 -에어씨앤씨</title>
 <style type="text/css">
 	/* .col-3 * {text-align: left;		} */
 	.pop:hover { text-decoration: underline;
@@ -116,77 +116,37 @@
 					</form>	
 				</div>
 				<hr class="mt-4"/>
-				<!-- 후기 -->
-				<div class="d-flex justify-content-start fs-5 mt-5 mb-4">
-					<i class="bi bi-star-fill"></i>
-					<h3 class="fw-bold mb-3 ms-2">후기 4개</h3>
-				</div>
-				<div>
-				<h4>게스트가 남긴 후기</h4>
-					<div class="row">
-						<div class="col-10">
-							<h5>Turtle Bay Floating Villa Homestay Eco House 숙소 이름 </h5>
-							<p class="text-muted">7월 2022</p>
-						</div>
-						<div class="col-2">
-							<a href="../detail?no=102">
-								<img src="/resources/images/acc/1.jpg" class="rectangleImg mb-3">
-							</a>							
-						</div>
-					</div>
-					<div>
-						<p>The accommodation is beautiful and as the picture shows. The decor is quaint and the room is very cosy. 
-							The facilities were clean and adequate. Overall, a wonderful stay and highly recommended place… 더 보기
-						</p>
-					</div>
-					<div class="row">
-						<div class="col-1">
-							<a href="../profile?no=1">
-								<img src="/resources/images/profile/no-image.png" class="userImg mb-3">
-							</a>
-						</div>
-						<div class="col">
-							<p class="mb-0 ps-3"><strong>이름님, 포르투갈</strong></p>
-							<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">2015</span>
-						</div>
-					</div>
-					
+				
+				<!-- 후기 탭 -->
+				<div id="box-review-tab-all">
+					<div class="d-flex justify-content-start fs-5 mt-5 mb-4" id="tab-review-count">
 
-				<h4>호스트가 남긴 후기</h4>
-					<div class="mb-5">
-						<div>
-							<p class="text-muted">6월2019</p>
-							<p>성원에 머무르게 되어 기뻤습니다. 커뮤니케이션이 훌륭했고, 다른 호스트를 추천해 드립니다.</p>
-						</div>
-						<div class="row">
-							<div class="col-1">
-								<a href="../profile?no=1">
-									<img src="/resources/images/profile/no-image.png" class="userImg mb-3">
-								</a>
-							</div>
-							<div class="col">
-								<p class="mb-0 ps-3"><strong>이름님, 포르투갈</strong></p>
-								<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">2015</span>
-							</div>
-						</div>
-					</div>
-					<div class="mb-5">
-						<div>
-							<p class="text-muted">6월2019</p>
-							<p>성원에 머무르게 되어 기뻤습니다. 커뮤니케이션이 훌륭했고, 다른 호스트를 추천해 드립니다.</p>
-						</div>
-						<div class="row">
-							<div class="col-1">
-								<a href="../profile?no=1">
-									<img src="/resources/images/profile/no-image.png" class="userImg mb-3">
-								</a>
-							</div>
-							<div class="col">
-								<p class="mb-0 ps-3"><strong>이름님, 포르투갈</strong></p>
-								<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">2015</span>
+					</div>	
+					<!-- 탭 버튼 -->			
+					<ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+						<li class="nav-item" role="presentation">
+					    	<button class="nav-link active" id="btn-review-guest" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">게스트가 남긴 후기(132개)</button>
+					    </li>
+					    <li class="nav-item" role="presentation">
+					  		<button class="nav-link" id="btn-review-host" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">호스트의 후기(15개)</button>
+					    </li>
+					</ul>
+					
+					<!-- 탭 리뷰 컨텐츠 -->
+					<div class="tab-content" id="myTabContent">
+					    <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="tab-leave-guest">
+							<div class="mb-5" id="box-review-guest">
+								dd
+							</div>				    			    
+					    </div>
+				 	<!-- 호스트가 남긴 후기 시작 -->
+					    <div class="tab-pane " id="profile" role="tabpanel" aria-labelledby="tab-leave-host">
+							<div class="mb-5" id="box-review-host">
+								ff
 							</div>
 						</div>
 					</div>
+					<!-- box-review-tab-all 끝 (후기 끝) -->
 				</div>
 			</div>
 		</div>
@@ -270,18 +230,91 @@ $(function () {
 		$("#div-profile").removeClass("d-none");
 	});
 	
-	
-	
-	
-	
-	
-	
-	
-})
 
+// 경우의 수
+// 1. 받은 리뷰 0개
+// 2. 받은 리뷰 : 호스트에게만 받음 (ites)
+// 3. 받은 리뷰 : 게스트에게만 받음 ()
+// 4. 받은 리뷰 : 게스트와 호스트 둘 다에게 받음
+	// 유저의 리뷰 리스트를 불러온다.
 
+	let $allTabBox = $("#box-review-tab-all");		// 전체 탭박스이다. 1번일 경우 다른 컨텐츠는 존재하지 않으며, 텍스트 링크만 존재한다.
+	let $myTabContent = $("#myTabContent");			// 전체 탭내용 박스이다. 3 4일 때 존재한다.
+	let $myTab = $("#myTab");						// tab 버튼이다. 1번 2번이라면 hide한다.
+	let $reviewCount = $("#tab-review-count");		// 리뷰 갯수이다.
+	let $hostReviewBox = $("#box-review-host");		// 호스트가 적은 리뷰이다. (host, guest)
+	let $guestReviewBox = $("#box-review-guest");	// 게스트가 적은 리뷰이다. (host)
+	
+	/*
+	$.ajax({
+		type: 'GET',							// HTTP 요청 방식			// 참고 : [{}]는 배열 형태의 데이터를 받는다. 
+		url: "../review/profile",				// 요청 URL
+		dataType: 'json',						// 서버로부터 받을 것으로 예상되는 응답메세지의 컨텐츠 타입
+		success: function(data) {	
+			let item = data.item;
+			if (item.userType === 'Y') {	// host
+				let guestReviews = item.guestReviews;
+				let hostReviews = item.hostReviews;
+				
+				let tabContent = '';
+				tabContent += '';
+				tabContent += '';
+				tabContent += '';
+				tabContent += '';
+				tabContent += '';
+				tabContent += '';
+				tabContent += '';
+				tabContent += '';
+				tabContent += '';
+				
+				
+				
+			} else {						// guest
+				let reviews = item.reviews;
+				$myTab.hide();
+			
+				if (review.length == 0) {
+					let content3 = '';
+					content3 += '<a href="https://localhost/review/test/reviewm">내가 작성한 후기</a>';
+					
+					$allTabBox.html(content3);
+					return;
+				} 
+				
+					let content4 = '';
+					content4 += '<div class="d-flex justify-content-start fs-5 mt-5 mb-4" id="tab-review-count">';
+					content4 += '	<i class="bi bi-star-fill"></i>';
+					content4 += '	<h4 class="fw-bold mb-3 ms-2">후기 '+ (review.user.reviewCount) +'개</h4>';
+					content4 += '</div>';
+					
+					$reviewCount.html(content4);
+					
+				$.each(reviews, function(index, review) {
+					let content5=''
+					content5 += '<div>';
+					content5 += '	<p class="text-muted">'+ (review.createdDate) +'</p>';
+					content5 += '	<p>'+ (review.content) +'</p>';
+					content5 += '</div>';
+					content5 += '<div class="row">';
+					content5 += '	<div class="col-1">';
+					content5 += '		<a href="#">';
+					content5 += '			img src="/resources/images/profile/'+ (review.user.profileImage) +'" class="userImg mb-3">';
+					content5 += '		</a>';
+					content5 += '	</div>';
+					content5 += '	<div class="col">';
+					content5 += '		<p class="mb-0 ps-3"><strong>'+ (review.user.name) +' 님, '+(review.user.address)+'</strong></p>';
+					content5 += '		<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">'+ (review.user.createdDate) +'</span>';
+					content5 += '	</div>';
+					content5 += '</div>';
+					
+					$hostReviewBox.append(content5);
 
-
+				})
+			}
+		}
+	});*/
+			
+});
 </script>
 </body>
 </html>

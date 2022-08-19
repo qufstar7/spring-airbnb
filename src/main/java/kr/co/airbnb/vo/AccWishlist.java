@@ -16,6 +16,7 @@ public class AccWishlist {
 
 	private int accNo;
 	private Wishlist wishlist;
+	private AccPhoto accPhoto;
 	
 	public AccWishlist(int accNo, int no) {
 		this.accNo = accNo;

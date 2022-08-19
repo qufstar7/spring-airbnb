@@ -1,7 +1,9 @@
 package kr.co.airbnb.controller.rest;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,6 +24,7 @@ import kr.co.airbnb.reponse.ListResponseData;
 import kr.co.airbnb.reponse.ResponseData;
 import kr.co.airbnb.reponse.SingleResponseData;
 import kr.co.airbnb.service.ReviewService;
+import kr.co.airbnb.utils.SessionUtils;
 import kr.co.airbnb.vo.Accommodation;
 import kr.co.airbnb.vo.GuestRequest;
 import kr.co.airbnb.vo.HostRequest;
@@ -92,11 +95,22 @@ public class ReviewRestController {
 		return ListResponseData.create(reviews);
 	} 
 	
-	@GetMapping(path = "/reviewsUnder")
-	public ListResponseData<Review> reviewsUnder(@RequestParam("no") int accNo) {
-		List<Review> reviews = reviewService.getReviewsUnder(accNo);
+	// 유저 프로필 페이지의 리뷰 조회
+	@GetMapping(path = "/profile")
+	public SingleResponseData<Map<String, Object>> reviews(@LoginUser User loginUser) {
+		Map<String, Object> reviews = new HashMap<String, Object>();
+			
+		reviews.put("userType", loginUser.getIsHost());
 		
-		return ListResponseData.create(reviews);
+		if (loginUser.getIsHost().equals("N")) { // 게스트일 경우
+			reviews.put("reviews", reviewService.getGuestReceivedReviews(loginUser.getNo()));
+		} else {								 // 호스트일 경우	
+			reviews.put("guestReviews", reviewService.getGuestWritedReviews(loginUser.getNo()));
+			reviews.put("hostReviews", reviewService.getHostWriteReviews(loginUser.getNo()));
+		}
+		return SingleResponseData.create(reviews);
 	}
+	
+	// 유저 리뷰 페이지 조회
 	
 }

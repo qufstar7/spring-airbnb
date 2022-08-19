@@ -44,7 +44,6 @@ public class Accommodation {
 	private String refoundDescription;
 	private int cleaningPrice;
 	private String imageCover;
-	private AccRoom room;
 	
 	// 메인타입, 서브타입, 프라이버시타입 (ex.아파트-공동주택-공간전체)
 	private List<Type> types;
@@ -54,7 +53,7 @@ public class Accommodation {
 	private List<AccConvenience> conveniences;
 	private List<Wishlist> wishlists;
 	private List<AccPhoto> photos;
-	private AccRoom rooms;
+	private AccRoom room;
 	private List<String> disabledDate;
 	private List<Tag> tags;
 	

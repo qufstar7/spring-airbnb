@@ -46,5 +46,10 @@ public class ReviewController {
 	public String testReview() {
 		return "review/reviewpage1";
 	}
+	
+	@GetMapping(path = "/test/reviewm")
+	public String modifyreview() {
+		return "review/modifyreview";
+	}
 
 }

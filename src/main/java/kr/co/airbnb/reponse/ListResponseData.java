@@ -1,6 +1,8 @@
 package kr.co.airbnb.reponse;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,4 +20,5 @@ public class ListResponseData<T> extends ResponseData {
 		
 		return responseData;
 	}
+
 }

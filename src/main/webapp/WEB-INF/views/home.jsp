@@ -185,6 +185,29 @@
 	#tags{display: table; margin-left: auto; margin-right: auto;}
 }
 
+.tagBtn {
+	background: transparent;
+	border: none;
+	padding: 0 16px;
+	color: black;
+    text-decoration: none;
+}
+.tagBtn:hover {
+	color: black;
+}
+.tagBtn-prev, .tagBtn-next {
+	background: white;
+	border: solid 1px gray;
+	padding: 5px 10px;
+	border-radius: 50%;
+	position: relative;
+    top: -10px;
+}
+.tagBtn-prev svg, .tagBtn-next svg {
+	top: -2px;
+    position: relative;
+}
+
 /* filter-차트 & 슬라이더 */
 ::selection{
   color: #fff;
@@ -296,8 +319,71 @@ input[type="range"]::-moz-range-thumb{
 	<div class="container m-0 p-0">
 		<!-- 태그와 필터가 있는 navbar2 -->
 		<div class="row tagFilterBar align-items-center text-center" id="nav2">
-			<div class="col-10" id="tags">태그 나열하는 곳</div>
-			<div class="col-2 text-end">
+			<div class="col-11" id="tags" style="display:flex; overflow:hidden;">
+				<!-- 모든 태그 나열 -->
+				<div style="margin:auto">
+					<button class="tagBtn-prev" type="button" style="float:left">
+						<strong>
+						<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+						  <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+						</svg>
+						</strong>
+					</button>
+				</div>
+				
+				<div style="margin:auto">
+					<ul class="tagSlides" id="tagSlide-1" style="padding: 5px 0;">
+						<c:forEach var="tag" items="${tags }" begin="0" end="10">
+						<li style="list-style-type:none; float:left; padding: 15px;">
+							<a class="tagBtn" href="/?id=${tag.id }" data-area="${tag.name }"> 
+								<img alt="${tag.name }" src="${tag.icon }" style="width: 30px; position: relative; left: -8px;">
+								<div style="text-align: center;font-size: 13px; padding: 10px 0 0 0;" class="${tag.id eq param.id ? 'fw-bolder text-success' : ''}">${tag.name }</div>
+							</a>
+						</li>
+						</c:forEach>
+					</ul>
+					<ul class="tagSlides d-none" id="tagSlide-2" style="padding: 5px 0;">
+						<c:forEach var="tag" items="${tags }" begin="11" end="21">
+						<li style="list-style-type:none; float:left; padding: 15px;">
+							<a class="tagBtn" href="/?id=${tag.id }" data-area="${tag.name }"> 
+								<img alt="${tag.name }" src="${tag.icon }" style="width: 30px; position: relative; left: -8px;">
+								<div style="text-align: center;font-size: 13px; padding: 10px 0 0 0;" class="${tag.id eq param.id ? 'fw-bolder text-success' : ''}">${tag.name }</div>
+							</a>
+						</li>
+						</c:forEach>
+					</ul>
+					<ul class="tagSlides d-none" id="tagSlide-3" style="padding: 5px 0;">
+						<c:forEach var="tag" items="${tags }" begin="22" end="30">
+						<li style="list-style-type:none; float:left; padding: 15px;">
+							<a class="tagBtn" href="/?id=${tag.id }" data-area="${tag.name }"> 
+								<img alt="${tag.name }" src="${tag.icon }" style="width: 30px; position: relative; left: -8px;">
+								<div style="text-align: center;font-size: 13px; padding: 10px 0 0 0;" class="${tag.id eq param.id ? 'fw-bolder text-success' : ''}">${tag.name }</div>
+							</a>
+						</li>
+						</c:forEach>
+					</ul>
+					<ul class="tagSlides d-none" id="tagSlide-4" style="padding: 5px 0;">
+						<c:forEach var="tag" items="${tags }" begin="31" end="33">
+						<li style="list-style-type:none; float:left; padding: 15px;">
+							<a class="tagBtn" href="/?id=${tag.id }" data-area="${tag.name }"> 
+								<img alt="${tag.name }" src="${tag.icon }" style="width: 30px; position: relative; left: -8px;">
+								<div style="text-align: center;font-size: 13px; padding: 10px 0 0 0;" class="${tag.id eq param.id ? 'fw-bolder text-success' : ''}">${tag.name }</div>
+							</a>
+						</li>
+						</c:forEach>
+					</ul>
+				</div>
+				<div style="margin:auto">
+					<button class="tagBtn-next" type="button" style="float:right">
+						<strong>
+						<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+						  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+						</svg>
+						</strong>
+					</button>
+				</div>
+			</div>
+			<div class="col-1 text-end">
 				<button id="filterbtn" type="button" data-bs-toggle="modal" data-bs-target="#filterModal">
 					<i class="bi bi-sliders"></i>
 					필터
@@ -310,8 +396,8 @@ input[type="range"]::-moz-range-thumb{
 	<div class="container my-3">
 		<div id="box-acc" class="grid-main">
 		<!-- acc.status = '운영중' 인 숙소만 리스트업 --> 
-		<c:forEach var="acc" items="${acc }">
-			<div class="card-container" OnClick="href='/detail?no=${acc.accNo }'" style="text-decoration-line: none; color: black">
+			<c:forEach var="acc" items="${accommodations }">
+			<div class="card-container" OnClick="location.href='/acc/detail?no=${acc.accNo }'" style="text-decoration-line: none; color: black">
 				<div class="card-box p-1">
 					<div class="" style="width: 300px">
 						<!-- 숙소 섬네일 슬라이드쇼 시작 -->
@@ -338,14 +424,14 @@ input[type="range"]::-moz-range-thumb{
 									</a>
 								</c:if>
 								<%-- <c:choose>
-									<c:when test="${acc.accNo eq user.wishlist.no }"> <!-- wishlist 모달 넣어주기-->
-										<a class="wished" href="#" style="position:absolute; top:20px; right:30px; z-index:2">
+									<c:when test="${acc.accNo eq wishlistBtn.accs }"> <!-- wishlist 모달 넣어주기-->
+										<a class="wished" href="#" style="position:absolute; top:15px; right:15px; z-index:2">
 											<span class="material-icons" style="color:#FF7977">favorite</span>
 										</a>
 									</c:when>
 									<c:otherwise>
 										<a class="unwish" href="#" data-bs-toggle="modal" data-bs-target="#"	
-											style="position:absolute; top:20px; right:30px; z-index:2">
+											style="position:absolute; top:15px; right:15px; z-index:2">
 											<span class="material-icons" style="color:white">favorite</span>
 										</a>
 									</c:otherwise>
@@ -389,10 +475,10 @@ input[type="range"]::-moz-range-thumb{
 							<div class="col-8">
 								<div class="card-title"><span>${acc.user.name }</span>의 <span>${acc.types[0].name }</span></div>
 								<div class="card-text text-muted">${acc.name }</div>
-								<div class="card-subtitle text-muted">침대 <span>${room.bed }</span>개</div>		<!-- room_bed -->
+								<div class="card-subtitle text-muted">침대 <span>${acc.room.bed }</span>개</div>		<!-- room_bed -->
 								<div class="card-subtitle mb-2 text-muted">12월 6일 ~ 1월 3일</div>
 								<div class="card-text">
-									<strong>₩<fmt:formatNumber value="${acc.price }" /></strong>/월	<!-- acc_price * 선택한 날짜(default 1일) -->
+									<strong>₩<fmt:formatNumber value="${acc.price }" /></strong>/박	<!-- acc_price * 선택한 날짜(default 1일) -->
 								</div>
 							</div>
 							<div class="col-4 text-end">★<span>4.5</span>(<span>120</span>)</div>	<!-- total_score (리뷰개수) -->
@@ -401,7 +487,6 @@ input[type="range"]::-moz-range-thumb{
 				</div>
 			</div>
 			</c:forEach>
-			
 			</div> 
 			
 			
@@ -1112,7 +1197,7 @@ input[type="range"]::-moz-range-thumb{
 					<button id="unchecked" type="button" class="btn btn-link" style="color: black;font-weight:bold;">
 						전체 해제
 					</button>
-					<button class="btn btn-dark btn-lg" onclick="location.href='/list'"
+					<button class="btn btn-dark btn-lg" onclick="location.href='/acc/list'"
 						data-bs-target="#exampleModalToggle" data-bs-toggle="modal"
 						data-bs-dismiss="modal" id="submit">
 						<h6 id="result" class="m-0 mx-auto" style="font-weight:bold; text-align: center;">
@@ -1185,14 +1270,14 @@ input[type="range"]::-moz-range-thumb{
 
      };
 	/* 필터-범위 슬라이더*/
-	const rangeInput = document.querySelectorAll(".range-input input"),
-	priceInput = document.querySelectorAll(".price-input input"),
+	const rangeInput = document.querySelectorAll(".range-input input"),	// 슬라이더 막대기
+	priceInput = document.querySelectorAll(".price-input input"),		// 값 입력하는 창
 	range = document.querySelector(".slider .progress");
-	let priceGap = 10;	// 최소 갭은 여기서 수정
+	let priceGap = 100;	// 최소 갭은 여기서 수정
 	priceInput.forEach(input =>{
 	    input.addEventListener("input", e =>{
-	        let minPrice = parseInt(priceInput[0].value),
-	        maxPrice = parseInt(priceInput[1].value);
+	        let minPrice = parseInt(priceInput[0].value),	// 첫번째 input 의 val
+	        maxPrice = parseInt(priceInput[1].value);		// 두번째 input 의 val
 	        
 	        if((maxPrice - minPrice >= priceGap) && maxPrice <= rangeInput[1].max){
 	            if(e.target.className === "input-min"){
@@ -1203,6 +1288,7 @@ input[type="range"]::-moz-range-thumb{
 	                range.style.right = 100 - (maxPrice / rangeInput[1].max) * 100 + "%";
 	            }
 	        }
+            // console.log(minPrice+","+maxPrice);
 	    });
 	});
 	rangeInput.forEach(input =>{
@@ -1221,10 +1307,24 @@ input[type="range"]::-moz-range-thumb{
 	            range.style.left = ((minVal / rangeInput[0].max) * 100) + "%";
 	            range.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
 	        }
+	        // console.log(minVal+","+maxVal);
 	    });
 	});
-	
+     
+
+
 $(function() {	
+	// tag 좌우 버튼
+	const currentClass = document.querySelector('.tagSlides');	// 현재 태그가 보이는 클래스 <-> tagSlides d-none
+	$(".tagBtn-prev").click(function() {
+		
+	})
+	$(".tagBtn-next").click(function() {
+		currentClass.css() // 안보이게
+		currentClass.next(ul).css() // 보이게
+	})
+	
+	
 	/* 모달객체 생성 & 모달창 값 clear */
 	let filterModal = new bootstrap.Modal(document.getElementById("filterModal"));
 	$("#filterModal").on('hidden.bs.modal', function(event){
@@ -1245,6 +1345,7 @@ $(function() {
 		$(".fold-content").toggleClass("d-none");
 	});
 	
+
 	/* 필터-전체 해제 */
 	$("#unchecked").click(function() {
 		$("input:checkbox[id='accCheck']").prop("checked", false);	
@@ -1254,6 +1355,23 @@ $(function() {
 		$('.bedrooms').removeClass("active");
 		$('.beds').removeClass("active");
 		$('.bathrooms').removeClass("active");
+
+		if($("#house-1").is(":disabled")) {
+			$('#btn-house-1').css('background-color', 'white');
+			$('#btn-house-1').css('color', 'black');
+		}
+		if($("#house-2").is(":disabled")) {
+			$('#btn-house-2').css('background-color', 'white');
+			$('#btn-house-2').css('color', 'black');
+		}
+		if($("#house-3").is(":disabled")) {
+			$('#btn-house-3').css('background-color', 'white');
+			$('#btn-house-3').css('color', 'black');
+		}
+		if($("#house-4").is(":disabled")) {
+			$('#btn-house-4').css('background-color', 'white');
+			$('#btn-house-4').css('color', 'black');
+		}
 	});
 	
 	/* 필터-'건물유형' 버튼 복수개 선택 */
@@ -1265,9 +1383,11 @@ $(function() {
 			$('#btn-house-1').css('background-color', 'black');
 			$('#btn-house-1').css('color', 'white');
 		}
+		
 		let currentDisabled = $("#house-1").prop("disabled");
 		$("#house-1").prop("disabled", !currentDisabled);
 	});
+	
 	$('#btn-house-2').click(function() {
 		if($("#house-2").is(":disabled")) {
 			$('#btn-house-2').css('background-color', 'white');
@@ -1278,7 +1398,9 @@ $(function() {
 		}
 		let currentDisabled = $("#house-2").prop("disabled");
 		$("#house-2").prop("disabled", !currentDisabled);
+		// alert($("#house-2").attr("disabled"))
 	});
+	
 	$('#btn-house-3').click(function() {
 		if($("#house-3").is(":disabled")) {
 			$('#btn-house-3').css('background-color', 'white');
@@ -1362,7 +1484,7 @@ $(function() {
 	$(":checkbox[name=convenience]").change(function() {
 		searchForm();
 	});
-
+	
 	// 필터 검색
 	function searchForm() {
 		let queryString = $("#filter-search").serialize();
@@ -1400,5 +1522,4 @@ $(function() {
 
 </script>
 </body>
-
 </html>

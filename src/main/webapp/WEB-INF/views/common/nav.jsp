@@ -27,7 +27,7 @@
 			</div>
 			<div id="search" class="box d-flex justify-content-center">
 				<!-- 메인페이지에서 사용하는 검색창 -->
-				<form id="search-form" method="get" action="list">
+				<form id="search-form" method="GET" action="/acc/list">
 				<div id="navSearch" class="p-1 position-relative" type="button" style="border:1px solid #D8D8D8; border-radius: 25px; width:360px; height:48px;box-shadow: 1px 4px 7px 0px rgba(0,0,0,0.1);">
 					<div class="allSpace" style="width:366px; padding: 2px 0px;">
 						<div class="btn-group position-static" >
@@ -38,43 +38,48 @@
 								</button>
 								<div class="dropdown-menu m-0" style="left:55%; top: 62px;">
 									<div class="" style="width:40%; float: left;">
-										<h3 class="h6 p-3">최근 검색어</h3>
+										<h3 class="h6 p-3"><strong>최근 검색어</strong></h3>
 									</div>
 									<div class=" d-flex flex-wrap justify-content-center" style="width:50%; float: left;">
-									<h3 class="h6 p-3" style="width:100%">대한민국 내 인기 여행지</h3>
+									<h3 class="h6 p-3" style="width:100%"><strong>대한민국 내 인기 여행지</strong></h3>
 										<div style="width:30%">
 											<button type="button" class="area-btn" data-area="서울">
-												<img src="https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg" alt="" class="w-100"> <div style="text-align: center;">서울</div>
+												<img src="https://pix6.agoda.net/geo/city/14690/1_14690_02.jpg?ca=6&ce=1&s=345x345&ar=1x1" alt="" class="w-100" style="border-radius: 15px;">
+												<div style="text-align: center; font-size: 13px; padding: 0 0 10px 0;">서울</div>
 												
 											</button>
 										</div>
 										<div style="width:30%">
 											<button type="button" class="area-btn" data-area="제주">
-												<img src="https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg" alt="" class="w-100"> <div style="text-align: center;">제주</div>
+												<img src="https://pix6.agoda.net/geo/city/16901/1_16901_02.jpg?ca=6&ce=1&s=345x345&ar=1x1" alt="" class="w-100" style="border-radius: 15px;">
+												<div style="text-align: center; font-size: 13px; padding: 0 0 10px 0;">제주</div>
 												
 											</button>
 										</div>
 										<div style="width:30%">
 											<button type="button" class="area-btn" data-area="부산">
-												<img src="https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg" alt="" class="w-100"> <div style="text-align: center;">부산</div>
-												
+												<img src="https://pix6.agoda.net/geo/city/17172/1_17172_02.jpg?ca=6&ce=1&s=345x345&ar=1x1" alt="" class="w-100" style="border-radius: 15px;">
+												<div style="text-align: center; font-size: 13px; padding: 0 0 10px 0;">부산</div>
 											</button>
 										</div>
 										<div style="width:30%">
 											<button type="button" class="area-btn" data-area="강릉">
-												<img src="https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg" alt="" class="w-100"> <div style="text-align: center;">강릉</div>
+												<img src="https://pix6.agoda.net/geo/city/19041/1_19041_02.jpg?ca=6&ce=1&s=345x345&ar=1x1" alt="" class="w-100" style="border-radius: 15px;">
+												<div style="text-align: center; font-size: 13px; padding: 0 0 10px 0;">강릉</div>
 												
 											</button>
 										</div>
 										<div style="width:30%">
 											<button type="button" class="area-btn" data-area="여수">
-												<img src="https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg" alt="" class="w-100"> <div style="text-align: center;">여수</div>
+												<img src="https://pix6.agoda.net/geo/city/213193/1_213193_02.jpg?ca=6&ce=1&s=345x345&ar=1x1" alt="" class="w-100" style="border-radius: 15px;">
+												<div style="text-align: center; font-size: 13px; padding: 0 0 10px 0;">여수</div>
 												
 											</button>
 										</div>
 										<div style="width:30%">
 											<button type="button" class="area-btn" data-area="경주">
-												<img src="https://a0.muscache.com/pictures/f9ec8a23-ed44-420b-83e5-10ff1f071a13.jpg" alt="" class="w-100"> <div style="text-align: center;">경주</div>
+												<img src="https://pix6.agoda.net/geo/city/17179/1_17179_02.jpg?ca=6&ce=1&s=345x345&ar=1x1" alt="" class="w-100" style="border-radius: 15px;">
+												<div style="text-align: center; font-size: 13px; padding: 0 0 10px 0;">경주</div>
 												
 											</button>
 										</div>
@@ -299,21 +304,20 @@ $(function() {
 	$("#btn-search").click(function(){
 		// 게스트추가만 클릭하고 검색한 경우 현재페이지 리다이렉션 ++ 언제든지 &&로 추가
 		
-			var whereKeyword = $("#where-field").val();	// 어디든지 검색어 & 버튼클릭
+		// 어디든지 검색어 & 버튼클릭	
+		var whereKeyword = $("#where-field").val();
 
-			// 언제든 일주일 - 기간 검색 (yyyy-dd-mm)
-			var startDate = $("input[id='startDate']").val();
-			var endDate = $("input[id='endDate']").val();
-			
-			// 게스트 검색
-			var adultCount = parseInt($("input[name='adult']").val());
-			var childCount = parseInt($("input[name='child']").val());
-			var infantCount = parseInt($("input[name='infant']").val());
-			var petCount = parseInt($("input[name='pet']").val());
+		// 언제든 일주일 - 기간 검색 (yyyy-dd-mm)
+		var startDate = $("input[id='startDate']").val();
+		var endDate = $("input[id='endDate']").val();
 		
-			// location.href = "/list?keyword="+whereKeyword+"&adult="+adultCount+"&childCount="+childCount+"&infantCount="+infantCount+"&petCount="+petCount 
-		
-		searchByKeyword();
+		// 게스트 검색
+		var adultCount = parseInt($("input[name='adult']").val());
+		var childCount = parseInt($("input[name='child']").val());
+		var infantCount = parseInt($("input[name='infant']").val());
+		var petCount = parseInt($("input[name='pet']").val());
+	
+		document.getElementById('#search-form').submit();
 		return false;	
 	})
 
@@ -388,12 +392,15 @@ $(function() {
 		return false;
 	})
 	
-	// nav 검색 -- 리스트로 이동
+	
+	
+	<%-- // tag검색할 때 참고
+	
 	function searchByKeyword() {
 	
 		let navQueryString = $("#search-form").serialize();
 		
-		let $acc = $("#accList").empty();
+		let $acc = $("#card-container").empty();
 		
 		let navXhr = new XMLHttpRequest();
 		navXhr.onreadystatechange = function() {
@@ -442,7 +449,7 @@ $(function() {
 															<span class="material-icons" style="color:white">favorite</span>
 														</a>
 													</c:if>
-													<%-- <c:choose>
+													<c:choose>
 														<c:when test="${acc.accNo eq user.wishlist.no }"> <!-- wishlist 모달 넣어주기-->
 															<a class="wished" href="#" style="position:absolute; top:20px; right:30px; z-index:2">
 																<span class="material-icons" style="color:#FF7977">favorite</span>
@@ -454,7 +461,7 @@ $(function() {
 																<span class="material-icons" style="color:white">favorite</span>
 															</a>
 														</c:otherwise>
-													</c:choose> --%>
+													</c:choose>
 												</div>
 												<!-- 슬라이드쇼 이미지 /image-cover, room_image_no -->
 												<div class="carousel-inner" style="border-radius: 25px;">
@@ -468,7 +475,7 @@ $(function() {
 															src="/resources/images/acc/2.jpg" alt="숙소이미지"
 															style="object-fit: cover; width: 300px; height: 300px;">
 													</div>
-													<div class="carousel-item">				<%-- ${acc.room.image.no } --%>
+													<div class="carousel-item">				${acc.room.image.no }
 														<img class="acc-thumbnail rounded-0"
 															src="/resources/images/acc/3.jpg" alt="숙소이미지"
 															style="object-fit: cover; width: 300px; height: 300px;">
@@ -516,7 +523,7 @@ $(function() {
 		}
 		navXhr.open("GET", "/list?" + navQueryString);
 		navXhr.send();
-	}
+	} --%>
 	
 })
 
@@ -560,7 +567,8 @@ dateSelector.flatpickr({
  	 	}    
 	] 
 }); */
-	
+
+// 체크인, 체크아웃 달력
 var fp1 = flatpickr(document.getElementById("startDate"), {
 	"inline": true,
 	"locale": "ko",
