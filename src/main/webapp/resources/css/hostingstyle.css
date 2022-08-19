@@ -457,8 +457,6 @@ body {
 	font-size: 20px;
 }
 
-/* 주소 상세 페이지 */
-/* 구글지도 */
 .mapBox {
 	width: 100% !important;
 }
@@ -531,3 +529,61 @@ body {
 	border-color: rgb(235, 235, 235) !important;
 	background: rgb(255, 255, 255) !important;
 }
+
+/* 편의시설 페이지 */
+.btn-facilities {
+	max-width:200px;
+	min-height:180px;
+	border-radius: 12px;
+	border: 1px solid rgb(221, 221, 221);
+	background-color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -68,6 +68,14 @@
 	 					 FROM airbnb_acc_rooms
 	 					WHERE acc_no = #{accNo})
 </insert>
+
+<!-- void insertAccConvenience(AccConvenience accConvenience); -->
+<insert id="insertAccConvenience" parameterType="AccConvenience">
+	insert into AIRBNB_ACC_CONVENIENCES
+	(ACC_NO, CONVENIENCE_NO)
+	values
+	(#{accNo}, #{convenience.no})
+</insert>
 	
 <!-- void updateAcc(Accommodation acc); -->
 <update id="updateAcc" parameterType="Accommodation">

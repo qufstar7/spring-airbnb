@@ -2,7 +2,6 @@ package kr.co.airbnb.form;
 
 import java.util.List;
 
-import kr.co.airbnb.vo.AccConvenience;
 import kr.co.airbnb.vo.AccPhoto;
 import kr.co.airbnb.vo.Tag;
 import lombok.Getter;
@@ -36,7 +35,9 @@ public class AccRegisterForm {
 	private int bedroom;
 	private int bathroom;
 
-	private List<AccConvenience> facilities;
+	// 편의시설 페이지
+	private List<String> facilities;
+		
 	private List<AccPhoto> imageFiles;
 	private String name;
 	private List<Tag> tags;

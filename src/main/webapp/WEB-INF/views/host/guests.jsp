@@ -197,18 +197,23 @@
 			var $bedroomNum = Number( $("#bedroomNum").text() );
 			var $bathroomNum = Number( $("#bathroomNum").text() );
 			
+			// 더하기버튼
 			$("#guestPlusBtn").on("click", function() {
 				if ($guestNum === 16) {
-					$(this).attr("disabled")
+					$(this).attr("disabled");
 					$(this).addClass("disabledBtn");
 					return false;
+				}
+				if ($guestNum === 1) {
+					$(this).attr("disabled", "");
+					$(this).removeClass("disabledBtn");
 				}
 				$guestNum += 1;
 				$("#guestNum").text($guestNum);
 			})
 			$("#bedPlusBtn").on("click", function() {
 				if ($bedNum === 50) {
-					$(this).attr("disabled")
+					$(this).attr("disabled");
 					$(this).addClass("disabledBtn");
 					return false;
 				}
@@ -217,7 +222,7 @@
 			})
 			$("#bedroomPlusBtn").on("click", function() {
 				if ($bedroomNum === 50) {
-					$(this).attr("disabled")
+					$(this).attr("disabled");
 					$(this).addClass("disabledBtn");
 					return false;
 				}
@@ -226,7 +231,7 @@
 			})
 			$("#bathroomPlusBtn").on("click", function() {
 				if ($bathroomNum === 50) {
-					$(this).attr("disabled")
+					$(this).attr("disabled");
 					$(this).addClass("disabledBtn");
 					return false;
 				}
@@ -238,7 +243,7 @@
 			$("#guestMinusBtn").on("click", function() {
 				if ($guestNum === 1) {
 					// 버튼 비활성화
-					$(this).attr("disabled")
+					$(this).attr("disabled");
 					$(this).addClass("disabledBtn");
 					
 					return false;
@@ -248,7 +253,7 @@
 			})
 			$("#bedMinusBtn").on("click", function() {
 				if ($bedNum === 1) {
-					$(this).attr("disabled")
+					$(this).attr("disabled");
 					$(this).addClass("disabledBtn");
 					return false;
 				}
@@ -257,7 +262,7 @@
 			})
 			$("#bedroomMinusBtn").on("click", function() {
 				if ($bedroomNum === 0) {
-					$(this).attr("disabled")
+					$(this).attr("disabled");
 					$(this).addClass("disabledBtn");
 					return false;
 				}
@@ -266,7 +271,7 @@
 			})
 			$("#bathroomMinusBtn").on("click", function() {
 				if ($bathroomNum === 0) {
-					$(this).attr("disabled")
+					$(this).attr("disabled");
 					$(this).addClass("disabledBtn");
 					return false;
 				}
