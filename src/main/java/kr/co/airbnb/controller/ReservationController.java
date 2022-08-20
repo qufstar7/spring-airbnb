@@ -31,7 +31,10 @@ public class ReservationController {
 	private ReservationService reservationService;
 	
 	@GetMapping(path = "/test")
-	public String test() {
+	public String test(@RequestParam("no") int accNo, Model model) {
+		Accommodation accommodation = reservationService.getAcc(accNo);
+		model.addAttribute("accommodation",accommodation);
+		
 		return "reservation/test";
 	}
 	

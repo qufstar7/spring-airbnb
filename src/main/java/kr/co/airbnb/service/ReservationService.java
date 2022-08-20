@@ -50,7 +50,7 @@ public class ReservationService {
 		reservation.setTotalPrice(reservationRegisterForm.getPrice() + reservation.getServiceFee());
 		reservation.setEntirePay(reservationRegisterForm.getTotalPrice());
 		reservation.setLeftPay(reservationRegisterForm.getTotalPrice() * 0.3);
-		
+		reservation.setAccNo(reservationRegisterForm.getAccNo());
 		
 		
 		reservationMapper.insertReservation(reservation);
