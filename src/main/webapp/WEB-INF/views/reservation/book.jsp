@@ -19,6 +19,7 @@
 </head>
 <body>
 <%@ include file="../common/nav2.jsp" %>
+<%@ include file="../user/home.jsp" %>
 <div class="container my-3">
 	<!-- 왼쪽 -->
 	<div class='left-box'>
@@ -27,7 +28,7 @@
 			<div class="col border bg-white rounded">
 					<div class="mb-3">
 						<span style="font-weight:bold; font-size:small;">저렴한 요금</span>
-						<p >검색하시는 날짜의 요금은 지난 3개월의 평균 1박 요금보다 $ 저렴합니다. ${accommodation.accNo }</p>
+						<p >검색하시는 날짜의 요금은 지난 3개월의 평균 1박 요금보다 $ 저렴합니다.</p>
 					</div>
 			</div>
 		</div>
@@ -37,13 +38,53 @@
 					<span>날짜</span>
 					<button type ="button" class="btn btn-sm" style="background-color:white; border-color:white; float:right;"><u>수정</u></button>
 					<br>
-					<p class ="small"><fmt:formatDate value="${accommodation.checkIn }"/> - <fmt:formatDate value="${accommodation.checkOut }"/></p>
+					<p class ="small"><fmt:formatDate value="${accommodation.checkIn}" pattern="MM월dd일" /> - <fmt:formatDate value="${accommodation.checkOut}" pattern="dd일" /></p>
 				</div>
 				<div>
 					<span>게스트</span>
-					<button type ="button" class="btn btn-sm" style="background-color:white; border-color:white; float:right;"><u>수정</u></button>
+					<button type ="button" class="btn btn-sm"  id="btn-guest"style="background-color:white; border-color:white; float:right;"><u>수정</u></button>
 					<br>
 					<span>게스트 ${accommodation.guest }명</span>
+				</div>
+			</div>
+			<div class="mb-3">
+				<div class="modal" id="modal-guest" tabindex="-1">
+					<div class="modal-dialog">
+				 		<div class="modal-content">
+				      		<div class="modal-header">
+				        		<button type="button" data-bs-dismiss="modal" ><</button>
+				        		<h5 class="col modal-title">게스트</h5>
+				        		<p>이 숙소의 최대 숙박 인원은 10명(유아 포함)입니다.</p>
+				      		</div>
+				      		<div class="modal-body">
+				        		<div class="totalFn">
+					        		<div class="count-box">
+						        		<button type="button" class="minus">빼기</button>
+						        		<span class="num">0</span>
+						        		<button type="button" class="plus">더하기</button>
+				        			</div>
+					        		<div class="count-box">
+					        		    <button type="button" class="minus">빼기</button>
+					        		    <span class="num">0</span>
+					        		    <button type="button" class="plus">더하기</button>
+					        		</div>
+					        		<div class="count-box">
+					        		    <button type="button" class="minus">빼기</button>
+					        		    <span class="num">0</span>
+					        		    <button type="button" class="plus">더하기</button>
+					        		</div>
+					        		<!-- 합계 -->
+					        		<div class="total-area">
+						        		<span>Total =</span>
+						        		<strong class="count-total">0</strong>
+						        	</div>
+					       		</div>
+				      		</div>
+				      		<div class="modal-footer">
+				        		<button type="button" class="btn btn-sm" style="background-color:white; border-color:white;" data-bs-dismiss="modal"><u>취소</u></button>
+				      		</div>
+				  		</div>
+					</div>
 				</div>
 			</div>
 			<hr/>
@@ -111,32 +152,6 @@
 			  		</div>
 				</div>
 			</div>
-			<div class="modal" id="modal-how-to-use" tabindex="-1">
-				<div class="modal-dialog">
-			 		<div class="modal-content">
-			      		<div class="modal-header">
-			        		<button type="button" data-bs-dismiss="modal" ><</button>
-			        		<h5 class="col modal-title">이용방법</h5>
-			      		</div>
-			      		<div class="modal-body">
-			        		<p>요금의 일부만 지금 결제하고 잔액은 나중에 결제할 수 있습니다.</p>
-			        		<p>별도의 수수료가 부과되지 않습니다.</p>
-			        		<br>
-			        		<p><strong>총 요금의 일부만 지금 결제하세요</strong></p>
-			        		<p>총 요금의 일부만 결제하여 예약을 확정하세요</p>
-			        		<br>
-			        		<p><strong>잔액은 체크인 전에 결제하세요</strong></p>
-			        		<p>2회차 결제일에 잔액이 기존의 결제 수단으로 부과됩니다.</p>
-			        		<br>
-			        		<p><strong>자동으로 결제됩니다.</strong></p>
-			        		<p>잔액 결제일 3일 전에 알림을 보내드리니 걱정하지 마세요.</p>
-			      		</div>
-			      		<div class="modal-footer">
-			        		<button type="button" class="btn btn-sm" style="background-color:white; border-color:white;" data-bs-dismiss="modal"><u>취소</u></button>
-			      		</div>
-			  		</div>
-				</div>
-			</div>
 			<hr/>
 			<h5>결제 수단</h5>
 			<select id="card-select" class="form-select" aria-label="Default select example">
@@ -145,6 +160,7 @@
 				<option value="카드추가">신용카드 또는 체크카드</option>
 				<option value="2" disabled>이용 불가</option>
 				<option value="카카오 결제">카카오 결제 </option>
+				<button id="requestPay">결제하기</button>
 			</select>
 			<div class="insertCard">
 				<div class="row" style="padding:20px">
@@ -152,7 +168,7 @@
 						<form class="col" id="form-reservation" method="post" action="completed" modelAttribute="reservationRegisterForm">
 							<div class="mb-3">
 								<label for="id-field" class="form-label">카드번호</label>
-			                	<input class="form-control" name="id" id="id-field" placeholder="카드 번호"/>
+			                	<input class="form-control" name="id" id="id-field" placeholder="0000-0000-0000-0000"/>
 							</div>
 							<div class ="row"> 
 								<div class="col mb-3">
@@ -172,34 +188,6 @@
 			                	<label for="region-field" class="form-label">지역</label>
 			                	<input class="form-control" name="region" id="region-field" placeholder="한국"/>
 			                </div>
-							<div class="mb-3">
-								<div class="modal" id="modal-how-to-use" tabindex="-1">
-									<div class="modal-dialog">
-								 		<div class="modal-content">
-								      		<div class="modal-header">
-								        		<button type="button" data-bs-dismiss="modal" ><</button>
-								        		<h5 class="col modal-title">이용방법</h5>
-								      		</div>
-								      		<div class="modal-body">
-								        		<p>요금의 일부만 지금 결제하고 잔액은 나중에 결제할 수 있습니다.</p>
-								        		<p>별도의 수수료가 부과되지 않습니다.</p>
-								        		<br>
-								        		<p><strong>총 요금의 일부만 지금 결제하세요</strong></p>
-								        		<p>총 요금의 일부만 결제하여 예약을 확정하세요</p>
-								        		<br>
-								        		<p><strong>잔액은 체크인 전에 결제하세요</strong></p>
-								        		<p>2회차 결제일에 잔액이 기존의 결제 수단으로 부과됩니다.</p>
-								        		<br>
-								        		<p><strong>자동으로 결제됩니다.</strong></p>
-								        		<p>잔액 결제일 3일 전에 알림을 보내드리니 걱정하지 마세요.</p>
-								      		</div>
-								      		<div class="modal-footer">
-								        		<button type="button" class="btn btn-sm" style="background-color:white; border-color:white;" data-bs-dismiss="modal"><u>취소</u></button>
-								      		</div>
-								  		</div>
-									</div>
-								</div>
-							</div>
 					</div>
 				</div>
 			</div>
@@ -218,7 +206,7 @@
 					</div>
 					<div class="col">
 					    <span>${accommodation.user.name }</span>
-					    <p><small class="text-muted"><fmt:formatDate value="${accommodation.checkOut}" pattern="yyyy-MM-dd" /></small></p>
+					    <p><small class="text-muted"><fmt:formatDate value="${accommodation.user.createdDate}" pattern="yyyy년MM월dd일" /></small></p>
 					</div>
 				</div>
 				<div>
@@ -247,7 +235,7 @@
 				<input type="hidden" name="price" value="${accommodation.price }">
 				<button type="submit" class="btn btn-lg" style="background-color:#d80765; color:white;">확인 및 결제</a>
 			</div>
-					</form>	
+		</form>	
 	</div>
 	<!-- 오른쪽 -->
 	<div class='right-box'>
@@ -288,7 +276,6 @@
 								<span style="float:right">총 합계</span>
 							</div>
 						</div>
-							<button id="requestPay">결제하기</button>
 					</div>
 				</div>
 			</div>
@@ -324,7 +311,7 @@
 							</div>
 							<div>
 								<span>총 합계</span>
-								<span style="float:right">총 합계</span>
+								<span style="float:right">${reservation.totalPrice }</span>
 							</div>
 							<hr>
 							<div class="divide2">
@@ -347,10 +334,9 @@
 <script type="text/javascript">
 $(function(){
 	let modalHowToUse = new bootstrap.Modal(document.getElementById("modal-how-to-use"));
-	
-	$("#btn-howtouse").click(function(){
-		modalHowToUse.show();
-	});
+		$("#btn-howtouse").click(function(){
+			modalHowToUse.show();
+		});
 	
 	$("#entire-payment").click(function(){
 		$("input:radio[name='payment']:radio[id='radio-entire']").prop('checked', true);
@@ -375,6 +361,7 @@ $(function(){
 			$(".insertCard").hide();
 		}
 	});
+	
 	$("#requestPay").click(function(){
 	
 		IMP.init('imp72420270');
@@ -383,11 +370,11 @@ $(function(){
 	        pay_method: 'card',
 	        merchant_uid: 'merchant_' + new Date().getTime(),
 	        name: '결제테스트',
-	        amount: 1,
-	        buyer_email: "kimdow6@gmail.com",
-	        buyer_name: "김도우",
-	        buyer_tel: "010-9329-9020",
-	        buyer_addr: "서울시 강서구",
+	        amount: ${accommodation.price},
+	        buyer_email: "${accommodation.user.email}",
+	        buyer_name: "${accommodation.user.name}",
+	        buyer_tel: "${accommodation.user.phone}",
+	        buyer_addr: "${accommodation.user.address}",
 	    }, function (rsp) { 
 	        if (rsp.success) {
 	      	  var msg = "예약이 완료되었습니다."
@@ -402,9 +389,9 @@ $(function(){
 	      	  alert(msg);
 	    });
 	});  
-	
-
 })
+
+
 </script>
 </body>
 </html>
