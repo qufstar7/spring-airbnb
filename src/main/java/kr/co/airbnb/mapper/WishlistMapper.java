@@ -17,7 +17,7 @@ public interface WishlistMapper {
 
 	Wishlist getWishlistByNo(int wishlistNo);
 	List<Wishlist> getWishlistsByUserNo(int userNo);
-	List<Wishlist> getNextWishlists(@Param("userNo") int userNo, @Param("startNum") int startNum);
+	List<Wishlist> getNextWishlists(@Param("userNo") int userNo, @Param("startNum") int startNum, @Param("lastNum") int lastNum);
 	List<Accommodation> getWishlistAccsByNo(int wishlistNo);
 	void createWishlist(Wishlist wishlist);
 	void saveWishlistAcc(@Param("wishlistNo")int wishlistNo, @Param("accNo") int accNo);

@@ -53,12 +53,22 @@ public class WishlistController {
 		return "wishlist/detail";
 	}
 	
+	/**
+	 * wishlist.jsp에서 비동기방식으로 더보기 기능 구현하기
+	 * @param loginUser
+	 * @param startNum 다음에 가져와야하는 숙소리스트의 인덱스 번호
+	 * @return
+	 */
 	@GetMapping("/getMoreLists")
 	@ResponseBody
 	public Map<String, Object> getMoreWishlists(@LoginUser User loginUser, @RequestParam("startNum") int startNum) {
-		wishlistService.getMoreWishlists(loginUser.getNo(), startNum);
+		List<Wishlist> moreWishlists = wishlistService.getMoreWishlists(loginUser.getNo(), startNum);
+		System.out.println("개수: " + moreWishlists.size());
 		
-		return null;
+		Map<String, Object> result = new HashMap<>();
+		result.put("moreWishlists", moreWishlists);
+		
+		return result;
 	}
 	
 	/** // 질문
@@ -166,10 +176,8 @@ public class WishlistController {
 			System.out.println("컨트롤러 예약불가능숙소 번호: " + unAvailableAcc.getAccNo());
 		}
 		
-		
 		model.addAttribute("availableWishlist", availableWishlist);
 		model.addAttribute("unavailableWishlist", unavailableWishlist);
-
 		
 		return "wishlist/wishlistHelper";
 	}
