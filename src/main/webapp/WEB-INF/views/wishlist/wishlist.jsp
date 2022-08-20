@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../common/tags.jsp"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,36 +28,117 @@
 		<p><small>검색 중에 마음에 드는 숙소나 즐길 거리를 위시리스트에 저장하려면 하트 아이콘을 누르세요.</small> </p>
 	</c:if>
 	<c:if test="${not empty wishlists}">
-		<c:forEach var="wishlist" items="${wishlists}">
-			 <div class="col-xl-4 col-lg-3 col-md-6 col-sm-12 col-xs-12">
+		<c:forEach var="wishlist" items="${wishlists}" varStatus="loop">
+			<c:if test="${loop.index lt 9}">
+			 <div class="col-xl-4 col-lg-3 col-md-6 col-sm-12 col-xs-12" id="div-main-wishlists">
 					<a href="/wishlists/detail?no=${wishlist.no}">
-						<div class="flex-container">
-							<div class="aca5" >
-								<div class="_1h6">
-									<img src="https://a0.muscache.com/airbnb/static/destinations/o-Paris_480x320.jpg" class="myImg" id="image-large">
-								</div>
-							</div>
-							<div class="div-small">
-								<div class="_96vp">
-									<div class="_1h6">
-											<img src="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg" class="myImg">
+							<div class="flex-container">
+								<div class="_clcy">
+									<div class="aca5">
+										<div class="_1h6">
+											<c:if test="${not empty wishlist.accs}">
+												<img src="${wishlist.accs[0].imageCover}" class="myImg" id="image-large">
+											</c:if>
+										</div>
+									</div>
+									<div class="div-small">
+										<div class="_96vp">
+											<div class="_1h6">
+												<c:if test="${not empty wishlist.accs}">
+														<img src="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg" class="myImg">
+												</c:if>
+											</div>
+										</div>
+										<div class="_17xh">
+											<div class="_1h6">
+												<c:if test="${not empty wishlist.accs}">
+													<img src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg" class="myImg">
+												</c:if>
+											</div>
+										</div>
 									</div>
 								</div>
-								<div class="_17xh">
-									<div class="_1h6">
-										<img src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg" class="myImg">
-									</div>
-								</div>
 							</div>
-						</div>
 						<div class="mt-2 mb-5">
 							<span class="fs-4">${wishlist.name}</span>
 						</div>
 					</a>
 				</div>
+			</c:if>
 		</c:forEach>
 	</c:if>
 	</div>
+	<c:if test="${fn:length(wishlists) gt 10}">  
+		<div>
+		 <button id="btn-more-lists"><span>더보기</span></button>
+		</div>
+	</c:if>
 </div>
+<script type="text/javascript">
+$(function() {
+
+	$("#btn-more-lists").click(function() {
+		
+		let startNum = $(".flex-container").length;
+		alert(startNum);
+		
+		let addListContent = '';
+		
+		$.getJSON("/wishlists/getMoreLists", "startNum=" + startNum)
+		 .done(function(moreLists) {
+		 	if(moreLists.length <=9) {
+		 		$("#btn-more-lists").remove();
+		 		$.each(moreLists, function(i, wishlist) {
+		 			
+		 			addListContent += `<a href="/wishlists/detail?no=${wishlist.no}">
+											<div class="flex-container">
+												<div class="_clcy">
+													<div class="aca5">
+														<div class="_1h6">
+															<c:if test="${not empty wishlist.accs}">
+																<img src="${wishlist.accs[0].imageCover}" class="myImg" id="image-large">
+															</c:if>
+														</div>
+													</div>
+													<div class="div-small">
+														<div class="_96vp">
+															<div class="_1h6">
+																<c:if test="${not empty wishlist.accs}">
+																		<img src="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg" class="myImg">
+																</c:if>
+															</div>
+														</div>
+														<div class="_17xh">
+															<div class="_1h6">
+																<c:if test="${not empty wishlist.accs}">
+																	<img src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg" class="myImg">
+																</c:if>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										<div class="mt-2 mb-5">
+											<span class="fs-4">${wishlist.name}</span>
+										</div>
+									</a>`;
+		 			
+		 			
+		 		});
+		 		
+		 		$("#div-main-wishlists").append(addListContent);
+		 	} else {
+		 		
+		 	}
+			 
+			 
+		 })
+		
+	});
+	
+	
+	
+})
+</script>
 </body>
 </html>

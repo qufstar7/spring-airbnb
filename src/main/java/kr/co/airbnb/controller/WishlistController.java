@@ -53,6 +53,14 @@ public class WishlistController {
 		return "wishlist/detail";
 	}
 	
+	@GetMapping("/getMoreLists")
+	@ResponseBody
+	public Map<String, Object> getMoreWishlists(@LoginUser User loginUser, @RequestParam("startNum") int startNum) {
+		wishlistService.getMoreWishlists(loginUser.getNo(), startNum);
+		
+		return null;
+	}
+	
 	/** // 질문
 	 * 위시리스트 폴더 삭제 작업
 	 * @return
@@ -81,8 +89,9 @@ public class WishlistController {
 		System.out.println("새로운 wishlistName: " + wishlistName);
 		System.out.println("accNo: " + accNo);
 		
-		wishlistService.createWishlistAndSaveAcc(new Wishlist(wishlistName, loginUser), accNo);
-		Wishlist newWishlist = wishlistService.getNewWishlistByUserNo(loginUser.getNo());
+		Wishlist wishlist = new Wishlist(wishlistName, loginUser);
+		wishlistService.createWishlistAndSaveAcc(wishlist, accNo);
+		Wishlist newWishlist = wishlistService.getWishlistByNo(wishlist.getNo());
 		
 		// refresh wishlists
 		//List<Wishlist> wishlists = wishlistService.getMyWishlists(loginUser.getNo());
@@ -124,7 +133,7 @@ public class WishlistController {
 		
 		Date checkInDate = null;
 		Date checkOutDate = null;
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");  //@DateTimeFormat 사용(pattern="yyyy-MM-dd")?
 		if (!startDate.isBlank() && !endDate.isBlank()) {
 			 checkInDate = format.parse(startDate);
 			 checkOutDate = format.parse(endDate);
@@ -137,12 +146,25 @@ public class WishlistController {
 		//System.out.println("startDate: " + startDate);
 		//System.out.println("endDate: " + endDate);
 		
+		// 예약이 가능한 숙소들이 들어있는 5번 위시리스트
+		Wishlist availableWishlist = wishlistService.getAvailableWishlistWithCondition(wishlistNo, checkInDate, checkOutDate, guestCount);
 		
-		Map<String, Wishlist> wishlist = wishlistService.getWishlistWithCondition(wishlistNo, checkInDate, checkOutDate, guestCount);
-		Wishlist availableWishlist = wishlist.get("availableWishlist");
-		System.out.println("컨트롤러 예약가능한 숙소 개수: " +availableWishlist.getAccs().size() );
-		Wishlist unavailableWishlist = wishlist.get("unavailableWishlist");
-		System.out.println("컨트롤러 예약불가능한 숙소 개수: " +unavailableWishlist.getAccs().size() );
+		// 예약이 불가능한 숙소들이 들어있는 5번 위시리스트
+		Wishlist unavailableWishlist = wishlistService.getAnavailableWishlistWithCondition(wishlistNo, checkInDate, checkOutDate, guestCount);
+		
+		
+		
+		List<Accommodation> availableAccs = availableWishlist.getAccs();
+		System.out.println("컨트롤러 예약가능한 숙소 개수: " + availableAccs.size() );
+		for(Accommodation availableAcc : availableAccs) {
+			System.out.println("컨트롤러 예약가능숙소번호: " + availableAcc.getAccNo());
+		}
+		
+		List<Accommodation> unAvailableAccs = unavailableWishlist.getAccs();
+		System.out.println("컨트롤러 예약불가능한 숙소 개수: " + unAvailableAccs.size() );
+		for(Accommodation unAvailableAcc : unAvailableAccs) {
+			System.out.println("컨트롤러 예약불가능숙소 번호: " + unAvailableAcc.getAccNo());
+		}
 		
 		
 		model.addAttribute("availableWishlist", availableWishlist);

@@ -32,13 +32,6 @@ public class WishlistService {
 		return wishlist;
 	}
 	
-	public Wishlist getNewWishlistByUserNo(int userNo) {
-		Wishlist newWishlist = wishlistMapper.getNewWishlistByUserNo(userNo);
-		newWishlist.setAccs(wishlistMapper.getWishlistAccsByNo(newWishlist.getNo()));
-		
-		return newWishlist;
-	}
-	
 	/**
 	 * 해당 위시리스트에서 날짜, 인원 조건별 예약가능, 불가능 숙소 출력
 	 * @param wishlistNo
@@ -47,24 +40,21 @@ public class WishlistService {
 	 * @param guestCount 숙박인원
 	 * @return
 	 */
-	public Map<String, Wishlist> getWishlistWithCondition(int wishlistNo, Date checkInDate, Date checkOutDate, int guestCount) {
+	public Wishlist getAvailableWishlistWithCondition(int wishlistNo, Date checkInDate, Date checkOutDate, int guestCount) {
 		
-		Map<String, Wishlist> wishlist = new HashMap<>();
-		
-		Wishlist availableWishlist = wishlistMapper.getWishlistByNo(wishlistNo);
-		availableWishlist.setAccs(wishlistMapper.getAvailableWishlistAccsWithConditions(wishlistNo, checkInDate, checkOutDate, guestCount));
-		System.out.println("예약가능한 숙소 개수: " +availableWishlist.getAccs().size() );
-		
-		Wishlist unavailableWishlist = wishlistMapper.getWishlistByNo(wishlistNo);
-		unavailableWishlist.setAccs(wishlistMapper.getUnavailableWishlistAccsWithConditions(wishlistNo, checkInDate, checkOutDate, guestCount));
-		System.out.println("예약불가능한 숙소 개수: " +unavailableWishlist.getAccs().size() );
-		
-		wishlist.put("availableWishlist", availableWishlist);
-		wishlist.put("unavailableWishlist", unavailableWishlist);
-		
+		Wishlist wishlist = wishlistMapper.getWishlistByNo(wishlistNo);
+		wishlist.setAccs(wishlistMapper.getAvailableWishlistAccsWithConditions(wishlistNo, checkInDate, checkOutDate, guestCount));
 		
 		//Wishlist wishlist = wishlistMapper.getWishlistByNo(wishlistNo);
 		//wishlist.setAccs(wishlistMapper.getWishlistAccsWithConditions(wishlistNo, checkInDate, checkOutDate, guestCount));
+		
+		return wishlist;
+	}
+	
+	public Wishlist getAnavailableWishlistWithCondition(int wishlistNo, Date checkInDate, Date checkOutDate, int guestCount) {
+		
+		Wishlist wishlist = wishlistMapper.getWishlistByNo(wishlistNo);
+		wishlist.setAccs(wishlistMapper.getUnavailableWishlistAccsWithConditions(wishlistNo, checkInDate, checkOutDate, guestCount));
 		
 		return wishlist;
 	}
@@ -112,8 +102,7 @@ public class WishlistService {
 	 * @param wishlistNo
 	 */
 	public void deleteWishlist(int wishlistNo) {
-		deleteWishlistAcc(wishlistNo, 0);
-		wishlistMapper.deleteWishlist(wishlistNo);
+		wishlistMapper.deleteWishlistAndAllAccs(wishlistNo);
 	}
 	
 	public void deleteWishlistAcc(int wishlistNo, int accNo) {
@@ -122,6 +111,18 @@ public class WishlistService {
 	
 	public AccWishlist getAccNoByUserNo(Map<String, Object> map) {
 		return wishlistMapper.getAccNoByUserNo(map);
+	}
+
+	/**
+	 * wishlists.jsp에서 비동기방식으로 숙소 더보기 버튼 구현하기
+	 * @param userNo
+	 * @param startNum 다음번에 받아와야 하는 숙소의 인덱스 번호
+	 */
+	public void getMoreWishlists(int userNo, int startNum) {
+		
+		List<Wishlist> nextWishlists = wishlistMapper.getNextWishlists(userNo, startNum);
+		
+		
 	}
 }
 	

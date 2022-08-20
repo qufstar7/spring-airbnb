@@ -16,14 +16,19 @@ import kr.co.airbnb.vo.WishlistImage;
 public interface WishlistMapper {
 
 	Wishlist getWishlistByNo(int wishlistNo);
-	Wishlist getNewWishlistByUserNo(int userNo);
 	List<Wishlist> getWishlistsByUserNo(int userNo);
+	List<Wishlist> getNextWishlists(@Param("userNo") int userNo, @Param("startNum") int startNum);
 	List<Accommodation> getWishlistAccsByNo(int wishlistNo);
 	void createWishlist(Wishlist wishlist);
 	void saveWishlistAcc(@Param("wishlistNo")int wishlistNo, @Param("accNo") int accNo);
 	void updateWishlist(Wishlist wishlist);
 	void deleteWishlist(int wishlistNo);
+	
+	// 위시리스트 안의 특정 숙소를 삭제할 경우
 	void deleteWishlistAcc(@Param("wishlistNo") int wishlistNo, @Param("accNo") int accNo);
+	
+	// 위시리스트 폴더 자체를 삭제할 경우
+	void deleteWishlistAndAllAccs(@Param("wishlistNo") int wishlistNo);
 	
 	AccWishlist getAccNoByUserNo(Map<String,Object> map);
 	WishlistImage getImageByUserNo(Map<String,Object> map);
