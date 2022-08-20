@@ -57,52 +57,54 @@ footer {
 	<div class="row my-5">
 		<h2 class="fw-bold">위시리스트</h2>
 	</div>
-	<div class="row" id="div-main-wishlists">
-		<c:if test="${empty wishlists}">
-			<h4 class="fw-bold">첫 번째 위시리스트 만들기</h4>
-			<p><small>검색 중에 마음에 드는 숙소나 즐길 거리를 위시리스트에 저장하려면 하트 아이콘을 누르세요.</small> </p>
-		</c:if>
-		<c:if test="${not empty wishlists}">
-			<c:forEach var="wishlist" items="${wishlists}" varStatus="loop">
-				<c:if test="${loop.index lt 9}">
-				 <div class="col-xl-4 col-lg-3 col-md-6 col-sm-12 col-xs-12" >
-						<a href="/wishlists/detail?no=${wishlist.no}">
-								<div class="flex-container">
-									<div class="_clcy">
-										<div class="aca5">
-											<div class="_1h6">
-												<c:if test="${not empty wishlist.accs}">
-													<img src="${wishlist.accs[0].imageCover}" class="myImg" id="image-large">
-												</c:if>
-											</div>
-										</div>
-										<div class="div-small">
-											<div class="_96vp">
+	<c:if test="${not empty LOGIN_USER}">
+		<div class="row" id="div-main-wishlists">
+			<c:if test="${empty wishlists}">
+				<h4 class="fw-bold">첫 번째 위시리스트 만들기</h4>
+				<p><small>검색 중에 마음에 드는 숙소나 즐길 거리를 위시리스트에 저장하려면 하트 아이콘을 누르세요.</small> </p>
+			</c:if>
+			<c:if test="${not empty wishlists}">
+				<c:forEach var="wishlist" items="${wishlists}" varStatus="loop">
+					<c:if test="${loop.index lt 9}">
+					 <div class="col-xl-4 col-lg-3 col-md-6 col-sm-12 col-xs-12" >
+							<a href="/wishlists/detail?no=${wishlist.no}">
+									<div class="flex-container">
+										<div class="_clcy">
+											<div class="aca5">
 												<div class="_1h6">
 													<c:if test="${not empty wishlist.accs}">
-															<img src="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg" class="myImg">
+														<img src="${wishlist.accs[0].imageCover}" class="myImg" id="image-large">
 													</c:if>
 												</div>
 											</div>
-											<div class="_17xh">
-												<div class="_1h6">
-													<c:if test="${not empty wishlist.accs}">
-														<img src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg" class="myImg">
-													</c:if>
+											<div class="div-small">
+												<div class="_96vp">
+													<div class="_1h6">
+														<c:if test="${not empty wishlist.accs}">
+																<img src="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg" class="myImg">
+														</c:if>
+													</div>
+												</div>
+												<div class="_17xh">
+													<div class="_1h6">
+														<c:if test="${not empty wishlist.accs}">
+															<img src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg" class="myImg">
+														</c:if>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
+								<div class="mt-2 mb-5">
+									<span class="fs-4">${wishlist.name}</span>
 								</div>
-							<div class="mt-2 mb-5">
-								<span class="fs-4">${wishlist.name}</span>
-							</div>
-						</a>
-					</div>
-				</c:if>
-			</c:forEach>
-		</c:if>
-	</div>
+							</a>
+						</div>
+					</c:if>
+				</c:forEach>
+			</c:if>
+		</div>
+	</c:if>
 	<!-- 처음 화면에서 사용 -->
 	<c:if test="${fn:length(wishlists) gt 10}">  
 		<div>
@@ -119,7 +121,7 @@ $(function() {
 	$("#btn-more-lists").click(function() {
 		
 		let count = $(".flex-container").length;
-		alert(count);
+		//alert(count);
 		
 		let startNum = count + 1;
 		
@@ -130,10 +132,10 @@ $(function() {
 		 		$("#btn-more-lists").remove();
 		 	}
 		 	
-	 		let imageCoverHtml = '';
-	 		let imageSmall1Html = '';
-	 		let imageSmall2Html = '';
 	 		$.each(result.moreWishlists, function(i, wishlist) {
+		 		let imageCoverHtml = '';
+		 		let imageSmall1Html = '';
+		 		let imageSmall2Html = '';
 	 			if(wishlist.accs.length > 0){
 	 				imageCoverHtml = '<img src="' + wishlist.accs[0].imageCover + '" class="myImg" id="image-large">';
 	 			}

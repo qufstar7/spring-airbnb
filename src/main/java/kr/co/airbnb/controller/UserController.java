@@ -57,18 +57,22 @@ public class UserController {
 	public String kakaotest() {
 		return "user/kakaotest";
 	}
+	
 	@GetMapping(path="/facebook")
 	public String facebooktest() {
 		return "user/facebooktest";
 	}
+	
 	@GetMapping(path="google")
 	public String googletest() {
 		return "user/googletest";
 	}
+	
 	@GetMapping(path="account-settings")
 	public String account() {
 		return "user/account-settings";
 	}
+	
 	@GetMapping(path="profile")
 	public String profile(@LoginUser User loginUser, Model model) {
 		User user = userService.getUserByNo(loginUser.getNo());

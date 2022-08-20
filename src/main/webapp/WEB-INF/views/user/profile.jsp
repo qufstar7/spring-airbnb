@@ -102,7 +102,7 @@
 				<div class="mt-5 d-none" id="div-update-profile">
 					<form id="form-profile" method="post" action="/user/update" enctype="multipart/form-data">
 						<label for="textarea-description" class="form-label fs-5">소개</label>
-						<textarea class="form-control mb-5 fs-5" name="description" rows="4" id="textarea-description"> ${user.description} </textarea>
+						<textarea class="form-control mb-5 fs-5" name="description" rows="4" id="textarea-description">${user.description}</textarea>
 						<label for="input-location" class="form-label fs-5">위치</label>
 						<input type="text" class="form-control mb-5 p-2 fs-5" name="address" id="input-address" value="${user.address }" />
 						<label for="language" class="form-label fs-5 mb-3">생일</label>
@@ -220,13 +220,16 @@ $(function () {
 	
 	$("#btn-change-profile").click(function() {
 		$("#div-update-profile").removeClass("d-none");
-		$(this).addClass("disabled");
+		//$(this).addClass("disabled");
+		$(this).css({"cursor":"not-allowed", "color": "rgb(221, 221, 221)"});
 		$("#div-profile").addClass("d-none");
 	});
 	
 	$("#btn-cancel").click(function() {
 		$("#div-update-profile").addClass("d-none");
-		$("#btn-change-profile").removeClass("disabled");
+		$("#btn-change-profile").removeClass("disabled");  
+		$(this).css({"cursor":"pointer", "color": "black"});
+		
 		$("#div-profile").removeClass("d-none");
 	});
 	

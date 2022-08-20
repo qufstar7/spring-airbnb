@@ -87,4 +87,12 @@ public class HomeController {
 		SessionUtils.sessionInvlidate();
 		return "redirect:/";
 	}
+	
+	//  에러나면 홈화면으로, 나중에 수정필요 -유나-
+	@GetMapping(path="/login")
+	public String needLogin() {
+		
+		return "redirect:/";
+	}
+	
 }
