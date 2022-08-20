@@ -337,7 +337,7 @@ $(function(){
 		$("#btn-howtouse").click(function(){
 			modalHowToUse.show();
 		});
-	
+0	
 	$("#entire-payment").click(function(){
 		$("input:radio[name='payment']:radio[id='radio-entire']").prop('checked', true);
 		$(".leftDiv").hide();
