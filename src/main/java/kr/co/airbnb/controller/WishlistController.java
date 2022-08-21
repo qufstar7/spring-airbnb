@@ -53,28 +53,52 @@ public class WishlistController {
 		return "wishlist/detail";
 	}
 	
+	@GetMapping("/getMoreLists")
+	@ResponseBody
+	public Map<String, Object> getMoreWishlists(@LoginUser User loginUser, @RequestParam("startNum") int startNum) {
+		wishlistService.getMoreWishlists(loginUser.getNo(), startNum);
+		
+		return null;
+	}
+	
+	/** // 질문
+	 * 위시리스트 폴더 삭제 작업
+	 * @return
+	 */
+	@GetMapping(path="/delete")
+	public String deleteWishlist(@LoginUser User loginUser, @RequestParam("no") int wishlistNo) {
+		
+		wishlistService.deleteWishlist(wishlistNo);
+		
+		return "redirect:/wishlists";
+	}
+	
+	
+	// 특정 위시리스트 폴더에 저장된 숙소를 삭제한다.
 	@GetMapping(path="/delete/acc")
 	@ResponseBody
-	public Map<String, Object> deleteWishlistAcc(@RequestParam("accNo") int accNo, @RequestParam("wishlistNo") int wishlistNo) {		// 나중에 @LoginUser 추가하기
+	public Map<String, Object> deleteWishlistAcc(@LoginUser User loginUser, @RequestParam("accNo") int accNo, @RequestParam("wishlistNo") int wishlistNo) {		// 나중에 @LoginUser 추가하기
 		wishlistService.deleteWishlistAcc(wishlistNo, accNo);
 		return null;
 	}
 	
 	@PostMapping(path="/insert") // 새로운 위시리스트 폴더 생성 후 해당 숙소 저장하기
-	@ResponseBody
-	public Map<String, Object> insertNewWishlist(@RequestParam("wishlistName") String wishlistName, @RequestParam("accNo") int accNo, @LoginUser User loginUser) {
+	//@ResponseBody // 08-19 : 에어비앤비 페이지와 다르게 새로운 위시리스트 폴더로 리다이렉트로 변경
+	public String insertNewWishlist(@RequestParam("wishlistName") String wishlistName, @RequestParam("accNo") int accNo, @LoginUser User loginUser) {
 		
 		System.out.println("새로운 wishlistName: " + wishlistName);
 		System.out.println("accNo: " + accNo);
 		
-		wishlistService.createWishlistAndSaveAcc(new Wishlist(wishlistName, loginUser), accNo);
+		Wishlist wishlist = new Wishlist(wishlistName, loginUser);
+		wishlistService.createWishlistAndSaveAcc(wishlist, accNo);
+		Wishlist newWishlist = wishlistService.getWishlistByNo(wishlist.getNo());
 		
 		// refresh wishlists
-		List<Wishlist> wishlists = wishlistService.getMyWishlists(loginUser.getNo());
-		Map<String, Object> result = new HashMap<>();
-		result.put("wishlists", wishlists);
+		//List<Wishlist> wishlists = wishlistService.getMyWishlists(loginUser.getNo());
+		//Map<String, Object> result = new HashMap<>();
+		//result.put("wishlists", wishlists);
 		
-		return result;
+		return "redirect:/wishlists/detail?no=" + newWishlist.getNo() ;
 	}
 	
 	/**
@@ -109,38 +133,43 @@ public class WishlistController {
 		
 		Date checkInDate = null;
 		Date checkOutDate = null;
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");  //@DateTimeFormat 사용(pattern="yyyy-MM-dd")?
 		if (!startDate.isBlank() && !endDate.isBlank()) {
 			 checkInDate = format.parse(startDate);
 			 checkOutDate = format.parse(endDate);
 		}
 		
-		System.out.println("wishlistNo: " + wishlistNo);
-		System.out.println("checkInDate: " + checkInDate);
-		System.out.println("endDate: " + checkOutDate);
-		System.out.println("totalGuestCount: " + guestCount);
-		System.out.println("startDate: " + startDate);
-		System.out.println("endDate: " + endDate);
+		//System.out.println("wishlistNo: " + wishlistNo);
+		//System.out.println("checkInDate: " + checkInDate);
+		//System.out.println("checkOutDate: " + checkOutDate);
+		//System.out.println("totalGuestCount: " + guestCount);
+		//System.out.println("startDate: " + startDate);
+		//System.out.println("endDate: " + endDate);
+		
+		// 예약이 가능한 숙소들이 들어있는 5번 위시리스트
+		Wishlist availableWishlist = wishlistService.getAvailableWishlistWithCondition(wishlistNo, checkInDate, checkOutDate, guestCount);
+		
+		// 예약이 불가능한 숙소들이 들어있는 5번 위시리스트
+		Wishlist unavailableWishlist = wishlistService.getAnavailableWishlistWithCondition(wishlistNo, checkInDate, checkOutDate, guestCount);
 		
 		
-		Wishlist wishlist = wishlistService.getWishlistWithCondition(wishlistNo, checkInDate, checkOutDate, guestCount);
-		model.addAttribute("wishlist", wishlist);
-		//Map<String, Object> result = new HashMap<>();
-		//result.put("wishlist", wishlist);
 		
-		// test
-		Wishlist testWishlist = wishlistService.getWishlistByNo(wishlistNo); 
-		List<Accommodation> unavailableAccsInWishlist = testWishlist.getAccs();    // 해당 위시리스트의 모든 숙소배열
-		System.out.println("모든 숙소 개수: " + unavailableAccsInWishlist.size());
+		List<Accommodation> availableAccs = availableWishlist.getAccs();
+		System.out.println("컨트롤러 예약가능한 숙소 개수: " + availableAccs.size() );
+		for(Accommodation availableAcc : availableAccs) {
+			System.out.println("컨트롤러 예약가능숙소번호: " + availableAcc.getAccNo());
+		}
 		
-		List<Accommodation> availableAccsInWishlist = wishlist.getAccs();  // 위에서 구한 예약가능한 숙소들
-		System.out.println("예약가능숙소개수: " + availableAccsInWishlist.size());
+		List<Accommodation> unAvailableAccs = unavailableWishlist.getAccs();
+		System.out.println("컨트롤러 예약불가능한 숙소 개수: " + unAvailableAccs.size() );
+		for(Accommodation unAvailableAcc : unAvailableAccs) {
+			System.out.println("컨트롤러 예약불가능숙소 번호: " + unAvailableAcc.getAccNo());
+		}
 		
-		System.out.println(unavailableAccsInWishlist.containsAll(availableAccsInWishlist));
 		
-		unavailableAccsInWishlist.removeAll(availableAccsInWishlist);
-		model.addAttribute("unavailableWishlist", unavailableAccsInWishlist);
-		System.out.println("불가능한 숙소 사이즈: " + unavailableAccsInWishlist.size());
+		model.addAttribute("availableWishlist", availableWishlist);
+		model.addAttribute("unavailableWishlist", unavailableWishlist);
+
 		
 		return "wishlist/wishlistHelper";
 	}

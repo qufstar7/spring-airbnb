@@ -157,15 +157,20 @@ public class ReviewService {
 	public List<Review> getReviews(int accNo, int beginIndex, int endIndex, String keyword) {
 		return reviewMapper.getReviews(accNo, beginIndex, endIndex, keyword);
 	}
-	/*
+	
 	// 유저가 게스트일 경우 실행되는 프로필 - 하단 후기 기능이다.
-	public List<Review> getReceivedReviewByHost(int no) {
-		return reviewMapper.getReceivedReviewByHost(no);
+	public List<Review> getGuestReceivedReviews(int no) {
+		return reviewMapper.getGuestReceivedReviews(no);
 	}
 	
-	// 유저가 호스트일 경우 실행되는 프로필 - 하단 후기 기능이다.
-	public List<Review> getReceivedReviewByGuest(int no) {
-		return reviewMapper.getReceivedReviewByGuest(no);
+	// 유저가 호스트일 경우 실행되는 프로필 - 게스트가 적은 리뷰이다.
+	public List<Review> getGuestWritedReviews(int no) {
+		return reviewMapper.getGuestWritedReviews(no);
 	}
-*/
+	
+	// 유저가 호스트일 경우 실행되는 프로필 - 호스트가 적은 리뷰이다.
+	public List<Review> getHostWriteReviews(int no) {
+		return reviewMapper.getHostWriteReviews(no);
+	}
+
 }

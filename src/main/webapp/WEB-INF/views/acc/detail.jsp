@@ -21,6 +21,7 @@
 <!-- 아이콘 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+<link href="../resources/aircnc.png" rel="icon" type="image/x-icon" />
 <!-- 페레스코 -->
 <script type="text/javascript" src="/resources/js/fresco.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/resources/css/fresco.css" />
@@ -69,7 +70,13 @@
 				<button type="button" style="font-size: 12px;" class="btn btn-link text-decoration-underline text-dark openReviewModal"><i class="bi bi-star-fill"></i> ${acc.reviewScore }<span class="text-decoration-underline"> · 후기 ${acc.reviewCount }개</span></button>
 			</div>
 			<div class="col-2 p-3 text-end" style="width: 200px;" >
-				<button class="btn btn-danger r-btn text-white text-center" form="form-reservation" style="width: 100%">예약하기</button>
+				<c:if test="${empty LOGIN_USER}">
+						<!-- 로그인 하지 않았을 때 -->
+					<button type="button" class="btn btn-danger r-btn text-white text-center" data-bs-toggle="modal" data-bs-target="#email-login-modal" style="width: 100%">예약하기</button>
+				</c:if>
+				<c:if test="${not empty LOGIN_USER}">
+					<button class="btn btn-danger r-btn text-white text-center" form="form-reservation" style="width: 100%">예약하기</button>
+				</c:if>
 			</div>
 		</div> 
 	</nav>
@@ -93,7 +100,7 @@
 						</c:otherwise>
 					</c:choose>
 					<button type="button" class="btn btn-link text-decoration-underline text-dark btn-sm" id="btn-open-map-modal">${acc.address }</button>
-					<span class="float-end">
+					<span class="float-end" id="append-save">
 						<button type="button" class="btn btn-link text-decoration-underline text-dark" id="btn-open-share-modal"><i class="bi bi-share-fill"></i> 공유</button>
 						<c:choose>
 					  	<c:when test="${empty LOGIN_USER}">
@@ -102,23 +109,31 @@
 						</c:when>
 						<c:otherwise>
 								<!-- 로그인 했을 때 -->
-							<c:set var="flag" value="N" />
+							<c:choose>
+								<c:when test="${not empty wishlistAccNo.accNo  }">
+									<a href="delete?accNo=${acc.accNo }&wishlistNo=${wishlistAccNo.wishlist.no }" class="btn btn-link text-decoration-underline text-dark btn-delete-wishlistAcc" ><i id="icon-heart-${acc.accNo}" class="fa-solid fa-heart fs-6 " style="color: #FF385C;"></i> <span id="saveList">저장 목록</span></a>
+								</c:when>
+								<c:when test="${empty wishlist.accNo }">
+									<button type="button" class="btn btn-link text-decoration-underline text-dark btn-open-save-modal" id="save-btn"><i id="icon-heart-${acc.accNo}" class="fa-regular fa-heart fs-6"></i> 저장</button>
+								</c:when>
+							</c:choose>
+							<%-- <c:set var="flag" value="N" />
 							<c:forEach items="${wishlistAccNo }" var="wishlist">
 								<c:choose>
+									<c:when test="${empty wishlist.accNo }">
+										<c:set var="flag" value="Y" />
+										<button type="button" class="btn btn-link text-decoration-underline text-dark btn-open-save-modal" ><i id="icon-heart-${acc.accNo}" class="fa-regular fa-heart fs-6"></i> 저장</button>
+									</c:when>
 									<c:when test="${wishlist.accNo eq acc.accNo and flag eq 'N' }">
 										<c:set var="flag" value="Y" />
-										<form action="delete">
-											<input type="hidden" value="${wishlist.wishlist.no }" name="wishlistNo" id="wishlistNo">
-											<input type="hidden" value="${wishlist.wishlist.no }" name="accNo" id="wishlistNo">
-											<button type="submit" class="btn btn-link text-decoration-underline text-dark btn-delete-wishlistAcc" data-accNo="${acc.accNo}" ><i id="icon-heart-${acc.accNo}" class="fa-solid fa-heart fs-6 " style="color: #FF385C;"></i> <span id="saveList">저장 목록</span></button>
-										</form>
+										<a href="delete?accNo=${acc.accNo }&wishlistNo=${wishlist.wishlist.no}" class="btn btn-link text-decoration-underline text-dark btn-delete-wishlistAcc" ><i id="icon-heart-${acc.accNo}" class="fa-solid fa-heart fs-6 " style="color: #FF385C;"></i> <span id="saveList">저장 목록</span></a>
 									</c:when>
 									<c:when test="${wishlist.accNo ne acc.accNo and flag eq 'N' }">
 										<c:set var="flag" value="Y" />
-										<button type="button" class="btn btn-link text-decoration-underline text-dark btn-open-save-modal" ><i id="icon-heart-${acc.accNo}" class="fa-regular fa-heart fs-6"></i> 안똑</button>
+										<button type="button" class="btn btn-link text-decoration-underline text-dark btn-open-save-modal" ><i id="icon-heart-${acc.accNo}" class="fa-regular fa-heart fs-6"></i> 저장</button>
 									</c:when>
 								</c:choose>
-							</c:forEach>
+							</c:forEach> --%>
 						</c:otherwise>
 					  </c:choose>
 					</span>
@@ -183,7 +198,7 @@
 					<h4>${acc.user.name }님이 호스팅하는 ${acc.name }</h4>
 					<p>최대 인원 ${acc.guest }명<i class="bi bi-dot">
 					
-					</i>침실 ${acc.rooms.bedroom }개<i class="bi bi-dot"></i>침대 ${acc.rooms.bed }개<i class="bi bi-dot"></i>욕실 ${acc.rooms.bathroom }개</p>
+					</i>침실 ${acc.room.bedroom }개<i class="bi bi-dot"></i>침대 ${acc.room.bed }개<i class="bi bi-dot"></i>욕실 ${acc.room.bathroom }개</p>
 				</div>
 				<hr>
 				<div class="pt-3 pb-2">
@@ -232,8 +247,8 @@
 				<hr>
 				<c:if test="${not empty acc.description }">
 					<div class="contentbox2 mt-5 mb-5">
-						<div class="content2 mb-2">
-							<span>${acc.description }</span>
+						<div class="content2 mb-2" style="white-space:  pre-line;">
+							<p style="white-space:  pre-line; font-size: 16px;" >${acc.description }</p>
 						</div>
 						<button type="button" class="btn btn-link text-decoration-underline text-dark btn-sm" id="btn-open-description-modal">더보기 <i class="bi bi-chevron-right"></i></button>
 					</div>
@@ -246,14 +261,14 @@
 						bed
 						</span>
 						<div>
-							<c:if test="${acc.rooms.bedroom gt 0 }">
+							<c:if test="${acc.room.bedroom gt 0 }">
 							<div>
-								<span>침실 ${acc.rooms.bedroom }개</span>
+								<span>침실 ${acc.room.bedroom }개</span>
 							</div>
 							</c:if>
-							<c:if test="${acc.rooms.bed gt 0 }">
+							<c:if test="${acc.room.bed gt 0 }">
 							<div>
-								<span>침대 ${acc.rooms.bed }개</span>
+								<span>침대 ${acc.room.bed }개</span>
 							</div>
 							</c:if>
 						</div>
@@ -275,7 +290,7 @@
 						<h4>숙소 편의시설</h4>
 					</span>
 					<c:forEach items="${acc.conveniences }" var="accConvenience" end="5">
-						<div class="col-6 mb-2 convenience d-flex align-items-center">
+						<div class="col-6 mb-2 convenience align-items-center">
 							<p><span class="material-symbols-outlined"> ${accConvenience.convenience.iconName }</span> ${accConvenience.convenience.name }</p>
 						</div>
 					</c:forEach>
@@ -307,7 +322,7 @@
 			</div> 
 			<div class="col-4" id="side">
 				<div id="sticky" >
-				<form id="form-reservation" method="post" action="">
+				<form id="form-reservation" method="post" action="/book/register?no=${acc.accNo }">
 					<div class="row shadow-lg bg-body rounded" id="box">
 						<div class="col-6 boxhd reservation" >
 							<h4><strong><fmt:formatNumber value="${acc.price }"/></strong>/
@@ -322,11 +337,10 @@
 							<button type="button" class="btn btn-link text-dark btn-sm"><i class="bi bi-star-fill"></i> ${acc.reviewScore } <span class="text-decoration-underline">후기 ${acc.reviewCount }개</span></button>
 						</div>
 						<div class="col-12 start" >
-							<label class="mb-2 p-2">체크인 체크아웃</label>
 							<div class="" id="days-box">
 								<input type="text" class="text-center" placeholder="체크인 체크아웃을 설정하시오" data-input id="days">
-								<input type="hidden" name="checkInDate" id="checkInDate" value="">
-								<input type="hidden" name="checkOutDate" id="checkOutDate" value="">
+								<input type="date" name="checkInDate" id="checkInDate" value="" >
+								<input type="date" name="checkOutDate" id="checkOutDate" value="" >
 								<input type="hidden" name="adultNum" id="adultNum" value="0">
 								<input type="hidden" name="childrenNum" id="childrenNum" value="0">
 								<input type="hidden" name="infantNum" id="infantNum" value="0">
@@ -336,8 +350,8 @@
 							</div>
 						</div>
 						<div class="m-0 p-0 text-center">
-							<button type="button" class="btn btn-outline-dark p-2" id="guest-btn">
-								인원: <span id="adultCount">0</span> 유아: <span id="infantCount">0</span> 반려동물: <sapn id="petCount"> 0</sapn>
+							<button type="button" class="btn btn-outline-dark p-2 text-start" id="guest-btn">
+								<span id="adult">게스트: <span id="adultCount">1</span>명</span> <span id="infant">유아: <span id="infantCount">0</span>명</span> <span id="pet">반려동물: <sapn id="petCount"> 0</sapn>마리</span>
 								<i class="bi bi-caret-down-fill float-end" id="down"></i>
 								<i class="bi bi-caret-up-fill float-end" id="up"></i>
 							</button>
@@ -353,7 +367,7 @@
 									</div>
 									<div class="col-4 adult">
 											<button type="button" class="btn btn-outline-dark btn-sm m_btn guestbtn adultM">-</button>
-											<span class="m-2 adultCount">0</span>
+											<span class="m-2 adultCount">1</span>
 											<button type="button" class="btn btn-outline-dark btn-sm p_btn guestbtn hu_p_btn">+</button>
 									</div>
 								</div>
@@ -419,17 +433,23 @@
 								</div>
 							</div>
 						</div>
-						<button type="submit" class="btn btn-danger p-2 mt-2 reservation r-btn" >예약하기</button>
+					  	<c:if test="${empty LOGIN_USER}">
+								<!-- 로그인 하지 않았을 때 -->
+							<button type="button" class="btn btn-danger p-2 mt-2 reservation r-btn" data-bs-toggle="modal" data-bs-target="#email-login-modal">예약하기</button>
+						</c:if>
+						<c:if test="${not empty LOGIN_USER}">
+							<button type="submit" class="btn btn-danger p-2 mt-2 reservation r-btn" >예약하기</button>
+						</c:if>
 						<div class="mb-3 text-center mt-2">
 							<span>예약 확정 전에는 요금이 청구되지 않습니다.</span>
 						</div>
 						<div class="row reservation">
-							<div class="col-6 text-left"><p>₩<fmt:formatNumber value="${acc.price }"/> x <span class="day"></span>박</p></div>
+							<div class="col-6 text-left"><p class="text-decoration-underline">₩<fmt:formatNumber value="${acc.price }"/> x <span class="day"></span>박</p></div>
 							<div class="col-6 text-end"><p>₩<span id="day-price"></span>원</div>
 							<input type="hidden" name="price" id="price" value="0">
 						</div>
 						<div class="row reservation">
-							<div class="col-6"><p>청소비</p></div>
+							<div class="col-6"><p class="text-decoration-underline">청소비</p></div>
 							<div class="col-6 text-end"><p>₩<fmt:formatNumber value="${acc.cleaningPrice }"/>원</div>
 							<input type="hidden" name="serviceFee" id="serviceFee" value="${acc.cleaningPrice }">
 						</div>
@@ -599,10 +619,10 @@
 					<h4>호스팅 지역</h4>
 				</div>
 				<div class="mb-2" id="map"></div>
-				<div class="contentbox2 mt-5 mb-5">
+				<div class="contentbox2">
 					<h5>${acc.address }</h1>
-					<div class="content2 mb-2">
-						<p>${acc.description }</p>
+					<div class="content2 mb-2" style="white-space:  pre-line;">
+						<pre style="white-space:  pre-line;">${acc.description }</pre>
 					</div>
 					<button type="button" class="btn btn-link text-decoration-underline text-dark btn-sm" id="btn-open-map-modal2">더보기 <i class="bi bi-chevron-right"></i></button>
 				</div>
@@ -637,7 +657,7 @@
 						</div>
 					</div>
 					<div class="contentbox3 mt-2 mb-2">
-					<div class="content3 mb-2">
+					<div class="content3 mb-2" style="white-space:  pre-line;">
 						<p>${acc.user.description }</p>
 					</div>
 				</div>
@@ -654,7 +674,7 @@
 						</c:when>
 						<c:otherwise>
 								<!-- 로그인 했을 때 -->
-								<a href="">
+								<a href="contact?no=${acc.accNo }">
 									<button type="button" class="btn btn-outline-dark btn-lg p-2">호스트에게 연락하기</button>
 								</a>
 						</c:otherwise>
@@ -666,11 +686,11 @@
 				<h4>알아두어야 할 사항</h4>
 				<div class="col-4">
 					<h6>숙소 이용 규칙</h6>
-					<p>체크인: 오후 4:00 - 오후 11:00</p>
-					<p>체크아웃 시간: 오전 11:00</p>
-					<p>열쇠 보관함(으)로 셀프 체크인</p>
-					<p>흡연 금지</p>
-					<p>어린이와 유아에게 적합하지 않음</p>
+					<p><i class="bi bi-alarm-fill"></i> 체크인: 오후 4:00 - 오후 11:00</p>
+					<p><i class="bi bi-alarm-fill"></i> 체크아웃 시간: 오전 11:00</p>
+					<p><i class="bi bi-door-closed"></i> 열쇠 보관함(으)로 셀프 체크인</p>
+					<p><i class="bi bi-x-octagon"></i> 흡연 금지</p>
+					<p><i class="bi bi-x-octagon"></i> 어린이와 유아에게 적합하지 않음</p>
 				</div>
 				<div class="col-4">
 					<h6>건강과 안전</h6>
@@ -679,7 +699,7 @@
 				</div>
 				<div class="col-4">
 					<h6>환불 정책</h6>
-					<p>하루전 까지 환불 가능</p>
+					<p>일주일 전까지 무료 환불 가능</p>
 				</div>
 			</div>
 		</div>
@@ -835,13 +855,16 @@
 								<form action="save">
 									<input type="hidden" name="wishlistNo" value="${wishlist.no }">
 									<input type="hidden" name="accNo" value="${acc.accNo }">
-									<c:forEach items="${acc.photos }" var="photo">
-										<c:if test="${photo.num eq '1' }">
-											<button type="submit" class="btn">
-												<img class="rounded" src="/resources/images/acc/${photo.name }" style="width: 64px; height: 64px;">
+										<c:if test="${not empty wishlist.wishlistImage }">
+											<button type="submit" class="rounded" style="width: 64px; height: 64px; border: 0px;" >
+												<img class="rounded" src="/resources/images/acc/${wishlist.wishlistImage.imageName }" style="width: 64px; height: 64px;" >
 											</button>
 										</c:if>
-									</c:forEach>
+										<c:if test="${empty wishlist.wishlistImage }">
+											<button type="submit" class="btn btn btn-secondary" style="width: 64px; height: 64px; padding: 0;">
+												
+											</button>
+										</c:if>
 									<span class="ms-3 fw-bold" style="margin-top:20px;">${wishlist.name }</span>
 								</form>
 							</div>
@@ -863,14 +886,15 @@
 			</div>
 			<div class="modal-body">
 				<div class="row  p-3">
-					<form action="/insert" method="post" id="form-create-wishlist">
-					<div class="row mb-3 align-items-center">
-						<input class="form-control rounded" type="text" placeholder="이름을 입력하시오" aria-label="default input example" name="wishlistName">
-						<input type="hidden" name="accNo" value="${acc.accNo }">
-					</div>
-					<div class="row mb-3 align-items-center">
-						<button type="button" class="btn btn-dark" id="btn-create-wishlist">새로 만들기</button>
-					</div>
+					<form action="insert" method="get" id="form-create-wishlist">
+						<div class="row mb-3 align-items-center">
+							<input class="form-control rounded" type="text" placeholder="이름을 입력하시오" maxlength='50'  name="wishlistName">
+							<small>최대 50자</small>
+							<input type="hidden" name="accNo" value="${acc.accNo }">
+						</div>
+						<div class="row mb-3 align-items-center">
+							<button type="submit" class="btn btn-dark" id="btn-create-wishlist">새로 만들기</button>
+						</div>
 					</form>					
 				</div>
 			</div>
@@ -930,7 +954,7 @@
 					<c:forEach items="${acc.photos }" var="photo">
 						<div class="">
 							<a href="/resources/images/acc/${photo.name }" class="fresco" data-fresco-group="web">
-							<img id="img-${photo.num }" src="/resources/images/acc/${photo.name }" class="modal-img"></a>
+							<img id="img-${photo.num }" src="/resources/images/acc/${photo.name }" class="modal-img mb-2" style="width: 800px; height: 600px;"></a>
 						</div>
 					</c:forEach>
 				</div>
@@ -1045,15 +1069,15 @@
 				<div class="row">
 					<div class="col-2">
 						<div>
-							<div class="contentbox3">
+							<div class="contentbox3 mb-3">
 								<h4>${acc.address }</h4>
-								<div class="content3">
-									<p>${acc.description }</p>
+								<div class="content3" style="white-space:  pre-line;">
+									<p style="white-space: pre-line;">${acc.description }</p>
 								</div>
 							</div> 
-							<div class="contentbox3">
+							<div class="contentbox3 mb-3">
 								<h4>교통편</h4>
-								<div class="content3">
+								<div class="content3" style="white-space:  pre-line;">
 									<p>${acc.trafficDescription }</p>
 								</div>
 							</div>
@@ -1206,7 +1230,7 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 			</div>
 			<div class="modal-body">
-				<p>${acc.description }</p>
+				<p style="white-space:  pre-line;">${acc.description }</p>
       </div>
 		</div>
 	</div>
@@ -1312,6 +1336,9 @@ $(function() {
 		accImageModal.show();
 	});
 	
+	$("#checkInDate").hide();
+	$("#checkOutDate").hide();
+	
 	// 리뷰 리스트 모달
 	let $reviewBox = $("#box-show-reviews");
 	
@@ -1352,7 +1379,7 @@ $(function() {
 		
 		$.ajax({
 			type: 'GET',
-			url: "review/reviews",				// no / accNo 같음
+			url: "../review/reviews",				// no / accNo 같음
 			data: data,
 			dataType: 'json',
 			success: function(data) {
@@ -1390,12 +1417,12 @@ $(function() {
 			   $(".boxReviewContent").each(function(){
 			        let rcontent = $(this).children('.reviewContent');
 			        let rcontent_txt = rcontent.text();
-			        let rcontent_txt_short = rcontent_txt.substring(0,30)+"...";
+			        let rcontent_txt_short = rcontent_txt.substring(0,100)+"...";
 			        let btn_more = $('<a href="javascript:void(0)" class="more link-dark">더보기 <i class="bi bi-chevron-right"></i></a>');
 
 			        $(this).append(btn_more);
 			        
-			        if(rcontent_txt.length >= 30){
+			        if(rcontent_txt.length >= 100){
 			            rcontent.html(rcontent_txt_short)
 			            
 			        }else{
@@ -1432,7 +1459,7 @@ $(function() {
 		
 		$.ajax({
 			type: 'GET',		
-			url: "review/reviews",				
+			url: "../review/reviews",				
 			data: {no:no},
 			dataType: 'json',
 			success: function(data) {
@@ -1606,6 +1633,8 @@ $(function() {
 	var zoomControl2 = new kakao.maps.ZoomControl();
 	map2.addControl(zoomControl2, kakao.maps.ControlPosition.RIGHT);
 
+	
+	// 달력
 	let disabledDate = ('${acc.disabledDate}').split(",");
 	console.log(disabledDate) 
 	
@@ -1854,7 +1883,8 @@ $(function() {
 	/* $("#adultCount").hide();
 	$("#infantCount").hide();
 	$("#petCount").hide(); */
-	
+	$("#infant").hide();
+	$("#pet").hide();
 	$(".guestbtn").click(function() {
 		
 		$(function() {
@@ -1868,6 +1898,20 @@ $(function() {
 			$("#infantCount").text(infant);		
 			$("#petCount").text(pet);	
 			
+			
+			
+			if (infant === 0) {
+				$("#infant").hide();
+			} else {
+				$("#infant").show();
+				
+			}
+			if (pet === 0) {
+				$("#pet").hide();
+			} else {
+				$("#pet").show();
+				
+			}
 			let total = adult + children + infant
 			
 			
@@ -1875,7 +1919,13 @@ $(function() {
 			limitDisabled(limit,total,$(".hu_p_btn"));
 			
 			
-			disabled(adult,$(".adultM"));
+			
+			if (adult === 1){
+				$(".adultM").addClass("disabled")	
+			} else {
+				$(".adultM").removeClass("disabled")
+			}
+			
 			disabled(children,$(".childrenM"));
 			disabled(infant,$(".infantM"));
 			disabled(pet,$(".petM"));
@@ -1950,6 +2000,18 @@ $(function() {
 			
 		return true;
 	})
+	$("#form-create-wishlist").submit(function() {
+		
+		let titleValue = $.trim($(":input[name=wishlistName]").val());
+		if (titleValue === "") {
+			alert("제목은 필수 입력값입니다.");
+			return false;
+		}
+			
+		return true;
+	})
+	
+	
 	
 	// 글 긴거 더보기
 	$('.contentbox3').each(function(){
@@ -1991,7 +2053,7 @@ $(function() {
         var content_txt = content.text();
         var content_txt_short = content_txt.substring(0,200)+"...";
         
-        if(content_txt.length >= 150){
+        if(content_txt.length >= 200){
             content.html(content_txt_short)
             
         }
@@ -2006,7 +2068,7 @@ $(function() {
 	    objectType: 'feed',
 	    content: {
 	      title: '${acc.name}',
-	      description: '${acc.description}',
+	      description: '${acc.name}',
 	      imageUrl:
 		  		'https://localhost/resources/logo-home.png',
 	      link: {
@@ -2030,50 +2092,60 @@ $(function() {
 	        },
 	      },
 	    ],
-	  }) 
+	  })  
 	
-	 /*  $("#btn-open-save-modal").click(function() {
+	  /* $("#btn-create-wishlist").click(function() {
 		 let accNo = ${acc.accNo }
+		 $("#save-btn").remove()
 		 
-		 $.post("/acc/wishlist", function(result) {
-				wishlists = result.wishlists;
-				let content = '';
-				$.each(wishlists, function() {
-					content += '<div class="mt-3" style="display: flex; height: 64px;">';
-					content += '  <input type="hidden" name="wishlistNo" value="' + this.no + '">';
-					content += '  <img src="https://a0.muscache.com/im/pictures/da1a2f06-efb0-4079-abce-0f6fc82089e0.jpg" alt="" style="vertical-align:middle;">';
-					content += '  <span class="ms-3 fw-bold" style="margin-top:20px;">' + this.name + '</span>';
-					content += '</div>';
-				});
-				
-				$("#div-wishlists").html(content);
-			})
-			accSaveModal.show();
-	  }); */
-	  $("#btn-create-wishlist").click(function() {
-		 let accNo = ${acc.accNo }
-		 $("#icon-heart-" + accNo ).removeClass("fa-regular").addClass("fa-solid").css("color", "#FF385C");
 		 let querystring = $("#form-create-wishlist").serialize();
 		 
 			$.post("/acc/insert", querystring, function(result) {
 				wishlists = result.wishlists;
-				let content = '';
 				$("#div-wishlists > div").remove();
+				let content = '';
+				content += '<div class="mt-3" style="display: flex; height: 64px;">';
+				content += '<button type="button" class="btn" id="btn-open-save2-modal" style="width: 90px; height: 78px;"><i class="bi bi-plus h3" style="width: 64px; height: 64px;"></i></button>';
+				content += '<span class="ms-3 fw-bold" style="margin-top:20px;">새로운 위시리스트 만들기</span>';
+				content += '</div>';
+				
 				$.each(wishlists, function() {
-					content += '<div class="mt-3" style="display: flex; height: 64px;">';
-					content += '  <input type="hidden" name="wishlistNo" value="' + this.no + '">';
-					content += '  <img src="https://a0.muscache.com/im/pictures/da1a2f06-efb0-4079-abce-0f6fc82089e0.jpg" alt="" style="vertical-align:middle;">';
-					content += '  <span class="ms-3 fw-bold" style="margin-top:20px;">' + this.name + '</span>';
-					content += '</div>';
+					if (this.wishlistImage != null) {
+						
+						content += '<div class="mt-3" style="display: flex; height: 64px;">';
+						content += '<form action="save">';
+						content += '<input type="hidden" name="wishlistNo" value="' + this.no + '">';
+						content += '<input type="hidden" name="accNo" value="'+accNo+'">';
+						content += '<button type="submit" class="btn" >';
+						content += '<img class="rounded" src="/resources/images/acc/' +this.wishlistImage.imageName + '" style="width: 64px; height: 64px;">';
+						content += '</button>';
+						content += '<span class="ms-3 fw-bold" style="margin-top:20px;">' + this.name + '</span>';
+						content += '</form>';
+						content += '</div>';
+					}
+					
+					if (this.wishlistImage === null) {
+						content += '<div class="mt-3" style="display: flex; height: 64px;">';
+						content += '<form action="save">';
+						content += '<input type="hidden" name="wishlistNo" value="' + this.no + '">';
+						content += '<input type="hidden" name="accNo" value="'+accNo+'">';
+						content += '<button type="submit" class="btn btn btn-secondary" style="width: 64px; height: 64px;">';
+						content += '</button>';
+						content += '<span class="ms-3 fw-bold" style="margin-top:20px;">' + this.name + '</span>';
+						content += '</form>';
+						content += '</div>';
+					}
+					
 				});
 				
 				$("#div-wishlists").html(content);
+				let spanContent = '<a href="delete?accNo='+ accNo +'&wishlistNo='+result.wishlistNo.wishlist.no+'" class="btn btn-link text-decoration-underline text-dark btn-delete-wishlistAcc" ><i id="icon-heart-'+ accNo +'" class="fa-solid fa-heart fs-6 " style="color: #FF385C;"></i> <span id="saveList">저장 목록</span></a>';
+				$("#append-save").append(spanContent);
 			})
 			accSave2Modal.hide();	
 			accSaveModal.show();	
 			//saveToListModal.show();
-			
-	 });
+	 }); */
 	  
 	
 })

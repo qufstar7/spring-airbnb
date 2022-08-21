@@ -30,7 +30,15 @@ public class ReservationController {
 	@Autowired
 	private ReservationService reservationService;
 	
-	@GetMapping(path = "/register")
+	@GetMapping(path = "/test")
+	public String test(@RequestParam("no") int accNo, Model model) {
+		Accommodation accommodation = reservationService.getAcc(accNo);
+		model.addAttribute("accommodation",accommodation);
+		
+		return "reservation/test";
+	}
+	
+	@PostMapping(path = "/register")
 	public String book(@RequestParam("no") int accNo, Model model) {
 		Accommodation accommodation  = reservationService.getAcc(accNo);
 		model.addAttribute("accommodation", accommodation);

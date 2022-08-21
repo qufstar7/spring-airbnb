@@ -7,7 +7,8 @@
 	#div-sub button:hover {background-color: #F5F5F5;}
 	.card {border:none;}
 	hr {opacity: 0.1;}
-	#googleMap i, .card-body i {color: #FF385C;}
+	#googleMap i, .card-body i {color: #FF385C; }
+	.badge:empty {padding: 0px; display: unset;}
 	.btn-delete-wishlistAcc {border: none; padding: 10px;}
 	.btn-delete-wishlistAcc:hover {background-color: #F5F5F5;}
 	
@@ -18,7 +19,7 @@
 	  /* transform: translate(-50%, -100%); */
 	  background-color: white;
 	  padding: 0 10px;
-	  border-radius: 28px;
+	  border-radius: 80px;
 	  box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 0px 1px,
 	    rgba(0, 0, 0, 0.18) 0px 1px 2px;
 	  overflow-y: auto;
@@ -139,4 +140,7 @@
 		background:white;
 		border: none;
 	}
+	
+	.wishlist-icon a:hover {background-color: transparent;}
+	.wishlist-icon i:hover {cursor: pointer; transform: scale(1.2);}
 	

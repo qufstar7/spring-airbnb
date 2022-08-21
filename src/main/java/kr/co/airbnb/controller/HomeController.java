@@ -1,5 +1,6 @@
 package kr.co.airbnb.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import kr.co.airbnb.service.WishlistService;
 import kr.co.airbnb.utils.SessionUtils;
 
 import kr.co.airbnb.vo.AccRoom;
-
+import kr.co.airbnb.vo.AccTag;
 import kr.co.airbnb.vo.Accommodation;
 import kr.co.airbnb.vo.Tag;
 import kr.co.airbnb.vo.Type;
@@ -36,34 +37,41 @@ public class HomeController {
 	@Autowired
 	private WishlistService wishlistService;
 	
-	
+	// localhost
+	// localhost/?id=101
 	@GetMapping(path = "/")
-	public String home(Model model, AccCriteria accCriteria) {
-		// 크리테리아로 모든 숙소 조회
-		List<Accommodation> allAcc = accommodationService.searchAllAcc(accCriteria);
+	public String home(@RequestParam(name = "id", required = false) String id, Model model) {
+		
+		List<Accommodation> accommodations = new ArrayList<Accommodation>();
+		if (id == null) {
+			// 메인 페이지에 출력할 인기 숙소
+			accommodations = accommodationService.getPopularAccommodations();
+		} else {
+			// 태그로 검색한 숙소
+			accommodations = accommodationService.searchAccByTag(id); 
+		}
+		model.addAttribute("accommodations", accommodations);
 		
 		// 각 숙소의 타입1,2,3 조회
-		for (Accommodation acc : allAcc) {
+		for (Accommodation acc : accommodations) {
 			int accNo = acc.getAccNo();
+			
 			List<Type> types = accommodationService.searchTypesByAccNo(accNo);
 			acc.setTypes(types);
-			if (!types.isEmpty()) {
-				model.addAttribute("mainType", acc.getTypes().get(0));
-			}
+			//if (!types.isEmpty()) {
+			//	model.addAttribute("mainType", acc.getTypes().get(0));
+			//}
+			
+			//List<AccRoom> rooms = accommodationService.searchRoomByAccNo(accNo);
+			//acc.setAccRooms(rooms);
 		}
-		
-		// 모든 태그 조회
+
+		// home에만 나오는 nav의 모든 태그 조회
 		List<Tag> tags = accommodationService.getAllTags();
-		
+		model.addAttribute("tags", tags);
+	
 		// 위시리스트 버튼
 		// List<Wishlist> wishlists = wishlistService.getMyWishlists(loginUser.getNo());
-		
-		// 모델 객체에 숙소 데이터 저장
-		model.addAttribute("acc", allAcc);
-		// 모델 객체에 모든 태그 데이터 저장
-		model.addAttribute("tag", tags);
-		
-		// 모델 객체에 위시리스트 데이터 저장
 		// model.addAttribute("wishlistBtn", wishlists);
 		
 		return "home";

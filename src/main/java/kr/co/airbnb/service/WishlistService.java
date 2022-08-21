@@ -3,21 +3,28 @@ package kr.co.airbnb.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import kr.co.airbnb.mapper.AccommodationMapper;
 import kr.co.airbnb.mapper.WishlistMapper;
 import kr.co.airbnb.vo.AccWishlist;
 import kr.co.airbnb.vo.Accommodation;
 import kr.co.airbnb.vo.Wishlist;
 
 @Service
+@Transactional
 public class WishlistService {
 
 	@Autowired
 	private WishlistMapper wishlistMapper;
+	@Autowired
+	AccommodationMapper accommodationMapper;
 	
 	public Wishlist getWishlistByNo(int wishlistNo) {
 		Wishlist wishlist = wishlistMapper.getWishlistByNo(wishlistNo);
@@ -25,9 +32,29 @@ public class WishlistService {
 		return wishlist;
 	}
 	
-	public Wishlist getWishlistWithCondition(int wishlistNo, Date checkInDate, Date checkOutDate, int guestCount) {
+	/**
+	 * 해당 위시리스트에서 날짜, 인원 조건별 예약가능, 불가능 숙소 출력
+	 * @param wishlistNo
+	 * @param checkInDate 사용자가 설정한 체크인 날짜
+	 * @param checkOutDate 사용자가 설정한 체크아웃 날짜
+	 * @param guestCount 숙박인원
+	 * @return
+	 */
+	public Wishlist getAvailableWishlistWithCondition(int wishlistNo, Date checkInDate, Date checkOutDate, int guestCount) {
+		
 		Wishlist wishlist = wishlistMapper.getWishlistByNo(wishlistNo);
-		wishlist.setAccs(wishlistMapper.getWishlistAccsWithConditions(wishlistNo, checkInDate, checkOutDate, guestCount));
+		wishlist.setAccs(wishlistMapper.getAvailableWishlistAccsWithConditions(wishlistNo, checkInDate, checkOutDate, guestCount));
+		
+		//Wishlist wishlist = wishlistMapper.getWishlistByNo(wishlistNo);
+		//wishlist.setAccs(wishlistMapper.getWishlistAccsWithConditions(wishlistNo, checkInDate, checkOutDate, guestCount));
+		
+		return wishlist;
+	}
+	
+	public Wishlist getAnavailableWishlistWithCondition(int wishlistNo, Date checkInDate, Date checkOutDate, int guestCount) {
+		
+		Wishlist wishlist = wishlistMapper.getWishlistByNo(wishlistNo);
+		wishlist.setAccs(wishlistMapper.getUnavailableWishlistAccsWithConditions(wishlistNo, checkInDate, checkOutDate, guestCount));
 		
 		return wishlist;
 	}
@@ -68,13 +95,34 @@ public class WishlistService {
 		
 		wishlistMapper.updateWishlist(wishlist);
 	}
+
+	// 질문
+	/**
+	 * 해당 위시리스트 폴더 및 모든 숙소 정보를 삭제한다.
+	 * @param wishlistNo
+	 */
+	public void deleteWishlist(int wishlistNo) {
+		wishlistMapper.deleteWishlistAndAllAccs(wishlistNo);
+	}
 	
 	public void deleteWishlistAcc(int wishlistNo, int accNo) {
 		wishlistMapper.deleteWishlistAcc(wishlistNo, accNo);
 	}
 	
-	public List<AccWishlist> getAccNoByUserNo(int userNo) {
-		return wishlistMapper.getAccNoByUserNo(userNo);
+	public AccWishlist getAccNoByUserNo(Map<String, Object> map) {
+		return wishlistMapper.getAccNoByUserNo(map);
+	}
+
+	/**
+	 * wishlists.jsp에서 비동기방식으로 숙소 더보기 버튼 구현하기
+	 * @param userNo
+	 * @param startNum 다음번에 받아와야 하는 숙소의 인덱스 번호
+	 */
+	public void getMoreWishlists(int userNo, int startNum) {
+		
+		List<Wishlist> nextWishlists = wishlistMapper.getNextWishlists(userNo, startNum);
+		
+		
 	}
 }
 	
