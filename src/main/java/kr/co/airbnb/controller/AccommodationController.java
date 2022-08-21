@@ -100,6 +100,16 @@ public class AccommodationController {
 		return "redirect:/acc/detail?no="+accNo;
 	}
 	
+	@GetMapping(path = "/contact")
+	public String conteactHost(@LoginUser User loginUser ,@RequestParam("no") int no,Model model) {
+		
+		model.addAttribute("acc", accommodationService.getAccommodation(no));
+		model.addAttribute("cons", ConvenienceService.getMainConveniences());
+		model.addAttribute("Boast", accommodationService.getBoast(no));
+		model.addAttribute("reservationRegisterForm", new ReservationRegisterForm());
+		return "acc/contact";
+	}
+	
 	/*
 	 * @PostMapping(path="/wishlist")
 	 * 

@@ -247,8 +247,8 @@
 				<hr>
 				<c:if test="${not empty acc.description }">
 					<div class="contentbox2 mt-5 mb-5">
-						<div class="content2 mb-2">
-							<span>${acc.description }</span>
+						<div class="content2 mb-2" style="white-space:  pre-line;">
+							<p style="white-space:  pre-line; font-size: 16px;" >${acc.description }</p>
 						</div>
 						<button type="button" class="btn btn-link text-decoration-underline text-dark btn-sm" id="btn-open-description-modal">더보기 <i class="bi bi-chevron-right"></i></button>
 					</div>
@@ -619,10 +619,10 @@
 					<h4>호스팅 지역</h4>
 				</div>
 				<div class="mb-2" id="map"></div>
-				<div class="contentbox2 mt-5 mb-5">
+				<div class="contentbox2">
 					<h5>${acc.address }</h1>
-					<div class="content2 mb-2">
-						<p>${acc.description }</p>
+					<div class="content2 mb-2" style="white-space:  pre-line;">
+						<pre style="white-space:  pre-line;">${acc.description }</pre>
 					</div>
 					<button type="button" class="btn btn-link text-decoration-underline text-dark btn-sm" id="btn-open-map-modal2">더보기 <i class="bi bi-chevron-right"></i></button>
 				</div>
@@ -657,7 +657,7 @@
 						</div>
 					</div>
 					<div class="contentbox3 mt-2 mb-2">
-					<div class="content3 mb-2">
+					<div class="content3 mb-2" style="white-space:  pre-line;">
 						<p>${acc.user.description }</p>
 					</div>
 				</div>
@@ -674,7 +674,7 @@
 						</c:when>
 						<c:otherwise>
 								<!-- 로그인 했을 때 -->
-								<a href="">
+								<a href="contact?no=${acc.accNo }">
 									<button type="button" class="btn btn-outline-dark btn-lg p-2">호스트에게 연락하기</button>
 								</a>
 						</c:otherwise>
@@ -954,7 +954,7 @@
 					<c:forEach items="${acc.photos }" var="photo">
 						<div class="">
 							<a href="/resources/images/acc/${photo.name }" class="fresco" data-fresco-group="web">
-							<img id="img-${photo.num }" src="/resources/images/acc/${photo.name }" class="modal-img" style="width: 800px; height: 600px;"></a>
+							<img id="img-${photo.num }" src="/resources/images/acc/${photo.name }" class="modal-img mb-2" style="width: 800px; height: 600px;"></a>
 						</div>
 					</c:forEach>
 				</div>
@@ -1071,13 +1071,13 @@
 						<div>
 							<div class="contentbox3 mb-3">
 								<h4>${acc.address }</h4>
-								<div class="content3">
-									<p>${acc.description }</p>
+								<div class="content3" style="white-space:  pre-line;">
+									<p style="white-space: pre-line;">${acc.description }</p>
 								</div>
 							</div> 
 							<div class="contentbox3 mb-3">
 								<h4>교통편</h4>
-								<div class="content3">
+								<div class="content3" style="white-space:  pre-line;">
 									<p>${acc.trafficDescription }</p>
 								</div>
 							</div>
@@ -1230,7 +1230,7 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 			</div>
 			<div class="modal-body">
-				<p>${acc.description }</p>
+				<p style="white-space:  pre-line;">${acc.description }</p>
       </div>
 		</div>
 	</div>
@@ -1633,6 +1633,8 @@ $(function() {
 	var zoomControl2 = new kakao.maps.ZoomControl();
 	map2.addControl(zoomControl2, kakao.maps.ControlPosition.RIGHT);
 
+	
+	// 달력
 	let disabledDate = ('${acc.disabledDate}').split(",");
 	console.log(disabledDate) 
 	
@@ -1998,6 +2000,18 @@ $(function() {
 			
 		return true;
 	})
+	$("#form-create-wishlist").submit(function() {
+		
+		let titleValue = $.trim($(":input[name=wishlistName]").val());
+		if (titleValue === "") {
+			alert("제목은 필수 입력값입니다.");
+			return false;
+		}
+			
+		return true;
+	})
+	
+	
 	
 	// 글 긴거 더보기
 	$('.contentbox3').each(function(){
@@ -2039,7 +2053,7 @@ $(function() {
         var content_txt = content.text();
         var content_txt_short = content_txt.substring(0,200)+"...";
         
-        if(content_txt.length >= 150){
+        if(content_txt.length >= 200){
             content.html(content_txt_short)
             
         }
@@ -2054,7 +2068,7 @@ $(function() {
 	    objectType: 'feed',
 	    content: {
 	      title: '${acc.name}',
-	      description: '${acc.description}',
+	      description: '${acc.name}',
 	      imageUrl:
 		  		'https://localhost/resources/logo-home.png',
 	      link: {
@@ -2078,7 +2092,7 @@ $(function() {
 	        },
 	      },
 	    ],
-	  }) 
+	  })  
 	
 	  /* $("#btn-create-wishlist").click(function() {
 		 let accNo = ${acc.accNo }

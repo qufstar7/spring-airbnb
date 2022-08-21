@@ -35,7 +35,7 @@ public class ReservationController {
 		return "reservation/test";
 	}
 	
-	@GetMapping(path = "/register")
+	@PostMapping(path = "/register")
 	public String book(@RequestParam("no") int accNo, Model model) {
 		Accommodation accommodation  = reservationService.getAcc(accNo);
 		model.addAttribute("accommodation", accommodation);
