@@ -20,8 +20,10 @@ public class UserService {
 	@Autowired
 	private UserMapper userMapper;
 	
+	@Autowired
+	private WishlistService wishlistService;
+	
 	public User getUserByEmail(String email) {
-		
 		return userMapper.getUserByEmail(email);
 	}
 
@@ -54,5 +56,17 @@ public class UserService {
 	public User getUserByNo(int userNo) {
 		User savedUser = userMapper.getUserByNo(userNo);
 		return savedUser;
+	}
+
+	public void deleteUser(int userNo) {
+		List<Wishlist> wishlists = wishlistService.getMyWishlists(userNo);
+		
+		for(Wishlist wishlist : wishlists) {
+			wishlistService.deleteWishlist(wishlist.getNo());
+			System.out.println("위시리스트 번호: " + wishlist.getNo());
+		}
+		
+		userMapper.deleteUser(userNo);
+		
 	}
 }

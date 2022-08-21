@@ -102,9 +102,15 @@ public class WishlistService {
 	 * @param wishlistNo
 	 */
 	public void deleteWishlist(int wishlistNo) {
-		wishlistMapper.deleteWishlistAndAllAccs(wishlistNo);
+		wishlistMapper.deleteAllAccsInWishlist(wishlistNo);
+		wishlistMapper.deleteWishlist(wishlistNo);
 	}
 	
+	/**
+	 * 위시리스트에서 특정 숙소를 삭제한다.
+	 * @param wishlistNo
+	 * @param accNo
+	 */
 	public void deleteWishlistAcc(int wishlistNo, int accNo) {
 		wishlistMapper.deleteWishlistAcc(wishlistNo, accNo);
 	}

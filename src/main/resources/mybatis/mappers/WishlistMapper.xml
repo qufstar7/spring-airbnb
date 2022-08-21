@@ -256,8 +256,8 @@
 		and acc_no = #{accNo} 
  	</delete>
  	
- 	<!-- void deleteWishlistAndAllAccs(@Param("wishlistNo") int wishlistNo); -->
- 	<delete id="deleteWishlistAndAllAccs">
+ 	<!-- void deleteAllAccsInWishlist(@Param("wishlistNo") int wishlistNo); -->
+ 	<delete id="deleteAllAccsInWishlist">
  		delete 
 		from airbnb_wishlist_accommodations
 		where wishlist_no = #{wishlistNo} 

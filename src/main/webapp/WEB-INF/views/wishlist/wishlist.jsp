@@ -15,7 +15,7 @@
 <link rel="stylesheet" type="text/css" href="/resources/css/wishlist2.css">
 <title>위시리스트-에어씨엔씨</title>
 <style type="text/css">
-
+/*  footer css   */
 	html, body {
     margin: 0;
     padding: 0;

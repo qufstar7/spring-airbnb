@@ -2,6 +2,7 @@ package kr.co.airbnb.config;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -20,10 +21,26 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		resolvers.add(new RegisterAccArgumentResolver());
 	}
 
-	@Override
+	@Bean
+	public LoginCheckInterceptor makeLoginCheckInterceptor() {
+		return new LoginCheckInterceptor();
+	}
+	
+	public @Override void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(makeLoginCheckInterceptor())
+		 	// 모든 요청에 대해서 인터셉터가 실행된다.
+			//.addPathPatterns("/**")
+			.addPathPatterns("localhost/**")
+			
+			.excludePathPatterns("/resources/**", "/*.ico"); 
+	}
+	
+	
+	
+/*	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new LoginCheckInterceptor())
 				.addPathPatterns("/**")						
 				.excludePathPatterns("/resources/**", "/*.ico");   
-	}
+	} */
 }

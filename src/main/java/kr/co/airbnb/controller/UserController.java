@@ -69,7 +69,7 @@ public class UserController {
 	}
 	
 	@GetMapping(path="account-settings")
-	public String account() {
+	public String account(@LoginUser User loginUser) {
 		return "user/account-settings";
 	}
 	
@@ -244,6 +244,29 @@ public class UserController {
 		return "/user/forgotPassword";
 	}
 	
+	// 이메일 수정 질문
+	@GetMapping(path="change/info") 
+	public Map<String, Object> changeUserInfo() {
+		
+		return null;
+	}
+	
+	@GetMapping(path="/account-delete/reasons")
+	public String deleteAccountWithReasons(@LoginUser User loginUser) {
+		return "user/account-delete-reasons";
+	}
+	
+	@GetMapping(path="/account-delete/confirm")
+	public String deleteAccountWithConfirm(@LoginUser User loginUser) {
+		return "user/account-delete-confirm";
+	}
+	
+	@GetMapping(path="/account-delete/complete")
+	public String deleteAccountWithComplete(@LoginUser User loginUser) {
+		userService.deleteUser(loginUser.getNo());
+		
+		return "user/account-delete-complete";
+	}
 	
 	
 }

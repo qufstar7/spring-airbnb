@@ -28,7 +28,7 @@ public interface WishlistMapper {
 	void deleteWishlistAcc(@Param("wishlistNo") int wishlistNo, @Param("accNo") int accNo);
 	
 	// 위시리스트 폴더 자체를 삭제할 경우
-	void deleteWishlistAndAllAccs(@Param("wishlistNo") int wishlistNo);
+	void deleteAllAccsInWishlist(@Param("wishlistNo") int wishlistNo);
 	
 	AccWishlist getAccNoByUserNo(Map<String,Object> map);
 	WishlistImage getImageByUserNo(Map<String,Object> map);

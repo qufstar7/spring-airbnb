@@ -15,6 +15,7 @@
 <title>${user.name}님의 프로필 -에어씨앤씨</title>
 <style type="text/css">
 	/* .col-3 * {text-align: left;		} */
+	
 	.pop:hover { text-decoration: underline;
 				}
 	#div-language div{
@@ -57,25 +58,25 @@
 						<i class="bi bi-star fw-bold"></i>
 						<span class="pop fw-bold fs-6" id="pop-review" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom">후기4개</span>
 					</div>
-					<div class="mb-5 fs-4">
+					<div class="mb-4 fs-4">
 						<i class="bi bi-shield-check fw-bold"></i>
 						<span class="pop fw-bold fs-6" id="pop-certification" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom">본인 인증 완료</span>
 					</div>
-					<hr />
-					<div class="mb-4">
+					<hr style="opacity: 0.2;" />
+					<div class="my-4">
 						<h3 class="fs-4 fw-bold">${user.name} 인증 완료</h3>
 					</div>
 					<div class="d-flex justify-content-start mb-3 fs-5">
 						<i class="bi bi-check-lg fw-bold"></i>
-						<span class="ms-3">신분증</span>
+						<span class="ms-3 fs-6">신분증</span>
 					</div>
 					<div class="d-flex justify-content-start  mb-3  fs-5">	
 						<i class="bi bi-check-lg fw-bold"></i>
-						<span class="ms-3">이메일 주소</span>
+						<span class="ms-3 fs-6">이메일 주소</span>
 					</div>
 					<div class="d-flex justify-content-start mb-3  fs-5">
 						<i class="bi bi-check-lg fw-bold"></i>
-						<span class="ms-3">전화번호</span>
+						<span class="ms-3 fs-6">전화번호</span>
 					</div>
 					<div>
 						<p>계정 정보 인증을 통해 더욱 안전한 에어비앤비 커뮤니티를 만들 수 있는 방법에 대해 자세히 알아보세요.</p>
@@ -85,7 +86,7 @@
 			<div class="col ms-5 ps-5">
 				<h2 class="fw-bold">안녕하세요. 저는 ${user.name}입니다.</h2>
 				<p>회원가입: <fmt:formatDate value="${user.createdDate }" pattern="yyyy"/> </p>
-				<button class="btn btn-link text-reset fw-bold fs-6 p-0" id="btn-change-profile">프로필 수정하기</button>
+				<button class="btn btn-link text-dark fw-bold fs-6 p-0" id="btn-change-profile">프로필 수정하기</button>
 				<div class="mt-5" id="div-profile">
 					<h3 class="fw-bold mb-4">소개</h3>
 					<p class="fs-5 mb-4" id="p-description">${user.description}</p>
@@ -221,14 +222,15 @@ $(function () {
 	$("#btn-change-profile").click(function() {
 		$("#div-update-profile").removeClass("d-none");
 		//$(this).addClass("disabled");
-		$(this).css({"cursor":"not-allowed", "color": "rgb(221, 221, 221)"});
+		//$(this).css({"cursor":"not-allowed", "color": "rgb(221, 221, 221)"});
+		$(this).css("cursor","not-allowed").addClass("text-opacity-25");
 		$("#div-profile").addClass("d-none");
 	});
 	
 	$("#btn-cancel").click(function() {
 		$("#div-update-profile").addClass("d-none");
-		$("#btn-change-profile").removeClass("disabled");  
-		$(this).css({"cursor":"pointer", "color": "black"});
+		//$("#btn-change-profile").removeClass("disabled");  
+		$("#btn-change-profile").css("cursor", "pointer").removeClass("text-opacity-25");
 		
 		$("#div-profile").removeClass("d-none");
 	});
