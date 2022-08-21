@@ -75,35 +75,70 @@
 				</nav>
 			</div>
 
+
+
+
 			<!-- rightDiv main -->
-			<div class="main-box align-self-center bg-white" style="overflow:hidden;">				
-				<div id="" style="">
-				
+			<div style="z-index: 1; height: 45vh; width:336px !important; " class="location-form border border-white rounded-4 translate-middle p-4">
+				<div class="location-form-header fs-5 fw-bolder m-0 text-center pb-4 mt-3">주소를 입력하세요</div>
+
+				<!-- 스크롤영역 -->
+				<div class="location-form-scroll position-relative mt-3">
+					<!-- 사진 -->
+					<div class="rounded">
+						
+					</div>
+					<!-- 이름 -->
+					<div class="rounded">
+						
+					</div>
+					<!-- 유저 -->
+					<div class="rounded">
+						
+					</div>
+					<!-- Guests 페이지 -->
+					<div class="rounded">
+						
+					</div>
+					<!-- 설명 -->
+					<div class="rounded">
+						
+					</div>
+					<!-- 편의시설 -->
+					<div class="rounded">
+						
+					</div>
+					<!-- 위치 -->
+					<div class="rounded">
+						
+					</div>
+					<!-- 안내문 -->
+					<div class="rounded">
+						
+					</div>
+
 				</div>
+
 			</div>
-
-
+			
+			
+			
 
 			<!-- rightDiv footer -->
-			<footer class="footer mt-auto pb-3 bg-light">
+			<footer class="footer mt-auto pb-3 bg-light" id="locationFooter">
 				<div class="container-fluid">
 					<!-- 진행상황 bar -->
 					<div class="progress mb-2">
-						<div class="progress-bar bg-dark" style="width: 33.3%;"
-							role="progressbar" aria-valuenow="33.3" aria-valuemin="0"
+						<div class="progress-bar bg-dark" style="width:100%;"
+							role="progressbar" aria-valuenow="100" aria-valuemin="0"
 							aria-valuemax="100"></div>
 					</div>
 					<!-- 뒤로/다음버튼 -->
-					<div class="">
-						<button id="back-btn"
-							class="float-start btn btn-none ms-4 fs-6 text-decoration-underline text-black border-0"
-							type="button" onclick="history.go(-1)"
-							style="padding-top: 14px">뒤로</button>
+					<div id="">
+						<button id="back-btn" class="float-start btn btn-none ms-4 text-decoration-underline text-black border-0" type="button" onclick="history.go(-1)" style="padding-top: 14px">뒤로</button>
 					</div>
-					<div class="">
-						<button id="next-btn" class="float-start btn btn-dark float-end"
-							type="submit" onclick="location.href='/host/profile'" style="width: 80px; height: 48px;">
-							다음</a>
+					<div id="">
+						<button id="next-btn" class="float-start btn btn-dark float-end me-5" form="locationRegisterForm" type="button" onclick="location.href='/host/manage'" style="width: 180px; height: 48px;">숙소 등록 완료하기</button>
 					</div>
 				</div>
 			</footer>

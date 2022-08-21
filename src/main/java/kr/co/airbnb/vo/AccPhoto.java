@@ -23,4 +23,10 @@ public class AccPhoto {
 	private String name;
 	private String description;
 	private String cover;
+	
+	public AccPhoto(int accNo, String name, String cover) {
+		this.accNo = accNo;
+		this.name = name;
+		this.cover = cover;
+	}
 }

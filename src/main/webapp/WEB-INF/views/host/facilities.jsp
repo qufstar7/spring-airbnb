@@ -69,7 +69,7 @@
 					
 						<!--  선택버튼박스1 -->
 						<div id="right-content-box" class="text-center my-5" style="max-width:700px;">
-							<h3>특별히 내세울 만한 편의시설이 있나요?</h2>
+							<h2>특별히 내세울 만한 편의시설이 있나요?</h2>
 
 							<button class="btn btn-facilities bg-white container p-3 m-2" type="button" role="radio" value="11" name="pool">
 								<div class="text-center">
@@ -138,7 +138,7 @@
 						
 						<!--  선택버튼박스2 -->
 						<div id="right-content-box" class="text-center my-5" style="max-width:700px;">
-							<h3>다음 인기 편의시설이 있나요?</h2>
+							<h2>다음 인기 편의시설이 있나요?</h2>
 
 							<button class="btn btn-facilities bg-white container p-3 m-2" type="button" role="radio" value="1" name="wifi">
 								<div class="text-center">
@@ -207,7 +207,7 @@
 						
 						<!--  선택버튼박스3 -->
 						<div id="right-content-box" class="text-center my-5" style="max-width:700px;">
-							<h3>다음 안전 물품이 있나요?</h2>
+							<h2>다음 안전 물품이 있나요?</h2>
 
 							<button class="btn btn-facilities bg-white container p-3 m-2" type="button" role="radio" value="25" name="detectorSmoke">
 								<div class="text-center">
@@ -250,7 +250,7 @@
 				<div class="container-fluid">
 					<!-- 진행상황 bar -->
 					<div class="progress mb-2">
-						<div class="progress-bar bg-dark" style="width: 33.3%;" role="progressbar" aria-valuenow="33.3" aria-valuemin="0" aria-valuemax="100"></div>
+						<div class="progress-bar bg-dark" style="width: 50%;" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
 					<!-- 뒤로/다음버튼 -->
 					<div class="">
@@ -270,7 +270,7 @@
 	$(function(){
 		$(".btn-facilities").on("click", function(){
 			if ($(this).hasClass("btn-type-checked")) {
-				// 클래그명 추가
+				// 클래그명 삭제
 				$(this).removeClass("btn-type-checked");
 				// 포커스 삭제
 				$(this).blur();

@@ -33,10 +33,35 @@
 	
 		<!-- 왼쪽 영역 -->
 		<div id="left-div">
-			<!-- leftDiv text -->
-			<div class="align-self-center m-5">
-				<div role="text" class="left-main-text">숙소의 이름을 정해주세요.</div>
+			
+			<!-- 동영상 -->
+			<video class="photoVideo" autoplay muted crossorigin="anonymous" playsinline="" preload="auto" style="object-fit: cover; object-position: 0px 25%;"><source src="https://a0.muscache.com/v/33/20/3320c65c-5167-5999-ad8b-89c6c0c27b53/3320c65c51675999ad8b89c6c0c27b53_4000k_1.mp4?imformat=h265" type="video/mp4; codecs=hevc"><source src="https://a0.muscache.com/v/33/20/3320c65c-5167-5999-ad8b-89c6c0c27b53/3320c65c51675999ad8b89c6c0c27b53_4000k_1.mp4" type="video/mp4">
+			</video>
+			<div class="shadowBox"></div>
+			
+			<div class="downBox">
+				<button class="downBoxBtn m-3" type="button">
+					<div class="downBoxTextBtn">
+						<div>동영상 재생하기</div>
+					</div>
+					<div>
+						<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 16px; width: 16px; fill: white;">
+							<path d="M27.024 14.273L6.008 2.013c-.461-.268-1-.342-1.517-.206A2 2 0 0 0 3 3.741V28.26a2.002 2.002 0 0 0 3.008 1.728l21.015-12.26a2.003 2.003 0 0 0 .001-3.454z">
+							</path>
+						</svg>
+					</div>
+				</button>
+				<button aria-label="일시 중지" type="button" class="downBoxStopBtn">
+					<span class="position-relative" s>
+						<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 16px; width: 16px; fill: white;">
+							<path d="M13 1v14H9V1zM7 1v14H3V1z"></path>
+						</svg>
+					</span>
+				</button>
+						
+				<div role="text" class="left-photo-text">숙소 이름을 등록해주세요.</div>
 			</div>
+			
 		</div>
 
 		<!-- 오른쪽 영역 -->
@@ -73,23 +98,29 @@
 					</div>
 				</nav>
 			</div>
-
-			<!-- rightDiv main -->
-			<div class="main-box align-self-center bg-white" style="overflow:hidden;">				
-				<div id="" style="">
-				
+			
+			<form id="name-insert-form" method="post" action="/host/submitName">
+			<div class="main-box align-self-center bg-white p-4">
+				<div class="main-middle-box">
+					<div class="fs-2 fw-bolder m-3">숙소 이름 정하기</div>
+					<textarea rows="3" id="textBox" class="textArea" name="name" maxlength="50" autocomplete="off" placeholder="건물 내 무료 주차 이용이 가능한 아름다운 레지던스" style=""></textarea>
+				    <div class="fs-4 fw-light mt-2">
+						<p class="d-inline textCount">0</p>
+					    <p class="d-inline">/</p>
+					    <p class="d-inline">50</p>
+				    </div>
 				</div>
 			</div>
-
-
-
+		    </form>
+			
+			
 			<!-- rightDiv footer -->
 			<footer class="footer mt-auto pb-3 bg-light">
 				<div class="container-fluid">
 					<!-- 진행상황 bar -->
 					<div class="progress mb-2">
-						<div class="progress-bar bg-dark" style="width: 33.3%;"
-							role="progressbar" aria-valuenow="33.3" aria-valuemin="0"
+						<div class="progress-bar bg-dark" style="width: 66.5%;"
+							role="progressbar" aria-valuenow="66.5" aria-valuemin="0"
 							aria-valuemax="100"></div>
 					</div>
 					<!-- 뒤로/다음버튼 -->
@@ -101,7 +132,7 @@
 					</div>
 					<div class="">
 						<button id="next-btn" class="float-start btn btn-dark float-end"
-							type="submit" onclick="location.href='/host/tags'" style="width: 80px; height: 48px;">
+							type="submit" form="name-insert-form" style="width: 80px; height: 48px;">
 							다음</a>
 					</div>
 				</div>
@@ -111,5 +142,29 @@
 
 	</div>
 	
+<script>
+$(function() {
+	$('#textBox').keyup(function (e) {
+		let content = $(this).val();
+	    
+	    // 글자수 세기
+	    if (content.length == 0 || content == '') {
+	    	$('.textCount').text('0');
+	    } else {
+	    	$('.textCount').text(content.length);
+	    }
+	    
+	    // 글자수 제한
+	    if (content.length > 50) {
+	    	// 50자 부터는 타이핑 되지 않도록
+	        $(this).val($(this).val().substring(0, 50));
+	        // 50자 넘으면 알림창 뜨도록
+	        alert('글자수는 50자까지 입력 가능합니다.');
+	    };
+	});
+	
+})
+</script>
+
 </body>
 </html>
