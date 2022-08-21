@@ -25,4 +25,9 @@ public class AccTag {
 		this.tagId = tagId;
 		this.tags = tags;
 	}
+	
+	public AccTag(int accNo, String tagId) {
+		this.accNo = accNo;
+		this.tagId = tagId;
+	}
 }

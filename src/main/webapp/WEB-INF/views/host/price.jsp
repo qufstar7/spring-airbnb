@@ -30,13 +30,35 @@
 
 	<!-- 전체 박스 -->
 	<div class="host-box">
-	
 		<!-- 왼쪽 영역 -->
 		<div id="left-div">
-			<!-- leftDiv text -->
-			<div class="align-self-center m-5">
-				<div role="text" class="left-main-text">숙소의 요금을 설정하세요.</div>
+			
+			<!-- 동영상 -->
+			<video class="photoVideo" autoplay muted crossorigin="anonymous" playsinline="" preload="auto" style="object-fit: cover; object-position: 0px 25%;"><source src="https://a0.muscache.com/v/9c/d4/9cd47434-c6bd-58ec-90b7-b50aa7dba461/9cd47434c6bd58ec90b7b50aa7dba461_4000k_1.mp4?imformat=h265" type="video/mp4; codecs=hevc"><source src="https://a0.muscache.com/v/9c/d4/9cd47434-c6bd-58ec-90b7-b50aa7dba461/9cd47434c6bd58ec90b7b50aa7dba461_4000k_1.mp4" type="video/mp4"></video>
+			<div class="shadowBox"></div>
+			<div class="downBox">
+				<button class="downBoxBtn m-3" type="button">
+					<div class="downBoxTextBtn">
+						<div>동영상 재생하기</div>
+					</div>
+					<div>
+						<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 16px; width: 16px; fill: white;">
+							<path d="M27.024 14.273L6.008 2.013c-.461-.268-1-.342-1.517-.206A2 2 0 0 0 3 3.741V28.26a2.002 2.002 0 0 0 3.008 1.728l21.015-12.26a2.003 2.003 0 0 0 .001-3.454z">
+							</path>
+						</svg>
+					</div>
+				</button>
+				<button aria-label="일시 중지" type="button" class="downBoxStopBtn">
+					<span class="position-relative" s>
+						<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 16px; width: 16px; fill: white;">
+							<path d="M13 1v14H9V1zM7 1v14H3V1z"></path>
+						</svg>
+					</span>
+				</button>
+						
+				<div role="text" class="left-photo-text">이제 요금을 설정해 주세요.</div>
 			</div>
+			
 		</div>
 
 		<!-- 오른쪽 영역 -->
@@ -74,22 +96,52 @@
 				</nav>
 			</div>
 
-			<!-- rightDiv main -->
-			<div class="main-box align-self-center bg-white" style="overflow:hidden;">				
-				<div id="" style="">
-				
+			<!-- mainbox -->
+			<form id="price-insert-form" method="post" action="/host/submitPrice">
+			<div class="main-box align-self-center bg-white p-4">
+				<div class="main-middle-box m-auto" style="height:100%;">
+					<div class="plusMiusBox float-end" id="guestBtnBox">
+						<button id="guestMinusBtn" class="plusMinusBtn2 minusBtn" type="button" aria-label="감소">
+							<span class="plusMinusIconSpan">
+								<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentColor; stroke-width: 5.333333333333333; overflow: visible" aria-hidden="true" role="presentation" focusable="false">
+									<path d="m2 16h28"></path>
+								</svg>
+							</span>
+						</button>
+						<div class="mx-3" id="priceInputBox">
+							<input id="priceInput" type="number" min="0" max="50000000" placeholder="₩00" autocomplete="off" name="price" value="" aria-invalid="true">
+						</div>
+						<button id="guestPlusBtn" class="plusMinusBtn2 plusBtn" type="button" aria-label="증가">
+							<span class="plusMinusIconSpan">
+								<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentColor; stroke-width: 5.333333333333333; overflow: visible" aria-hidden="true" role="presentation" focusable="false">
+									<path d="m2 16h28m-14-14v28"></path>
+								</svg>
+							</span>
+						</button>						
+					</div>
+				    <div class="fs-5 fw-light mt-2">
+					    <p class="d-inline">/</p>
+					    <p class="d-inline">박</p>
+				    </div>
 				</div>
 			</div>
-
-
+		    </form>
+		    		    
+			<!-- 값 유효성 체크 경고문 박스 -->
+<!-- 			<div id="checkAlert" class="m-0 mt-2 text-danger fw-italic fw-light" style="display: none;">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle-fill me-1" viewBox="0 0 16 16">
+			  		<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+				</svg>
+				<span>가격을 제대로 입력해주세요</span>
+			</div> -->
 
 			<!-- rightDiv footer -->
 			<footer class="footer mt-auto pb-3 bg-light">
 				<div class="container-fluid">
 					<!-- 진행상황 bar -->
 					<div class="progress mb-2">
-						<div class="progress-bar bg-dark" style="width: 33.3%;"
-							role="progressbar" aria-valuenow="33.3" aria-valuemin="0"
+						<div class="progress-bar bg-dark" style="width: 91.4%;ㅇ"
+							role="progressbar" aria-valuenow="91.4" aria-valuemin="0"
 							aria-valuemax="100"></div>
 					</div>
 					<!-- 뒤로/다음버튼 -->
@@ -101,8 +153,8 @@
 					</div>
 					<div class="">
 						<button id="next-btn" class="float-start btn btn-dark float-end"
-							type="submit" onclick="location.href='/host/legal'" style="width: 80px; height: 48px;">
-							다음</a>
+							type="submit" form="price-insert-form" style="width: 80px; height: 48px;">
+							숙소 검토하기</a>
 					</div>
 				</div>
 			</footer>
@@ -110,6 +162,45 @@
 		</div>
 
 	</div>
+
+<script>
+$(function() {
+/* 	$("#priceInput").on("keydown", function(event){
+		if (event.defaultPrevented) {
+			return; // default action이 취소되면 아무것도 하지 않아야 한다.
+		}
+		var handled = false;
+		
+		// 숫자 0~9 외 입력 제한
+		if(event.keyCode >= 48 && event.keyCode <= 57){
+			handled = false;
+		} else {
+			handled = true;
+		}
+		
+		if (handled) {
+			console.log(event.keyCode);
+			
+			// 이벤트 처리되면 이중 작업 방지
+			event.preventDefault();
+		}
+	}) */
 	
+	
+/* 	$("#price-insert-form").submit(function() {
+		let priceValue = parseInt($(":input[name=price]").val());
+		if (isEmpty(priceValue) || priceValue < 0) {
+			$("#checkAlert")
+					.removeClass("text-primary");
+			$("#checkAlert").addClass("text-danger");
+			$("#checkAlert").css('display', 'flex');
+			$("#checkAlert span")
+					.text("가격을 제대로 입력해주세요.");
+			return false;
+		}
+		
+	}) */
+})
+</script>
 </body>
 </html>
