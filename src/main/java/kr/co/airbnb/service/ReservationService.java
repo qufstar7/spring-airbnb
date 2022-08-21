@@ -9,7 +9,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import kr.co.airbnb.form.ReservationForm;
 import kr.co.airbnb.form.ReservationRegisterForm;
 import kr.co.airbnb.mapper.AccommodationMapper;
 import kr.co.airbnb.mapper.ReservationMapper;
@@ -51,7 +50,7 @@ public class ReservationService {
 		reservation.setTotalPrice(reservationRegisterForm.getPrice() + reservation.getServiceFee());
 		reservation.setEntirePay(reservationRegisterForm.getTotalPrice());
 		reservation.setLeftPay(reservationRegisterForm.getTotalPrice() * 0.3);
-		
+		reservation.setAccNo(reservationRegisterForm.getAccNo());
 		
 		
 		reservationMapper.insertReservation(reservation);

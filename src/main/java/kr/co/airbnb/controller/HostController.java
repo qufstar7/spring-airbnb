@@ -1,17 +1,24 @@
 package kr.co.airbnb.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.airbnb.annotation.LoginUser;
 import kr.co.airbnb.annotation.RegisterAcc;
@@ -22,12 +29,16 @@ import kr.co.airbnb.service.UserService;
 import kr.co.airbnb.utils.SessionUtils;
 import kr.co.airbnb.vo.AccType;
 import kr.co.airbnb.vo.Accommodation;
+import kr.co.airbnb.vo.Tag;
 import kr.co.airbnb.vo.Type;
 import kr.co.airbnb.vo.User;
 
 @Controller
 @RequestMapping("/host")
 public class HostController {
+	
+	@Value("${airbnb.acc.image.save-directory}")
+	String accImageSaveDirectory;
 
 	@Autowired
 	private HostService hostService;
@@ -80,7 +91,7 @@ public class HostController {
 		userService.updateUserInfo(loginUser);
 
 		// 숙소 생성 (번호,유저번호,생성일,상태(등록미완) 정보 저장)
-		accService.insertAcc(loginUser);
+		hostService.insertAcc(loginUser);
 
 		// 가장 최근에 추가된 숙소데이터 조회
 		int accNo = accService.getAccommodationNoByUser(loginUser);
@@ -158,15 +169,15 @@ public class HostController {
 
 	// 주소 제출
 	@PostMapping("/submitAddress")
-	public String submitAddress(@RegisterAcc Accommodation registerAcc, @LoginUser User loginUser, Model model,
+	public String submitAddress(@RegisterAcc Accommodation registerAcc, @LoginUser User loginUser,
 			@ModelAttribute("accRegisterForm") AccRegisterForm accRegisterForm,
 			SessionStatus sessionStatus) throws IOException {
 		
-		if (registerAcc == null) {
-			return "host/become-a-host";
+		if (registerAcc == null || loginUser == null) {
+			return "host/home";
 		}
 
-		hostService.updateAcc(registerAcc, loginUser, accRegisterForm);
+		hostService.updateAddress(registerAcc, loginUser, accRegisterForm);
 		
 		// 세션 수정
 		Accommodation acc = accService.getAccommodation(registerAcc.getAccNo());
@@ -193,16 +204,103 @@ public class HostController {
 		return "/host/guests";
 	}
 	
+	// 인원수 페이지 정보 제출
+	@PostMapping("/submitGuests")
+	public String submitGuests(@RegisterAcc Accommodation registerAcc, @LoginUser User loginUser,
+			@ModelAttribute("accRegisterForm") AccRegisterForm accRegisterForm,
+			SessionStatus sessionStatus) throws IOException {
+		
+		if (registerAcc == null || loginUser == null) {
+			return "host/home";
+		}
+		
+		hostService.updateGuests(registerAcc, loginUser, accRegisterForm);
+		
+		return "redirect:/host/facilities";
+	}
+	
 	// 편의시설 페이지
 	@GetMapping("/facilities")
 	public String facilities(Model model) {
+		
 		return "/host/facilities";
+	}
+	
+	// 편의시설 정보 제출 (convenience)
+	@PostMapping("/submitFacilities")
+	public String submitFacilities(@RegisterAcc Accommodation registerAcc, @LoginUser User loginUser, Model model,
+			@ModelAttribute("accRegisterForm") AccRegisterForm accRegisterForm,
+			SessionStatus sessionStatus) throws IOException {
+		
+		if (registerAcc == null || loginUser == null) {
+			return "host/home";
+		}
+		
+		hostService.insertConveniences(registerAcc, loginUser, accRegisterForm);
+		
+		return "redirect:/host/pictures";
 	}
 	
 	// 사진 페이지
 	@GetMapping("/pictures")
 	public String pictures(Model model) {
 		return "/host/pictures";
+	}
+
+	// 사진 제출
+	@PostMapping("/submitPictures")
+	public String submitPictures(@RegisterAcc Accommodation registerAcc, @LoginUser User loginUser, Model model,
+			@ModelAttribute("accRegisterForm") AccRegisterForm accRegisterForm,
+			SessionStatus sessionStatus) throws IOException {
+		
+		if (registerAcc == null || loginUser == null) {
+			return "host/home";
+		}
+		
+		// 이미지 처리
+		if (!accRegisterForm.getPhoto1().isEmpty()) {
+			MultipartFile imageFile = accRegisterForm.getPhoto1();
+			String filename = imageFile.getOriginalFilename();
+			accRegisterForm.setPhoto1name(filename);
+			InputStream in = imageFile.getInputStream();
+			FileOutputStream out = new FileOutputStream(new File(accImageSaveDirectory, filename));
+			FileCopyUtils.copy(in, out);
+		}
+		if (!accRegisterForm.getPhoto2().isEmpty()) {
+			MultipartFile imageFile = accRegisterForm.getPhoto2();
+			String filename = imageFile.getOriginalFilename();
+			accRegisterForm.setPhoto2name(filename);
+			InputStream in = imageFile.getInputStream();
+			FileOutputStream out = new FileOutputStream(new File(accImageSaveDirectory, filename));
+			FileCopyUtils.copy(in, out);
+		}
+		if (!accRegisterForm.getPhoto3().isEmpty()) {
+			MultipartFile imageFile = accRegisterForm.getPhoto3();
+			String filename = imageFile.getOriginalFilename();
+			accRegisterForm.setPhoto3name(filename);
+			InputStream in = imageFile.getInputStream();
+			FileOutputStream out = new FileOutputStream(new File(accImageSaveDirectory, filename));
+			FileCopyUtils.copy(in, out);
+		}
+		if (!accRegisterForm.getPhoto4().isEmpty()) {
+			MultipartFile imageFile = accRegisterForm.getPhoto4();
+			String filename = imageFile.getOriginalFilename();
+			accRegisterForm.setPhoto4name(filename);
+			InputStream in = imageFile.getInputStream();
+			FileOutputStream out = new FileOutputStream(new File(accImageSaveDirectory, filename));
+			FileCopyUtils.copy(in, out);
+		}
+		if (!accRegisterForm.getPhoto5().isEmpty()) {
+			MultipartFile imageFile = accRegisterForm.getPhoto5();
+			String filename = imageFile.getOriginalFilename();
+			accRegisterForm.setPhoto5name(filename);
+			InputStream in = imageFile.getInputStream();
+			FileOutputStream out = new FileOutputStream(new File(accImageSaveDirectory, filename));
+			FileCopyUtils.copy(in, out);
+		}
+		hostService.updatePhotos(registerAcc, loginUser, accRegisterForm);
+		
+		return "redirect:/host/name";
 	}
 	
 	// 이름 페이지
@@ -211,10 +309,46 @@ public class HostController {
 		return "/host/name";
 	}
 	
+	// 이름 제출
+	@PostMapping("/submitName")
+	public String submitName(@RegisterAcc Accommodation registerAcc, @LoginUser User loginUser, Model model,
+			@ModelAttribute("accRegisterForm") AccRegisterForm accRegisterForm,
+			SessionStatus sessionStatus) throws IOException {
+		
+		hostService.updateName(registerAcc, loginUser, accRegisterForm);
+		
+		return "redirect:/host/tags";
+	}
+	
 	// 태그 페이지
 	@GetMapping("/tags")
 	public String tags(Model model) {
+		List<Tag> tags = hostService.getAllTags();
+		model.addAttribute("tags", tags);
 		return "/host/tags";
+	}
+	
+	// 태그 제출
+	@PostMapping("/submitTags")
+	public String submitTags(@RegisterAcc Accommodation registerAcc, @LoginUser User loginUser, Model model,
+			@ModelAttribute("accRegisterForm") AccRegisterForm accRegisterForm,
+			SessionStatus sessionStatus) throws IOException {
+		
+		if (registerAcc == null || loginUser == null) {
+			return "host/home";
+		}
+		
+		hostService.insertTags(registerAcc, loginUser, accRegisterForm);
+
+		// 세션 수정
+		Accommodation acc = accService.getAccommodation(registerAcc.getAccNo());
+		SessionUtils.removeAttribute("REGISTER_ACC");
+		SessionUtils.addAttribute("REGISTER_ACC", acc);
+		
+		// 세션에 "accRegisterForm"이름으로 저장된 객체를 clear 시킨다.
+		sessionStatus.setComplete();
+		
+		return "redirect:/host/description";
 	}
 	
 	// 설명 페이지
@@ -223,11 +357,57 @@ public class HostController {
 		return "/host/description";
 	}
 	
+	// 설명 제출
+	@PostMapping("/submitDescription")
+	public String submitDescription(@RegisterAcc Accommodation registerAcc, @LoginUser User loginUser, @ModelAttribute("accRegisterForm") AccRegisterForm accRegisterForm,
+			SessionStatus sessionStatus) throws IOException {
+
+		if (registerAcc == null || loginUser == null) {
+			return "host/home";
+		}
+		
+		hostService.updateDescription(registerAcc, loginUser, accRegisterForm);
+		
+
+		// 세션 수정
+		Accommodation acc = accService.getAccommodation(registerAcc.getAccNo());
+		SessionUtils.removeAttribute("REGISTER_ACC");
+		SessionUtils.addAttribute("REGISTER_ACC", acc);
+		
+		// 세션에 "accRegisterForm"이름으로 저장된 객체를 clear 시킨다.
+		sessionStatus.setComplete();
+		
+		return "redirect:/host/price";
+	}
+	
 	// 요금 페이지
 	@GetMapping("/price")
 	public String price(Model model) {
 		return "/host/price";
 	}
+	
+	// 요금 제출
+	@PostMapping("/submitPrice")
+	public String submitPrice(@RegisterAcc Accommodation registerAcc, @LoginUser User loginUser, @ModelAttribute("accRegisterForm") AccRegisterForm accRegisterForm,
+			SessionStatus sessionStatus) throws IOException {
+
+		if (registerAcc == null || loginUser == null) {
+			return "host/home";
+		}
+		
+		hostService.updatePrice(registerAcc, loginUser, accRegisterForm);
+		
+		// 세션 수정
+		Accommodation acc = accService.getAccommodation(registerAcc.getAccNo());
+		SessionUtils.removeAttribute("REGISTER_ACC");
+		SessionUtils.addAttribute("REGISTER_ACC", acc);
+		
+		// 세션에 "accRegisterForm"이름으로 저장된 객체를 clear 시킨다.
+		sessionStatus.setComplete();
+		
+		return "redirect:/host/complete";
+	}
+	
 	
 	// 법관련 페이지
 	@GetMapping("/legal")

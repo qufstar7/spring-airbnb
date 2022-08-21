@@ -110,4 +110,11 @@
 		 	AVG_OBSERVANCE = #{observanceScore}
 		where user_no = #{no}
 	</update>
+	
+	<!-- void deleteUser(int userNo); -->
+	<delete id="deleteUser" parameterType="int">
+		delete from airbnb_users
+		where user_no = #{value}
+	</delete>
+	
 </mapper>

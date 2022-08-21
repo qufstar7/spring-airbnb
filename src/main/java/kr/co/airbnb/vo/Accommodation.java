@@ -43,17 +43,17 @@ public class Accommodation {
 	private String trafficDescription;
 	private String refoundDescription;
 	private int cleaningPrice;
-	private String imageCover;
+
+	private String imageCover; // 대표이미지
+	private AccRoom room; // 인원, 침대, 침실, 욕실 개수 저장
 	
-	// 메인타입, 서브타입, 프라이버시타입 (ex.아파트-공동주택-공간전체)
-	private List<Type> types;
-	// typeNo를 메인타입의 번호로 쓴다.
-	// private int typeNo = accTypes.get(0).getNo();
-	
-	private List<AccConvenience> conveniences;
+	private List<Type> types; // 유형 3가지(메인,서브,프라이버시 ex)주택-통나무집-공간전체)
+	private List<AccConvenience> conveniences; // 편의시설 목록
 	private List<Wishlist> wishlists;
-	private List<AccPhoto> photos;
-	private AccRoom room;
+
+	private List<AccPhoto> photos; // 이미지 목록
+	private AccRoom rooms;
+
 	private List<String> disabledDate;
 	private List<Tag> tags;
 	

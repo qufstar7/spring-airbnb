@@ -67,10 +67,10 @@ public interface AccommodationMapper {
 	// 숙소 리뷰 갯수, 별점 평균 업데이트
 	void updateAvgScore(Accommodation accommodation);
 	
-	// 번호만 가지고 있는 숙소 데이터 생성(insert into)
-	void insertAcc(Accommodation acc);
-	
-	void insertAccType(AccType accType);
+	// 삭제예정
+//	void insertAcc(Accommodation acc);
+//	
+//	void insertAccType(AccType accType);
 	
 	// 사용자의 숙소중 가장 최근(가장 큰 숫자)의 숙소 번호 조회
 	int getAccNoByUser(User loginUser);

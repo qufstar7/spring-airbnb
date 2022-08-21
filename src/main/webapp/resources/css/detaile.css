@@ -137,6 +137,10 @@
 		height: 557px;
 	}
 	
+	.content2 {
+		font-size: 16px;
+	}
+	
 	.contentbox {margin:20px auto;}
     .content {
         width: auto;
@@ -286,7 +290,6 @@
 	}
 	
 	.modal-img:hover {
-		border-top-right-radius: 1em;
 		overflow: hidden;
 		transition: transform 1s;
 	  	filter: brightness(70%);

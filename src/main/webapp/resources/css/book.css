@@ -16,12 +16,12 @@
 }
 .container-fixed {
 	position : fixed;
-	top : 30px;
+	top : 40px;
 }
 .modal-title {
 	text-align : center;
 }
-.box {
+.box1 {
     width: 50px;
     height: 50px; 
     border-radius: 70%;
@@ -43,6 +43,16 @@
     height: 100%;
     object-fit: full;
 }
+.insertCard{
+	display:none;
+}
+.leftDiv{
+	display:none;
+}
+.box-acc{
+	margin : 15px;
+	
+}
 #entire-payment {
 	border: 3px black;
 	border-top: rounded;
@@ -51,9 +61,6 @@
 	border: 3px black;
 	border-bottom: rounded;
 }
-.insertCard{
-	display:none;
-}
-.leftDiv{
+#requestPay {
 	display:none;
 }
