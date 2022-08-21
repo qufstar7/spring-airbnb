@@ -173,4 +173,14 @@ public class ReviewService {
 		return reviewMapper.getHostWriteReviews(no);
 	}
 
+	// 유저의 내가 적은 리뷰에서 실행된다.
+	public List<Review> getSentReviews(int no) {
+		return reviewMapper.getSentReviews(no);
+	}
+	
+	// 유저의 내가 받은 리뷰에서 실행된다.
+	public List<Review> getReceivedReviews(int no) {
+		return reviewMapper.getReceivedReviews(no);
+	}
+
 }
