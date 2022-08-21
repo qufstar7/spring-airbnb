@@ -1,5 +1,6 @@
 package kr.co.airbnb.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +12,12 @@ import kr.co.airbnb.form.AccRegisterForm;
 import kr.co.airbnb.mapper.AccommodationMapper;
 import kr.co.airbnb.mapper.HostMapper;
 import kr.co.airbnb.vo.AccConvenience;
+import kr.co.airbnb.vo.AccPhoto;
 import kr.co.airbnb.vo.AccRoom;
+import kr.co.airbnb.vo.AccTag;
 import kr.co.airbnb.vo.AccType;
 import kr.co.airbnb.vo.Accommodation;
+import kr.co.airbnb.vo.Tag;
 import kr.co.airbnb.vo.Type;
 import kr.co.airbnb.vo.User;
 
@@ -101,7 +105,7 @@ public class HostService {
 	}
 
 	// 6. 편의시설
-	public void updateConveniences(Accommodation registerAcc, User loginUser, AccRegisterForm arf) {
+	public void insertConveniences(Accommodation registerAcc, User loginUser, AccRegisterForm arf) {
 		List<String> facilities = arf.getFacilities();
 		if (!CollectionUtils.isEmpty(facilities)) {
 			for (String fac : facilities) {
@@ -110,12 +114,93 @@ public class HostService {
 			}
 		}
 	}
-	
+
 	// 7. 사진
+	public void updatePhotos(Accommodation registerAcc, User loginUser, AccRegisterForm arf) {
+		int accNo = registerAcc.getAccNo();
+		
+		Accommodation acc = new Accommodation();
+		acc.setImageCover(arf.getPhoto1name()); // 커버이미지이름
+		hostMapper.updateImageCover(acc);
+		
+		List<AccPhoto> accPhotos = new ArrayList<AccPhoto>();
+		accPhotos.add(new AccPhoto(accNo, arf.getPhoto1name(), "Y"));
+		accPhotos.add(new AccPhoto(accNo, arf.getPhoto2name(), "N"));
+		accPhotos.add(new AccPhoto(accNo, arf.getPhoto3name(), "N"));
+		accPhotos.add(new AccPhoto(accNo, arf.getPhoto4name(), "N"));
+		accPhotos.add(new AccPhoto(accNo, arf.getPhoto5name(), "N"));
+		
+		System.out.println(accPhotos);
+		
+		if (!CollectionUtils.isEmpty(accPhotos)) {
+			for (AccPhoto accPhoto : accPhotos) {
+				if (accPhoto.getName() != null) {
+					hostMapper.insertAccPhotos(accPhoto);
+				}
+			}
+		}
+	}
+
 	// 8. 이름
+	public void updateName(Accommodation registerAcc, User loginUser, AccRegisterForm arf) {
+		Accommodation acc = new Accommodation();
+		acc.setAccNo(registerAcc.getAccNo());
+		
+		// 저장할 정보 객체에 저장
+		String name = null;
+		if (arf.getName() != null) {
+			name = arf.getName().trim();
+		}
+		
+		acc.setName(name);
+		hostMapper.updateAccName(acc);
+	}
+
 	// 9. 태그
+	public List<Tag> getAllTags() {
+		return hostMapper.getAllTags();
+	}
+
+	public void insertTags(Accommodation registerAcc, User loginUser, AccRegisterForm arf) {
+		List<String> tags = arf.getTags();
+		System.out.println("tags: "+tags);
+		if (!CollectionUtils.isEmpty(tags)) {
+			for (String tag : tags) {				
+				hostMapper.insertAccTags(new AccTag(registerAcc.getAccNo(), tag));
+			}
+		}
+	}
+
 	// 10. 설명
+	public void updateDescription(Accommodation registerAcc, User loginUser, AccRegisterForm arf) {
+		Accommodation acc = new Accommodation();
+		acc.setAccNo(registerAcc.getAccNo());
+		
+		// 저장할 정보 객체에 저장
+		String description = null;
+		if (arf.getDescription() != null) {
+			description = arf.getDescription().trim();
+		}
+		
+		acc.setDescription(description);
+		hostMapper.updateAccDescription(acc);
+	}
+
 	// 11. 가격
-	// 12. 법관련
+	public void updatePrice(Accommodation registerAcc, User loginUser, AccRegisterForm arf) {
+		Accommodation acc = new Accommodation();
+		acc.setAccNo(registerAcc.getAccNo());
+		
+		// 저장할 정보 객체에 저장
+		String priceStr = arf.getPrice();
+		int price = 0;
+		if (priceStr != null) {
+			price = Integer.parseInt(priceStr);
+		}
+		
+		acc.setPrice(price);
+		hostMapper.updateAccPrice(acc);
+	}
 	
+	// 12. 법관련
 }

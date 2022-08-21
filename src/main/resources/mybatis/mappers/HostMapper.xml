@@ -96,8 +96,65 @@
 	where acc_no = #{accNo}
 </update>	
 	
-
+<!-- void updateImageCover(Accommodation acc); -->	
+<update id="updateImageCover" parameterType="Accommodation">
+	update airbnb_accommodations
+	set 
+		image_cover = #{imageCover}
+	where acc_no = #{accNo}
+</update>	
 	
+<!-- void insertAccPhotos(AccPhoto accPhoto); -->
+<insert id="insertAccPhotos" parameterType="AccPhoto">
+	<selectKey keyProperty="imageNo" resultType="int" order="BEFORE">
+		select PHOTOS_SEQ.nextval
+		from dual
+	</selectKey>
+	insert into airbnb_acc_photos
+	(image_no, acc_no, image_name, image_cover)
+	values
+	(#{imageNo}, #{accNo}, #{name}, #{cover} )
+</insert>
+
+<!-- void updateAccName(Accommodation acc); -->
+<update id="updateAccName" parameterType="Accommodation">
+	update airbnb_accommodations
+	set 
+		acc_name = #{name}
+	where acc_no = #{accNo}
+</update>
+
+<!-- List<Tag> getAllTags(); -->
+<select id="getAllTags" resultType="Tag">
+	select tag_id as id, tag_name as name, tag_icon as icon
+	from airbnb_tags
+	order by tag_id
+</select>
+
+<!-- void insertAccTags(AccTag accTag); -->
+<insert id="insertAccTags" parameterType="AccTag">
+	insert into airbnb_acc_tags
+	(acc_no, tag_id)
+	values
+	(#{accNo}, #{tagId})
+</insert>
+
+<!-- void updateAccDescription(Accommodation acc); -->
+<update id="updateAccDescription" parameterType="Accommodation">
+	update airbnb_accommodations
+	set 
+		acc_description = #{description}
+	where acc_no = #{accNo}
+</update>
+
+<!-- void updateAccPrice(Accommodation acc); -->
+<update id="updateAccPrice" parameterType="Accommodation">
+	update airbnb_accommodations
+	set 
+		acc_price = #{price}
+	where acc_no = #{accNo}
+</update>
+
 <!-- void updateAcc(Accommodation acc); -->
 <update id="updateAcc" parameterType="Accommodation">
 	update airbnb_accommodations

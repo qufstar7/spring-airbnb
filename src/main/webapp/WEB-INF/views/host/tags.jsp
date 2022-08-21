@@ -33,10 +33,34 @@
 	
 		<!-- 왼쪽 영역 -->
 		<div id="left-div">
-			<!-- leftDiv text -->
-			<div class="align-self-center m-5">
-				<div role="text" class="left-main-text">숙소와 관련된 태그를 선택하세요.</div>
+			
+			<!-- 동영상 -->
+			<video class="photoVideo" style="object-fit:cover;object-position:0 25%" autoplay muted aria-label="호스트 한 명이 휴대전화에서 에어비앤비 숙소 페이지를 살펴보고 있습니다. 다른 호스트가 게스트를 위한 메모를 손에 들고 이야기를 합니다. 마지막으로, 두 호스트가 휴대전화에 보이는 내용을 논의합니다." crossorigin="anonymous" muted="" playsinline="" preload="auto"><source src="https://a0.muscache.com/v/55/86/558653ec-da4e-5148-b0e2-828b7a691e86/558653ecda4e5148b0e2828b7a691e86_4000k_1.mp4?imformat=h265" type="video/mp4; codecs=hevc"><source src="https://a0.muscache.com/v/55/86/558653ec-da4e-5148-b0e2-828b7a691e86/558653ecda4e5148b0e2828b7a691e86_4000k_1.mp4" type="video/mp4"></video>
+			<div class="shadowBox"></div>
+			
+			<div class="downBox">
+				<button class="downBoxBtn m-3" type="button">
+					<div class="downBoxTextBtn">
+						<div>동영상 재생하기</div>
+					</div>
+					<div>
+						<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 16px; width: 16px; fill: white;">
+							<path d="M27.024 14.273L6.008 2.013c-.461-.268-1-.342-1.517-.206A2 2 0 0 0 3 3.741V28.26a2.002 2.002 0 0 0 3.008 1.728l21.015-12.26a2.003 2.003 0 0 0 .001-3.454z">
+							</path>
+						</svg>
+					</div>
+				</button>
+				<button aria-label="일시 중지" type="button" class="downBoxStopBtn">
+					<span class="position-relative" s>
+						<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 16px; width: 16px; fill: white;">
+							<path d="M13 1v14H9V1zM7 1v14H3V1z"></path>
+						</svg>
+					</span>
+				</button>
+						
+				<div role="text" class="left-photo-text">숙소를 설명할 키워드를 선택해 주세요</div>
 			</div>
+			
 		</div>
 
 		<!-- 오른쪽 영역 -->
@@ -73,23 +97,34 @@
 					</div>
 				</nav>
 			</div>
-
-			<!-- rightDiv main -->
-			<div class="main-box align-self-center bg-white" style="overflow:hidden;">				
-				<div id="" style="">
-				
+			
+			<div class="main-box bg-white p-4">
+				<div style="max-width: 700px; margin: auto;">
+					<div class="fs-2 fw-bolder pb-3 m-3">숙소의 특징이 잘 드러나는 문구를 최대 2개까지 선택하실 수 있습니다.</div>
+					<div>
+						<div id="allTagBox" class="text-center">
+							<c:forEach var="tag" items="${tags }">
+							<button class="btn btn-types btn-tag m-2" type="button" value="" name="tags">
+								<img class="" style="height:24px;width:24px;" src="${tag.icon }" alt="tag icon" data-tagId="${tag.id }">
+								<span>${tag.name }</span>
+							</button>
+							</c:forEach>
+						</div>
+					</div>
 				</div>
 			</div>
-
-
-
+			
+			<!-- 제출용 폼 -->
+			<form id="tag-insert-form" method="post" action="/host/submitTags">
+   			</form>
+			
 			<!-- rightDiv footer -->
 			<footer class="footer mt-auto pb-3 bg-light">
 				<div class="container-fluid">
 					<!-- 진행상황 bar -->
 					<div class="progress mb-2">
-						<div class="progress-bar bg-dark" style="width: 33.3%;"
-							role="progressbar" aria-valuenow="33.3" aria-valuemin="0"
+						<div class="progress-bar bg-dark" style="width: 74.8%;"
+							role="progressbar" aria-valuenow="74.8" aria-valuemin="0"
 							aria-valuemax="100"></div>
 					</div>
 					<!-- 뒤로/다음버튼 -->
@@ -101,7 +136,7 @@
 					</div>
 					<div class="">
 						<button id="next-btn" class="float-start btn btn-dark float-end"
-							type="submit" onclick="location.href='/host/description'" style="width: 80px; height: 48px;">
+							type="submit" form="tag-insert-form" style="width: 80px; height: 48px;">
 							다음</a>
 					</div>
 				</div>
@@ -111,5 +146,47 @@
 
 	</div>
 	
+<script>
+$(function() {
+	
+	// 태그를 선택할 때	
+	$(".btn-tag").on("click", function() {
+		// 선택해제
+		if ($(this).hasClass("btn-type-checked")) {
+			$(this).removeClass("btn-type-checked");
+			$(this).blur();
+			
+			// input 요소 삭제
+			let id = $(this).children('img').attr("data-tagid");
+			$("input").remove('.'+id+'');
+
+		// 선택
+		} else {
+			$(this).addClass("btn-type-checked");
+			
+			// input 요소 추가
+			let id = $(this).children('img').attr("data-tagid");
+			let inputHtml = '<input type="hidden" class="'+id+'" value="'+id+'" name="tags">';
+			$("#tag-insert-form").append(inputHtml);
+		}
+		
+		// 선택 개수 확인 함수 실행
+		checkInputLength();
+	});
+	
+	// 2개 이상 선택 금지
+	function checkInputLength() {
+    	console.log("input changed!");
+
+        if( 2 == $("input").length ) {
+            $("#allTagBox button").not(".btn-type-checked").attr("disabled", "disabled");
+        } else {
+        	$("button").not(".btn-type-checked").removeAttr("disabled");
+        }
+	}
+	
+})
+</script>
+
 </body>
 </html>
