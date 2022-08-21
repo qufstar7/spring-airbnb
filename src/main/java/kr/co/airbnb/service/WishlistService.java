@@ -102,9 +102,15 @@ public class WishlistService {
 	 * @param wishlistNo
 	 */
 	public void deleteWishlist(int wishlistNo) {
-		wishlistMapper.deleteWishlistAndAllAccs(wishlistNo);
+		wishlistMapper.deleteAllAccsInWishlist(wishlistNo);
+		wishlistMapper.deleteWishlist(wishlistNo);
 	}
 	
+	/**
+	 * 위시리스트에서 특정 숙소를 삭제한다.
+	 * @param wishlistNo
+	 * @param accNo
+	 */
 	public void deleteWishlistAcc(int wishlistNo, int accNo) {
 		wishlistMapper.deleteWishlistAcc(wishlistNo, accNo);
 	}
@@ -118,11 +124,15 @@ public class WishlistService {
 	 * @param userNo
 	 * @param startNum 다음번에 받아와야 하는 숙소의 인덱스 번호
 	 */
-	public void getMoreWishlists(int userNo, int startNum) {
+	public List<Wishlist> getMoreWishlists(int userNo, int startNum) {
+		int lastNum = startNum + 8;			// 더보기를 누르면 9개씩 더 출력된다.
 		
-		List<Wishlist> nextWishlists = wishlistMapper.getNextWishlists(userNo, startNum);
+		List<Wishlist> nextWishlists = wishlistMapper.getNextWishlists(userNo, startNum, lastNum);
 		
-		
+		for(Wishlist wishlist : nextWishlists) {
+			wishlist.setAccs(wishlistMapper.getWishlistAccsByNo(wishlist.getNo()));
+		}
+		return nextWishlists;
 	}
 }
 	

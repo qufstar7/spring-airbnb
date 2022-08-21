@@ -57,18 +57,22 @@ public class UserController {
 	public String kakaotest() {
 		return "user/kakaotest";
 	}
+	
 	@GetMapping(path="/facebook")
 	public String facebooktest() {
 		return "user/facebooktest";
 	}
+	
 	@GetMapping(path="google")
 	public String googletest() {
 		return "user/googletest";
 	}
+	
 	@GetMapping(path="account-settings")
-	public String account() {
+	public String account(@LoginUser User loginUser) {
 		return "user/account-settings";
 	}
+	
 	@GetMapping(path="profile")
 	public String profile(@LoginUser User loginUser, Model model) {
 		User user = userService.getUserByNo(loginUser.getNo());
@@ -240,6 +244,29 @@ public class UserController {
 		return "/user/forgotPassword";
 	}
 	
+	// 이메일 수정 질문
+	@GetMapping(path="change/info") 
+	public Map<String, Object> changeUserInfo() {
+		
+		return null;
+	}
+	
+	@GetMapping(path="/account-delete/reasons")
+	public String deleteAccountWithReasons(@LoginUser User loginUser) {
+		return "user/account-delete-reasons";
+	}
+	
+	@GetMapping(path="/account-delete/confirm")
+	public String deleteAccountWithConfirm(@LoginUser User loginUser) {
+		return "user/account-delete-confirm";
+	}
+	
+	@GetMapping(path="/account-delete/complete")
+	public String deleteAccountWithComplete(@LoginUser User loginUser) {
+		userService.deleteUser(loginUser.getNo());
+		
+		return "user/account-delete-complete";
+	}
 	
 	
 }

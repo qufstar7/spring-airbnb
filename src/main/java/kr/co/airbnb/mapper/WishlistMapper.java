@@ -17,7 +17,7 @@ public interface WishlistMapper {
 
 	Wishlist getWishlistByNo(int wishlistNo);
 	List<Wishlist> getWishlistsByUserNo(int userNo);
-	List<Wishlist> getNextWishlists(@Param("userNo") int userNo, @Param("startNum") int startNum);
+	List<Wishlist> getNextWishlists(@Param("userNo") int userNo, @Param("startNum") int startNum, @Param("lastNum") int lastNum);
 	List<Accommodation> getWishlistAccsByNo(int wishlistNo);
 	void createWishlist(Wishlist wishlist);
 	void saveWishlistAcc(@Param("wishlistNo")int wishlistNo, @Param("accNo") int accNo);
@@ -28,7 +28,7 @@ public interface WishlistMapper {
 	void deleteWishlistAcc(@Param("wishlistNo") int wishlistNo, @Param("accNo") int accNo);
 	
 	// 위시리스트 폴더 자체를 삭제할 경우
-	void deleteWishlistAndAllAccs(@Param("wishlistNo") int wishlistNo);
+	void deleteAllAccsInWishlist(@Param("wishlistNo") int wishlistNo);
 	
 	AccWishlist getAccNoByUserNo(Map<String,Object> map);
 	WishlistImage getImageByUserNo(Map<String,Object> map);

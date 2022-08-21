@@ -11,6 +11,7 @@ public interface UserMapper {
 	User getUserByNo(int userNo);
 	void insertUser(User user);
 	void updateUser(User user);
+	void deleteUser(int userNo);
 	
 	// 호스트 리뷰 갯수, 별점 평균 업데이트
 	void updateAvgScore(User user);
