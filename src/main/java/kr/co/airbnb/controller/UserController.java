@@ -34,6 +34,8 @@ import kr.co.airbnb.annotation.LoginUser;
 import kr.co.airbnb.form.SocialLoginForm;
 import kr.co.airbnb.form.UserRegisterForm;
 import kr.co.airbnb.form.UserUpdateForm;
+import kr.co.airbnb.reponse.SingleResponseData;
+import kr.co.airbnb.service.ReviewService;
 import kr.co.airbnb.service.UserService;
 import kr.co.airbnb.utils.SessionUtils;
 import kr.co.airbnb.vo.User;
@@ -52,6 +54,9 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private ReviewService reviewService;
 	
 	@GetMapping(path="/kakao")
 	public String kakaotest() {
@@ -240,6 +245,22 @@ public class UserController {
 		return "/user/forgotPassword";
 	}
 	
+	@GetMapping(path = "/sentReview")
+	public String sentReview(@LoginUser User loginUser, Model model) {
+		Map<String, Object> reviews = new HashMap<String, Object>();
+		reviews.put("sentReviews", reviewService.getSentReviews(loginUser.getNo()));
+		model.addAttribute("reviews", reviews);
+		
+		return "review/sentreview";
+	}
 	
+	@GetMapping(path = "/receivedReview")
+	public String receivedReview(@LoginUser User loginUser, Model model) {
+		Map<String, Object> reviews = new HashMap<String, Object>();
+		reviews.put("receivedReviews", reviewService.getReceivedReviews(loginUser.getNo()));
+		model.addAttribute("reviews", reviews);
+		
+		return "review/receivedreview";
+	}
 	
 }

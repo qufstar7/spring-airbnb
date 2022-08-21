@@ -124,25 +124,19 @@
 					</div>	
 					<!-- 탭 버튼 -->			
 					<ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
-						<li class="nav-item" role="presentation">
-					    	<button class="nav-link active" id="btn-review-guest" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">게스트가 남긴 후기(132개)</button>
-					    </li>
-					    <li class="nav-item" role="presentation">
-					  		<button class="nav-link" id="btn-review-host" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">호스트의 후기(15개)</button>
-					    </li>
+
 					</ul>
 					
 					<!-- 탭 리뷰 컨텐츠 -->
+					<!-- 게스트가 남긴 리뷰 시작 -->
 					<div class="tab-content" id="myTabContent">
 					    <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="tab-leave-guest">
 							<div class="mb-5" id="box-review-guest">
-								dd
 							</div>				    			    
 					    </div>
 				 	<!-- 호스트가 남긴 후기 시작 -->
 					    <div class="tab-pane " id="profile" role="tabpanel" aria-labelledby="tab-leave-host">
 							<div class="mb-5" id="box-review-host">
-								ff
 							</div>
 						</div>
 					</div>
@@ -244,8 +238,7 @@ $(function () {
 	let $reviewCount = $("#tab-review-count");		// 리뷰 갯수이다.
 	let $hostReviewBox = $("#box-review-host");		// 호스트가 적은 리뷰이다. (host, guest)
 	let $guestReviewBox = $("#box-review-guest");	// 게스트가 적은 리뷰이다. (host)
-	
-	/*
+
 	$.ajax({
 		type: 'GET',							// HTTP 요청 방식			// 참고 : [{}]는 배열 형태의 데이터를 받는다. 
 		url: "../review/profile",				// 요청 URL
@@ -256,38 +249,115 @@ $(function () {
 				let guestReviews = item.guestReviews;
 				let hostReviews = item.hostReviews;
 				
-				let tabContent = '';
-				tabContent += '';
-				tabContent += '';
-				tabContent += '';
-				tabContent += '';
-				tabContent += '';
-				tabContent += '';
-				tabContent += '';
-				tabContent += '';
-				tabContent += '';
+				// 호스트이며, 게스트/호스트에게 받은 후기가 없다.
+				if (guestReviews.length == 0 && hostReviews.length == 0) {
+					$myTab.hide();
+					
+					let empty1 = '';
+					empty1 += '<a href="https://localhost/user/sentReview">내가 작성한 후기</a>';
+					
+					$allTabBox.html(empty1);
+					return;
+				}
 				
+				// 후기 n개 부분
+				let reviewCount1 = '';
+					reviewCount1 += '<div class="d-flex justify-content-start fs-5 mt-5 mb-4" id="tab-review-count">';
+					reviewCount1 += '	<i class="bi bi-star-fill"></i>';
+					reviewCount1 += '	<h4 class="fw-bold mb-3 ms-2">후기 '+ (guestReviews.length + hostReviews.length) +'개</h4>';
+					reviewCount1 += '</div>';
+					reviewCount1 += '	<div><a href="https://localhost/user/sentReview">내가 작성한 후기</a></div>';
 				
+				$reviewCount.html(reviewCount1);
+				
+				// 호스트의 tab title 부분
+				let tabTitle = '';
+					tabTitle += '<li class="nav-item" role="presentation">';
+					tabTitle += '	<button class="nav-link active" id="btn-review-guest" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">게스트가 남긴 후기(132개)</button>';
+					tabTitle += '</li>';
+					tabTitle += '<li class="nav-item" role="presentation">';
+					tabTitle += '	<button class="nav-link" id="btn-review-host" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">호스트의 후기(15개)</button>';
+					tabTitle += '</li>';
+					
+				$myTab.html(tabTitle);
+				
+				// 호스트이며, 게스트 / 호스트에게 받은 후기가 하나라도 있다.
+				$.each(guestReviews, function(index, review) {
+					let guestReview = '';
+					guestReview += '<a href="https://localhost/user/sentReview">내가 작성한 후기</a>';
+					guestReview += '<div class="row">';
+					guestReview += '	<div class="col-10">';
+					guestReview += '		<h5><strong>'+ (review.accommodation.name) +'</strong></h5>';
+					guestReview += '		<p class="text-muted">'+ (review.createdDate) +'</p>';
+					guestReview += '	</div>';
+					guestReview += '	<div class="col-2">';
+					guestReview += '		<a href="../detail?no=102">';
+					guestReview += '			<img src="/resources/images/acc/1.jpg" class="rectangleImg mb-3">';
+					guestReview += '		</a>';
+					guestReview += '	</div>';
+					guestReview += '</div>';
+					guestReview += '<div>';
+					guestReview += '	<p>review content</p>';
+					guestReview += '</div>';
+					guestReview += '<div class="row">';
+					guestReview += '	<div class="col-1">';
+					guestReview += '		<a href="../profile?no=1">';
+					guestReview += '			<img src="/resources/images/profile/no-image.png" class="userImg mb-3">';
+					guestReview += '		</a>';
+					guestReview += '	</div>';
+					guestReview += '	<div class="col">';
+					guestReview += '		<p class="mb-0 ps-3"><strong>'+ (review.user.name) +'님, '+ (review.user.address) +'</strong></p>';
+					guestReview += '		<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">'+ (review.user.createdDate) +'</span>';
+					guestReview += '	</div>';
+					guestReview += '</div>';
+
+					$guestReviewBox.append(guestReview);
+				
+				})
+				
+				$.each(hostReviews, function(index, review) {
+					let hostReview = '';
+					hostReview += '<div>';
+					hostReview += '		<p class="text-muted">'+ (review.createdDate) +'</p>';
+					hostReview += '		<p>'+ (review.content) +'</p>';
+					hostReview += '</div>';
+					hostReview += '<div class="row">';
+					hostReview += '		<div class="col-1">';
+					hostReview += '			<a href="../profile?no=1">';
+					hostReview += '				<img src="/resources/images/profile/no-image.png" class="userImg mb-3">';
+					hostReview += '			</a>';
+					hostReview += '		</div>';
+					hostReview += '		<div class="col">';
+					hostReview += '			<p class="mb-0 ps-3"><strong>'+ (review.user.name) +'님, '+ (review.user.address) +'</strong></p>';
+					hostReview += '			<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">'+ (review.user.createdDate) +'</span>';
+					hostReview += '		</div>';
+					hostReview += '</div>';
+
+					$hostReviewBox.append(hostReview);
+				
+				})
 				
 			} else {						// guest
 				let reviews = item.reviews;
 				$myTab.hide();
 			
+				// 게스트이며, 호스트에게 받은 후기가 없다.
 				if (review.length == 0) {
-					let content3 = '';
-					content3 += '<a href="https://localhost/review/test/reviewm">내가 작성한 후기</a>';
+					let empty2 = '';
+					empty2 += '<a href="https://localhost/user/sentReview">내가 작성한 후기</a>';
 					
-					$allTabBox.html(content3);
+					$allTabBox.html(empty2);
 					return;
 				} 
 				
-					let content4 = '';
-					content4 += '<div class="d-flex justify-content-start fs-5 mt-5 mb-4" id="tab-review-count">';
-					content4 += '	<i class="bi bi-star-fill"></i>';
-					content4 += '	<h4 class="fw-bold mb-3 ms-2">후기 '+ (review.user.reviewCount) +'개</h4>';
-					content4 += '</div>';
+				// 게스트이며, 호스트가 작성한 리뷰가 있다. 
+					let reviewCount2 = '';
+					reviewCount2 += '<div class="d-flex justify-content-start fs-5 mt-5 mb-4" id="tab-review-count">';
+					reviewCount2 += '	<i class="bi bi-star-fill"></i>';
+					reviewCount2 += '	<h4 class="fw-bold mb-3 ms-2">후기 '+ (review.user.reviewCount) +'개</h4>';
+					reviewCount2 += '</div>';
 					
-					$reviewCount.html(content4);
+					$reviewCount.html(reviewCount2);
 					
 				$.each(reviews, function(index, review) {
 					let content5=''
@@ -312,7 +382,7 @@ $(function () {
 				})
 			}
 		}
-	});*/
+	});
 			
 });
 </script>
