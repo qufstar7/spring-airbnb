@@ -79,66 +79,94 @@
 
 
 			<!-- rightDiv main -->
-			<div style="z-index: 1; height: 45vh; width:336px !important; " class="location-form border border-white rounded-4 translate-middle p-4">
-				<div class="location-form-header fs-5 fw-bolder m-0 text-center pb-4 mt-3">주소를 입력하세요</div>
-
-				<!-- 스크롤영역 -->
-				<div class="location-form-scroll position-relative mt-3">
-					<!-- 사진 -->
-					<div class="rounded">
-						
+			<div class="main-box align-self-center bg-white">
+				<div class="phoneBox">
+					<div class="phoneScroll m-0">
+						<!-- 스크롤영역 -->
+						<div class="position-relative">
+							<!-- 사진 -->
+							<div class="phoneImage" >
+								<img class="phoneThumbnail" src="/resources/images/acc/${acc.imageCover }">
+							</div>
+							<!-- 이름 -->
+							<h1 class="PhoneName border-bottom fs-2 fw-bold mx-4 py-4">
+								${acc.name }
+							</h1>
+							<!-- 유저 -->
+							<div class="phoneUser border-bottom mx-4 py-4">
+								<h2 class="fs-4 fw-bold">
+									${acc.user.name }님의 숙소, ${types[0].name} ${types[1].name} ${types[2].name}
+								</h2>
+								<div>
+									<img class="rounded-circle float-start" src="/resources/images/profile/${acc.user.profileImage }"  alt="${acc.user.profileImage }">
+								</div>
+							</div>
+							<!-- Guests 페이지 -->
+							<div class="border-bottom fs-5 mx-4 py-4">
+								최대 인원 ${acc.guest }명 · 
+								침실수 ${room.bedroom }개 · 
+								침대수 ${room.bed }개 · 
+								욕실수 ${room.bathroom }개
+							</div>
+							<!-- 설명 -->
+							<div class="phoneDescription border-bottom mx-4 py-4">
+								${acc.description }
+							</div>
+							<!-- 편의시설 -->
+							<div class="fs-5 mx-4 pt-4">
+								<div class="fs-5 fw-bold">편의시설</div>
+									<c:forEach var="c" items="${cons }" end="4">
+									<ul class="fs-6 phoneConveniencesUl">
+										<li class="phoneConveniencesList">
+											<div>${c.convenience.name }</div>
+											<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+											<span class="material-symbols-outlined">
+											${c.convenience.iconName }
+											</span>
+									</ul>
+									</c:forEach>
+									
+									<c:if test="${not empty cons[5] }">
+										<c:forEach var="c" items="${cons }" begin="5" varStatus="vs">
+										<c:if test="${vs.last }">
+											<c:set var="leftover" value="${vs.index -4}" />
+										</c:if>
+										</c:forEach>
+									<div class="border-bottom fs-6 fw-lighter pb-4" style="color:#717171;">+ 그 밖의 편의시설 ${leftover}개</div>
+									</c:if>
+							</div>
+							<!-- 위치 -->
+							<div class="fs-5 mx-4 py-4">
+								<div class="fs-5 fw-bold">위치</div>
+								<div class="mt-2 py-2">${acc.address }</div>
+								<!-- 안내문 -->
+								<div class="" style="font-size:13px;color:#717171;">
+									숙소 주소는 에어비앤비 
+									<a class="text-reset" href="">개인정보 처리방침</a>
+									에 따라 예약을 완료한 게스트에게만 공개됩니다.
+								</div>
+							</div>
+						</div>
 					</div>
-					<!-- 이름 -->
-					<div class="rounded">
-						
-					</div>
-					<!-- 유저 -->
-					<div class="rounded">
-						
-					</div>
-					<!-- Guests 페이지 -->
-					<div class="rounded">
-						
-					</div>
-					<!-- 설명 -->
-					<div class="rounded">
-						
-					</div>
-					<!-- 편의시설 -->
-					<div class="rounded">
-						
-					</div>
-					<!-- 위치 -->
-					<div class="rounded">
-						
-					</div>
-					<!-- 안내문 -->
-					<div class="rounded">
-						
-					</div>
-
 				</div>
-
 			</div>
-			
-			
 			
 
 			<!-- rightDiv footer -->
-			<footer class="footer mt-auto pb-3 bg-light" id="locationFooter">
+			<footer class="footer mt-auto py-3 bg-light">
 				<div class="container-fluid">
 					<!-- 진행상황 bar -->
 					<div class="progress mb-2">
-						<div class="progress-bar bg-dark" style="width:100%;"
-							role="progressbar" aria-valuenow="100" aria-valuemin="0"
-							aria-valuemax="100"></div>
+						<div class="progress-bar bg-dark" style="width: 100%;" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
 					<!-- 뒤로/다음버튼 -->
-					<div id="">
-						<button id="back-btn" class="float-start btn btn-none ms-4 text-decoration-underline text-black border-0" type="button" onclick="history.go(-1)" style="padding-top: 14px">뒤로</button>
+					<div class="">
+						<button id="back-btn" class="float-start btn btn-none ms-4 fs-6 text-decoration-underline text-black border-0" type="button" onclick="history.go(-1)" style="padding-top: 14px">뒤로</button>
 					</div>
-					<div id="">
-						<button id="next-btn" class="float-start btn btn-dark float-end me-5" form="locationRegisterForm" type="button" onclick="location.href='/host/manage'" style="width: 180px; height: 48px;">숙소 등록 완료하기</button>
+					<div class="">
+						<button id="next-btn" type="button" onclick="location.href='/host/profile'" class="float-start btn btn-dark float-end me-5" style="width: 180px; height: 48px;">
+							숙소 등록 완료하기
+						</button>
 					</div>
 				</div>
 			</footer>
@@ -146,6 +174,16 @@
 		</div>
 
 	</div>
+<script>
+$(function(){
+	var $ul = $(".phoneConveniencesUl").length;
 	
+	console.log($ul);
+	
+	if($ul > 5) {
+		
+	}
+})
+</script>
 </body>
 </html>

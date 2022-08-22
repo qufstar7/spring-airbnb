@@ -121,6 +121,7 @@ public class HostService {
 		
 		Accommodation acc = new Accommodation();
 		acc.setImageCover(arf.getPhoto1name()); // 커버이미지이름
+		acc.setAccNo(accNo);
 		hostMapper.updateImageCover(acc);
 		
 		List<AccPhoto> accPhotos = new ArrayList<AccPhoto>();
@@ -203,4 +204,18 @@ public class HostService {
 	}
 	
 	// 12. 법관련
+	
+	// 완료페이지
+	public AccRoom getAllRoomInfoByAccNo(int accNo) {
+		return hostMapper.getAllRoomInfoByAccNo(accNo);
+	}
+
+	public List<AccConvenience> getAllConveniencesByAccNo(int accNo) {
+		return accMapper.getAccConveniencesByAccNo(accNo);
+	}
+
+	public List<Type> getAllTypesByAccNo(int accNo) {
+		return accMapper.getAllTypesByAccNo(accNo);
+	}
+	
 }

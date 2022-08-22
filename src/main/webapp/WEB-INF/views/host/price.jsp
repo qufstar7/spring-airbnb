@@ -140,7 +140,7 @@
 				<div class="container-fluid">
 					<!-- 진행상황 bar -->
 					<div class="progress mb-2">
-						<div class="progress-bar bg-dark" style="width: 91.4%;ㅇ"
+						<div class="progress-bar bg-dark" style="width: 91.4%;"
 							role="progressbar" aria-valuenow="91.4" aria-valuemin="0"
 							aria-valuemax="100"></div>
 					</div>
@@ -152,8 +152,8 @@
 							style="padding-top: 14px">뒤로</button>
 					</div>
 					<div class="">
-						<button id="next-btn" class="float-start btn btn-dark float-end"
-							type="submit" form="price-insert-form" style="width: 80px; height: 48px;">
+						<button id="next-btn" class="float-start btn btn-dark float-end me-5"
+							type="submit" form="price-insert-form" style="width: 180px; height: 48px;">
 							숙소 검토하기</a>
 					</div>
 				</div>

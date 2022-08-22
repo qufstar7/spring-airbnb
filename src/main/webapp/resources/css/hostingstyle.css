@@ -300,6 +300,10 @@ body {
 .main-box {
 	height: 100%;
 	overflow: scroll;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	align-content: center;
 }
 
 #right-content-box {
@@ -800,22 +804,103 @@ body {
 	text-align: center !important;
 }
 
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button
+	{
+	-webkit-appearance: none;
+	margin: 0;
 }
 
-/* 완료 페이지 */ 
+/* 완료 페이지 */
 .phoneBox {
-    border: 1px solid rgb(235, 235, 235) !important;
-    box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px !important;
-    width: 336px !important;
-    max-width: 90% !important;
-    height: 100% !important;
-    min-height: 400px !important;
-    max-height: 680px !important;
-    padding: 12px !important;
-    border-radius: 32px !important;
-    background-color: rgb(255, 255, 255) !important;
+	height: 750px !important;
+	width: 377px !important;
+	border: 1px solid rgb(235, 235, 235) !important;
+	box-shadow: rgb(0 0 0/ 12%) 0px 6px 16px !important;
+	padding: 12px !important;
+	border-radius: 32px !important;
+	background-color: rgb(255, 255, 255) !important;
+	word-break: keep-all;
+}
+
+.phoneScroll {
+	height: 100% !important;
+	width: 100% !important;
+	overflow: overlay;
+	max-height: 100%;
+	border-radius: 18px;
+	border: 1px solid rgb(235, 235, 235) !important;
+}
+
+.phoneImage {
+	width: 100%;
+	overflow: hidden;
+	border-radius: 18px 18px 0px 0px;
+}
+
+.phoneThumbnail {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.phoneName {
+	line-height: 30px;
+	word-wrap: break-word;
+}
+
+.phoneUser {
+	padding-top: 24px !important;
+	padding-bottom: 24px !important;
+	border-bottom: 1px solid #EBEBEB !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: space-between !important;
+}
+
+.phoneUser h2 {
+	word-wrap: break-word !important;
+	max-width: 80% !important;
+	margin-bottom: 0px !important;
+}
+
+.phoneUser div {
+	display: inline-block;
+	vertical-align: bottom;
+	height: 40px;
+	width: 40px;
+	min-height: 1px;
+	border-radius: 50px;
+	background-repeat: no-repeat !important;
+	background-position: 50% 50% !important;
+}
+
+.phoneUser div img {
+	object-fit: cover;
+	vertical-align: bottom;
+	border-radius: 50px;
+	height: 100% !important;
+	width: 100% !important;
+	position: static !important;
+}
+
+.phoneDescription {
+	font-size: 18px;
+	line-height: 18px;
+	font-weight: 400;
+	overflow-wrap: break-word !important;
+}
+
+.phoneConveniencesUl {
+	margin-top: 16px !important;
+	margin-bottom: 16px !important;
+	padding-bottom: 16px !important;
+	border-bottom: 1px solid #EBEBEB !important;
+	padding-left: 0px !important;
+	list-style-type: none !important;
+}
+
+.phoneConveniencesList {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
