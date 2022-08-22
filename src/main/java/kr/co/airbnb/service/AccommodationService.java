@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.airbnb.annotation.LoginUser;
 import kr.co.airbnb.criteria.AccCriteria;
+import kr.co.airbnb.criteria.FilterCriteria;
 import kr.co.airbnb.criteria.SearchCriteria;
 import kr.co.airbnb.mapper.AccommodationMapper;
 import kr.co.airbnb.mapper.WishlistMapper;
+import kr.co.airbnb.vo.AccPrice;
 import kr.co.airbnb.vo.AccRoom;
 import kr.co.airbnb.vo.AccTag;
 import kr.co.airbnb.vo.Accommodation;
@@ -120,6 +122,17 @@ public class AccommodationService {
 	// 태그id로 숙소 조회
 	public List<Accommodation> searchAccByTag(String id) { 
 		return accommodationMapper.searchAccByTag(id);
+	}
+
+	/* 필터부분 */
+	// 1박 평균 요금, 최저 요금, 최고요금 조회
+	public AccPrice getPrice() {
+		return accommodationMapper.getPrice();
+	}
+	// 필터 검색으로 숙소 조회
+	public List<Accommodation> searchAccByFilter(FilterCriteria filterCriteria) {
+		
+		return accommodationMapper.getAccByFilter(filterCriteria);
 	}
 
 	

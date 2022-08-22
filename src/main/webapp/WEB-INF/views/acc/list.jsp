@@ -494,9 +494,9 @@ input[type="range"]::-moz-range-thumb{
 						<div class="row my-2">
 							<div class="col-8">
 								<div class="card-title"><span>${list.user.name }</span>의 <span>${list.types[0].name }</span></div>
-								<div class="card-text text-muted">${list.name }</div>
-								<div class="card-subtitle text-muted">침대 <span>${room.bed }</span>개</div>		<!-- room_bed -->
-								<div class="card-subtitle mb-2 text-muted">12월 6일 ~ 1월 3일</div>
+								<div class="card-text text-muted" style="font-size:15px">${list.name }</div>
+								<div class="card-subtitle text-muted" style="font-size:15px">침대 <span>${list.room.bed }</span>개</div>		<!-- room_bed -->
+								<div class="card-subtitle mb-2 text-muted">${list.checkIn } ~ ${list.checkOut }</div> <!-- 12월 6일 ~ 1월 3일 -->
 								<div class="card-text">
 									<strong>₩<fmt:formatNumber value="${list.price }" /></strong>/월	<!-- acc_price * 선택한 날짜(default 1일) -->
 								</div>
@@ -527,39 +527,42 @@ input[type="range"]::-moz-range-thumb{
 			<div class="modal-content"> 
 				<div class="modal-header d-flex justify-content-between" style="height:63px">
 					<div>
-						<button type="button" class="btn-close" data-bs-dismiss="modal"
-							aria-label="Close"></button>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<h6 class="modal-title text-center" id="exampleModalLabel">필터</h6>
 					<div></div>
 				</div>
 				<div class="modal-body p-0" style="padding:0; overflow-x:hidden;">
-					<form id="filter-search" method="post">
+					<form id="filter-search" method="get">
+						<!-- 태그 아이디 -->
+						<input type="hidden" id="tagId-submit" value="">
 						<h5 class="pt-4">
 							<strong>가격 범위</strong>
 						</h5>
-						<p class="text-muted" style="padding:10px 25px;">평균 1박 요금은 ₩ <span>413,410</span> 입니다.</p>
+						<p class="text-muted" style="padding:10px 25px;">평균 1박 요금은 ₩ <span><fmt:formatNumber value="${price.avg }" /></span> 입니다.</p>
 						<!-- 차트 + 범위 슬라이더 -->
 						<div class="p-0">
+							<!-- 차트 -->
 							<div id="number_format_chart"></div>
-							<div>
+							<!-- 슬라이더 -->
+							<div> 
 							    <div class="wrapper">
 									<div class="slider">
 									  <div class="progress"></div>
 									</div>
 									<div class="range-input">
-									  <input type="range" class="range-min" min="0" max="10000" value="" step="100">
-									  <input type="range" class="range-max" min="0" max="10000" value="7500" step="100">
+									  <input type="range" class="range-min" min="${price.min }" max="${price.max }" value="${price.min }" step="100">
+									  <input type="range" class="range-max" min="${price.min }" max="${price.max }" value="${price.max }" step="100">
 									</div>
 									<div class="price-input">
 									  <div class="field">
-									    <label for="">Min</label>
-									    <input type="number" class="input-min" value="2500" style="padding-left:15px; padding-bottom:5px;">
+									    <label for="" style="font-size: 13px; width: 90px;">최저요금</label>
+									    <input type="number" class="input-min" value="${price.min }" style="padding-left:15px; padding-bottom:5px;font-size: 17px;">
 								      </div>
 								      <div class="separator">-</div>
 								      <div class="field">
-								        <label>Max</label>
-								        <input type="number" class="input-max" value="7500">
+								        <label for="" style="font-size: 13px; width: 90px;">최고요금</label>
+								        <input type="number" class="input-max" value="${price.max }" style="font-size: 17px;">
 								      </div>
 								    </div>
 								</div>
@@ -579,9 +582,8 @@ input[type="range"]::-moz-range-thumb{
 								</label>
 							</div>
 							<div class="form-check col-6 d-flex">
-								<input class="form-check-input" type="checkbox" name="rent" value="개인실" 
-									id="accCheck"> <label
-									class="form-check-label px-2" for="flexCheckDefault">
+								<input class="form-check-input" type="checkbox" name="rent" value="개인실" id="accCheck">
+								<label class="form-check-label px-2" for="flexCheckDefault">
 									개인실
 									<p class="fw-lighter">집 또는 호텔의 개인실과 일부 공용 공간</p>
 								</label>
@@ -601,121 +603,121 @@ input[type="range"]::-moz-range-thumb{
 						<div class="rooms" style="padding:25px;">
 							<p><strong>침실</strong></p>
 							<p id="bedrooms" class="pb-3">
-								<button type="button" class="bedrooms" value="상관없음">
+								<button type="button" class="bedrooms" data-bedrooms="상관없음">
 									<label class="px-2">상관없음</label>
 									<input type="hidden" name="bedrooms" value="상관없음" disabled="disabled"/>
 								</button>
-								<button type="button" class="bedrooms" value="1">
+								<button type="button" class="bedrooms" data-bedrooms="1">
 									<label class="px-2">1</label>
 									<input type="hidden" name="bedrooms" value="1" disabled="disabled"/>
 								</button>
-								<button type="button" class="bedrooms" value="2">
+								<button type="button" class="bedrooms" data-bedrooms="2">
 									<label class="px-2">2</label>
 									<input type="hidden" name="bedrooms" value="2" disabled="disabled"/>
 								</button>
-								<button type="button" class="bedrooms" value="3">
+								<button type="button" class="bedrooms" data-bedrooms="3">
 									<label class="px-2">3</label>
 									<input type="hidden" name="bedrooms" value="3" disabled="disabled"/>
 								</button>
-								<button type="button" class="bedrooms" value="4">
+								<button type="button" class="bedrooms" data-bedrooms="4">
 									<label class="px-2">4</label>
 									<input type="hidden" name="bedrooms" value="4" disabled="disabled"/>
 								</button>
-								<button type="button" class="bedrooms" value="5">
+								<button type="button" class="bedrooms" data-bedrooms="5">
 									<label class="px-2">5</label>
 									<input type="hidden" name="bedrooms" value="5" disabled="disabled"/>
 								</button>
-								<button type="button" class="bedrooms" value="6">
+								<button type="button" class="bedrooms" data-bedrooms="6">
 									<label class="px-2">6</label>
 									<input type="hidden" name="bedrooms" value="6" disabled="disabled"/>
 								</button>
-								<button type="button" class="bedrooms" value="7">
+								<button type="button" class="bedrooms" data-bedrooms="7">
 									<label class="px-2">7</label>
 									<input type="hidden" name="bedrooms" value="7" disabled="disabled"/>
 								</button>
-								<button type="button" class="bedrooms" value="8+">
+								<button type="button" class="bedrooms" data-bedrooms="8+">
 									<label class="px-2">8+</label>
-									<input type="hidden" name="bedrooms" value="8+" disabled="disabled"/>
+									<input type="hidden" name="bedrooms" value="min_bedrooms" disabled="disabled"/>
 								</button>
 							</p>
 							<p><strong>침대</strong></p>
 							<p id="" class="pb-3">
-								<button type="button" class="beds" value="상관없음">
+								<button type="button" class="beds" data-beds="상관없음">
 									<label class="px-2">상관없음</label>
 									<input type="hidden" name="beds" value="상관없음" disabled="disabled"/>
 								</button>
-								<button type="button" class="beds" value="1">
+								<button type="button" class="beds" data-beds="1">
 									<label class="px-2">1</label>
 									<input type="hidden" name="beds" value="1" disabled="disabled"/>
 								</button>
-								<button type="button" class="beds" value="2">
+								<button type="button" class="beds" data-beds="2">
 									<label class="px-2">2</label>
 									<input type="hidden" name="beds" value="2" disabled="disabled"/>
 								</button>
-								<button type="button" class="beds" value="3">
+								<button type="button" class="beds" data-beds="3">
 									<label class="px-2">3</label>
 									<input type="hidden" name="beds" value="3" disabled="disabled"/>
 								</button>
-								<button type="button" class="beds" value="4">
+								<button type="button" class="beds" data-beds="4">
 									<label class="px-2">4</label>
 									<input type="hidden" name="beds" value="4" disabled="disabled"/>
 								</button>
-								<button type="button" class="beds" value="5">
+								<button type="button" class="beds" data-beds="5">
 									<label class="px-2">5</label>
 									<input type="hidden" name="beds" value="5" disabled="disabled"/>
 								</button>
-								<button type="button" class="beds" value="6">
+								<button type="button" class="beds" data-beds="6">
 									<label class="px-2">6</label>
 									<input type="hidden" name="beds" value="6" disabled="disabled"/>
 								</button>
-								<button type="button" class="beds" value="7">
+								<button type="button" class="beds" data-beds="7">
 									<label class="px-2">7</label>
 									<input type="hidden" name="beds" value="7" disabled="disabled"/>
 								</button>
-								<button type="button" class="beds" value="8+">
+								<button type="button" class="beds" data-beds="min_beds">
 									<label class="px-2">8+</label>
-									<input type="hidden" name="beds" value="8+" disabled="disabled"/>
+									<input type="hidden" name="beds" value="min_beds" disabled="disabled"/>
 								</button>
 							</p>
 
 							<div class="fold-content d-none">
 								<p><strong>욕실</strong></p>
 								<p id="" class="pb-3">
-								<button type="button" class="bathrooms" value="상관없음">
+								<button type="button" class="bathrooms" data-bathroom="상관없음">
 									<label class="px-2">상관없음</label>
 									<input type="hidden" name="bathrooms" value="상관없음" disabled="disabled"/>
 								</button>
-								<button type="button" class="bathrooms" value="1">
+								<button type="button" class="bathrooms" data-bathroom="1">
 									<label class="px-2">1</label>
 									<input type="hidden" name="bathrooms" value="1" disabled="disabled"/>
 								</button>
-								<button type="button" class="bathrooms" value="2">
+								<button type="button" class="bathrooms" data-bathroom="2">
 									<label class="px-2">2</label>
 									<input type="hidden" name="bathrooms" value="2" disabled="disabled"/>
 								</button>
-								<button type="button" class="bathrooms" value="3">
+								<button type="button" class="bathrooms" data-bathroom="3">
 									<label class="px-2">3</label>
 									<input type="hidden" name="bathrooms" value="3" disabled="disabled"/>
 								</button>
-								<button type="button" class="bathrooms" value="4">
+								<button type="button" class="bathrooms" data-bathroom="4">
 									<label class="px-2">4</label>
 									<input type="hidden" name="bathrooms" value="4" disabled="disabled"/>
 								</button>
-								<button type="button" class="bathrooms" value="5">
+								<button type="button" class="bathrooms" data-bathroom="5">
 									<label class="px-2">5</label>
 									<input type="hidden" name="bathrooms" value="5" disabled="disabled"/>
 								</button>
-								<button type="button" class="bathrooms" value="6">
+								<button type="button" class="bathrooms" data-bathroom="6">
 									<label class="px-2">6</label>
 									<input type="hidden" name="bathrooms" value="6" disabled="disabled"/>
 								</button>
-								<button type="button" class="bathrooms" value="7">
+								<button type="button" class="bathrooms" data-bathroom="7">
 									<label class="px-2">7</label>
 									<input type="hidden" name="bathrooms" value="7" disabled="disabled"/>
 								</button>
-								<button type="button" class="bathrooms" value="8+">
+								<button type="button" class="bathrooms" data-bathroom="min_bathrooms">
 									<label class="px-2">8+</label>
-									<input type="hidden" name="bathrooms" value="8+" disabled="disabled"/>
+									<input type="hidden" name="bathrooms" value="min_bathrooms" disabled="disabled"/>
 								</button>
 								</p>
 							</div>
@@ -729,7 +731,7 @@ input[type="range"]::-moz-range-thumb{
 						<div id="house" class="d-flex justify-content-around p-3">
 						
 						
-						<button type="button" class="btn" id="btn-house-1">
+						<button type="button" class="btn" id="btn-house-1" data-house="#house-1">
 						<input type="hidden" name="houses" id="house-1" value="단독 또는 다세대 주택" disabled="disabled" />
 							<div class="img text-start">
 								<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
@@ -742,7 +744,7 @@ input[type="range"]::-moz-range-thumb{
 							<div class="text text-start pt-4">단독 또는 다세대 주택</div>
 						</button>
 						
-						<button type="button" class="btn btn-outline-dark" id="btn-house-2">
+						<button type="button" class="btn" id="btn-house-2"  data-house="#house-2">
 						<input type="hidden" name="houses" id="house-2" value="아파트"  disabled="disabled" />			<!-- disabled - form에 제출되지 않음 -->
 							<div class="img text-start">
 								<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
@@ -756,7 +758,7 @@ input[type="range"]::-moz-range-thumb{
 							<div class="text text-start pt-4">아파트</div>
 						</button>
 						
-						<button type="button" class="btn btn-outline-dark" id="btn-house-3">
+						<button type="button" class="btn" id="btn-house-3"  data-house="#house-3">
 						<input type="hidden" name="houses" id="house-3" value="게스트용 별채"  disabled="disabled" />
 							<div class="img text-start">
 								<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
@@ -768,7 +770,7 @@ input[type="range"]::-moz-range-thumb{
 							<div class="text text-start pt-4">게스트용 별채</div>
 						</button>
 						
-						<button type="button" class="btn btn-outline-dark" id="btn-house-4">
+						<button type="button" class="btn" id="btn-house-4"  data-house="#house-4">
 						<input type="hidden" name="houses" id="house-4" value="호텔"  disabled="disabled" />
 							<div class="img text-start">
 								<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
@@ -1142,24 +1144,21 @@ input[type="range"]::-moz-range-thumb{
 							<strong>호스트 언어</strong>
 						</h5>
 						<hr class="my-4">
-
-					</form>
-				</div>
-				<div class="modal-footer justify-content-between">
-					<button id="unchecked" type="button" class="btn btn-link" style="color: black;font-weight:bold;">
-						전체 해제
-					</button>
-					<button class="btn btn-dark btn-lg" onclick="location.href='/list'"
-						data-bs-target="#exampleModalToggle" data-bs-toggle="modal"
-						data-bs-dismiss="modal" id="submit">
-						<h6 id="result" class="m-0 mx-auto" style="font-weight:bold; text-align: center;">
-							숙소 <span id="result-num">566</span>개 표시
-						</h6>
-					</button>
-				</div>
+					</div>
+					<div class="modal-footer justify-content-between">
+						<button id="unchecked" type="button" class="btn btn-link" style="color: black;font-weight:bold;">
+							전체 해제
+						</button>
+						<button id="submit" class="btn btn-dark btn-lg">
+							<h6 id="result" class="m-0 mx-auto" style="font-weight:bold; text-align: center;">
+								숙소 검색하기	<!-- 숙소 개수구하기 보류 -->
+							</h6>
+						</button>
+					</div>
+				</form>
 			</div>
 		</div>
-</div>
+	</div>
 
 <script> // 숙소 조회하기
 $(function() {
@@ -1267,21 +1266,7 @@ $(function() {
 					$body.append(content);
 			});
 		})
-	}
-	
-	$.ajax({
-		type: "POST",								// HTTP 요청 방식: 'GET', 'POST', 'PUT', 'DELETE' 중 하나
-		url: 'https://localhost:443/list',			// 요청 URL
-		data: JSON.stringify(acc),					// 서버로 보내는 데이터, json 형식으로 변환 후 전송해야 한다.
-		contentType: "application/json",			// 서버로 보내는 요청메세지의 컨텐츠의 타입
-		dataType: 'json',							// 서버로부터 받을 것으로 예상되는 응답메세지의 컨텐츠 타입
-		success: function(data) {					// 성공적인 응답이 왔을 때 실행되는 함수, data에는 서버가 보내는 응답 데이터가 있다.
-			alert(data.message);
-			refreshAccList();		// refreshAccList함수 로딩&뿌리기				
-		}
-	});
-	
-	refreshAccList(); */
+	} */
 })
 </script>
 <script>
@@ -1336,7 +1321,7 @@ function zoomOut() {
 </script>
 <!-- 필터 모달창 script -->
 <script type="text/javascript">
-	/* 필터-차트 부분입니다. */
+	/* 필터-차트 */
      google.charts.load('current', {packages:['corechart']});
      google.charts.setOnLoadCallback(drawStuff);
 
@@ -1344,34 +1329,11 @@ function zoomOut() {
          var data = new google.visualization.DataTable();
          
          data.addColumn('string', 'Country');
-         data.addColumn('number', 'GDP');
+         data.addColumn('number', '');
          data.addRows([
-           ['', 1],
-           ['', 4],
-           ['', 4],
-           ['', 3],
-           ['', 2],
-           ['', 10],
-           ['', 9],
-           ['', 4],
-           ['', 7],
-           ['', 6],
-           ['', 8],
-           ['', 9],
-           ['', 4],
-           ['', 2],
-           ['', 5],
-           ['', 16],
-           ['', 12],
-           ['', 2],
-           ['', 3],
-           ['', 2],
-           ['', 16],
-           ['', 18],
-           ['', 5],
-           ['', 3],
-           ['', 2],
-           ['', 1],
+	         <c:forEach var='c' items="${priceList}">
+	           ['', ${c}],         
+	         </c:forEach>
          ]);
 
         var options = {
@@ -1390,22 +1352,21 @@ function zoomOut() {
           
           chartArea: {left:50,top:0, width: '100%', height: '100%'},
           legend: {position: 'top', right:0},
-         
         };
 
         var chart = new google.visualization.ColumnChart(document.getElementById('number_format_chart'));
         chart.draw(data, options);
 
      };
-	/* 필터-범위 부분입니다*/
-	const rangeInput = document.querySelectorAll(".range-input input"),
-	priceInput = document.querySelectorAll(".price-input input"),
+	/* 필터-범위 슬라이더*/
+	const rangeInput = document.querySelectorAll(".range-input input"),	// 슬라이더 막대기
+	priceInput = document.querySelectorAll(".price-input input"),		// 값 입력하는 창
 	range = document.querySelector(".slider .progress");
-	let priceGap = 10;	// 최소 갭은 여기서 수정
+	let priceGap = 1000;	// 최소 갭은 여기서 수정
 	priceInput.forEach(input =>{
 	    input.addEventListener("input", e =>{
-	        let minPrice = parseInt(priceInput[0].value),
-	        maxPrice = parseInt(priceInput[1].value);
+	        let minPrice = parseInt(priceInput[0].value),	// 첫번째 input 의 val
+	        maxPrice = parseInt(priceInput[1].value);		// 두번째 input 의 val
 	        
 	        if((maxPrice - minPrice >= priceGap) && maxPrice <= rangeInput[1].max){
 	            if(e.target.className === "input-min"){
@@ -1416,6 +1377,7 @@ function zoomOut() {
 	                range.style.right = 100 - (maxPrice / rangeInput[1].max) * 100 + "%";
 	            }
 	        }
+            // console.log(minPrice+","+maxPrice);
 	    });
 	});
 	rangeInput.forEach(input =>{
@@ -1434,12 +1396,14 @@ function zoomOut() {
 	            range.style.left = ((minVal / rangeInput[0].max) * 100) + "%";
 	            range.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
 	        }
+	        // console.log(minVal+","+maxVal);
 	    });
 	});
+     
 
-</script>
-<script>
-$(function() {	
+
+$(function() {
+	
 	/* 모달객체 생성 & 모달창 값 clear */
 	let filterModal = new bootstrap.Modal(document.getElementById("filterModal"));
 	$("#filterModal").on('hidden.bs.modal', function(event){
@@ -1460,6 +1424,7 @@ $(function() {
 		$(".fold-content").toggleClass("d-none");
 	});
 	
+
 	/* 필터-전체 해제 */
 	$("#unchecked").click(function() {
 		$("input:checkbox[id='accCheck']").prop("checked", false);	
@@ -1469,53 +1434,37 @@ $(function() {
 		$('.bedrooms').removeClass("active");
 		$('.beds').removeClass("active");
 		$('.bathrooms').removeClass("active");
+		
+		// 슬라이드
+		$('input[class*="-min"]').val(0)
+		$('input[class*="-max"]').val(10000)	// 최댓값
+		
+		/* $(".input-min").val(0);
+		$(".range-min").val(0);
+		$(".input-max").val(10000);	
+		$(".range-max").val(10000); */
+		
+		// 건물 유형 버튼
+		$('input[id^="house-"]').prop('disabled', true);
+		$('button[id^="btn-house-"]').css('background-color', 'white').css('color', 'black');
 	});
 	
+	
 	/* 필터-'건물유형' 버튼 복수개 선택 */
-	$('#btn-house-1').click(function() {
-		if($("#house-1").is(":disabled")) {
-			$('#btn-house-1').css('background-color', 'white');
-			$('#btn-house-1').css('color', 'black');
+	$('button[id^="btn-house-"]').click(function() {
+		let houseId = $(this).attr("data-house");
+		let disabled = $(houseId).prop('disabled');	// true, false
+		
+		if (disabled) {	// 비활성화
+			$(houseId).prop('disabled', false); // 활성화 시킨다.
+			$(this).css('background-color', 'black');
+			$(this).css('color', 'white');
 		} else {
-			$('#btn-house-1').css('background-color', 'black');
-			$('#btn-house-1').css('color', 'white');
+			$(houseId).prop('disabled', true); // 비 활성화 시킨다.
+			$(this).css('background-color', 'white');
+			$(this).css('color', 'black');
 		}
-		let currentDisabled = $("#house-1").prop("disabled");
-		$("#house-1").prop("disabled", !currentDisabled);
-	});
-	$('#btn-house-2').click(function() {
-		if($("#house-2").is(":disabled")) {
-			$('#btn-house-2').css('background-color', 'white');
-			$('#btn-house-2').css('color', 'black');
-		} else {
-			$('#btn-house-2').css('background-color', 'black');
-			$('#btn-house-2').css('color', 'white');
-		}
-		let currentDisabled = $("#house-2").prop("disabled");
-		$("#house-2").prop("disabled", !currentDisabled);
-	});
-	$('#btn-house-3').click(function() {
-		if($("#house-3").is(":disabled")) {
-			$('#btn-house-3').css('background-color', 'white');
-			$('#btn-house-3').css('color', 'black');
-		} else {
-			$('#btn-house-3').css('background-color', 'black');
-			$('#btn-house-3').css('color', 'white');
-		}
-		let currentDisabled = $("#house-3").prop("disabled");
-		$("#house-3").prop("disabled", !currentDisabled);
-	});
-	$('#btn-house-4').click(function() {
-		if($("#house-4").is(":disabled")) {
-			$('#btn-house-4').css('background-color', 'white');
-			$('#btn-house-4').css('color', 'black');
-		} else {
-			$('#btn-house-4').css('background-color', 'black');
-			$('#btn-house-4').css('color', 'white');
-		}
-		let currentDisabled = $("#house-4").prop("disabled");
-		$("#house-4").prop("disabled", !currentDisabled);
-	});
+	})
 	
 	/* 필터-침실, 침대, 욕실 버튼 */		
 	$('.bedrooms').click(function(){
@@ -1525,13 +1474,6 @@ $(function() {
 		let input = $(this).children('input');
 		let currentDisabled = input.prop("disabled");
 		input.prop("disabled", !currentDisabled);
-		
-		/* 선택된 버튼 클릭시 선택해제
-		if($(this).hasClass("active")){
-		  $(this).removeClass("active");
-		}else{
-		  $(this).addClass("active");  
-		} */
 	});
 	
 	$(".beds").click(function() {
@@ -1567,19 +1509,50 @@ $(function() {
 		console.log($input);  */
 	});
 	
-	
-	
 	/* 필터-'숙소유형'을 체크/해제할 때 */
 	$(":checkbox[name=rent]").change(function() {
-		searchForm();
+		
 	});
 	/* 필터-'편의시설 + 예약옵션'을 체크/해제할 때 */
 	$(":checkbox[name=convenience]").change(function() {
-		searchForm();
+		
 	});
 	
+	// 필터의 숙소검색 버튼을 누를 때
+	$("#submit").click(function() {
+		searchFilter();
+	});
 	
-	function searchForm() {
+	// 필터 검색
+	function searchFilter() {
+		let $box = $('#box-acc').empty();
+		$.ajax({
+			url: "/search",
+			data: $('#filter-search').serialize(),
+			dataType: 'json',
+			success: function(result) {
+				let content = `
+				
+				`;
+			}
+		});
+	}
+	
+	/* 슬라이드 쇼 버튼 hover */
+	/* $('.carousel-control-prev').hide();
+	$('.carousel-control-next').hide();
+	
+	$('.carousel-control-prev').hover (function() {
+		$('.carousel-control-prev').toggle();
+	}, function() { });
+	
+	$('.carousel-control-next').hover (function() {
+		$('.carousel-control-next').toggle();
+	}, function() { }); */
+
+/* 	
+ * 필터검색 테스트
+ function searchForm() {
 		let queryString = $("#filter-search").serialize();
 		
 		// 숙소
@@ -1598,7 +1571,7 @@ $(function() {
 		}
 		xhr.open("GET", "/search?" + queryString);
 		xhr.send();
-	}
+	} */
 	
 })	
 

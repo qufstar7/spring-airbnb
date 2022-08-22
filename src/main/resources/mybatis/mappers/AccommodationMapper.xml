@@ -39,7 +39,13 @@
 		<association property="user" column="USER_NO" select="kr.co.airbnb.mapper.UserMapper.getUserByNo"/>
 	</resultMap>
 	
-	
+	<!-- AccPrice getPrice(); -->
+	<select id="getPrice" resultType="Price">
+		select 	avg(acc_price) as avg, 
+				max(acc_price) as max, 
+				min(acc_price) as min
+		from airbnb_accommodations
+	</select>
 	
 	<!-- List<AccConvenience> getAccConveniencesByAccNo(int accNo); -->
 	<select id="getAccConveniencesByAccNo" parameterType="int" resultType="AccConvenience">
@@ -238,7 +244,7 @@
 	 -->
 	
 	<!-- List<Accommodation> getPopularAccommodations(); -->
-	<select id="getPopularAccommodations"  resultMap="AccResultMap">
+	<select id="getPopularAccommodations" resultMap="AccResultMap">
 		select *
 		from airbnb_accommodations
 	</select>
@@ -275,6 +281,59 @@
 			</if>
 		</where> 
 	</select> 
+	
+	<!-- List<Accommodation> getAccByFilter(FilterCriteria filterCriteria); -->
+	<select id="getAccByFilter" parameterType="kr.co.airbnb.criteria.FilterCriteria" resultMap="AccResultMap">
+		select *
+		from airbnb_accommodations
+		<where>
+			acc_price >= #{minPrice} and acc_price &lt;= #{maxPrice}
+			<if test="rent != null">
+				and acc_no in (select acc_no
+						       from airbnb_acc_types
+						       where type_no in
+						     		<foreach collection="rent" item="type" open="(" close=")" separator=",">
+						     			#{type}
+						     		</foreach>
+						     	)
+			</if>
+			<if test="house != null">
+				and acc_no in (select acc_no
+						       from airbnb_acc_types
+						       where type_no in
+						     		<foreach collection="house" item="type" open="(" close=")" separator=",">
+						     			#{type}
+						     		</foreach>
+						       )
+			</if>
+			
+			<if test="convenience != null">
+				and acc_no in (select acc_no
+							  from airbnb_acc_conveniences
+							  where convenience_no in
+							  		<foreach collection="convenience" item="convenience" open="(" close=")" separator=",">
+									   #{convenience}
+							  		</foreach>
+							  )
+			</if>
+			<if test="bedrooms != ''">
+				and acc_no in (select acc_no
+							  from airbnb_acc_rooms
+							  where room_bedroom = #{bedrooms})
+			</if>
+			
+			<if test="beds != ''">
+				and acc_no in (select acc_no
+							  from airbnb_acc_rooms
+							  where room_bed = #{beds})
+			</if>
+			<if test="bathrooms != ''">
+				and acc_no in (select acc_no
+							  from airbnb_acc_rooms
+							  where room_bathroom = #{bathrooms})
+			</if>
+		</where>
+	</select>
 	
 	<!-- List<Accommodation> searchAccByTag(Tag tag); -->
 	<select id="searchAccByTag" parameterType="string" resultMap="AccResultMap">

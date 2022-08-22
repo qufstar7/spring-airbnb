@@ -31,6 +31,8 @@ import kr.co.airbnb.form.ReservationRegisterForm;
 import kr.co.airbnb.service.AccommodationService;
 import kr.co.airbnb.service.ConvenienceService;
 import kr.co.airbnb.service.WishlistService;
+import kr.co.airbnb.vo.AccPrice;
+import kr.co.airbnb.vo.AccRoom;
 import kr.co.airbnb.vo.Accommodation;
 import kr.co.airbnb.vo.Type;
 import kr.co.airbnb.vo.User;
@@ -131,18 +133,38 @@ public class AccommodationController {
 	public String list(SearchCriteria searchCriteria, Model model) {	
 		// nav의 키워드로 숙소 검색
 		List<Accommodation> accList = accommodationService.searchAccByKeyword(searchCriteria);
-		// 각 숙소의 타입1,2,3 조회
+		
+		// 각 숙소의 타입1,2,3 조회 + 침대 개수 조회
 		for (Accommodation acc : accList) {
 			int accNo = acc.getAccNo();
+			
 			List<Type> types = accommodationService.searchTypesByAccNo(accNo);
 			acc.setTypes(types);
-			if (!types.isEmpty()) {
-				model.addAttribute("mainType", acc.getTypes().get(0));
-			}
+			//if (!types.isEmpty()) {
+			//	model.addAttribute("mainType", acc.getTypes().get(0));
+			//}
+			
+			AccRoom rooms = accommodationService.getRoomByAccNo(accNo);
+			acc.setRoom(rooms);
 		}
 		
 		model.addAttribute("list", accList);
 		
+		/* 필터부분 */
+		// 1박 평균 요금, 최저 요금, 최고요금
+		AccPrice price = accommodationService.getPrice();
+		model.addAttribute("price", price);
+		// List<Integer> priceList = accommodationService.priceCount();
+		// priceList -> [5, 6, 2, 10, 11, 3, 6]
+		/* 샘플 sql문
+			select count(*) cnt
+			from (select trunc(acc_price/30000) acc_price
+      		  	  from airbnb_accommodations)
+			group by acc_price
+			order by acc_price; 
+		 */
+		model.addAttribute("priceList", List.of(1, 1, 3, 6, 9, 15, 14, 12, 4, 3, 1, 0, 1));
+				
 		return "acc/list";
 	}
 	
