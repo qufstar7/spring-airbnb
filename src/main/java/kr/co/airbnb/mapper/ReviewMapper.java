@@ -26,6 +26,7 @@ public interface ReviewMapper {
 	List<Review> getHostWriteReviews(int no);	// 유저 정보 하단 리뷰 모음 : 호스트가 호스트에게 받은 리뷰
 	List<Review> getSentReviews(int no);
 	List<Review> getReceivedReviews(int no);
+	List<Review> getAllSentReviews(int no);
 	
 	
 	

@@ -394,7 +394,7 @@ $(function() {
 							}
 							
 							let content = '';
-							content += '<img src="/resources/images/acc/'+ (item.imageCover ? item.imageCover : "no-image.jpg") +'" class="houseImg mb-3">';
+							content += '<img src="/resources/images/acc/'+ (item.imageCover ? item.imageCover : "profile-default-img.png") +'" class="houseImg mb-3">';
 							content += '<p class="mb-0 fs-5"><strong>' + item.accName + '</strong></h5>';
 							content += '<p class="mb-0">후기 ' + item.reviewCount + '개</p>';
 							content += '<p class="mb-3">' + item.address + '</p>';

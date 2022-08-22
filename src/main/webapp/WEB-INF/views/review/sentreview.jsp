@@ -8,6 +8,10 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- 아이콘 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+<link href="../resources/aircnc.png" rel="icon" type="image/x-icon" />
 <title>Insert title here</title>
 <style type="text/css">
 	.headerBox {
@@ -48,86 +52,149 @@
  	  		
    	}
    	
+   	.replyBtn {  
+			background: white;
+		    color: black;
+		    font-size: large;
+		    border: solid 1px black;
+	}
 	
 </style>
 </head>
 <body>
+<%@ include file="../common/nav.jsp" %>
 <div class="container">
-	<div class="row">
+	<div class="row mx-5">
 		<div class="col">
-			<div>
-				<span>프로필</span>
-				<span><i class="bi bi-chevron-right"></i></span>
-				<span>후기</span>
-				<h2>내가 작성한 후기</h2>
+			<div class="mt-5 mb-5">
+				<span><strong>프로필 &nbsp;</strong></span>
+				<span><i class="bi bi-chevron-right">&nbsp;</i></span>
+				<span><strong>후기</strong></span>
+				<h2 class="mt-1"><strong>내가 보낸 후기</strong></h2>
 			</div>		
 		</div>
 	</div>
-	<div class="row mb-3">
-		<div class="col">
-			<div class="headerBox">
-				<span>작성해야 할 후기</span>
-			</div>
-			<div class="contentbox">
-				<p>현재 작성할 후기가 없습니다. 여행을 한번 다녀올 때가 된 것 같네요!</p>
-			</div>
-		</div>
-	</div>
-	<div class="row mb-3">
-		<div class="col">
-			<div class="headerBox">
-				<span>작성해야 할 후기</span>
-			</div>
-			<div class="contentbox">
-				<div class="row">
-					<div class="col-2">
-						<a href="../detail?no=102">
-							<img src="/resources/images/acc/no-image.jpg" class="bigImg mb-3">
-						</a>
-					</div>
-					<div class="col-4">
-						<ul class="noBullet">
-							<li>숙소 이름</li>
-							<li>호스트 이름</li>
-							<li>어디 지역</li>
-							<li>2022년 7월 1일 ~ 2022년 8월 12일</li>
-						</ul>
-					</div>
-					<div class="col-6">
-						<p>이곳에서의 경험은 어땠나요?</p>
-							<button type="button" class="btn btn-primary" id="btn-exampleModalToggle">리뷰 작성하기</button>		
-						<p>호스트와 게스트는 숙박이 종료된 후 14일 이내에 후기를 작성할 수 있습니다.</p>
-					</div>
+	<ul class="nav nav-tabs mx-5 mb-3" id="myTab" role="tablist">
+		<li class="nav-item" role="sentReview">
+			<button class="nav-link active" id="sent-tab" type="button" role="tab" aria-controls="sent" aria-selected="true" 
+					onclick="location.href='https://localhost/user/sentReview';" class="text-dark fs-6 p-0 mt-1 ms-2" style="text-decoration-line: none;">
+					보낸 후기
+			</button>
+		</li>
+		<li class="nav-item" role="reveivedRevies">
+	    	<button class="nav-link " id="received-tab" type="button" role="tab" aria-controls="received" aria-selected="false"
+	    			onclick="location.href='https://localhost/user/receivedReview';" class="text-dark fs-6 p-0 mt-1 ms-2" style="text-decoration-line: none;">
+	    			받은 후기
+	    	</button>
+		</li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active" id="sent" role="tabpanel" aria-labelledby="sent-tab" tabindex="0">
+			<div class="row mb-3 mx-5">
+			<div class="col">
+				<div class="headerBox">
+					<h4>작성해야 할 후기</h4>
 				</div>
-			</div>
-		</div>
-	</div>
-	<div class="row mb-3">
-		<div class="col">
-			<div class="headerBox">
-				<span>내가 작성한 후기</span>
-			</div>
-			<div class="contentbox">
-				<div class="row">
-					<div class="col-1">
-						<a href="../detail?no=102">
-							<img src="/resources/images/acc/no-image.jpg" class="smallImg mb-3">
-						</a>
-					</div>
-					<div class="col-2">
-						<h5>Review for 민수</h5>
-						<p>2022년 8월 (리뷰 적은 달)</p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col mb-3">
-						리뷰 내용을 적습니다. 정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 . 정말 좋았고 어쩌고 저쩌고 았고 어쩌고 저쩌고 
-						정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 저쩌고 . 
-						정말 좋았고 어쩌고 저쩌고 정말 좋았고 어쩌고 좋았고 … 더보기
-					</div>
-				</div>
-				<button>수정하기</button>
-				<button>삭제하기</button>
+				<c:choose>
+					<c:when test="${empty hostReviews}">
+						<div class="contentbox">
+							<p>현재 작성할 후기가 없습니다. 여행을 한번 다녀올 때가 된 것 같네요!</p>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div class="row mb-3">
+							<div class="col">
+								<div class="contentbox">
+									<c:forEach var="review" items="${hostReviews }">
+										<div class="row">
+											<div class="col-2 pt-3" align="center">
+												<a href="#">
+													<img src="/resources/images/profile/${review.user.profileImage ? review.user.profileImage : 'profile-default-img.png'}" class="userImg mb-3">
+												</a>
+												<p class="mb-0">${review.user.name }</p>				
+												<p class="mb-0"><fmt:formatDate value="${review.createdDate }" pattern="yyyy년 MM월 dd일" /> </p>
+											</div>					
+											<div class="col-10 mb-3">
+												<div class="row">
+													<div class="col-12 mb-3">
+														<p>${review.content }</p>
+														<div align="right"><button class="replyBtn">공개 답변 남기기</button></div>
+													</div>
+													<c:choose>
+														<c:when test="${review.privateNote == '' }">
+															<span>""</span>
+														</c:when>
+														<c:otherwise>
+															<div>
+																<h6><strong>비공개 후기</strong></h6>
+																<p>${review.privateNote }</p>											
+															</div>		
+														</c:otherwise>
+													</c:choose>			
+												</div>							
+											</div>											
+										</div>			
+										<hr/>								
+									</c:forEach>
+								</div>
+							</div>
+						</div>
+					</c:otherwise>
+				</c:choose>
+				<c:choose>
+					<c:when test="${empty guestReviews}">
+						<div class="contentbox">
+							<p>아직 후기를 남기지 않으셨습니다.</p>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div class="row mb-3">
+							<div class="col">
+								<div class="headerBox">
+									<h4>내가 작성한 후기</h4>
+								</div>
+								<div class="contentbox">
+									<c:forEach var="review" items="${guestReviews }">
+										<div class="row">
+											<div class="col-2 pt-3" align="center">
+												<a href="#">
+													<img src="/resources/images/profile/${review.user.profileImage ? review.user.profileImage : 'profile-default-img.png'}" class="userImg mb-3">
+												</a>
+												<p class="mb-0">${review.user.name }</p>				
+												<p class="mb-0"><fmt:formatDate value="${review.createdDate }" pattern="yyyy년 MM월 dd일" /></p>
+											</div>		
+											<div class="col-10 mb-3">
+												<div class="row">
+													<div class="col-12 mb-3">
+														<p>${review.content }</p>
+														<div align="right" ><button class="replyBtn">공개 답변 남기기</button></div>			
+														<c:choose>
+															<c:when test="${empty review.positiveFeedback}">
+															</c:when>
+															<c:otherwise>
+																<p class="mb-0"><strong>긍정적 평가</strong></p>
+																<p>${review.positiveFeedback }</p>		
+															</c:otherwise>
+														</c:choose>	
+														<c:choose>
+															<c:when test="${empty review.nagativeFeedback}">
+															</c:when>
+															<c:otherwise>
+																<p class="mb-0"><strong>부정적 평가</strong></p>
+																<p>${review.nagativeFeedback }</p>		
+															</c:otherwise>
+														</c:choose>							
+													</div>
+												</div>
+											</div>
+										</div>
+										<hr />
+									</c:forEach>
+								</div>
+							</div>
+						</div>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</div>
