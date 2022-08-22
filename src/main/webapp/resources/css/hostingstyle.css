@@ -532,58 +532,290 @@ body {
 
 /* 편의시설 페이지 */
 .btn-facilities {
-	max-width:200px;
-	min-height:180px;
+	max-width: 200px;
+	min-height: 180px;
 	border-radius: 12px;
 	border: 1px solid rgb(221, 221, 221);
 	background-color: white;
 }
 
+/* 사진등록 페이지 */
+.photoVideo {
+	position: absolute;
+	top: 0;
+	left: 0%;
+	width: 50%;
+	height: 100%;
+}
 
+.shadowBox {
+	height: 50% !important;
+	width: 50% !important;
+	mix-blend-mode: multiply !important;
+	opacity: 0.62 !important;
+	position: absolute !important;
+	bottom: 0px !important;
+	left: 0px !important;
+	right: 0px !important;
+	background: linear-gradient(to top, rgb(50 50 50), rgba(0, 0, 0, 0))
+		!important;
+	opacity: 1 !important;
+	mix-blend-mode: multiply !important;
+}
 
+.left-photo-text {
+	position: relative;
+	top: 20px;
+	color: white;
+	font-size: 50px;
+	z-index: 100;
+	left: 0px;
+	line-height: 56px;
+	font-weight: 600;
+}
 
+.downBox {
+	position: relative;
+	padding: 70px;
+	align-self: end;
+	margin-bottom: 120px;
+}
 
+.downBoxTextBtn {
+	display: flex !important;
+	flex-direction: column !important;
+	justify-content: center !important;
+	margin: 10px;
+}
 
+.downBoxBtn {
+	cursor: pointer !important;
+	text-align: center !important;
+	border: none rgb(221, 221, 221) !important;
+	background-color: rgba(0, 0, 0, 0.5) !important;
+	outline: none !important;
+	padding: 0px 16px !important;
+	margin: 0px !important;
+	color: rgb(255, 255, 255) !important;
+	font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto,
+		"Helvetica Neue", sans-serif !important;
+	position: relative !important;
+	transition-property: -ms-transform, -webkit-transform, transform,
+		background-color, border-color !important;
+	transition-duration: 0.15s !important;
+	transition-timing-function: ease-in-out !important;
+	border-radius: 32px !important;
+	height: 50px !important;
+	display: inline-flex !important;
+	justify-content: center !important;
+	align-items: center !important;
+	flex-direction: row-reverse !important;
+	flex: 1 1 0% !important;
+	font-size: 16px !important;
+	line-height: 20px !important;
+	font-weight: 600 !important;
+	overflow: hidden;
+}
 
+.downBoxStopBtn {
+	margin: 4px !important;
+	float: right;
+	appearance: none !important;
+	display: inline-flex !important;
+	border-radius: 50% !important;
+	border: none !important;
+	outline: none !important;
+	padding: 0px !important;
+	color: rgb(255, 255, 255) !important;
+	cursor: pointer !important;
+	touch-action: manipulation !important;
+	position: relative !important;
+	background: transparent !important;
+	transition: -ms-transform 0.25s ease 0s, -webkit-transform 0.25s ease 0s,
+		transform 0.25s ease 0s !important;
+	width: 50px !important;
+	height: 50px !important;
+	justify-content: center !important;
+	align-items: center !important;
+	appearance: none !important;
+}
 
+.downBoxStopBtn::before {
+	content: "" !important;
+	display: block !important;
+	position: absolute !important;
+	top: 50% !important;
+	left: 50% !important;
+	transform: translate(-50%, -50%) !important;
+	width: 40px !important;
+	height: 40px !important;
+	border-radius: 50% !important;
+	background: rgb(0, 0, 0) !important;
+	opacity: 0.5 !important;
+}
 
+.mainPhotoBox {
+	max-width: 600px;
+	min-height: 400px;
+	border: 1px solid rgb(221, 221, 221);
+	border-style: dashed !important;
+	background-color: white;
+}
 
+.photoBox {
+	display: inline-block;
+	max-width: 289px;
+	min-height: 200px;
+	border: 1px solid rgb(221, 221, 221);
+	border-style: dashed;
+	background-color: white;
+}
 
+.uploadBox {
+	padding: 0;
+}
 
+/* 이름 페이지 */
+.main-middle-box {
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: 100% !important;
+	max-width: 720px !important;
+	min-width: 100px !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
 
+.textArea {
+	display: block !important;
+	width: 80%;
+	outline: none !important;
+	border: 1px solid rgb(176, 176, 176) !important;
+	margin: 0px !important;
+	box-sizing: border-box !important;
+	background-color: transparent !important;
+	max-height: 25vh !important;
+	min-height: 144px !important;
+	padding: 16px !important;
+	border-radius: 8px !important;
+	text-overflow: ellipsis !important;
+	font-weight: 600 !important;
+	font-size: 25px !important;
+	line-height: 38px !important;
+	overflow-y: hidden !important;
+	word-break: keep-all;
+	resize: none !important;
+}
 
+/* 가격 페이지 */
+.plusMiusBox {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: space-between !important;
+	min-width: 104px;
+	font-weight: 400 !important;
+	font-size: 16px !important;
+	line-height: 20px !important;
+	font-weight: 400 !important;
+}
 
+.plusMinusIconSpan {
+	padding: 5px;
+}
 
+.plusMinusBtn2 {
+	width: 50px !important;
+	height: 50px !important;
+	flex-grow: 0 !important;
+	flex-shrink: 0 !important;
+	cursor: pointer !important;
+	display: inline-flex !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	text-align: center !important;
+	text-decoration: none !important;
+	border-width: 1px !important;
+	border-style: solid !important;
+	border-color: #B0B0B0 !important;
+	color: #717171 !important;
+	touch-action: manipulation !important;
+	align-items: center !important;
+	justify-content: center !important;
+	background: white;
+	border-radius: 50% !important;
+}
 
+.plusMinusBtn2:hover {
+	color: rgb(34, 34, 34) !important;
+	border-color: rgb(34, 34, 34) !important;
+	background: rgb(255, 255, 255) !important;
+}
 
+.disabledBtn {
+	cursor: not-allowed !important;
+	color: rgb(235, 235, 235) !important;
+	border-color: rgb(235, 235, 235) !important;
+	background: rgb(255, 255, 255) !important;
+}
 
+.disabledBtn:hover {
+	color: rgb(235, 235, 235) !important;
+	border-color: rgb(235, 235, 235) !important;
+	background: rgb(255, 255, 255) !important;
+}
 
+#priceInputBox {
+	display: flex !important;
+	margin-top: 0px !important;
+	opacity: 1 !important;
+	border-radius: 8px !important;
+	box-shadow: inset 0 0 0 1px #b0b0b0 !important;
+	color: #222222 !important;
+	background-color: #FFFFFF !important;
+	margin-left: 16px !important;
+	margin-right: 16px !important;
+}
 
+#priceInput {
+	width: 100% !important;
+	border: none !important;
+	outline: none !important;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+	margin-left: 12px !important;
+	margin-right: 12px !important;
+	margin-top: 8px !important;
+	margin-bottom: 8px !important;
+	min-height: 1px !important;
+	color: inherit !important;
+	background-color: transparent !important;
+	font-family: inherit !important;
+	font-size: 48px !important;
+	font-weight: 600 !important;
+	line-height: 80px !important;
+	text-align: center !important;
+}
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* 완료 페이지 */ 
+.phoneBox {
+    border: 1px solid rgb(235, 235, 235) !important;
+    box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px !important;
+    width: 336px !important;
+    max-width: 90% !important;
+    height: 100% !important;
+    min-height: 400px !important;
+    max-height: 680px !important;
+    padding: 12px !important;
+    border-radius: 32px !important;
+    background-color: rgb(255, 255, 255) !important;
+}

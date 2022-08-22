@@ -20,10 +20,13 @@
  		order by wishlist_no desc
  	</select>
  	
- 	<!-- List<Wishlist> getNextWishlists(int userNo, int startNum); -->
- 	<select id="getNextWishlists">
- 	
- 	
+ 	<!-- List<Wishlist> getNextWishlists(int userNo, int startNum, int lastNum); -->
+ 	<select id="getNextWishlists" resultMap="WishlistResultMap">
+ 		select wishlist_no, wishlist_name, wishlist_created_date, wishlist_updated_date, user_no
+		from (select ROW_NUMBER() OVER (ORDER BY wishlist_no desc) R, W.*
+		      from airbnb_wishlists W
+		      where user_no = #{userNo})
+		where R between #{startNum} and #{lastNum}
  	</select>
  	
  	
@@ -253,8 +256,8 @@
 		and acc_no = #{accNo} 
  	</delete>
  	
- 	<!-- void deleteWishlistAndAllAccs(@Param("wishlistNo") int wishlistNo); -->
- 	<delete id="deleteWishlistAndAllAccs">
+ 	<!-- void deleteAllAccsInWishlist(@Param("wishlistNo") int wishlistNo); -->
+ 	<delete id="deleteAllAccsInWishlist">
  		delete 
 		from airbnb_wishlist_accommodations
 		where wishlist_no = #{wishlistNo} 

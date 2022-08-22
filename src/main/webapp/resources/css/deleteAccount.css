@@ -1,0 +1,53 @@
+@charset "UTF-8";
+
+	li {display: inline-block;}
+	ul i {margin: 0px 16px;}
+	#progress {
+    appearance: none;
+    width: 100% !important;
+	}
+	#progress::-webkit-progress-bar {
+	    background:#f0f0f0;
+	    border-radius:10px;
+	    box-shadow: inset 3px 3px 10px #ccc;
+	}
+	#progress::-webkit-progress-value {
+	    border-radius:10px;
+	    background: #1D976C;
+	    background: rgb(251,63,111);
+		background: radial-gradient(circle, rgba(251,63,111,1) 0%, rgba(252,70,205,0.6617997540813201) 75%);
+	    /* background: -webkit-linear-gradient(to right, #93F9B9, #1D976C);
+	    background: linear-gradient(to right, #93F9B9, #1D976C); */
+	
+	}
+	
+	.info {
+		border-bottom: 1px solid rgb(235, 235, 235) !important;
+	    padding-top: 24px !important;
+	    padding-bottom: 24px !important;
+	}
+	
+	.myButton {
+    margin-top:15px;
+	box-shadow:inset 0px 39px 0px -24px #e67a73;
+	background-color:#e4685d !important;
+	border-radius:6px;
+	border:1px solid #ffffff;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-weight: bold;
+	font-size:16px;
+	padding:10px 25px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #b23e35;
+	color: white !important;
+	}
+	.myButton:hover {
+		background-color:#eb675e;
+	}
+	.myButton:active {
+		position:relative;
+		top:1px;
+	}

@@ -64,7 +64,7 @@
 				</div>
 				<span id="span-name">${user.name}</span>
 				<div id="div-name" class="d-none">
-					<span>허가증이나 여권 등 여행 서류에 기재되어 있는 이름을 말합니다.</span>
+					<span><small>허가증이나 여권 등 여행 서류에 기재되어 있는 이름을 말합니다.</small></span>
 					<div class="form-floating mt-3">
 				     	<input type="text" class="form-control outline" name="name" placeholder="실명" value="${user.name}" required >
 				     	<label for="floatingInput">실명</label>
@@ -113,8 +113,8 @@
 				</div>
 				<span id="span-email">${user.email }</span>
 				<div class="d-none" id="div-email">
-					<span>언제든지 확인하실 수 있는 주소를 사용하세요</span>
-					<div class="form-floating">
+					<span><small>언제든지 확인하실 수 있는 주소를 사용하세요</small></span>
+					<div class="form-floating mt-3">
 				     	<input type="text" class="form-control outline" name="email" placeholder="이메일" required >
 				     	<label for="floatingInput">이메일</label>
 				     	<div class="invalid-feedback">
@@ -148,7 +148,7 @@
 					<span>주소</span>
 					<button class="btn btn-link p-0">수정</button>
 				</div>
-				<small>제공되지 않음</small>
+				<small>${not empty user.address ? user.address : "제공되지 않음"}</small>
 			</div>
 			<hr/>
 		</div>

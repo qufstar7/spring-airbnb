@@ -101,7 +101,6 @@
 						<input class="hiddenField1" type="hidden" name="latitude" value="0">
 						<input class="hiddenField2" type="hidden" name="longitude" value="0">
 
-
 						<!-- 값 유효성 체크 경고문 박스 -->
 						<div id="checkAlert" class="m-0 mt-2 text-danger fw-italic fw-light" style="display: none;">
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle-fill me-1" viewBox="0 0 16 16">

@@ -21,6 +21,7 @@ public class Review {
 	
 	private int no;
 	private int accNo;
+	private Accommodation accommodation;
 	private User user;
 	private String userType;
 	private String content;

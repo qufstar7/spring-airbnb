@@ -39,17 +39,12 @@ public class ReviewController {
 	
 	@GetMapping(path = "/comp")
 	public String complete() {
-		return "review/reviewcomplete";
-	}
-	
-	@GetMapping(path = "/test/review")
-	public String testReview() {
-		return "review/reviewpage1";
+		return "review/complete";
 	}
 	
 	@GetMapping(path = "/test/reviewm")
 	public String modifyreview() {
-		return "review/modifyreview";
+		return "review/reviewpage1";
 	}
 
 }

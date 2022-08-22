@@ -162,10 +162,10 @@
 					</div>
 				</div>
 				<form id="form-select-guests" method="post" action="/host/submitGuests">
-					<input id="guestInput" type="hidden" name="guest" value="0">
-					<input id="bedInput" type="hidden" name="bed" value="0">
-					<input id="bedroomInput" type="hidden" name="bedroom" value="0">
-					<input id="bathroomInput" type="hidden" name="bathroom" value="0">
+					<input id="guestInput" type="hidden" name="guest" value="4">
+					<input id="bedInput" type="hidden" name="bed" value="1">
+					<input id="bedroomInput" type="hidden" name="bedroom" value="1">
+					<input id="bathroomInput" type="hidden" name="bathroom" value="1">
 				</form>
 			</div>
 
@@ -199,84 +199,143 @@
 			
 			// 더하기버튼
 			$("#guestPlusBtn").on("click", function() {
-				if ($guestNum === 16) {
-					$(this).attr("disabled");
-					$(this).addClass("disabledBtn");
-					return false;
-				}
-				if ($guestNum === 1) {
-					$(this).attr("disabled", "");
-					$(this).removeClass("disabledBtn");
-				}
+				// button값 변경
 				$guestNum += 1;
 				$("#guestNum").text($guestNum);
-			})
-			$("#bedPlusBtn").on("click", function() {
-				if ($bedNum === 50) {
-					$(this).attr("disabled");
+				// input 값 변경
+				let afterVal = Number( $("#guestInput").val() ) + 1;
+				$("#guestInput").val(afterVal);
+				
+				if ($guestNum == 16) { // 최대값 16
+					$(this).attr("disabled", true);
 					$(this).addClass("disabledBtn");
 					return false;
 				}
+				if ($guestNum == 2) { // 최소값 1
+					$("#guestMinusBtn").attr("disabled", false);
+					$("#guestMinusBtn").removeClass("disabledBtn");
+				}
+			})
+			
+			$("#bedPlusBtn").on("click", function() {
 				$bedNum += 1;
 				$("#bedNum").text($bedNum);
-			})
-			$("#bedroomPlusBtn").on("click", function() {
-				if ($bedroomNum === 50) {
-					$(this).attr("disabled");
+				
+				let afterVal = Number( $("#bedInput").val() ) + 1;
+				$("#bedInput").val(afterVal);
+				
+				if ($bedNum == 50) {
+					$(this).attr("disabled", true);
 					$(this).addClass("disabledBtn");
 					return false;
 				}
+				if ($bedNum == 2) {
+					$("#bedMinusBtn").attr("disabled", false);
+					$("#bedMinusBtn").removeClass("disabledBtn");
+				}
+			})
+			
+			$("#bedroomPlusBtn").on("click", function() {
 				$bedroomNum += 1;
 				$("#bedroomNum").text($bedroomNum);
-			})
-			$("#bathroomPlusBtn").on("click", function() {
-				if ($bathroomNum === 50) {
-					$(this).attr("disabled");
+				
+				let afterVal = Number( $("#bedroomInput").val() ) + 1;
+				$("#bedroomInput").val(afterVal);
+				
+				if ($bedroomNum == 50) {
+					$(this).attr("disabled", true);
 					$(this).addClass("disabledBtn");
 					return false;
 				}
+				if ($bedroomNum == 1) {
+					$("#bedroomMinusBtn").attr("disabled", false);
+					$("#bedroomMinusBtn").removeClass("disabledBtn");
+				}
+			})
+			$("#bathroomPlusBtn").on("click", function() {
 				$bathroomNum += 1;
 				$("#bathroomNum").text($bathroomNum);
+				
+				let afterVal = Number( $("#bathroomInput").val() ) + 1;
+				$("#bathroomInput").val(afterVal);
+				if ($bathroomNum == 50) {
+					$(this).attr("disabled", true);
+					$(this).addClass("disabledBtn");
+					return false;
+				}
+				if ($bathroomNum == 1) {
+					$("#bathroomMinusBtn").attr("disabled", false);
+					$("#bathroomMinusBtn").removeClass("disabledBtn");
+				}
 			})
 
 			// 뺴기버튼
 			$("#guestMinusBtn").on("click", function() {
-				if ($guestNum === 1) {
-					// 버튼 비활성화
-					$(this).attr("disabled");
+				$guestNum -= 1;
+				$("#guestNum").text($guestNum);
+				
+				let afterVal = Number( $("#guestInput").val() ) - 1;
+				$("#guestInput").val(afterVal);
+				
+				if ($guestNum == 15) {
+					$("#guestPlusBtn").attr("disabled", false);
+					$("#guestPlusBtn").removeClass("disabledBtn");
+				}
+				if ($guestNum == 1) {
+					$(this).attr("disabled", true);
 					$(this).addClass("disabledBtn");
 					
 					return false;
 				}
-				$guestNum -= 1;
-				$("#guestNum").text($guestNum);
 			})
 			$("#bedMinusBtn").on("click", function() {
-				if ($bedNum === 1) {
-					$(this).attr("disabled");
-					$(this).addClass("disabledBtn");
-					return false;
-				}
 				$bedNum -= 1;
 				$("#bedNum").text($bedNum);
+				
+				let afterVal = Number( $("#bedInput").val() ) - 1;
+				$("#bedInput").val(afterVal);
+				//
+				if ($bedNum == 49) {
+					$("#bedPlusBtn").attr("disabled", false);
+					$("#bedPlusBtn").removeClass("disabledBtn");
+				}
+				if ($bedNum == 0) {
+					$(this).attr("disabled", true);
+					$(this).addClass("disabledBtn");
+					return false;
+				}
 			})
 			$("#bedroomMinusBtn").on("click", function() {
-				if ($bedroomNum === 0) {
-					$(this).attr("disabled");
-					$(this).addClass("disabledBtn");
-					return false;
-				}
 				$bedroomNum -= 1;
 				$("#bedroomNum").text($bedroomNum);
-			})
-			$("#bathroomMinusBtn").on("click", function() {
-				if ($bathroomNum === 0) {
-					$(this).attr("disabled");
+				
+				let afterVal = Number( $("#bedroomInput").val() ) - 1;
+				$("#bedroomInput").val(afterVal);
+				if ($bedroomNum == 49) {
+					$("#bedroomPlusBtn").attr("disabled", false);
+					$("#bedroomPlusBtn").removeClass("disabledBtn");
+				}
+				if ($bedroomNum == 0) {
+					$(this).attr("disabled", true);
 					$(this).addClass("disabledBtn");
 					return false;
 				}
+			})
+			$("#bathroomMinusBtn").on("click", function() {
 				$bathroomNum -= 1;
 				$("#bathroomNum").text($bathroomNum);
+				
+				let afterVal = Number( $("#bathroomInput").val() ) - 1;
+				$("#bathroomInput").val(afterVal);
+				if ($bathroomNum == 49) {
+					$("#bathroomPlusBtn").attr("disabled", false);
+					$("#bathroomPlusBtn").removeClass("disabledBtn");
+				}
+				if ($bathroomNum == 0) {
+					$(this).attr("disabled", true);
+					$(this).addClass("disabledBtn");
+					return false;
+				}
 			})
 			
 		})
