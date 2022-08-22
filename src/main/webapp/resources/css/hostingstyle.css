@@ -904,3 +904,37 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 	align-items: center;
 	justify-content: space-between;
 }
+
+/* 호스팅 페이지 */
+.main1 {
+	color: rgb(34, 34, 34) !important;
+	box-sizing: border-box !important;
+	padding-top: 40px !important;
+	padding-bottom: 40px !important;
+	background-repeat: no-repeat !important;
+	background-size: cover !important;
+}
+
+.main1-box1 {
+	max-width: 1440px !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+	padding-left: 24px !important;
+	padding-right: 24px !important;
+}
+
+.main1-box2 {
+	display: flex !important;
+	justify-content: space-between !important;
+	align-items: center !important;
+}
+
+.h1-box {
+	background: var(- -ehl-background-style, undefined) !important;
+}
+
+.h1-box-span {
+	color: white;
+	white-space: pre-line !important;
+	max-width: 100% !important;
+}

@@ -36,7 +36,7 @@
 			<!-- leftDiv text -->
 			<div class="align-self-center m-5">
 				<div role="text" class="left-main-text">새로운 숙소 페이지를 확인하세요!</div>
-				<div class="fs-6 fw-light text-white">등록 후 24시간이 지나야 숙소가 게스트에게 공개됩니다. 언제든지 정보를 추가하거나 변경하실 수 있습니다.</div>
+				<div class="fs-6 fw-light text-white">축하드립니다! 호스트 숙소가 성공적으로 저장되었습니다.</div>
 			</div>
 		</div>
 

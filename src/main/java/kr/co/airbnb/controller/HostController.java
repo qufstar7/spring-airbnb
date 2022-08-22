@@ -438,6 +438,6 @@ public class HostController {
 	// 호스트 프로필 페이지
 	@GetMapping("/profile")
 	public String profile(Model model) {
-		return "/host/profile";
+		return "/host/hosting";
 	}
 }
