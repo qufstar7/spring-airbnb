@@ -113,7 +113,7 @@
 								<c:when test="${not empty wishlistAccNo.accNo  }">
 									<a href="delete?accNo=${acc.accNo }&wishlistNo=${wishlistAccNo.wishlist.no }" class="btn btn-link text-decoration-underline text-dark btn-delete-wishlistAcc" ><i id="icon-heart-${acc.accNo}" class="fa-solid fa-heart fs-6 " style="color: #FF385C;"></i> <span id="saveList">저장 목록</span></a>
 								</c:when>
-								<c:when test="${empty wishlist.accNo }">
+								<c:when test="${empty wishlistAccNo.accNo }">
 									<button type="button" class="btn btn-link text-decoration-underline text-dark btn-open-save-modal" id="save-btn"><i id="icon-heart-${acc.accNo}" class="fa-regular fa-heart fs-6"></i> 저장</button>
 								</c:when>
 							</c:choose>
@@ -2072,16 +2072,16 @@ $(function() {
 	      imageUrl:
 		  		'https://localhost/resources/logo-home.png',
 	      link: {
-	        mobileWebUrl: 'https://localhost/detail?no=${acc.accNo }',
-	        webUrl: 'https://localhost/detail?no=${acc.accNo }',
+	        mobileWebUrl: 'https://localhost/acc/detail?no='+${acc.accNo },
+	        webUrl: 'https://localhost/acc/detail?no='+${acc.accNo },
 	      },
 	    },   
 	    buttons: [
 	      {
 	        title: '웹으로 보기',
 	        link: {
-	          mobileWebUrl: 'https://localhost/detail?no=${acc.accNo }',
-	          webUrl: 'https://localhost/detail?no=${acc.accNo }',
+	          mobileWebUrl: 'https://localhost/acc/detail?no='+${acc.accNo },
+	          webUrl: 'https://localhost/acc/detail?no='+${acc.accNo },
 	        },
 	      },
 	      {

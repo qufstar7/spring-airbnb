@@ -30,6 +30,7 @@ import kr.co.airbnb.criteria.SearchCriteria;
 import kr.co.airbnb.form.ReservationRegisterForm;
 import kr.co.airbnb.service.AccommodationService;
 import kr.co.airbnb.service.ConvenienceService;
+import kr.co.airbnb.service.NoteService;
 import kr.co.airbnb.service.WishlistService;
 import kr.co.airbnb.vo.AccPrice;
 import kr.co.airbnb.vo.AccRoom;
@@ -50,6 +51,9 @@ public class AccommodationController {
 	
 	@Autowired
 	WishlistService wishlistService;
+	
+	@Autowired
+	NoteService noteService;
 	
 	@GetMapping(path = "/detail")
 	public String detail(@LoginUser User loginUser ,@RequestParam("no") int no,Model model) {
@@ -112,6 +116,12 @@ public class AccommodationController {
 		return "acc/contact";
 	}
 	
+	@PostMapping(path = "/note/add")
+	public String noteAdd(@RequestParam("content") String content,@LoginUser User loginUser ,@RequestParam("no") int no) {
+		
+		noteService.addNote(loginUser, content, no);
+		return "redirect:/acc/detail?no="+no;
+	}
 	/*
 	 * @PostMapping(path="/wishlist")
 	 * 
@@ -124,9 +134,19 @@ public class AccommodationController {
 	 */
 	
 	@GetMapping(path = "/test")
-	public String test() {
+	public String test(Model model,@LoginUser User loginUser) {
+		model.addAttribute("notes",noteService.getRecvNotes(loginUser.getNo()));
 		
 		return "acc/test";
+	}
+	
+	@GetMapping(path = "/test2")
+	public String test2(Model model,@LoginUser User loginUser) {
+		
+		
+		model.addAttribute("notes",noteService.getSendNotes(loginUser.getNo()));
+		
+		return "acc/test2";
 	}
 
 	@GetMapping(path = "/list")

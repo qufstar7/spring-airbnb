@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="kr.co.airbnb.mapper.NoteMapper">
+
+<!-- void insertNote(int accNo,int sendUserNo,int recvUserNo); -->
+<insert id="insertNote" parameterType="Note">
+	insert into AIRBNB_NOTE (NOTE_NO,SEND_USER_NO,RECV_USER_NO,NOTE_CONTENTE,ACC_NO)
+	values (NOTE_SEQ.NEXTVAL, #{sendUser.no}, #{recvUser.no}, #{content}, #{acc.accNo})
+</insert>
+
+<resultMap type="Note" id="noteResultMap">
+	<id column="NOTE_NO" property="noteNo"/>
+	<result column="NOTE_CONTENTE" property="content"/>
+	<result column="OPEN_DATE" property="openDate"/>
+	<result column="SEND_DATE" property="sendDate"/>
+	<association property="sendUser" column="SEND_USER_NO" select="kr.co.airbnb.mapper.UserMapper.getUserByNo"/>
+	<association property="recvUser" column="RECV_USER_NO" select="kr.co.airbnb.mapper.UserMapper.getUserByNo"/>
+	<association property="acc" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAcc"/>
+</resultMap>
+
+<!-- List<Note> getRecvNoteByUserNo(int userNo); -->
+<select id="getRecvNoteByUserNo" parameterType="int" resultMap="noteResultMap">
+	select *
+	from AIRBNB_NOTE
+	where RECV_USER_NO = #{value}
+</select>
+<!-- List<Note> getSendNoteByUserNo(int userNo); -->
+<select id="getSendNoteByUserNo" parameterType="int" resultMap="noteResultMap">
+	select *
+	from AIRBNB_NOTE
+	where SEND_USER_NO = #{value}
+</select>
+
+<!-- void updateNote(Note note); -->
+<update id="updateNote" parameterType="Note">
+	update AIRBNB_NOTE
+	set 
+		OPEN_DATE = sysdate
+	where NOTE_NO = #{noteNo}
+	and RECV_USER_NO = #{recvUser.no}
+</update>
+
+</mapper>

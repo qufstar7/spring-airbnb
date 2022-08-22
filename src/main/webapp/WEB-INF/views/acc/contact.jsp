@@ -66,13 +66,14 @@
 					</ul>
 				</div>
 				<hr>
-				<div class="col-12 pb-1">
-					<h4>질문이 더 있으신가요? 호스트에게 메시지를 보내 문의하세요.</h4>
-					<textarea rows="" cols="" class="rounded" style="width: 653px; height: 100%; min-height: 176px;">
-					
-					</textarea>
-				</div>
-				<button type="button" class="btn btn-outline-dark">메세지 전송하기</button>
+				<form action="note/add" method="post">
+					<div class="col-12 pb-1">
+						<h4>질문이 더 있으신가요? 호스트에게 메시지를 보내 문의하세요.</h4>
+						<input type="text" class="rounded" name="content" style="width: 653px; height: 100%; min-height: 176px;">
+						<input type="hidden" name="no" value="${acc.accNo }">
+					</div>
+					<button type="submit" class="btn btn-outline-dark">메세지 전송하기</button>
+				</form>
 			</div> 
 			<div class="col-4" id="side">
 				<div id="sticky" >
