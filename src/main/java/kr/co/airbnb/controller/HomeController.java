@@ -1,7 +1,11 @@
 package kr.co.airbnb.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,12 +46,23 @@ public class HomeController {
 	// localhost
 	// localhost/?id=101
 	@GetMapping(path = "/")
-	public String home(@RequestParam(name = "id", required = false) String id, Model model) {
+	public String home(@LoginUser(required = false) User loginUser,  @RequestParam(name = "id", required = false) String id, Model model) {
+		
+		if(loginUser != null) {
+			List<Wishlist> wishlists = wishlistService.getMyWishlists(loginUser.getNo());
+			model.addAttribute("wishlists", wishlists);
+		}
+		
 		
 		List<Accommodation> accommodations = new ArrayList<Accommodation>();
 		if (id == null) {
 			// 메인 페이지에 출력할 인기 숙소
 			accommodations = accommodationService.getPopularAccommodations();
+			
+			// 위시리스트 등록 숙소 여부를 포함한 모든 숙소들
+			if(loginUser != null) {
+				accommodations = wishlistService.getAllAccs(loginUser.getNo());
+			}
 		} else {
 			// 태그로 검색한 숙소
 			accommodations = accommodationService.searchAccByTag(id); 
@@ -137,11 +152,29 @@ public class HomeController {
 		return "redirect:/";
 	}
 	
-	//  에러나면 홈화면으로, 나중에 수정필요 -유나-
-	@GetMapping(path="/login")
-	public String needLogin() {
-		
-		return "redirect:/";
+	// 홈화면에서 사용자번호, 숙소 번호만으로 위시리스트 숙소 삭제할 경우
+	@GetMapping(path="/delete/wishlistAcc")
+	@ResponseBody
+	public Map<String, Object> deleteWishlistAcc(@LoginUser User loginUser, @RequestParam("accNo") int accNo) {
+		Map<String, Object> result = new HashMap<>();
+
+		wishlistService.deleteWishlistAccByUserNoAndAccNo(loginUser.getNo(), accNo);
+		result.put("success", true);
+		return result;
 	}
+	
+	// 홈화면에서 기존 위시리스트 폴더에 저장하거나 폴더를 변경하는 경우
+	@GetMapping("/change/wishlistAcc") 
+	@ResponseBody
+	public Map<String, Object> changeWishlist(@RequestParam("wishlistNo") int wishlistNo, @RequestParam("accNo") int accNo) {
+		Map<String, Object> result = new HashMap<>();
+		//System.out.println("변경할 wishlistNo: " + wishlistNo);
+		//System.out.println("accNo: " + accNo);
+		wishlistService.saveAcc(wishlistNo, accNo);
+		
+		result.put("success", true);
+		return result;
+	}
+	
 	
 }

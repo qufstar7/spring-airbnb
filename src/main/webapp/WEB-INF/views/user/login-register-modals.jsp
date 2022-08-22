@@ -106,7 +106,8 @@ pageEncoding="UTF-8"%>
       </div>
       <div class="modal-body m-2">
       	<div >
-      		<h3 class="fw-bold fs-5" >에어비앤비에 오신 것을 환영합니다.</h3>
+      		<h3 class="fw-bold fs-5" id="h-welcome" >에어비앤비에 오신 것을 환영합니다.</h3>
+      		<h3 class="d-none fw-bold fs-5" id="h-error"><i class="bi bi-exclamation-circle"></i> 해당 서비스를 이용하려면 로그인하세요</h5>
       	</div>
       	<div>
       		<form action="" method="post" class="needs-validation" novalidate>
@@ -389,9 +390,11 @@ pageEncoding="UTF-8"%>
 		  xfbml      : true,  // parse social plugins on this page
 		  version    : 'v14.0' // Specify the Graph API version to use
 		});
+	 
+	 
 			FB.AppEvents.logPageView();
 		FB.getLoginStatus(function(response) {
-			console.log(response.status);
+			//console.log(response.status);
 		})
 	}
 }(document, 'script', 'facebook-jssdk'));	
@@ -410,6 +413,23 @@ $(function () {
 	let loginPasswordmodal = new bootstrap.Modal(document.getElementById("login-password-modal")); 
 	let registerModal = new bootstrap.Modal(document.getElementById("email-register-modal")); 
 	let loginEmailModal = new bootstrap.Modal(document.getElementById("email-login-modal")); 
+	
+	document.getElementById("email-login-modal").addEventListener('hidden.bs.modal', function (event) {
+		$("#h-welcome").removeClass("d-none");
+		$("#h-error").addClass("d-none");
+		//$("#박스-에러").하이드();
+	})
+	
+	let params = new URLSearchParams(document.location.search);
+	let errorValue = params.get("error");
+	
+	if (errorValue) {
+		loginEmailModal.show();
+		$("#h-welcome").addClass("d-none");
+		$("#h-error").removeClass("d-none");
+		//$("#박스-에러").쇼();
+	}
+	
 	
 	// input안에서 enter를 치면 자동으로 폼이 제출되는 것을 방지한다.
 	// enter 키번호는 13번이다.
@@ -439,7 +459,7 @@ $(function () {
 		let querystring = $("#form-login").serialize();
 		$.post("/user/normal-login", querystring, function(result) {
 			if(result.pass) {
-				location.href = "";
+				location.href = "/";
 			} else {
 				$("#form-login span").text("유효하지 않은 비밀번호입니다. 다시 시도하여 주세요.");
 			}

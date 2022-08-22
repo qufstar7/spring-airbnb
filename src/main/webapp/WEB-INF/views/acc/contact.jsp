@@ -34,7 +34,7 @@
 </head>
 <body>
 <%@ include file="../common/nav2.jsp" %> 
-<%@ include file="../user/home.jsp" %>
+<%@ include file="../user/login-register-modals.jsp" %>
 <div class="container">
 	<div class="container main">
 		<div class="row"> 

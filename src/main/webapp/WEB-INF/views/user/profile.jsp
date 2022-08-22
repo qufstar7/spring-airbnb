@@ -42,7 +42,7 @@
 </style>
 </head>
 <body>
-<%@ include file="../common/nav.jsp" %>
+<%@ include file="../common/nav3.jsp" %>
 	<div class="container">
 	<div class="p-5">
 		<div class="row">

@@ -19,12 +19,12 @@
 <link rel="stylesheet" type="text/css" href="/resources/css/wishlist-detail.css">
 <script src="https://kit.fontawesome.com/2628157b3b.js"></script>
 <style type="text/css">
-
+.div-nav {max-width: 98% !important;}
 </style>
 <title>${wishlist.name }-에어씨엔씨</title>
 </head>
 <body>
-<%@ include file="../common/nav.jsp"%>
+<%@ include file="../common/nav3.jsp"%>
 <div class="container-fluid" style="padding-right: 0px;">
 	<div class="row" id="div-main">
 		<div class="col-5">
@@ -107,17 +107,45 @@
 										<button type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide-to="1" aria-label="Slide 2"></button>
 										<button type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide-to="2" aria-label="Slide 3"></button>
 									</div>
+									<div id="carousel-inner-${acc.accNo}">
 									<!-- 슬라이드쇼 이미지 -->
-									<div class="carousel-inner">
+									<div class="carousel-inner" >
+										<c:forEach items="${acc.photos }" var="photo">
+											<c:if test="${photo.num eq 1 }">
 										<div class="carousel-item active">
-											<img class="acc-thumbnail rounded-4 w-100" src="${acc.imageCover}" alt="숙소이미지"  style="object-fit: cover; height: 200px;">
+											<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지"  style="object-fit: cover; height: 200px;">
 										</div>
-										<div class="carousel-item">
-											<img class="acc-thumbnail rounded-4 w-100" src="${acc.imageCover}" alt="숙소이미지" style="object-fit: cover; height: 200px;">
-										</div>
-										<div class="carousel-item">
-											<img class="acc-thumbnail rounded-4 w-100" src="${acc.imageCover}" alt="숙소이미지" style="object-fit: cover; height: 200px;">
-										</div>
+											</c:if>
+										</c:forEach>
+										<c:forEach items="${acc.photos }" var="photo">
+											<c:if test="${photo.num eq 2 }">
+												<div class="carousel-item">
+													<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지" style="object-fit: cover; height: 200px;">
+												</div>
+											</c:if>
+										</c:forEach>
+										<c:forEach items="${acc.photos }" var="photo">
+											<c:if test="${photo.num eq 3 }">
+												<div class="carousel-item">
+													<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지" style="object-fit: cover; height: 200px;">
+												</div>
+											</c:if>
+										</c:forEach>
+										<c:forEach items="${acc.photos }" var="photo">
+											<c:if test="${photo.num eq 4 }">
+												<div class="carousel-item">
+													<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지" style="object-fit: cover; height: 200px;">
+												</div>
+											</c:if>
+										</c:forEach>
+										<c:forEach items="${acc.photos }" var="photo">
+											<c:if test="${photo.num eq 5 }">
+												<div class="carousel-item">
+													<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지" style="object-fit: cover; height: 200px;">
+												</div>
+											</c:if>
+										</c:forEach>
+									</div>
 									</div>
 									<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide="prev">
 										<span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -275,8 +303,11 @@
 		  	  	  $(this.label.element).css({"color":"white", "transform":"scale(1.2)", "z-index":"1"});
 		  	  	  $(this.label.element).find(".fa-ban").removeClass("text-dark").addClass("text-white");
 		  	  	  
-		  	  	  let infoWindow_content = '<a href="/acc/detail?no=' + acc.accNo + '"  style="text-decoration: none; color: black;">';
-		    	      infoWindow_content += '<div class="card" style="width: 16rem;">';
+		  	  	  
+		  	  	  let carouselInnerHtml = $("#carousel-inner-" + acc.accNo).html();
+		  	  	  
+		  	  	      let infoWindow_content = '<a href="/acc/detail?no=' + acc.accNo + '"  style="text-decoration: none; color: black;">';
+		    	      infoWindow_content += '<div class="card" style="width: 16rem;" >';
 		    	  	  infoWindow_content += '<div id="carousel-info' + acc.accNo + '" class="carousel slide" data-bs-ride="carousel">';
 		    	  	  infoWindow_content +=	'	<div class="carousel-indicators">';
 	    	  		  infoWindow_content +=	'		<button type="button" data-bs-target="#carousel-info' + acc.accNo + '" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>';
@@ -284,21 +315,11 @@
 	    	  		  infoWindow_content +=	'		<button type="button" data-bs-target="#carousel-info' + acc.accNo + '" data-bs-slide-to="2" aria-label="Slide 3"></button>';
 	    	  		  infoWindow_content +=	'	</div>';
 		    	  	  infoWindow_content +=	'	<div class="wishlist-icon">';
-		    	  	  infoWindow_content +=	'     <a class="btn-delete-wishlistAcc" data-accNo="' + acc.accNo + '" style="position:absolute; top:10px; right:15px; z-index:2; padding:0px;">';
+		    	  	  infoWindow_content +=	'     <span class="btn-delete-wishlistAcc" data-accNo="' + acc.accNo + '" style="position:absolute; top:10px; right:15px; z-index:2; padding:0px;">';
 		    	  	  infoWindow_content += '       <i class="bi bi-suit-heart-fill" id="map-icon-heart-' + acc.accNo + '" style="font-size: x-large;"></i>';
-		    	  	  infoWindow_content += '     </a>';
+		    	  	  infoWindow_content += '     </span>';
 		    	  	  infoWindow_content += '   </div>';
-	    	  		  infoWindow_content +=	'	<div class="carousel-inner">';
-	    	  		  infoWindow_content +=	'		<div class="carousel-item active">';
-	    	  		  infoWindow_content +=	'	  		<img src="/resources/images/acc/sample-home.jpg" class="d-block w-100" alt="...">';
-	    	  		  infoWindow_content +=	'		</div>';
-	    	  		  infoWindow_content +=	'	    <div class="carousel-item">';
-	    	  		  infoWindow_content +=	'	      <img src="/resources/images/acc/sample-home.jpg" class="d-block w-100" alt="...">';
-	    	  		  infoWindow_content +=	'	    </div>';
-	    	  		  infoWindow_content +=	'	    <div class="carousel-item">';
-	    	  		  infoWindow_content +=	'	      <img src="/resources/images/acc/sample-home.jpg" class="d-block w-100" alt="...">';
-	    	  		  infoWindow_content +=	'	    </div>';
-	    	  		  infoWindow_content +=	'	</div>';
+		    	  	  infoWindow_content += carouselInnerHtml;
 	    	  		  infoWindow_content +=	'	 <button class="carousel-control-prev" type="button" data-bs-target="#carousel-info' + acc.accNo + '" data-bs-slide="prev">';
 	    	  		  infoWindow_content +=	'	    <span class="carousel-control-prev-icon" aria-hidden="true"></span>';
 	    	  		  infoWindow_content +=	'	    <span class="visually-hidden">Previous</span>';
@@ -416,9 +437,8 @@ $(function () {
 		 saveToListModal.hide();
 		 createListModal.show();
 		 $(":input[name=wishlistName]").val('');
-		
-		 
-	 })
+	 });
+	 
 	 // 새로운 위시리스트 폴더 만들기
 	 $(":input[name=wishlistName]").keyup(function() {
 	 	if($(this).val().trim()) {

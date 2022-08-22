@@ -29,8 +29,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	public @Override void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(makeLoginCheckInterceptor())
 		 	// 모든 요청에 대해서 인터셉터가 실행된다.
-			//.addPathPatterns("/**")
-			.addPathPatterns("localhost/**")
+			//.addPathPatterns("localhost/**")
+			.addPathPatterns("/**")
 			
 			.excludePathPatterns("/resources/**", "/*.ico"); 
 	}

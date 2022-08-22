@@ -311,6 +311,13 @@ input[type="range"]::-moz-range-thumb{
   -moz-appearance: none;
   box-shadow: 0 0 6px rgba(0,0,0,0.05);
 }
+
+.unwish i:active {
+	position:relative;
+	top:1px;
+}
+
+
 </style>
 </head>
 <c:set var="page" value="subNav" />
@@ -395,7 +402,7 @@ input[type="range"]::-moz-range-thumb{
 		</div>
 	</div>
 </div>
-<%@ include file="user/home.jsp" %>
+<%@ include file="user/login-register-modals.jsp" %>
 	<div class="container my-3">
 		<div id="box-acc" class="grid-main">
 		<!-- acc.status = '운영중' 인 숙소만 리스트업 --> 
@@ -421,9 +428,20 @@ input[type="range"]::-moz-range-thumb{
 							<!-- 위시리스트 하트 버튼 -->
 							<div class="wishlist-icon">
 								<c:if test="${empty LOGIN_USER }">
-									<a class="unwish" href="#" data-bs-toggle="modal" data-bs-target="#email-login-modal"
-										style="position:absolute; top:15px; right:15px; z-index:2">
-										<span class="material-icons" style="color:white">favorite</span>
+									<a class="unwish" data-bs-toggle="modal" data-bs-target="#email-login-modal" style="position:absolute; top:15px; right:15px; z-index:2">
+										<i class="bi bi-suit-heart fs-4" style="color: white;"></i>
+									</a>
+								</c:if>
+								<c:if test="${not empty LOGIN_USER }">
+									<a class="unwish"  style="position:absolute; top:15px; right:15px; z-index:2">
+												<c:choose>
+													<c:when test="${acc.savedWishlist eq 'Y'}">
+														<i class="wishlistIcon fa-solid fa-heart fs-4" data-accNo="${acc.accNo}" id="icon-heart-${acc.accNo}" style="color: #FF385C;"></i>												
+													</c:when>
+													<c:otherwise>
+														<i class="wishlistIcon fa-regular fa-heart fs-4" data-accNo="${acc.accNo}" id="icon-heart-${acc.accNo}" style="color: white;"></i>
+													</c:otherwise>
+												</c:choose>
 									</a>
 								</c:if>
 								<%-- <c:choose>
@@ -1555,5 +1573,133 @@ $(function() {
 })	
 
 </script>
+
+<!-- 위시리스트 모달 및 js -->
+<script type="text/javascript">
+$(function () {
+	
+	$(".unwish").on("click", function(e) {
+		return false;
+	});
+	
+	$(".wishlistIcon").on("click", function(e) {
+		//e.preventDefault();
+		let accNo = $(this).attr("data-accNo");	
+		$heartIcon = $("#icon-heart-" + accNo); 
+		 if($(this).hasClass("fa-solid")) {
+			 // 위시리스트에서 숙소 삭제 구현하기
+			 $.getJSON("/delete/wishlistAcc", "accNo=" + accNo) 
+			  .done(function(result) {
+				  if(result.success) {
+					  $heartIcon.removeClass("fa-solid").addClass("fa-regular").css("color", "white");
+				  }
+			  });
+		 } else {
+			 // 다시 추가
+			 saveToListModal.show();
+			 // 1.다른 위시리스트 폴더로 이동할 경우  2.위시리스트 폴더를 새로 만들어서 숙소를 저장할 경우
+			 $("#form-create-wishlist input[name=accNo]").val(accNo); 
+		 }
+	}); 
+	
+	let saveToListModal = new bootstrap.Modal(document.getElementById('modal-save-to-list'), {
+		  keyboard: false
+		})
+	
+	let createListModal = new bootstrap.Modal(document.getElementById('modal-create-wishlist'), {
+		  keyboard: false
+		});
+	
+	// 위시리스트 폴더리스트 모달창에서 "새로운 위시리스트 만들기" 누를 경우
+	 $("#div-create-wishlist").click(function() {
+		 saveToListModal.hide();
+		 createListModal.show();
+		 $(":input[name=wishlistName]").val('');
+	 });
+	
+	// 새로운 위시리스트 폴더 만들기
+	 $(":input[name=wishlistName]").keyup(function() {
+	 	if($(this).val().trim()) {
+	 		$("#btn-create-wishlist").prop("disabled", false);
+	 	} else {
+	 		$("#btn-create-wishlist").prop("disabled", true);
+	 	}
+	 });
+	
+	// 기존 위시리스트 폴더에 저장
+	 
+	$("#div-wishlists").on('click', "div", function() {
+		let accNo = $(":input[name=accNo]").val();
+		$heartIcon = $("#icon-heart-" + accNo); 
+		// 아래의 wishlistNo는 변경할 위시리스트 폴더 번호
+		let wishlistNo = $(this).find('input[name="wishlistNo"]').val();
+		//alert("accNo: " + accNo + " wishlistNo: " + wishlistNo); 
+		$.getJSON("/change/wishlistAcc", "wishlistNo=" + wishlistNo + "&accNo=" + accNo)
+		 .done(function(result) {
+			 if(result.success) {
+				console.log(result);
+				saveToListModal.hide();
+				$heartIcon.removeClass("fa-regular").addClass("fa-solid").css("color", "#FF385C");
+			 }
+		 });
+		 // location.reload();
+	})
+})
+</script>
+<!-- 빈하트 클릭시 나타나는 Modal -->
+<div class="modal fade" id="modal-save-to-list" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h5 class="modal-title fw-bold w-100 text-center">위시리스트</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      	<div id="div-create-wishlist" style="display: flex; height: 64px; cursor: pointer;">
+      		<img src="https://a0.muscache.com/im/pictures/da1a2f06-efb0-4079-abce-0f6fc82089e0.jpg" alt="새로운 위시리스트 만들기" style="vertical-align:middle;">
+      		<span class="ms-3 fw-bold" style="margin-top:20px;">새로운 위시리스트 만들기</span>
+      	</div>
+      	<div id="div-wishlists">
+	      	<c:if test="${not empty wishlists }">
+	      		<c:forEach var="wishlist" items="${wishlists}">
+			      	<div id="div-wishlist-${wishlist.no}" class="mt-3" style="display: flex; height: 64px; cursor: pointer;">
+		      			<input type="hidden" name="wishlistNo" value="${wishlist.no}">
+			      		<img src="https://a0.muscache.com/im/pictures/da1a2f06-efb0-4079-abce-0f6fc82089e0.jpg" alt="새로운 위시리스트 만들기" style="vertical-align:middle;">
+			      		<span class="ms-3 fw-bold" style="margin-top:20px;">${wishlist.name }</span>
+			      	</div>
+	      		</c:forEach>
+	      	</c:if>
+      	</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 새로운 위시리스트 만들기 클릭시 나타나는 Modal -->
+<div class="modal fade" id="modal-create-wishlist" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold w-100 text-center fs-6">위시리스트 이름 정하기</h5>
+        <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#modal-save-to-list"></button>
+      </div>
+      <form id="form-create-wishlist" method="post" action="/wishlists/insert">
+      <div class="modal-body mb-4">
+	      	<div class="form-floating">
+	      		<input type="hidden" name="accNo">
+		     	<input type="text" class="form-control" name="wishlistName" placeholder="이름">
+		     	<label for="floatingInput">이름</label>
+			</div>
+			<small>최대 50자</small>
+      </div>
+      <div class="modal-footer">
+        <div class="d-grid gap-2 w-100">
+		  <button class="btn btn-dark fw-bold btn-lg fs-6" type="submit" id="btn-create-wishlist" disabled>새로 만들기</button>
+		</div>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
 </body>
 </html>

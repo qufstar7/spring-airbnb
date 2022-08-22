@@ -51,7 +51,7 @@ footer {
 </head>
 
 <body>
-<%@ include file="../common/nav.jsp"%>
+<%@ include file="../common/nav3.jsp"%>
 <div  id="body-wrapper" >
 <div class="container" id="body-content">
 	<div class="row my-5">
@@ -73,7 +73,11 @@ footer {
 											<div class="aca5">
 												<div class="_1h6">
 													<c:if test="${not empty wishlist.accs}">
-														<img src="${wishlist.accs[0].imageCover}" class="myImg" id="image-large">
+														<c:forEach items="${wishlist.accs[0].photos }" var="photo">
+															<c:if test="${photo.num eq 1 }">
+																<img src="/resources/images/acc/${photo.name}" class="myImg" id="image-large">
+															</c:if>
+														</c:forEach>
 													</c:if>
 												</div>
 											</div>
@@ -81,14 +85,22 @@ footer {
 												<div class="_96vp">
 													<div class="_1h6">
 														<c:if test="${not empty wishlist.accs}">
-																<img src="https://a0.muscache.com/airbnb/static/destinations/o-Lisbon_480x320.jpg" class="myImg">
+															<c:forEach items="${wishlist.accs[0].photos }" var="photo">
+																<c:if test="${photo.num eq 2 }">
+																	<img src="/resources/images/acc/${photo.name}" class="myImg">
+																</c:if>
+															</c:forEach>
 														</c:if>
 													</div>
 												</div>
 												<div class="_17xh">
 													<div class="_1h6">
 														<c:if test="${not empty wishlist.accs}">
-															<img src="https://a0.muscache.com/airbnb/static/destinations/o-Kyoto_480x320.jpg" class="myImg">
+															<c:forEach items="${wishlist.accs[0].photos }" var="photo">
+																<c:if test="${photo.num eq 3 }">
+																	<img src="/resources/images/acc/${photo.name}" class="myImg">
+																</c:if>
+															</c:forEach>
 														</c:if>
 													</div>
 												</div>
@@ -133,10 +145,24 @@ $(function() {
 		 	}
 		 	
 	 		$.each(result.moreWishlists, function(i, wishlist) {
-		 		let imageCoverHtml = '';
-		 		let imageSmall1Html = '';
-		 		let imageSmall2Html = '';
-	 			if(wishlist.accs.length > 0){
+		 		let imageFirstHtml = '';
+		 		let imageSecond1Html = '';
+		 		let imageThirdHtml = '';
+	 			if(wishlist.accs.length > 0) {
+	 				let firstAcc = wishlist.accs[0];
+	 				let photos = firstAcc.photos;
+	 				
+	 				$.each(photos, function(i, photo) {
+	 					if(photo.num === 1) {
+	 						imageFirstHtml = '<img src="/resources/images/acc/' + photo.name + '" class="myImg" id="image-large">';
+	 						
+	 					} else if(photo.num === 2) {
+	 						imageSecond1Html = '<img src="/resources/images/acc/' + photo.name + '" class="myImg">';
+	 					} else if(photo.num === 3) {
+	 						imageThirdHtml = '<img src="/resources/images/acc/' + photo.name + '" class="myImg">';
+	 					}
+	 				})
+	 				
 	 				imageCoverHtml = '<img src="' + wishlist.accs[0].imageCover + '" class="myImg" id="image-large">';
 	 			}
 	 			addListContent += '<div class="col-xl-4 col-lg-3 col-md-6 col-sm-12 col-xs-12" >';
@@ -145,18 +171,18 @@ $(function() {
 	 			addListContent +=					'<div class="_clcy">';
 	 			addListContent +=							'<div class="aca5">';
 	 			addListContent +=								'<div class="_1h6">';
-	 			addListContent +=										imageCoverHtml;
+	 			addListContent +=										imageFirstHtml;
 	 			addListContent +=								'</div>';
 	 			addListContent +=							'</div>';
 	 			addListContent +=							'<div class="div-small">';
 	 			addListContent +=								'<div class="_96vp">';
 	 			addListContent +=									'<div class="_1h6">';
-	 			addListContent +=											imageSmall1Html;
+	 			addListContent +=											imageSecond1Html;
 	 			addListContent +=									'</div>';
 	 			addListContent +=								'</div>';
 	 			addListContent +=								'<div class="_17xh">';
 	 			addListContent +=									'<div class="_1h6">';
-	 			addListContent +=											imageSmall2Html;
+	 			addListContent +=											imageThirdHtml;
 	 			addListContent +=									'</div>';
 	 			addListContent +=								'</div>';
 	 			addListContent +=							'</div>';

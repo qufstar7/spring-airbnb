@@ -58,7 +58,7 @@ public class UserService {
 		return savedUser;
 	}
 
-	public void deleteUser(int userNo) {
+	public void deleteUser(int userNo) { // 수정 필요
 		List<Wishlist> wishlists = wishlistService.getMyWishlists(userNo);
 		
 		for(Wishlist wishlist : wishlists) {
@@ -66,7 +66,7 @@ public class UserService {
 			System.out.println("위시리스트 번호: " + wishlist.getNo());
 		}
 		
-		userMapper.deleteUser(userNo);
+		userMapper.disableUser(userNo);
 		
 	}
 }

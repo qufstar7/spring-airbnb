@@ -46,6 +46,13 @@ public class WishlistController {
 		Wishlist wishlist = wishlistService.getWishlistByNo(wishlistNo);
 		model.addAttribute("wishlist", wishlist);
 		
+		// test
+		List<Accommodation> accs = wishlist.getAccs();
+		for (Accommodation acc : accs) {
+			System.out.println("photos: " + acc.getPhotos());
+		}
+			
+		
 		// 다시 추가하는 모달창에 출력할 모든 위시리스트 폴더
 		List<Wishlist> wishlists = wishlistService.getMyWishlists(loginUser.getNo());
 		model.addAttribute("wishlists", wishlists);
@@ -89,6 +96,7 @@ public class WishlistController {
 	@ResponseBody
 	public Map<String, Object> deleteWishlistAcc(@LoginUser User loginUser, @RequestParam("accNo") int accNo, @RequestParam("wishlistNo") int wishlistNo) {		// 나중에 @LoginUser 추가하기
 		wishlistService.deleteWishlistAcc(wishlistNo, accNo);
+		
 		return null;
 	}
 	
