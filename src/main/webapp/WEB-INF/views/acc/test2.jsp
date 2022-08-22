@@ -52,31 +52,36 @@
 		</div> 
 		<div class="col-8" style="margin: 0px; padding: 0px; border: 1px solid rgb(235, 235, 235); min-height: 880px;">
 			<div class="text-start" style="padding: 30px; border-bottom: 1px solid rgb(235, 235, 235); height: 114.59px;">
-				<h3>받은 메시지</h3>
+				<h3>보낸 메시지</h3>
 			</div>
 			<c:if test="${empty notes }">
 				<div class="text-center" style="padding: 30px; width: 400px;">
-					<h6>받은 메시지가 없습니다.</h6>
+					<h6>보낸 메시지가 없습니다.</h6>
 				</div>
 			</c:if>
-			<c:forEach items="${notes }" var="note">
-				<div class="text-center" style="padding: 30px; width: 400px;">
-					<h6>${note.sendUser.name }님 <fmt:formatDate value="${note.sendDate }"/> </h6>
-					<p class="text-start" >${note.content }</p>
-					<%-- <form action="note/add" method="post">
-					<div style="padding: 30px; width: 400px;">
-							<h6>답장하기</h6>
-							<input type="text" class="rounded" name="content" style="width: 300px;  height: 100%; min-height: 50px;">
-							<input type="hidden" name="no" value="${note.acc.accNo }">
-							<input type="hidden" name="${note.sendUser }">
-					</div>	
-					<div>
-						<button type="submit" class="btn btn-outline-dark float-end mt-2">메세지 전송하기</button>
+			<c:if test="${not empty notes }">
+				<c:forEach items="${notes }" var="note">
+					<div class="text-center" style="padding: 30px; width: 400px;">
+						<h6>${note.recvUser.name }님에게 <fmt:formatDate value="${note.sendDate }"/> 
+						<c:if test="${note.openDate ne null }">
+							읽음
+						</c:if>
+						</h6>
+						<p class="text-start" >${note.content }</p>
+						<%-- <form action="note/add" method="post">
+						<div style="padding: 30px; width: 400px;">
+								<h6>답장하기</h6>
+								<input type="text" class="rounded" name="content" style="width: 300px;  height: 100%; min-height: 50px;">
+								<input type="hidden" name="no" value="${note.acc.accNo }">
+								<input type="hidden" name="${note.sendUser }">
+						</div>	
+						<div>
+							<button type="submit" class="btn btn-outline-dark float-end mt-2">메세지 전송하기</button>
+						</div>
+						</form> --%>
 					</div>
-					</form> --%>
-				</div>
-				
-			</c:forEach>
+				</c:forEach>
+			</c:if>
 		</div>
 	</div>
 </div>
