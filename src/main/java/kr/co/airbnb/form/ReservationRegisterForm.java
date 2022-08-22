@@ -35,6 +35,7 @@ public class ReservationRegisterForm {
 	private String payment;
 	private String messageToHost;
 	private int price;
+	private int cleaningPrice;
 	private int totalPrice;
 	private int entirePay;
 	private int leftPay;

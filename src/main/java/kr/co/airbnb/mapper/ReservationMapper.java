@@ -11,10 +11,10 @@ import kr.co.airbnb.vo.Reservation;
 public interface ReservationMapper {
 
 	void insertCard (Card card);
-	Card getCardByNo(int no);
 
 	void insertReservation (Reservation reservation);
 	Reservation getReservationByReservaionNo(int reservationNo);
 	
-	List<Reservation> getReservationByUserNo (int no);
+	List<Card> getCardByUserNo(int userNo);
+	List<Reservation> getReservationByUserNo (int userNo);
 }
