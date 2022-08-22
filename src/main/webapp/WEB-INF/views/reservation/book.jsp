@@ -6,11 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
 <link href="../resources/aircnc.png" rel="icon" type="image/x-icon" />
@@ -154,13 +151,13 @@
 			</div>
 			<hr/>
 			<h5>결제 수단</h5>
+				<button id="requestPay">결제하기</button>
 			<select id="card-select" class="form-select" aria-label="Default select example">
 				<option value="기본카드" selected>기본 결제 수단(카드)</option>
 				<option value="1" disabled>결제 수단 추가하기</option>
 				<option value="카드추가">신용카드 또는 체크카드</option>
 				<option value="2" disabled>이용 불가</option>
 				<option value="카카오 결제">카카오 결제 </option>
-				<button id="requestPay">결제하기</button>
 			</select>
 			<div class="insertCard">
 				<div class="row" style="padding:20px">
@@ -337,7 +334,7 @@ $(function(){
 		$("#btn-howtouse").click(function(){
 			modalHowToUse.show();
 		});
-0	
+	
 	$("#entire-payment").click(function(){
 		$("input:radio[name='payment']:radio[id='radio-entire']").prop('checked', true);
 		$(".leftDiv").hide();

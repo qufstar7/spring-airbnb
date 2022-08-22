@@ -14,6 +14,7 @@ public interface ReservationMapper {
 	Card getCardByNo(int no);
 
 	void insertReservation (Reservation reservation);
-	Reservation getReservationByAccNo(int reservationNo);
+	Reservation getReservationByReservaionNo(int reservationNo);
+	
 	List<Reservation> getReservationByUserNo (int no);
 }

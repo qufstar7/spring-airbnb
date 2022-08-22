@@ -77,4 +77,11 @@
 		order by check_in_date desc
 	</select>
 	
+	<!-- Reservation getReservationByReservaionNo(int reservationNo); -->
+	<select id="getReservationByReservaionNo" parameterType="int" resultMap="ReservationResultMap">
+		select *
+		from airbnb_reservations
+		where reservation_no = #{value}
+	</select>
+	
 </mapper>

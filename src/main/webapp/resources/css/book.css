@@ -16,7 +16,7 @@
 }
 .container-fixed {
 	position : fixed;
-	top : 40px;
+	top : 60px;
 }
 .modal-title {
 	text-align : center;
@@ -60,7 +60,4 @@
 #left-payment {
 	border: 3px black;
 	border-bottom: rounded;
-}
-#requestPay {
-	display:none;
 }
