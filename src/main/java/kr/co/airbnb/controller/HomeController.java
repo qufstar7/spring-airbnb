@@ -1,8 +1,10 @@
 package kr.co.airbnb.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 
 import kr.co.airbnb.annotation.LoginUser;
@@ -100,4 +103,30 @@ public class HomeController {
 		SessionUtils.sessionInvlidate();
 		return "redirect:/";
 	}
+	
+	// 홈화면에서 사용자번호, 숙소 번호만으로 위시리스트 숙소 삭제할 경우
+	@GetMapping(path="/delete/wishlistAcc")
+	@ResponseBody
+	public Map<String, Object> deleteWishlistAcc(@LoginUser User loginUser, @RequestParam("accNo") int accNo) {
+		Map<String, Object> result = new HashMap<>();
+
+		wishlistService.deleteWishlistAccByUserNoAndAccNo(loginUser.getNo(), accNo);
+		result.put("success", true);
+		return result;
+	}
+	
+	// 홈화면에서 기존 위시리스트 폴더에 저장하거나 폴더를 변경하는 경우
+	@GetMapping("/change/wishlistAcc") 
+	@ResponseBody
+	public Map<String, Object> changeWishlist(@RequestParam("wishlistNo") int wishlistNo, @RequestParam("accNo") int accNo) {
+		Map<String, Object> result = new HashMap<>();
+		//System.out.println("변경할 wishlistNo: " + wishlistNo);
+		//System.out.println("accNo: " + accNo);
+		wishlistService.saveAcc(wishlistNo, accNo);
+		
+		result.put("success", true);
+		return result;
+	}
+	
+	
 }

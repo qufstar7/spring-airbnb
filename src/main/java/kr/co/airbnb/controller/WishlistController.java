@@ -96,6 +96,7 @@ public class WishlistController {
 	@ResponseBody
 	public Map<String, Object> deleteWishlistAcc(@LoginUser User loginUser, @RequestParam("accNo") int accNo, @RequestParam("wishlistNo") int wishlistNo) {		// 나중에 @LoginUser 추가하기
 		wishlistService.deleteWishlistAcc(wishlistNo, accNo);
+		
 		return null;
 	}
 	

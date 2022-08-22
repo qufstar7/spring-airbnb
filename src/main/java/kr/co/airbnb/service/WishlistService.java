@@ -74,7 +74,7 @@ public class WishlistService {
 	 * 마이위시리스트에 등록된 (중복없는) 모든 숙소들 출력하기
 	 * @param userNo
 	 * @return
-	 */
+	 
 	public Set<Accommodation> getAccsInAllMyWishlists(int userNo) {
 		List<Wishlist> wishlists = getMyWishlists(userNo);
 		
@@ -85,7 +85,7 @@ public class WishlistService {
 		}
 		
 		return wishlistAccs;
-	}
+	} */
 	
 	public List<Accommodation> getAllAccs(int userNo) {
 		wishlistMapper.getAllAccs(userNo);
@@ -140,6 +140,13 @@ public class WishlistService {
 	public void deleteWishlistAcc(int wishlistNo, int accNo) {
 		wishlistMapper.deleteWishlistAcc(wishlistNo, accNo);
 	}
+	
+	// 홈화면에서 사용자번호, 숙소 번호만으로 위시리스트 숙소 삭제할 경우
+	public void deleteWishlistAccByUserNoAndAccNo(int userNo, int accNo) {
+		wishlistMapper.deleteWishlistAccByUserNoAndAccNo(userNo, accNo);
+	}
+	
+	
 	
 	public AccWishlist getAccNoByUserNo(Map<String, Object> map) {
 		return wishlistMapper.getAccNoByUserNo(map);

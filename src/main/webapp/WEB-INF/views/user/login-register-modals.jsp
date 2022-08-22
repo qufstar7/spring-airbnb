@@ -394,7 +394,7 @@ pageEncoding="UTF-8"%>
 	 
 			FB.AppEvents.logPageView();
 		FB.getLoginStatus(function(response) {
-			console.log(response.status);
+			//console.log(response.status);
 		})
 	}
 }(document, 'script', 'facebook-jssdk'));	

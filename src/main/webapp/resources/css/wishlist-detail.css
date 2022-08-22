@@ -144,3 +144,6 @@
 	.wishlist-icon a:hover {background-color: transparent;}
 	.wishlist-icon i:hover {cursor: pointer; transform: scale(1.2);}
 	
+	/** 좌측 사진*/
+	#tabl1 img {border-radius: 12px;}
+	

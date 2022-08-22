@@ -30,9 +30,13 @@ public interface WishlistMapper {
 	
 	// 위시리스트 안의 특정 숙소를 삭제할 경우
 	void deleteWishlistAcc(@Param("wishlistNo") int wishlistNo, @Param("accNo") int accNo);
+	// 홈화면에서 사용자번호, 숙소 번호만으로 위시리스트 숙소 삭제할 경우
+	void deleteWishlistAccByUserNoAndAccNo(@Param("userNo") int userNo, @Param("accNo") int accNo);
 	
 	// 위시리스트 폴더 자체를 삭제할 경우
 	void deleteAllAccsInWishlist(@Param("wishlistNo") int wishlistNo);
+	
+	
 	
 	AccWishlist getAccNoByUserNo(Map<String,Object> map);
 	WishlistImage getImageByUserNo(Map<String,Object> map);

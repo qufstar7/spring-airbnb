@@ -300,6 +300,25 @@
 		from airbnb_wishlist_accommodations
 		where wishlist_no = #{wishlistNo} 
  	</delete>
+ 	
+ 	<!-- 
+	 	홈화면에서 사용자번호, 숙소 번호만으로 위시리스트 숙소 삭제할 경우
+		void deleteWishlistAccByUserNoAndAccNo(@Param("userNo") int userNo, @Param("accNo") int accNo);
+ 	 -->
+ 	 <delete id="deleteWishlistAccByUserNoAndAccNo">
+ 	 	delete
+		from airbnb_wishlist_accommodations
+		where wishlist_no = (select A.wishlist_no
+		                                    from airbnb_wishlists W, airbnb_wishlist_accommodations A
+		                                    where W.wishlist_no = A.wishlist_no
+		                                    and W.user_no = #{userNo}
+		                                    and A.acc_no = #{accNo})
+		and acc_no = (select A.acc_no
+		                                    from airbnb_wishlists W, airbnb_wishlist_accommodations A
+		                                    where W.wishlist_no = A.wishlist_no
+		                                    and W.user_no = #{userNo}
+		                                    and A.acc_no = #{accNo})
+ 	 </delete>
  
  
 </mapper>
