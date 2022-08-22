@@ -310,6 +310,9 @@ input[type="range"]::-moz-range-thumb{
   -moz-appearance: none;
   box-shadow: 0 0 6px rgba(0,0,0,0.05);
 }
+
+
+
 </style>
 </head>
 <c:set var="page" value="subNav" />
@@ -392,7 +395,7 @@ input[type="range"]::-moz-range-thumb{
 		</div>
 	</div>
 </div>
-<%@ include file="user/home.jsp" %>
+<%@ include file="user/login-register-modals.jsp" %>
 	<div class="container my-3">
 		<div id="box-acc" class="grid-main">
 		<!-- acc.status = '운영중' 인 숙소만 리스트업 --> 
@@ -418,10 +421,21 @@ input[type="range"]::-moz-range-thumb{
 							<!-- 위시리스트 하트 버튼 -->
 							<div class="wishlist-icon">
 								<c:if test="${empty LOGIN_USER }">
-									<a class="unwish" href="#" data-bs-toggle="modal" data-bs-target="#email-login-modal"
-										style="position:absolute; top:15px; right:15px; z-index:2">
-										<span class="material-icons" style="color:white">favorite</span>
-									</a>
+									<span class="unwish" data-bs-toggle="modal" data-bs-target="#email-login-modal" style="position:absolute; top:15px; right:15px; z-index:2">
+										<i class="bi bi-suit-heart fs-4" id="icon-heart-" style="color: white;"></i>
+									</span>
+								</c:if>
+								<c:if test="${not empty LOGIN_USER }">
+									<span class="unwish" data-bs-toggle="modal" data-bs-target="#modal-save-to-list" style="position:absolute; top:15px; right:15px; z-index:2">
+												<c:choose>
+													<c:when test="${acc.savedWishlist eq 'Y'}">
+														<i class="bi bi-suit-heart-fill fs-4" id="icon-heart-" style="color: red;"></i>												
+													</c:when>
+													<c:otherwise>
+														<i class="bi bi-suit-heart fs-4" id="icon-heart-" style="color: black;"></i>
+													</c:otherwise>
+												</c:choose>
+									</span>
 								</c:if>
 								<%-- <c:choose>
 									<c:when test="${acc.accNo eq wishlistBtn.accs }"> <!-- wishlist 모달 넣어주기-->
@@ -441,7 +455,7 @@ input[type="range"]::-moz-range-thumb{
 							<div class="carousel-inner" style="border-radius: 25px;">
 								<div class="carousel-item active"> 		
 									<img class="acc-thumbnail rounded-0"
-										src="/resources/images/acc/${acc.imageCover }.jpg" alt="숙소이미지"
+										src="/resources/images/acc/${acc.imageCover }" alt="숙소이미지"
 										style="object-fit: cover; width: 300px; height: 300px;">
 								</div>
 								<div class="carousel-item">
@@ -1521,5 +1535,50 @@ $(function() {
 })	
 
 </script>
+
+<!-- 위시리스트 모달 및 js -->
+<script type="text/javascript">
+$(function () {
+	$(".unwish").click(function(e) {
+		return false;
+	})
+})
+
+
+
+
+
+
+
+
+</script>
+<!-- 빈하트 클릭시 나타나는 Modal -->
+<div class="modal fade" id="modal-save-to-list" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h5 class="modal-title fw-bold w-100 text-center">위시리스트</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      	<div  id="div-create-wishlist" style="display: flex; height: 64px; cursor: pointer;">
+      		<img src="https://a0.muscache.com/im/pictures/da1a2f06-efb0-4079-abce-0f6fc82089e0.jpg" alt="새로운 위시리스트 만들기" style="vertical-align:middle;">
+      		<span class="ms-3 fw-bold" style="margin-top:20px;">새로운 위시리스트 만들기</span>
+      	</div>
+      	<div id="div-wishlists">
+	      	<c:if test="${not empty wishlists }">
+	      		<c:forEach var="wishlist" items="${wishlists}">
+			      	<div id="div-wishlist-${wishlist.no}" class="mt-3" style="display: flex; height: 64px; cursor: pointer;">
+		      			<input type="hidden" name="wishlistNo" value="${wishlist.no}">
+			      		<img src="https://a0.muscache.com/im/pictures/da1a2f06-efb0-4079-abce-0f6fc82089e0.jpg" alt="새로운 위시리스트 만들기" style="vertical-align:middle;">
+			      		<span class="ms-3 fw-bold" style="margin-top:20px;">${wishlist.name }</span>
+			      	</div>
+	      		</c:forEach>
+	      	</c:if>
+      	</div>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>

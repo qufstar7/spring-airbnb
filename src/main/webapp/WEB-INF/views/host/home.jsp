@@ -117,7 +117,7 @@
 
 
 	<!-- 로그인 모달 include -->
-	<%@ include file="/WEB-INF/views/user/home.jsp"%>
+	<%@ include file="/WEB-INF/views/user/login-register-modals.jsp"%>
 
 	<!-- 모달 html -->
 	<%-- 

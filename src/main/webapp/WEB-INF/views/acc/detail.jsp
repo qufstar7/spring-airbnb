@@ -81,7 +81,7 @@
 		</div> 
 	</nav>
  	<%@ include file="../common/nav2.jsp" %> 
-	<%@ include file="../user/home.jsp" %>
+	<%@ include file="../user/login-register-modals.jsp" %>
 	<div class="container"> 
 		<!-- 타이틀 -->
 		<div class="row p-2 mb-2" id="top-div" >

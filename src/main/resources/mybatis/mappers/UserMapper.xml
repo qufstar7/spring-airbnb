@@ -111,9 +111,10 @@
 		where user_no = #{no}
 	</update>
 	
-	<!-- void deleteUser(int userNo); -->
-	<delete id="deleteUser" parameterType="int">
-		delete from airbnb_users
+	<!-- void disableUser(int userNo); -->
+	<delete id="disableUser" parameterType="int">
+		update airbnb_users
+		 set user_disabled = 'Y'
 		where user_no = #{value}
 	</delete>
 	

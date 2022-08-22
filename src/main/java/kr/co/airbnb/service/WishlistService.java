@@ -4,8 +4,10 @@ package kr.co.airbnb.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,6 +69,29 @@ public class WishlistService {
 		}
 		return wishlists;
 	}
+	
+	/**
+	 * 마이위시리스트에 등록된 (중복없는) 모든 숙소들 출력하기
+	 * @param userNo
+	 * @return
+	 */
+	public Set<Accommodation> getAccsInAllMyWishlists(int userNo) {
+		List<Wishlist> wishlists = getMyWishlists(userNo);
+		
+		Set<Accommodation> wishlistAccs = new HashSet<Accommodation>();
+		
+		for(Wishlist wishlist : wishlists) {
+			wishlistAccs.addAll(wishlist.getAccs());
+		}
+		
+		return wishlistAccs;
+	}
+	
+	public List<Accommodation> getAllAccs(int userNo) {
+		wishlistMapper.getAllAccs(userNo);
+		return wishlistMapper.getAllAccs(userNo);
+	}
+	
 	
 	// 숙소는 저장하지 않고 새로운 위시리스트 폴더만 생성하는 경우
 	public void createWishlist(Wishlist wishlist) {

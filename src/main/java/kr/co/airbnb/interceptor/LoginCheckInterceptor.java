@@ -32,7 +32,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 		MethodParameter[] parameters = handlerMethod.getMethodParameters();
 		for (MethodParameter parameter : parameters) {
 			LoginUser loginUser = parameter.getParameterAnnotation(LoginUser.class);
-			if (loginUser != null) {
+			if (loginUser != null && loginUser.required()) {
 				isLoginRequired = true;
 				break;
 			}
@@ -46,7 +46,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 			return true;
 		}
 		
-		response.sendRedirect("/login?fail=deny");
+		response.sendRedirect("/?error=deny");
 		return false;
 	}
 }

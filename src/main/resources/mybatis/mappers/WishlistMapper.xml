@@ -92,6 +92,8 @@
 		<result column="AVG_VALUE" property="valueScore"/>
 		<result column="AVG_CONVENIENCE" property="convenienceScore"/>
 		<result column="AVG_TOTAL" property="totalScore"/>
+		<!-- 08.23 추가 -->
+		<result column="savedWishlist" property="savedWishlist" /> 
 		<association property="disabledDate" column="acc_no" select="kr.co.airbnb.mapper.AccommodationMapper.getDisabledByAccNo"/>
 		<association property="user" column="USER_NO" select="kr.co.airbnb.mapper.UserMapper.getUserByNo"/>
 	</resultMap>
@@ -223,6 +225,27 @@
 		 OR R.check_in_date is null)
 		</if>   -->
  	</select>
+ 	
+ 	<!-- List<Accommodation> getAllAccs(int userNo); 
+ 	     내 위시리스트에 담겨있는지 여부를 함께 반환하는 모든 숙소 정보 -->
+ 	<select id="getAllAccs" resultMap="AccDetailResultMap">
+ 		with my_accommodations
+		as (
+		select W.*, WA.acc_no
+		from airbnb_wishlists W, airbnb_wishlist_accommodations WA
+		where W.wishlist_no = WA.wishlist_no
+		and W.user_no = #{userNo})
+		
+		select A.*, 
+		(select 'Y'
+		from dual
+		where exists ( select 1
+		                          from my_accommodations M
+		                          where A.acc_no  = M.acc_no)) savedWishList
+		from airbnb_accommodations A
+ 	</select>
+ 	
+ 	
  	
  	<!-- void createWishlist(Wishlist wishlist); -->
  	<insert id="createWishlist" parameterType="Wishlist">

@@ -19,6 +19,10 @@ public interface WishlistMapper {
 	List<Wishlist> getWishlistsByUserNo(int userNo);
 	List<Wishlist> getNextWishlists(@Param("userNo") int userNo, @Param("startNum") int startNum, @Param("lastNum") int lastNum);
 	List<Accommodation> getWishlistAccsByNo(int wishlistNo);
+	
+	// 내 위시리스트에 담겨있는지 여부를 함께 반환하는 모든 숙소 정보
+	List<Accommodation> getAllAccs(@Param("userNo") int userNo);
+	
 	void createWishlist(Wishlist wishlist);
 	void saveWishlistAcc(@Param("wishlistNo")int wishlistNo, @Param("accNo") int accNo);
 	void updateWishlist(Wishlist wishlist);

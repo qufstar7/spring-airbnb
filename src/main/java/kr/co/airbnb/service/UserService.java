@@ -66,7 +66,7 @@ public class UserService {
 			System.out.println("위시리스트 번호: " + wishlist.getNo());
 		}
 		
-		userMapper.deleteUser(userNo);
+		userMapper.disableUser(userNo);
 		
 	}
 }
