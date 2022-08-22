@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -37,6 +38,7 @@ public class User {
 	private String address;
 	private String disabled;
 	private String isHost;
+	@JsonFormat(pattern = "yyyy년")
 	private Date createdDate;
 	private Date updatedDate;
 	private String gender;

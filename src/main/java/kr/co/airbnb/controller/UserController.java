@@ -276,18 +276,15 @@ public class UserController {
 	
 	@GetMapping(path = "/sentReview")
 	public String sentReview(@LoginUser User loginUser, Model model) {
-		Map<String, Object> reviews = new HashMap<String, Object>();
-		reviews.put("sentReviews", reviewService.getSentReviews(loginUser.getNo()));
-		model.addAttribute("reviews", reviews);
+		model.addAttribute("sentReviews", reviewService.getAllSentReviews(loginUser.getNo()));
 		
 		return "review/sentreview";
 	}
 	
 	@GetMapping(path = "/receivedReview")
 	public String receivedReview(@LoginUser User loginUser, Model model) {
-		Map<String, Object> reviews = new HashMap<String, Object>();
-		reviews.put("receivedReviews", reviewService.getReceivedReviews(loginUser.getNo()));
-		model.addAttribute("reviews", reviews);
+		model.addAttribute("hostReviews", reviewService.getHostWriteReviews(loginUser.getNo()));
+		model.addAttribute("guestReviews", reviewService.getGuestWritedReviews(loginUser.getNo()));
 		
 		return "review/receivedreview";
 	}

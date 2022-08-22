@@ -183,4 +183,9 @@ public class ReviewService {
 		return reviewMapper.getReceivedReviews(no);
 	}
 
+	// 유저가 받은 리뷰를 모두 조회한다.
+	public List<Review> getAllSentReviews(int no) {
+		return reviewMapper.getAllSentReviews(no);
+	}
+
 }

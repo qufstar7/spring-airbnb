@@ -111,6 +111,4 @@ public class ReviewRestController {
 		return SingleResponseData.create(reviews);
 	}
 	
-	// 유저 리뷰 페이지 조회
-	
 }
