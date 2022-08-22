@@ -177,7 +177,7 @@
 									</svg>
 							    </c:when>
 							    <c:otherwise>
-							      <img class="acc-thumbnail" src="/resources/images/acc/sample-home.jpg" alt="프로필이미지">
+							      <img class="acc-thumbnail" src="/resources/images/profile/${user.profileImage}" alt="프로필이미지">
 							    </c:otherwise>
 					    	</c:choose>
 					    </div>
