@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +26,8 @@ import kr.co.airbnb.service.AccommodationService;
 import kr.co.airbnb.service.HostService;
 import kr.co.airbnb.service.UserService;
 import kr.co.airbnb.utils.SessionUtils;
+import kr.co.airbnb.vo.AccConvenience;
+import kr.co.airbnb.vo.AccRoom;
 import kr.co.airbnb.vo.AccType;
 import kr.co.airbnb.vo.Accommodation;
 import kr.co.airbnb.vo.Tag;
@@ -410,20 +411,33 @@ public class HostController {
 	
 	
 	// 법관련 페이지
-	@GetMapping("/legal")
-	public String legal(Model model) {
-		return "/host/legal";
-	}
+//	@GetMapping("/legal")
+//	public String legal(Model model) {
+//		return "/host/legal";
+//	}
 	
 	// 완료 페이지
 	@GetMapping("/complete")
-	public String complete(Model model) {
+	public String complete(Model model, @RegisterAcc Accommodation registerAcc) {
+		
+		List<Type> types = hostService.getAllTypesByAccNo(registerAcc.getAccNo());
+		model.addAttribute("types", types);
+		
+		AccRoom accRoom = hostService.getAllRoomInfoByAccNo(registerAcc.getAccNo());
+		model.addAttribute("room", accRoom);
+		
+		List<AccConvenience> accConveniences = hostService.getAllConveniencesByAccNo(registerAcc.getAccNo());
+		model.addAttribute("cons", accConveniences);
+		
+		model.addAttribute("acc", registerAcc);
+		
+		
 		return "/host/complete";
 	}
 	
 	// 호스트 프로필 페이지
 	@GetMapping("/profile")
 	public String profile(Model model) {
-		return "/host/profile";
+		return "/host/hosting";
 	}
 }

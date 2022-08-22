@@ -36,4 +36,6 @@ public interface HostMapper {
 	void insertAccTags(AccTag accTag);
 	void updateAccDescription(Accommodation acc);
 	void updateAccPrice(Accommodation acc);
+	
+	AccRoom getAllRoomInfoByAccNo(int accNo);
 }
