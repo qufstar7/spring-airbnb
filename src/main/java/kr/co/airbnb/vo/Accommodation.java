@@ -46,6 +46,7 @@ public class Accommodation {
 
 	private String imageCover; // 대표이미지
 	private AccRoom room; // 인원, 침대, 침실, 욕실 개수 저장
+
 	
 	private List<Type> types; // 유형 3가지(메인,서브,프라이버시 ex)주택-통나무집-공간전체)
 	private List<AccConvenience> conveniences; // 편의시설 목록

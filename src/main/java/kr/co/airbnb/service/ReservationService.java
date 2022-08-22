@@ -1,11 +1,8 @@
 package kr.co.airbnb.service;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +48,7 @@ public class ReservationService {
 		reservation.setEntirePay(reservationRegisterForm.getTotalPrice());
 		reservation.setLeftPay(reservationRegisterForm.getTotalPrice() * 0.3);
 		reservation.setAccNo(reservationRegisterForm.getAccNo());
+		reservation.setUser(loginUser);
 		
 		
 		reservationMapper.insertReservation(reservation);

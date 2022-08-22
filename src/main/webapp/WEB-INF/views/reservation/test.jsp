@@ -64,6 +64,28 @@
                 </div>
 			</div>
 		</div>
+		<div class="totalFn">    
+			<div class="count-box">        
+				<button type="button" class="minus">빼기</button>        
+				<span class="num">0</span>        
+				<button type="button" class="plus">더하기</button>    
+			</div>    
+			<div class="count-box">        
+				<button type="button" class="minus">빼기</button>        
+				<span class="num">0</span>        
+				<button type="button" class="plus">더하기</button>    
+			</div>    
+				<div class="count-box">        
+				<button type="button" class="minus">빼기</button>        
+				<span class="num">0</span>        
+				<button type="button" class="plus">더하기</button>    
+			</div>    
+			<!-- 합계 -->    
+			<div class="total-area">        
+				<span>Total =</span>        
+				<strong class="count-total">0</strong>    
+			</div>   
+		</div>
 	</div>
 		
 	
@@ -80,72 +102,39 @@
 					</div>
 					<div>
 						<p><fmt:formatDate value="${accommodation.checkIn}" pattern="MM월dd일" />~<fmt:formatDate value="${accommodation.checkOut}" pattern="dd일" />
-						·${accommodation. }
+						· 게스트 ${accommodation.guest }명
 						</p>
+					</div>
+					<hr>
+					<div class="divide2">
+						<span>총 합계</span>
+						<span style="float:right">${reservation.totalPrice }</span>
+						<button type="button" class="btn btn-primary" data-bs-toggle="modal" >게스트</button>
 					</div>
 				</div>
 			</div>
 		</div>
-	
-	<button type="button" class="btn btn-primary" data-bs-toggle="modal" >게스트</button>
-		<div class="modal" id="modai-guest" tabindex="-1">
-			<div class="modal-body">
-	       		<div class="totalFn">
-	        		<div class="count-box">
-		        		<button type="button" class="minus">-</button>
-		        		<span class="num">0</span>
-		        		<button type="button" class="plus">+</button>
-	       			</div>
-	        		<div class="count-box">
-	        		    <button type="button" class="minus">-</button>
-	        		    <span class="num">0</span>
-	        		    <button type="button" class="plus">+</button>
-	        		</div>
-	        		<div class="count-box">
-	        		    <button type="button" class="minus">-</button>
-	        		    <span class="num">0</span>
-	        		    <button type="button" class="plus">+</button>
-	        		</div>
-	        		<!-- 합계 -->
-	        		<div class="total-area">
-		        		<span>Total =</span>
-		        		<strong class="count-total">0</strong>
-		        	</div>
-	       		</div>
-	   		</div>
-		</div>
 	</div>
+	
 	
 </div>
 <script type="text/javascript">
-$(function (){
-	var myModal = document.getElementById('modal-guest')
-	myModal.addEventListener('shown.bs.modal', function () {
-	  myInput.focus()
-		
-		let modalGuest = new bootstrap.Modal(document.getElementById("modal-guset"));
-			$("#btn-guest").click(function(){
-				modalGuest.show();
-			});
-
-	})
-})
-$(function countBtn(){
-	var $wrap = $('.totalFn'),
-	    $btnMinus = $wrap.find('.minus'),
-	    $btnPlus = $wrap.find('.plus');        
-		$cell = $wrap.find('.cell');  
-		           
+function countBtn(){
+	var $wrap = $('.totalFn'),         
+		$btnMinus = $wrap.find('.minus'),        
+		$btnPlus = $wrap.find('.plus');        
+		$cell = $wrap.find('.cell');             
+	
 	$btnMinus.on('click', function(e){        
 		var $this = $(this);        
-		var num = $this.parent().find('.num').text();        
+		var num = $this.parent().find('.num').text();       
 		num --;        
 		if (num <= 0) {            
 			num = 0;        
 		}        
 		$this.parent().find('.num').text(num);        
 		totalFn();    
-	});     
+	});    
 	
 	$btnPlus.on('click', function(){        
 		var $this = $(this);        
@@ -154,18 +143,19 @@ $(function countBtn(){
 		if (20 <= num) {            
 			num = 20; // 최대 인원수         
 		}        
-		$this.parent().find('.num').text(num);        
-		totalFn();    
+		$this.parent().find('.num').text(num);       
+		 totalFn();    
 	});     
-	function totalFn(){        
-		var $total = $(".totalFn .count-box")        
-		var total = 0;        
-		$total.find(".num").each(function(){             
-			total += Number($(this).text());       
-		});       
-		$(".count-total").text(total);    
-	};
-})
+		function totalFn(){        
+			var $total = $(".totalFn .count-box")        
+			var total = 0;        
+			$total.find(".num").each(function(){             
+				total += Number($(this).text());        
+			});        
+			$(".count-total").text(total);    
+		};
+}
+
 </script>
 </body>
 </html>
