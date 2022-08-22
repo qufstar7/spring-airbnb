@@ -29,6 +29,7 @@ public class WishlistService {
 	public Wishlist getWishlistByNo(int wishlistNo) {
 		Wishlist wishlist = wishlistMapper.getWishlistByNo(wishlistNo);
 		wishlist.setAccs(wishlistMapper.getWishlistAccsByNo(wishlistNo));
+		
 		return wishlist;
 	}
 	

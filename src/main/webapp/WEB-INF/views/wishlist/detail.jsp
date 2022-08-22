@@ -19,12 +19,12 @@
 <link rel="stylesheet" type="text/css" href="/resources/css/wishlist-detail.css">
 <script src="https://kit.fontawesome.com/2628157b3b.js"></script>
 <style type="text/css">
-
+.div-nav {max-width: 98% !important;}
 </style>
 <title>${wishlist.name }-에어씨엔씨</title>
 </head>
 <body>
-<%@ include file="../common/nav.jsp"%>
+<%@ include file="../common/nav3.jsp"%>
 <div class="container-fluid" style="padding-right: 0px;">
 	<div class="row" id="div-main">
 		<div class="col-5">

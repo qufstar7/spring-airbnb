@@ -95,9 +95,24 @@
 		<association property="disabledDate" column="acc_no" select="kr.co.airbnb.mapper.AccommodationMapper.getDisabledByAccNo"/>
 		<association property="user" column="USER_NO" select="kr.co.airbnb.mapper.UserMapper.getUserByNo"/>
 	</resultMap>
+	
+	<resultMap type="Accommodation" id="AccDetailResultMap" extends="AccResultMap">
+		<!-- <association property="room" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccRoomsByAccNo"></association> -->
+		<collection property="conveniences" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccConveniencesByAccNo"></collection>
+   		<collection property="photos" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccPhotosByAccNo"></collection>
+   		<collection property="room" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getRoomByAccNo"></collection>
+      	<collection property="type" column="TYPE_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getTypesByTypeNo"></collection>
+		<!--
+		<collection property="wishlist" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getWishlistByAccNo"></collection>
+		<collection property="view" column="ACC_NO" select=""></collection>
+		<collection property="reservation" column="ACC_NO" select=""></collection>
+		<collection property="review" column="ACC_NO" select=""></collection>
+		<collection property="discount" column="ACC_NO" select=""></collection>
+		<collection property="tag" column="ACC_NO" select=""></collection> -->
+	</resultMap>
  	
  	<!-- List<Accommodation> getWishlistAccsByNo:(List<Integer> wishlistNo);  distinct? -->
- 	<select id="getWishlistAccsByNo" parameterType="int" resultMap="AccResultMap">
+ 	<select id="getWishlistAccsByNo" parameterType="int" resultMap="AccDetailResultMap">
  		select *
  		from airbnb_accommodations
  		where acc_no in (select acc_no
@@ -108,7 +123,7 @@
  	<!-- List<Accommodation> getAvailableWishlistAccsWithConditions(@Param("wishlistNo")int wishlistNo, @Param("checkInDate") Date checkIndate, @Param("checkOutDate") Date checkOutDate, @Param("guestCount") int guestCount); -->
  	<!-- 위시리스트에서 날짜, 인원 조건에 맞고 예약가능한 숙소들 -->
  	<!-- 확인!!!!!!!!!!!!!!! -->
- 	<select id="getAvailableWishlistAccsWithConditions" resultMap="AccResultMap">
+ 	<select id="getAvailableWishlistAccsWithConditions" resultMap="AccDetailResultMap">
  		WITH test_accommodations
 		 AS ( select *
 		 		from airbnb_accommodations
@@ -160,7 +175,7 @@
  	
  	<!-- 위시리스트에서 날짜, 인원 조건에 예약불가한 숙소리스트 -->
  	<!-- List<Accommodation> getUnableWishlistAccsWithConditions -->
- 	<select id="getUnavailableWishlistAccsWithConditions" resultMap="AccResultMap">
+ 	<select id="getUnavailableWishlistAccsWithConditions" resultMap="AccDetailResultMap">
  		WITH test_accommodations
 		 AS ( select *
 		 		from airbnb_accommodations
