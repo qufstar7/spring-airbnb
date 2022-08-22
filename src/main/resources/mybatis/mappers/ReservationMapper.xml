@@ -63,7 +63,7 @@
 	
 	
 	<!-- Card getCardByNo(int no); -->
-	<select id="getCardByNo" parameterType="int" resultMap="CardResultMap">
+	<select id="getCardByUserNo" parameterType="int" resultMap="CardResultMap">
 		select *
 		from airbnb_cards
 		where user_no = #{value}

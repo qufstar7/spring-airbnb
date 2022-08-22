@@ -1,6 +1,7 @@
 package kr.co.airbnb.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.ibatis.type.Alias;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -36,6 +37,7 @@ public class Reservation {
 	private double leftPay;
 	private Accommodation accommodation;
 	private User user;
+	
 	
 	
 	

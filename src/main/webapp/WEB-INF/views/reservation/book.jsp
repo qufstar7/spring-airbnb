@@ -24,8 +24,8 @@
 		<div class="row mb-3 my-5 px-3" >
 			<div class="col border bg-white rounded">
 					<div class="mb-3">
-						<span style="font-weight:bold; font-size:small;">저렴한 요금</span>
-						<p >검색하시는 날짜의 요금은 지난 3개월의 평균 1박 요금보다 $ 저렴합니다.</p>
+						<span style="font-weight:bold; font-size:small;">흔치 않은 기회입니다.</span>
+						<p >${accommodation.user.name }님의 숙소는 보통 예약이 가득 차 있습니다.</p>
 					</div>
 			</div>
 		</div>
@@ -35,50 +35,50 @@
 					<span>날짜</span>
 					<button type ="button" class="btn btn-sm" style="background-color:white; border-color:white; float:right;"><u>수정</u></button>
 					<br>
-					<p class ="small"><fmt:formatDate value="${accommodation.checkIn}" pattern="MM월dd일" /> - <fmt:formatDate value="${accommodation.checkOut}" pattern="dd일" /></p>
+					<p class ="small"><fmt:formatDate value="${reservation.checkInDate}" pattern="MM월dd일" /> - <fmt:formatDate value="${accommodation.checkOut}" pattern="dd일" /></p>
 				</div>
 				<div>
 					<span>게스트</span>
-					<button type ="button" class="btn btn-sm"  id="btn-guest"style="background-color:white; border-color:white; float:right;"><u>수정</u></button>
+					<button type ="button" class="btn btn-sm"  id="btn-guest" style="background-color:white; border-color:white; float:right;"><u>수정</u></button>
 					<br>
 					<span>게스트 ${accommodation.guest }명</span>
 				</div>
 			</div>
+			<!-- 게스트 -->
 			<div class="mb-3">
 				<div class="modal" id="modal-guest" tabindex="-1">
 					<div class="modal-dialog">
 				 		<div class="modal-content">
-				      		<div class="modal-header">
-				        		<button type="button" data-bs-dismiss="modal" ><</button>
-				        		<h5 class="col modal-title">게스트</h5>
-				        		<p>이 숙소의 최대 숙박 인원은 10명(유아 포함)입니다.</p>
+					 		<div class="modal-header">
+				        		<button type="button" class="btn btn-white" data-bs-dismiss="modal" ><</button>
 				      		</div>
 				      		<div class="modal-body">
 				        		<div class="totalFn">
-					        		<div class="count-box">
-						        		<button type="button" class="minus">빼기</button>
-						        		<span class="num">0</span>
-						        		<button type="button" class="plus">더하기</button>
-				        			</div>
-					        		<div class="count-box">
-					        		    <button type="button" class="minus">빼기</button>
-					        		    <span class="num">0</span>
-					        		    <button type="button" class="plus">더하기</button>
-					        		</div>
-					        		<div class="count-box">
-					        		    <button type="button" class="minus">빼기</button>
-					        		    <span class="num">0</span>
-					        		    <button type="button" class="plus">더하기</button>
-					        		</div>
-					        		<!-- 합계 -->
-					        		<div class="total-area">
-						        		<span>Total =</span>
-						        		<strong class="count-total">0</strong>
-						        	</div>
-					       		</div>
+									<div class="count-box">
+										<button type="button" class="minus">-</button>
+										<span class="num">0</span>
+										<button type="button" class="plus">+</button>
+									</div>
+									<div class="count-box">
+										<button type="button" class="minus">-</button>
+										<span class="num">0</span>
+										<button type="button" class="plus">+</button>
+									</div>
+										<div class="count-box">
+										<button type="button" class="minus">-</button>
+										<span class="num">0</span>
+										<button type="button" class="plus">+</button>
+									</div>
+									<!-- 합계 -->
+									<div class="total-area">
+										<span>Total =</span>
+										<strong class="count-total">0</strong>
+									</div>
+								</div>
 				      		</div>
 				      		<div class="modal-footer">
 				        		<button type="button" class="btn btn-sm" style="background-color:white; border-color:white;" data-bs-dismiss="modal"><u>취소</u></button>
+				        		<button type="submit" class="btn btn-dark" >저장하기</button>
 				      		</div>
 				  		</div>
 					</div>
@@ -123,6 +123,7 @@
 					</div>
 				</div>
 			</div>
+			<!-- 상세정보 모달 -->
 			<div class="modal" id="modal-how-to-use" tabindex="-1">
 				<div class="modal-dialog">
 			 		<div class="modal-content">
@@ -153,40 +154,17 @@
 			<h5>결제 수단</h5>
 				<button id="requestPay">결제하기</button>
 			<select id="card-select" class="form-select" aria-label="Default select example">
-				<option value="기본카드" selected>기본 결제 수단(카드)</option>
+			<c:forEach var="card" items="${cards }">
+				<option value="유저카드" selected>${card.id }</option>
+			</c:forEach>
 				<option value="1" disabled>결제 수단 추가하기</option>
 				<option value="카드추가">신용카드 또는 체크카드</option>
 				<option value="2" disabled>이용 불가</option>
 				<option value="카카오 결제">카카오 결제 </option>
 			</select>
-			<div class="insertCard">
-				<div class="row" style="padding:20px">
-					<div class="col border bg-white rounded">
-						<form class="col" id="form-reservation" method="post" action="completed" modelAttribute="reservationRegisterForm">
-							<div class="mb-3">
-								<label for="id-field" class="form-label">카드번호</label>
-			                	<input class="form-control" name="id" id="id-field" placeholder="0000-0000-0000-0000"/>
-							</div>
-							<div class ="row"> 
-								<div class="col mb-3">
-									<label for="expiryDate-field" class="form-label">만료일</label>
-                					<input class="form-control" name="expiryDate" id="expiryDate-field" placeholder="MM/YY"/>
-								</div>
-								<div class="col mb-3">
-									<label for="cvv-field" class="form-label">CVV</label>
-                					<input class="form-control" name="cvv" id="cvv-field" placeholder="123"/>
-								</div>
-							</div>
-							<div class="mb-3">
-								<label for="zipCode-field" class="form-label">우편번호</label>
-                				<input class="form-control" name="zipCode" id="zipCode-field" placeholder="12345"/>
-							</div>
-							 <div class="mb-3">
-			                	<label for="region-field" class="form-label">지역</label>
-			                	<input class="form-control" name="region" id="region-field" placeholder="한국"/>
-			                </div>
-					</div>
-				</div>
+			<div id="insertCard">
+				<form class="col" id="form-reservation" method="post" action="completed" modelAttribute="reservationRegisterForm">
+				<!-- 카드등록 -->
 			</div>
 			<hr>
 			<div class="divide">
@@ -230,6 +208,7 @@
 				<input type="hidden" name="checkOutDate" value='<fmt:formatDate value="${accommodation.checkOut}" pattern="yyyy-MM-dd" />'>
 				<input type="hidden" name="totalGuest" value="${accommodation.guest }">	
 				<input type="hidden" name="price" value="${accommodation.price }">
+				<input type="hidden" name="cleaningPrice" value="${accommodation.cleaningPrice }">
 				<button type="submit" class="btn btn-lg" style="background-color:#d80765; color:white;">확인 및 결제</a>
 			</div>
 		</form>	
@@ -266,6 +245,10 @@
 							<div>
 								<span><u>서비스 수수료</u></span>
 								<span style="float:right">￦<fmt:formatNumber value="${accommodation.price *0.15 }" /> 원</span>
+							</div>
+							<div>
+								<span><u>청소비</u></span>
+								<span style="float:right">￦<fmt:formatNumber value="${accommodation.cleaningPrice }" /> 원</span>
 							</div>
 							<hr>
 							<div class="divide2">
@@ -307,6 +290,10 @@
 								<span style="float:right">￦<fmt:formatNumber value="${accommodation.price *0.15}" /></span>
 							</div>
 							<div>
+								<span><u>청소비</u></span>
+								<span style="float:right">￦<fmt:formatNumber value="${accommodation.cleaningPrice }" /> 원</span>
+							</div>
+							<div>
 								<span>총 합계</span>
 								<span style="float:right">${reservation.totalPrice }</span>
 							</div>
@@ -330,11 +317,17 @@
 </div>
 <script type="text/javascript">
 $(function(){
+	// 상세설명 모달
 	let modalHowToUse = new bootstrap.Modal(document.getElementById("modal-how-to-use"));
 		$("#btn-howtouse").click(function(){
 			modalHowToUse.show();
 		});
-	
+	// 게스트 모달
+	let modalGuest = new bootstrap.Modal(document.getElementById("modal-guest"));
+		$("#btn-guest").click(function(){
+			modalGuest.show();
+		});
+	// 전액결제
 	$("#entire-payment").click(function(){
 		$("input:radio[name='payment']:radio[id='radio-entire']").prop('checked', true);
 		$(".leftDiv").hide();
@@ -342,6 +335,7 @@ $(function(){
 		$("#entire-payment").addClass("border-dark border-3")
 		$("#left-payment").removeClass("border-dark border-3")
 	});
+	// 일부결제
 	$("#left-payment").click(function(){
 		$("input:radio[name='payment']:radio[id='radio-left']").prop('checked', true);
 		$(".leftDiv").show();
@@ -349,16 +343,45 @@ $(function(){
 		$("#entire-payment").removeClass("border-dark border-3")
 		$("#left-payment").addClass("border-dark border-3")
 	});
-	
+	// 카드추가 선택 div추가
 	$("#card-select").on('change',function(){
-		let result2 = $("#card-select option:selected").val();
-		if( result2 == "카드추가") {
-			$(".insertCard").show();
+		let result = $("#card-select option:selected").val();
+		let $insert = $("#insertCard")
+		if( result == "카드추가") {
+			let content = '';
+			content += '<div class="row" style="padding:20px">';
+			content += '	<div class="col border bg-white rounded">';
+			content += '			<div class="mb-3">';
+			content += '				<label for="id-field" class="form-label">카드번호</label>';
+			content += '				<input class="form-control" name="id" id="id-field" placeholder="0000-0000-0000-0000"/>';
+			content += '			</div>';
+			content += '			<div class ="row">';
+			content += '				<div class="col mb-3">';
+			content += '					<label for="expiryDate-field" class="form-label">만료일</label>';
+			content += '					<input class="form-control" name="expiryDate" id="expiryDate-field" placeholder="MM/YY"/>';
+			content += '				</div>';
+			content += '				<div class="col mb-3">';
+			content += '					<label for="cvv-field" class="form-label">CVV</label>';
+			content += '					<input class="form-control" name="cvv" id="cvv-field" placeholder="123"/>';
+			content += '				</div>';
+			content += '				<div class="mb-3">';
+			content += '					<label for="zipCode-field" class="form-label">우편번호</label>';
+			content += '					<input class="form-control" name="zipCode" id="zipCode-field" placeholder="12345"/>';
+			content += '				</div>';
+			content += '				<div class="mb-3">';
+			content += '					<label for="region-field" class="form-label">지역</label>';
+			content += '					<input class="form-control" name="region" id="region-field" placeholder="한국"/>';
+			content += '				</div>';
+			content += '		</div>';
+			content += '	</div>';
+			content += '</div>';
+			
+			$insert.append(content);
 		}else {
-			$(".insertCard").hide();
+			$insert.empty();
 		}
 	});
-	
+	// 카카오페이 결제하기
 	$("#requestPay").click(function(){
 	
 		IMP.init('imp72420270');
@@ -366,19 +389,17 @@ $(function(){
 	        pg: 'kakaopay',
 	        pay_method: 'card',
 	        merchant_uid: 'merchant_' + new Date().getTime(),
-	        name: '결제테스트',
-	        amount: ${accommodation.price},
-	        buyer_email: "${accommodation.user.email}",
-	        buyer_name: "${accommodation.user.name}",
-	        buyer_tel: "${accommodation.user.phone}",
-	        buyer_addr: "${accommodation.user.address}",
+	        name: '에어비앤비 숙소결제',
+	        amount: '${accommodation.price}',
+	        buyer_email: '${accommodation.user.email}',
+	        buyer_name: '${accommodation.user.name}',
+	        buyer_tel: '${accommodation.user.phone}',
+	        buyer_addr: '${accommodation.user.address}',
 	    }, function (rsp) { 
 	        if (rsp.success) {
 	      	  var msg = "예약이 완료되었습니다."
 	      	  msg += '고유ID : ' 	+ rsp.imp_uid
 	       	  msg += '거래ID : ' 	+ rsp.merchant_uid
-	       	  msg += '결제금액 : ' 	+ rsp.paid_uid
-	       	  msg += '승인번호 : ' 	+ rsp.apply_uid
 	        } else {
 	      	  var msg = "결제에 실패했습니다."
 	       	  msg += '에러내용 : ' + rsp.error_msg;

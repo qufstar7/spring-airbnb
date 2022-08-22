@@ -30,6 +30,7 @@ public class ReservationService {
 		card.setExpiryDate(reservationRegisterForm.getExpiryDate());
 		card.setRegion(reservationRegisterForm.getRegion());
 		card.setZipCode(reservationRegisterForm.getZipCode());
+		card.setUser(loginUser);
 
 		reservationMapper.insertCard(card);
 		
@@ -44,7 +45,7 @@ public class ReservationService {
 		reservation.setMessageToHost(reservationRegisterForm.getMessageToHost());
 		reservation.setServiceFee(reservationRegisterForm.getPrice() *0.15);
 		reservation.setPrice(reservationRegisterForm.getPrice());
-		reservation.setTotalPrice(reservationRegisterForm.getPrice() + reservation.getServiceFee());
+		reservation.setTotalPrice(reservationRegisterForm.getPrice() + reservation.getServiceFee() + reservationRegisterForm.getCleaningPrice());
 		reservation.setEntirePay(reservationRegisterForm.getTotalPrice());
 		reservation.setLeftPay(reservationRegisterForm.getTotalPrice() * 0.3);
 		reservation.setAccNo(reservationRegisterForm.getAccNo());
@@ -59,8 +60,12 @@ public class ReservationService {
 		return accommodationMapper.getAcc(accNo);
 	}
 	
-	public List<Reservation> getAllReservationByUsers(int no) {
-		return reservationMapper.getReservationByUserNo(no);
+	public List<Card> getMyCards(int userNo) {
+		return reservationMapper.getCardByUserNo(userNo);
+	}
+	
+	public List<Reservation> getAllReservationByUsers(int userNo) {
+		return reservationMapper.getReservationByUserNo(userNo);
 	}
 	
 	
