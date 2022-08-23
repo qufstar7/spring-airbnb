@@ -56,7 +56,7 @@ public class AccommodationController {
 	NoteService noteService;
 	
 	@GetMapping(path = "/detail")
-	public String detail(@LoginUser User loginUser ,@RequestParam("no") int no,Model model) {
+	public String detail(@LoginUser(required = false) User loginUser ,@RequestParam("no") int no,Model model) {
 		if (loginUser != null) {
 			
 			Map<String,Object> map = new HashMap<String,Object>();

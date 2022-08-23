@@ -176,8 +176,11 @@
 									  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
 									</svg>
 							    </c:when>
+							    <c:when test="${not empty LOGIN_USER && empty LOGIN_USER.profileImage}">
+							    	<img class="acc-thumbnail" src="/resources/images/profile/profile-default-img.png" alt="기본프로필이미지">
+							    </c:when>
 							    <c:otherwise>
-							      <img class="acc-thumbnail" src="/resources/images/profile/${user.profileImage}" alt="프로필이미지">
+							      <img class="acc-thumbnail" src="/resources/images/profile/${LOGIN_USER.profileImage}" alt="프로필이미지">
 							    </c:otherwise>
 					    	</c:choose>
 					    </div>

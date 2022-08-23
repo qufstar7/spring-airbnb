@@ -25,17 +25,43 @@
 						<button type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide-to="2" aria-label="Slide 3"></button>
 					</div>
 					<!-- 슬라이드쇼 이미지 -->
-					<div class="carousel-inner">
-						<div class="carousel-item active">
-							<img class="acc-thumbnail rounded-4 w-100" src="${acc.imageCover}" alt="숙소이미지"  style="object-fit: cover; height: 200px;">
-						</div>
-						<div class="carousel-item">
-							<img class="acc-thumbnail rounded-4 w-100" src="${acc.imageCover}" alt="숙소이미지" style="object-fit: cover; height: 200px;">
-						</div>
-						<div class="carousel-item">
-							<img class="acc-thumbnail rounded-4 w-100" src="${acc.imageCover}" alt="숙소이미지" style="object-fit: cover; height: 200px;">
-						</div>
-					</div>
+									<div class="carousel-inner" >
+										<c:forEach items="${acc.photos }" var="photo">
+											<c:if test="${photo.num eq 1 }">
+										<div class="carousel-item active">
+											<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지"  style="object-fit: cover; height: 200px;">
+										</div>
+											</c:if>
+										</c:forEach>
+										<c:forEach items="${acc.photos }" var="photo">
+											<c:if test="${photo.num eq 2 }">
+												<div class="carousel-item">
+													<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지" style="object-fit: cover; height: 200px;">
+												</div>
+											</c:if>
+										</c:forEach>
+										<c:forEach items="${acc.photos }" var="photo">
+											<c:if test="${photo.num eq 3 }">
+												<div class="carousel-item">
+													<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지" style="object-fit: cover; height: 200px;">
+												</div>
+											</c:if>
+										</c:forEach>
+										<c:forEach items="${acc.photos }" var="photo">
+											<c:if test="${photo.num eq 4 }">
+												<div class="carousel-item">
+													<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지" style="object-fit: cover; height: 200px;">
+												</div>
+											</c:if>
+										</c:forEach>
+										<c:forEach items="${acc.photos }" var="photo">
+											<c:if test="${photo.num eq 5 }">
+												<div class="carousel-item">
+													<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지" style="object-fit: cover; height: 200px;">
+												</div>
+											</c:if>
+										</c:forEach>
+									</div>
 					<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide="prev">
 						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 						<span class="visually-hidden">Previous</span>
@@ -80,17 +106,43 @@
 						<button type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide-to="1" aria-label="Slide 2"></button>
 						<button type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide-to="2" aria-label="Slide 3"></button>
 					</div>
-					<!-- 슬라이드쇼 이미지 -->
-					<div class="carousel-inner">
+				<!-- 슬라이드쇼 이미지 -->
+					<div class="carousel-inner" >
+						<c:forEach items="${acc.photos }" var="photo">
+							<c:if test="${photo.num eq 1 }">
 						<div class="carousel-item active">
-							<img class="acc-thumbnail rounded-4 w-100" src="${acc.imageCover}" alt="숙소이미지"  style="object-fit: cover; height: 200px;">
+							<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지"  style="object-fit: cover; height: 200px;">
 						</div>
-						<div class="carousel-item">
-							<img class="acc-thumbnail rounded-4 w-100" src="${acc.imageCover}" alt="숙소이미지" style="object-fit: cover; height: 200px;">
-						</div>
-						<div class="carousel-item">
-							<img class="acc-thumbnail rounded-4 w-100" src="${acc.imageCover}" alt="숙소이미지" style="object-fit: cover; height: 200px;">
-						</div>
+							</c:if>
+						</c:forEach>
+						<c:forEach items="${acc.photos }" var="photo">
+							<c:if test="${photo.num eq 2 }">
+								<div class="carousel-item">
+									<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지" style="object-fit: cover; height: 200px;">
+								</div>
+							</c:if>
+						</c:forEach>
+						<c:forEach items="${acc.photos }" var="photo">
+							<c:if test="${photo.num eq 3 }">
+								<div class="carousel-item">
+									<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지" style="object-fit: cover; height: 200px;">
+								</div>
+							</c:if>
+						</c:forEach>
+						<c:forEach items="${acc.photos }" var="photo">
+							<c:if test="${photo.num eq 4 }">
+								<div class="carousel-item">
+									<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지" style="object-fit: cover; height: 200px;">
+								</div>
+							</c:if>
+						</c:forEach>
+						<c:forEach items="${acc.photos }" var="photo">
+							<c:if test="${photo.num eq 5 }">
+								<div class="carousel-item">
+									<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지" style="object-fit: cover; height: 200px;">
+								</div>
+							</c:if>
+						</c:forEach>
 					</div>
 					<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide="prev">
 						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -112,7 +164,7 @@
 			        <p class="card-text text-muted">최대 인원 ${acc.guest}명 원룸 침대2개 욕실 1개</p>
 			        <div class="d-flex justify-content-between"  style="margin-top: 72px;">
 		        	  <strong><i class="bi bi-star-fill"></i>${acc.reviewScore}<span class="text-black-50">(후기 ${acc.reviewCount}개)</span></strong>
-		        	  <span class="fs-5 d-none"><strong>₩<fmt:formatNumber value="${acc.price}"/></strong> /박 </span>
+		        	  <span class="fs-5"><strong>예약불가</strong></span>
 			        </div>
 			      </div>
 			    </div>
