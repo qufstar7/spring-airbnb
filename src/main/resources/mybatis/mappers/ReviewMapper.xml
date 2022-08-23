@@ -171,40 +171,44 @@
 		order by R.REVIEW_CREATED_DATE DESC
 	</select>
 	
-	<!-- List<Review> getAllSentReviews(int no); -->
-	<select id="getAllSentReviews" parameterType="int" resultMap="reviewResultMap">
+	<!-- List<Review> getSentHostReviews(int no); -->
+	<select id="getSentHostReviews" parameterType="int" resultMap="reviewResultMap">
+		select U.USER_NO, U.USER_NAME, U.USER_PROFILE_IMAGE, U.USER_CREATED_DATE, R.*
+		from AIRBNB_USERS U, AIRBNB_REVIEWS R, AIRBNB_RESERVATIONS V
+		where r.user_no = #{value}     
+		    and r.user_type = 'host'
+		    and r.reservation_no = v.reservation_no
+		    and v.user_no = u .user_no
+	    order by R.REVIEW_CREATED_DATE DESC
+	</select>
+	
+	<!-- List<Review> getSentGuestReviews(int no); -->
+	<select id="getSentGuestReviews" parameterType="int" resultMap="reviewResultMap">
 		select *
-		from  AIRBNB_REVIEWS
-		where USER_NO = #{value}                                            
+		from AIRBNB_REVIEWS
+		where user_no = #{value}     
+			and user_type = 'guest'
 		order by REVIEW_CREATED_DATE DESC
 	</select>
 	
-	<!-- List<Review> getSentReviews(int no); 
-	<select id="getSentReviews" parameterType="int" resultMap="reviewResultMap">
+	<!-- List<Review> getReviewsToWrite(int no); -->
+	<select id="getReviewsToWrite" parameterType="int" resultMap="reviewResultMap">
 		select *
-		from AIRBNB_REVIEWS
-		where user_no = #{value} 
-		
+		from airbnb_reservations X, airbnb_accommodations Y, airbnb_users Z
+		where X.acc_no = Y.acc_no
+			and X.user_no = z.user_no
+			and X.reservation_no in (select A.reservation_no
+		                            from airbnb_reservations A
+		                            where A.user_no = #{value} and A.CHECK_OUT_DATE is not null and A.CHECK_OUT_DATE + 14 >= to_date(to_char(sysdate, 'yyyy-mm-dd'
+		                            ))
+		                            and A.CHECK_IN_DATE + 1 &lt;= to_date(to_char(sysdate, 'yyyy-mm-dd'))
+		                            minus
+		                            select A.reservation_no
+		                            from airbnb_reservations A, airbnb_reviews B
+		                            where A.user_no = #{value}   
+		                            and a.reservation_no = B.reservation_no
+		                            and A.CHECK_OUT_DATE is not null and A.CHECK_OUT_DATE + 14 >= to_date(to_char(sysdate, 'yyyy-mm-dd')))
+		order by X.RESERVATION_CREATED_DATE desc
 	</select>
-	List<Review> getReceivedReviews(int no);
-	<select id="getReceivedReviews" parameterType="int" resultMap="reviewResultMap">
-		select *
-		from AIRBNB_REVIEWS
-		where user_no = #{value} 
-	</select>
-	 -->
-	
-		<!-- Map<String, Object> getReceivedReviewByGuest(int no); 
-		게스트가 받은 리뷰이다. (호스트가 적어준 리뷰만 보임)
-	<select id="getReceivedReviewByGuest" parameterType="int" resultMap="reviewResultMap">
-		select A.ACC_NAME, A.IMAGE_COVER, R.REVIEW_CREATED_DATE, R.REVIEW_CONTENT, U.USER_PROFILE_IMAGE, U.USER_NAME, U.USER_ADDRESS, U.USER_CREATED_DATE
-		from AIRBNB_ACCOMMODATIONS A, AIRBNB_USERS U, AIRBNB_REVIEWS R, AIRBNB_RESERVATIONS V
-		where U.USER_NO = 5
-		    AND A.USER_NO = U.USER_NO
-		    AND A.ACC_NO = R.ACC_NO
-		    AND V.RESERVATION_NO = R.RESERVATION_NO
-		    AND R.USER_TYPE = 'guest'
-		order by R.REVIEW_CREATED_DATE DESC
-	</select>	-->
-	 
+
 </mapper>

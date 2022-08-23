@@ -9,13 +9,14 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<title>Insert title here</title>
+<title>후기 남기기</title>
 <style type="text/css"> 
 	
 	#star-next-btn,
 	#thumb-next-btn,
 	#public-next-btn,
-	#btn-add-guestreview {  
+	#btn-add-guestreview,
+	#private-next-btn {  
 			background: white;
 		    color: rgb(255, 90, 95);
 		    font-size: large;
@@ -26,9 +27,23 @@
 	#star-next-btn:hover,
 	#thumb-next-btn:hover, 
 	#public-next-btn:hover,
+	#private-next-btn:hover,
 	#btn-add-guestreview:hover {
 			background: rgb(255, 90, 95) !important;
 			color: white;
+	}
+	
+	.endBtn {
+			background: white;
+			color: rgb(255, 90, 95) !important;
+			border: 2px solid rgb(255, 90, 95);
+		    font-size: large;
+		    font-weight: bold;
+	}
+	
+	#img {
+		display : block;
+		margin : auto;
 	}
 	
 	.modal-content {		
@@ -75,18 +90,6 @@
 </head>
 <body>
 <%@ include file="../common/nav.jsp"%>
-<div class="container">
-	<div class="row mb-4">
-		<div class="col-12">
-			<!-- Button trigger modal -->
-			<button type="button" class="btn btn-primary" id="btn-exampleModalToggle">
-			  리뷰 작성하기
-			</button>		
-			<p>호스트와 게스트는 숙박이 종료된 후 14일 이내에 후기를 작성할 수 있습니다.</p>
-		</div>
-	</div>
-</div>
-
 <!-- form 시작 -->
 <!-- 파라미터로 숙소 번호 받아야 한다. -->
 <form class="mb-3" name="guestReview" id="guest-review">		
@@ -94,7 +97,8 @@
 <input type="hidden" id="user-type" name="userType" value="guest" />	
 <input type="hidden" id="reservation-no" name="reservationNo" value="" />	
 <!-- Scrollable Modal -->
-<div class="modal fade" id="review-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<div class="modal fade" id="review-modal" tabindex="-1"  data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
   	<div class="modal-dialog modal-dialog-scrollable modal-lg">
     	<div class="modal-content">
       		<div class="modal-header">
@@ -247,7 +251,7 @@
 		</div>
 	</div>
 </div>
-<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+<div class="modal fade" id="exampleModalToggle2" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false"  aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
 	<div class="modal-dialog modal-dialog-centered modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -278,7 +282,7 @@
 		</div>
 	</div>
 </div>
-<div class="modal fade" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
+<div class="modal fade" id="exampleModalToggle3" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
 	<div class="modal-dialog modal-dialog-centered modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -303,7 +307,7 @@
 		</div>
 	</div>
 </div>
-<div class="modal fade" id="exampleModalToggle4" aria-hidden="true" aria-labelledby="exampleModalToggleLabel4" tabindex="-1">
+<div class="modal fade" id="exampleModalToggle4" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="exampleModalToggleLabel4" tabindex="-1">
 	<div class="modal-dialog modal-dialog-centered modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -319,15 +323,41 @@
 					<div class="mb-4">
 						<p><strong>이 숙소에서 가장 마음에 드는 점은 무엇인가요?</strong></p>
 						<textarea name="positive" id="positive-text" cols="100" rows="5" style="resize:vertical; width:100%;"></textarea>
+						<p align="right">남은 글자 수 : <span id="positive-length">( 500 / 500 )</span>자</p>
 					</div>
 					<div class="mb-5">
 						<p><strong>회원님의 호스트가 더 발전하기 위한 피드백을 주세요.</strong></p>
 						<textarea name="feedback" id="feedback-text" cols="100" rows="5" style="resize:vertical; width:100%;"></textarea>
+						<p align="right">남은 글자 수 : <span id="feedback-length">( 500 / 500 )</span>자</p>
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn px-5 next" id="btn-add-guestreview">완료</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="exampleModalToggle5" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="exampleModalToggleLabel5" tabindex="-1">
+	<div class="modal-dialog modal-dialog-centered modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body mx-auto">
+					<div class="px-5">
+						<img src="/resources/logo.png" alt="logo" style="width:130px; height:130px" class="mb-3 mt-3" id="img">
+						<br />
+					</div>
+					<div>	
+						<h4><strong>리뷰 작성이 완료되었습니다!</strong><h4>
+						<p class="fs-5 mb-5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;참여해 주셔서 감사합니다.</p>
+					</div>
+			</div>
+			<div class="modal-footer mx-auto" >
+				<button type="button" class="btn px-5 endBtn" id="btn-go-review" onclick="location.href='https://localhost/user/sentReview';">나의 후기로 가기</button>
+				<button type="button" class="btn px-5 endBtn" id="btn-go-main" onclick="location.href='https://localhost/user/receivedReview';">메인으로 가기</button>
+	    	</button>
 			</div>
 		</div>
 	</div>
@@ -344,79 +374,52 @@ $(function() {
 	let exampleModalToggle2 = new bootstrap.Modal(document.getElementById("exampleModalToggle2"));
 	let exampleModalToggle3 = new bootstrap.Modal(document.getElementById("exampleModalToggle3"));
 	let exampleModalToggle4 = new bootstrap.Modal(document.getElementById("exampleModalToggle4"));
+	let exampleModalToggle5 = new bootstrap.Modal(document.getElementById("exampleModalToggle5"));
 	
 	let params = new URLSearchParams(document.location.search);
 	let reservationNo = params.get("reservationNo");
 	let accNo = params.get("accNo");
 	
+
 	$("#btn-exampleModalToggle").ready(function() {
-		$.ajax({
-			type: "GET",
-			url: "review/checkOverdue",
-			data: {reservationNo:reservationNo},
-			datatype: "json",
-			success: function(data) {
-				let overdue = data.item;
-				console.log("overdue: " + overdue);
-				if (overdue === 'Y') {
-					$('#btn-exampleModalToggle').prop("disabled", true);
-				} 
-			}
-		})
-	})
-	
-	$("#btn-exampleModalToggle").click(function() {
 		// 자바스크립트에서 쿼리스트링의 요청파라미터값 조회하기
 		$.ajax({
-			type: "GET",
-			url: "review/check",
-			data: {reservationNo:reservationNo, accNo:accNo},
-			datatype: "json",
+			type: 'GET',
+			url: "review/getHost",				// reservationNo 들어간다.
+			data: {reservationNo:reservationNo},
+			dataType: 'json',
 			success: function(data) {
-				let duplication = data.item;
-				console.log(duplication);
-				if (duplication === 'Y') {
-					alert("이미 작성한 리뷰입니다.");
+				
+				let item = data.item;
+				let image = item.imageCover;
+				
+				if (item === 'null') {
+					alert("호스트 정보가 없습니다.");
 					return;
-				} else {
-					$.ajax({
-						type: 'GET',
-						url: "review/getHost",				// reservationNo 들어간다.
-						data: {reservationNo:reservationNo},
-						dataType: 'json',
-						success: function(data) {
-							let item = data.item;
-							let image = item.imageCover;
-							
-							if (item === 'null') {
-								alert("호스트 정보가 없습니다.");
-								return;
-							}
-							
-							let content = '';
-							content += '<img src="/resources/images/acc/'+ (item.imageCover ? item.imageCover : "profile-default-img.png") +'" class="houseImg mb-3">';
-							content += '<p class="mb-0 fs-5"><strong>' + item.accName + '</strong></h5>';
-							content += '<p class="mb-0">후기 ' + item.reviewCount + '개</p>';
-							content += '<p class="mb-3">' + item.address + '</p>';
-							content += '<p class="mb-0 fs-5"><strong>호스트 : ' + item.hostName + '</strong></h5>';
-							content += '<p class="mb-0">체크인: ' + item.checkIn + '</p>';
-							content += '<p>체크아웃: ' + item.checkOut + '</p>';
-							
-							$hostInfoBox.html(content);
-							
-							let content2 = '';
-							content2 += '<h3 class="mb-3 gray">';
-							content2 += '	<strong><span>'+ item.hostName +'</span></strong>님에 대한 후기를 쓰세요.';
-							content2 += '</h3>';
-							
-							$hostName.html(content2);
-						}
-					})
-			
-					exampleModalToggle1.show();
-				}
+				}				
+				
+				let content = '';
+				content += '<img src="/resources/images/acc/'+ (item.imageCover ? item.imageCover : "profile-default-img.png") +'" class="houseImg mb-3">';
+				content += '<p class="mb-0 fs-5"><strong>' + item.accName + '</strong></h5>';
+				content += '<p class="mb-0">후기 ' + item.reviewCount + '개</p>';
+				content += '<p class="mb-3">' + item.address + '</p>';
+				content += '<p class="mb-0 fs-5"><strong>호스트 : ' + item.hostName + '</strong></h5>';
+				content += '<p class="mb-0">체크인: ' + item.checkIn + '</p>';
+				content += '<p>체크아웃: ' + item.checkOut + '</p>';
+				
+				$hostInfoBox.html(content);
+				
+				let content2 = '';
+				content2 += '<h3 class="mb-3 gray">';
+				content2 += '	<strong><span>'+ item.hostName +'</span></strong>님에 대한 후기를 쓰세요.';
+				content2 += '</h3>';
+				
+				$hostName.html(content2);
 			}
 		})
+	
+		exampleModalToggle1.show();
+			
 	})
 	
 	
@@ -552,7 +555,7 @@ $(function() {
 		}
 	})
 	
-	// 공개 리뷰 미체크 확인
+		// 공개 리뷰 미체크 확인
 	// 비공개 리뷰는 필수가 아니다.
 	$("#public-next-btn").click(function() {
 		let existEmptyPublic = false;
@@ -567,6 +570,45 @@ $(function() {
 		}
 		exampleModalToggle3.hide();
 		exampleModalToggle4.show();
+	})
+				
+	// form 4 - 후기
+	// 글자수 세는 함수
+	$("#positive-text").keyup(function() {
+		let content = $(this).val();
+		$("#positive-length").text("( "+ ( 500 - parseInt(content.length)) +" / 500 )");
+		
+		if (content.length > 500) {
+			alert("최대 500자까지 입력 가능합니다.");
+	        $(this).val(content.substring(0, 500));
+	        $('#test-length').text("( 0 / 500 )");
+			
+		}
+	})
+	
+	$("#feedback-text").keyup(function() {
+		let content = $(this).val();
+		$("#feedback-length").text("( "+ ( 500 - parseInt(content.length)) +" / 500 )");
+		
+		if (content.length > 500) {
+			alert("최대 500자까지 입력 가능합니다.");
+	        $(this).val(content.substring(0, 500));
+	        $('#test-length').text("( 0 / 500 )");
+			
+		}
+	})
+	
+	$("#btn-add-guestreview").click(function() {
+		exampleModalToggle4.hide();
+		exampleModalToggle5.show();
+	})
+	
+	$("#btn-go-review").click(function() {
+		window.location = "https://localhost/user/sentReview";
+	})
+	
+	$("#btn-go-main").click(function() {
+		window.location = "https://localhost/";
 	})
 	
 	// 게스트 리뷰 등록
@@ -592,8 +634,6 @@ $(function() {
 			wantMeetAgain: $("input[name='thumb']:checked").val(),
 			reservationNo: reservationNo
 		}
-
-		exampleModalToggle4.hide();
 		
 		$.ajax({
 			type: "POST",							// HTTP 요청 방식
@@ -602,10 +642,11 @@ $(function() {
 			contentType: "application/json",		// 서버로 보내는 요청메세지의 컨텐츠 타입
 			dataType: 'json',						// 서버로부터 받을 것으로 예상되는 응답메세지의 컨텐츠 타입
 			success: function() {
-				location.href = "comp";			
 			}
 		});
 	});
+	
+	
 })
 
 </script>

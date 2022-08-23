@@ -318,7 +318,6 @@ $(function () {
 					guestReview += '	<div class="col">';
 					guestReview += '		<p class="mb-0 ps-3"><strong>'+ (review.user.name) +'님, '+ (review.user.address ? review.user.address : "") +'</strong></p>';
 					guestReview += '		<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">'+ (review.user.createdDate) +'</span>';
-					// guestReview += '		<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted"><fmt:formatDate value="${user.createdDate }" pattern="yyyy"/></span>';
 					guestReview += '	</div>';
 					guestReview += '</div>';
 

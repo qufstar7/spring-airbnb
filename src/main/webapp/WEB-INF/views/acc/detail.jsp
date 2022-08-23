@@ -1413,7 +1413,7 @@ $(function() {
 				
 				// 글 긴거 더보기
 			   $(".boxReviewContent").each(function(){
-			        let rcontent = $(this).children('.reviewContent');
+			        let rcontent = $(this).filter(':not(:has(a.more))').children('.reviewContent');
 			        let rcontent_txt = rcontent.text();
 			        let rcontent_txt_short = rcontent_txt.substring(0,100)+"...";
 			        let btn_more = $('<a href="javascript:void(0)" class="more link-dark">더보기 <i class="bi bi-chevron-right"></i></a>');
@@ -1494,7 +1494,7 @@ $(function() {
 				$reviewBoxUnder.append(contentUnder);
 				
 			   $(".underBoxReviewContent").each(function(){
-			        let underContent = $(this).children('.underReviewContent');
+			        let underContent = $(this).children('.underReviewContent:not(:has(a.more))');
 			        let underContent_txt = underContent.text();
 			        let underContent_txt_short = underContent_txt.substring(0,30)+"...";
 			        let btn_more = $('<a href="javascript:void(0)" class="more link-dark"><strong>더보기<i class="bi bi-chevron-right"></strong></i></a>');

@@ -18,6 +18,7 @@ public class Reservation {
 
 	private int no;
 	private int accNo;
+	private String status;
 	@DateTimeFormat(pattern = "yyyy.MM.dd")
 	private Date checkInDate;
 	@DateTimeFormat(pattern = "yyyy.MM.dd")

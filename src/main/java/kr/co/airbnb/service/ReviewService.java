@@ -173,19 +173,16 @@ public class ReviewService {
 		return reviewMapper.getHostWriteReviews(no);
 	}
 
-	// 유저의 내가 적은 리뷰에서 실행된다.
-	public List<Review> getSentReviews(int no) {
-		return reviewMapper.getSentReviews(no);
-	}
-	
-	// 유저의 내가 받은 리뷰에서 실행된다.
-	public List<Review> getReceivedReviews(int no) {
-		return reviewMapper.getReceivedReviews(no);
+	public List<Review> getSentHostReviews(int no) {
+		return reviewMapper.getSentHostReviews(no);
 	}
 
-	// 유저가 받은 리뷰를 모두 조회한다.
-	public List<Review> getAllSentReviews(int no) {
-		return reviewMapper.getAllSentReviews(no);
+	public List<Review> getSentGuestReviews(int no) {
+		return reviewMapper.getSentGuestReviews(no);
+	}
+
+	public Object getReviewsToWrite(int no) {
+		return reviewMapper.getReviewsToWrite(no);
 	}
 
 }
