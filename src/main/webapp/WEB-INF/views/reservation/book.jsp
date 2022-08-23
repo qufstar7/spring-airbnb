@@ -27,6 +27,9 @@
 						<span style="font-weight:bold; font-size:small;">흔치 않은 기회입니다.</span>
 						<p >${accommodation.user.name }님의 숙소는 보통 예약이 가득 차 있습니다.</p>
 					</div>
+					<div class="col">
+						<img alt="다이아몬드" src="../resources/images/reservation/diampnd.png">
+					</div>
 			</div>
 		</div>
 			<div class="divide">
@@ -35,13 +38,15 @@
 					<span>날짜</span>
 					<button type ="button" class="btn btn-sm" style="background-color:white; border-color:white; float:right;"><u>수정</u></button>
 					<br>
-					<p class ="small"><fmt:formatDate value="${reservation.checkInDate}" pattern="MM월dd일" /> - <fmt:formatDate value="${accommodation.checkOut}" pattern="dd일" /></p>
+					<p class ="small"><fmt:formatDate value="${reservaionRegisterForm.checkInDate}" pattern="MM월dd일" /> - <fmt:formatDate value="${accommodation.checkOut}" pattern="dd일" /></p>
 				</div>
 				<div>
 					<span>게스트</span>
 					<button type ="button" class="btn btn-sm"  id="btn-guest" style="background-color:white; border-color:white; float:right;"><u>수정</u></button>
 					<br>
-					<span>게스트 ${accommodation.guest }명</span>
+					<span id="adult">게스트: <span id="adultCount">1</span>명</span>
+					<span id="infant">유아: <span id="infantCount">0</span>명</span>
+					<span id="pet">반려동물: <sapn id="petCount"> 0</sapn>마리</span>
 				</div>
 			</div>
 			<!-- 게스트 -->
@@ -53,32 +58,94 @@
 				        		<button type="button" class="btn btn-white" data-bs-dismiss="modal" ><</button>
 				      		</div>
 				      		<div class="modal-body">
-				        		<div class="totalFn">
-									<div class="count-box">
-										<button type="button" class="minus">-</button>
-										<span class="num">0</span>
-										<button type="button" class="plus">+</button>
+				      			<div class="divide2">
+				      				<h5>게스트</h5>
+				      			</div>
+				      			<div>
+				      				<p><small>이 숙소의 최대 숙박 인원은 ${accommodation.guest }명(유아 포함)입니다. 반려동물을 3마리 이상 동반하는 경우, 호스트에게 알려주세요.</small></p>
+				      			</div>
+								<div class="rounded" id="guest">
+									<div class="mb-4 row justify-content-between d-flex align-items-center guest-box" >
+										<div class="col-8">
+											<div class="text-start">
+												성인
+											</div>
+										</div>
+										<div class="col-4 adult">
+												<button type="button"  class="btn btn-outline-dark btn-sm m_btn guestbtn adultM">-</button>
+												<span class="m-2 adultCount">1</span>
+												<button type="button" class="btn btn-outline-dark btn-sm p_btn guestbtn hu_p_btn">+</button>
+										</div>
 									</div>
-									<div class="count-box">
-										<button type="button" class="minus">-</button>
-										<span class="num">0</span>
-										<button type="button" class="plus">+</button>
+									<div class="mb-4 row justify-content-between d-flex align-items-center guest-box" >
+										<div class="col-8">
+											<div class="text-start">
+												어린이
+											</div>
+											<div class="text-start">
+												만 2~12세
+											</div>
+										</div>
+										<div class="col-4 adult">
+												<button type="button" class="btn btn-outline-dark btn-sm m_btn guestbtn childrenM">-</button>
+												<span class="m-2 childrenCount">0</span>
+												<button type="button" class="btn btn-outline-dark btn-sm p_btn guestbtn hu_p_btn">+</button>
+										</div>
 									</div>
-										<div class="count-box">
-										<button type="button" class="minus">-</button>
-										<span class="num">0</span>
-										<button type="button" class="plus">+</button>
+									<div class="mb-4 row justify-content-between d-flex align-items-center guest-box" >
+										<div class="col-8">
+											<div class="text-start">
+												유아
+											</div>
+											<div class="text-start">
+												만 2세 미만
+											</div>
+										</div>
+										<div class="col-4 adult">
+												<button type="button" class="btn btn-outline-dark btn-sm m_btn guestbtn infantM">-</button>
+												<span class="m-2 infantCount">0</span>
+												<button type="button" class="btn btn-outline-dark btn-sm p_btn guestbtn hu_p_btn">+</button>
+										</div>
 									</div>
-									<!-- 합계 -->
-									<div class="total-area">
-										<span>Total =</span>
-										<strong class="count-total">0</strong>
+									<div class="mb-4 row justify-content-between d-flex align-items-center guest-box" >
+										<div class="col-8">
+											<div class="text-start">
+												반려 동물
+											</div>
+											<div class="text-start">
+												보조동물을 동반하시나요?
+											</div>
+										</div>
+										<div class="col-4 adult">
+												<button type="button" class="btn btn-outline-dark btn-sm m_btn guestbtn petM">-</button>
+												<span class="m-2 petCount">0</span>
+												<button type="button" class="btn btn-outline-dark btn-sm p_btn guestbtn pet_p_btn">+</button>
+										</div>
+									</div>
+									<div class="mb-4 row justify-content-between align-middle guest-box" >
+										<div class="col">
+											<span>이 숙소의 최대 숙박 인원은 ${acc.guest }명(유아 포함)입니다. 
+											<c:choose>
+												<c:when test="${acc.pet eq 0 }">
+													반려동물 동반을 허용하지 않습니다.
+												</c:when>
+												<c:otherwise>
+													반려동물을 3마리 이상 동반하는 경우, 호스트에게 알려주세요.
+												</c:otherwise>
+											</c:choose>
+											</span>
+										</div>
+										
 									</div>
 								</div>
 				      		</div>
 				      		<div class="modal-footer">
-				        		<button type="button" class="btn btn-sm" style="background-color:white; border-color:white;" data-bs-dismiss="modal"><u>취소</u></button>
-				        		<button type="submit" class="btn btn-dark" >저장하기</button>
+				      			<div class="col">
+					        		<button type="button" class="btn btn-sm" style="background-color:white; border-color:white;" data-bs-dismiss="modal"><u>취소</u></button>
+				      			</div>
+				      			<div class="col-3">
+				        			<button type="button" class="btn btn-dark" data-bs-dismiss="modal">저장하기</button>
+				        		</div>
 				      		</div>
 				  		</div>
 					</div>
@@ -154,16 +221,22 @@
 			<h5>결제 수단</h5>
 				<button id="requestPay">결제하기</button>
 			<select id="card-select" class="form-select" aria-label="Default select example">
-			<c:forEach var="card" items="${cards }">
-				<option value="유저카드" selected>${card.id }</option>
-			</c:forEach>
+				<c:forEach var="card" items="${cards }">
+					<c:choose>
+						<c:when test="${empty cards }">
+							카드를 등록하세요
+						</c:when>
+						<c:otherwise>
+							<option value="유저카드" selected>${card.id }</option>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
 				<option value="1" disabled>결제 수단 추가하기</option>
 				<option value="카드추가">신용카드 또는 체크카드</option>
-				<option value="2" disabled>이용 불가</option>
 				<option value="카카오 결제">카카오 결제 </option>
 			</select>
 			<div id="insertCard">
-				<form class="col" id="form-reservation" method="post" action="completed" modelAttribute="reservationRegisterForm">
+				<form class="col" id="form-reservation" method="post" action="completed?no=${accommodation.accNo }" modelAttribute="reservationRegisterForm">
 				<!-- 카드등록 -->
 			</div>
 			<hr>
@@ -206,6 +279,10 @@
 				<input type="hidden" name="accNo" value="${accommodation.accNo }">	
 				<input type="hidden" name="checkInDate" value='<fmt:formatDate value="${accommodation.checkIn}" pattern="yyyy-MM-dd" />'>	
 				<input type="hidden" name="checkOutDate" value='<fmt:formatDate value="${accommodation.checkOut}" pattern="yyyy-MM-dd" />'>
+				<input type="hidden" name="adultNum" value="${adultCount }">	
+				<input type="hidden" name="childrenNum" value="${childCount }">	
+				<input type="hidden" name="infantNum" value="${infantCount }">	
+				<input type="hidden" name="petNum" value="${petCount }">	
 				<input type="hidden" name="totalGuest" value="${accommodation.guest }">	
 				<input type="hidden" name="price" value="${accommodation.price }">
 				<input type="hidden" name="cleaningPrice" value="${accommodation.cleaningPrice }">
@@ -222,7 +299,7 @@
 						<div class="row" style="padding:15px">
 							<div class="col-5">
 								<div class="box2">
-								    <img class="acc" src="../resources/images/acc/sample-home.jpg">
+								    <img class="acc" src="../resources/images/acc/${accommodation.accNo }.png">
 								</div>
 							</div>
 							<div class="col">
@@ -253,7 +330,7 @@
 							<hr>
 							<div class="divide2">
 								<span>총 합계</span>
-								<span style="float:right">총 합계</span>
+								<span style="float:right">￦<fmt:formatNumber value="${reservaionRegisterForm.totalPrice }" /> 원</span>
 							</div>
 						</div>
 					</div>
@@ -265,7 +342,7 @@
 						<div class="row" style="padding:15px">
 							<div class="col-5">
 								<div class="box2">
-								    <img class="acc" src="../resources/images/acc/sample-home.jpg">
+								    <img class="acc" src="../resources/images/acc/${accommodation.accNo }.png">
 								</div>
 							</div>
 							<div class="col">
@@ -295,7 +372,7 @@
 							</div>
 							<div>
 								<span>총 합계</span>
-								<span style="float:right">${reservation.totalPrice }</span>
+								<span style="float:right">￦<fmt:formatNumber value="${reservaionRegisterForm.totalPrice }" /> 원</span>
 							</div>
 							<hr>
 							<div class="divide2">
@@ -321,11 +398,13 @@ $(function(){
 		$("#btn-howtouse").click(function(){
 			modalHowToUse.show();
 		});
+		
 	// 게스트 모달
 	let modalGuest = new bootstrap.Modal(document.getElementById("modal-guest"));
 		$("#btn-guest").click(function(){
 			modalGuest.show();
 		});
+		
 	// 전액결제
 	$("#entire-payment").click(function(){
 		$("input:radio[name='payment']:radio[id='radio-entire']").prop('checked', true);
@@ -334,6 +413,7 @@ $(function(){
 		$("#entire-payment").addClass("border-dark border-3")
 		$("#left-payment").removeClass("border-dark border-3")
 	});
+	
 	// 일부결제
 	$("#left-payment").click(function(){
 		$("input:radio[name='payment']:radio[id='radio-left']").prop('checked', true);
@@ -342,6 +422,7 @@ $(function(){
 		$("#entire-payment").removeClass("border-dark border-3")
 		$("#left-payment").addClass("border-dark border-3")
 	});
+	
 	// 카드추가 선택 div추가
 	$("#card-select").on('change',function(){
 		let result = $("#card-select option:selected").val();
@@ -380,6 +461,122 @@ $(function(){
 			$insert.empty();
 		}
 	});
+	
+	// 인원 버튼
+	$(".adultM").addClass("disabled")
+	$(".childrenM").addClass("disabled")
+	$(".infantM").addClass("disabled")
+	$(".petM").addClass("disabled")
+	
+	let petLimit = parseInt(${acc.pet})
+	let limit = parseInt(${acc.guest})
+	
+	if (petLimit === 0) {
+		$(".pet_p_btn").addClass("disabled")
+	}
+	
+	
+	$("#infant").hide();
+	$("#pet").hide();
+	$(".guestbtn").click(function() {
+		
+		$(function() {
+			
+			let adult = parseInt($(".adultCount").text())
+			let children = parseInt($(".childrenCount").text())
+			let infant = parseInt($(".infantCount").text())
+			let pet = parseInt($(".petCount").text())
+			
+			$("#adultCount").text(adult + children);		
+			$("#infantCount").text(infant);		
+			$("#petCount").text(pet);	
+			
+			
+			
+			if (infant === 0) {
+				$("#infant").hide();
+			} else {
+				$("#infant").show();
+				
+			}
+			if (pet === 0) {
+				$("#pet").hide();
+			} else {
+				$("#pet").show();
+				
+			}
+			let total = adult + children + infant
+			
+			
+			limitDisabled(petLimit,pet,$(".pet_p_btn"));
+			limitDisabled(limit,total,$(".hu_p_btn"));
+			
+			
+			
+			if (adult === 1){
+				$(".adultM").addClass("disabled")	
+			} else {
+				$(".adultM").removeClass("disabled")
+			}
+			
+			disabled(children,$(".childrenM"));
+			disabled(infant,$(".infantM"));
+			disabled(pet,$(".petM"));
+			
+			$("#adultNum").val(adult)
+			$("#childrenNum").val(children)
+			$("#infantNum").val(infant)
+			$("#petNum").val(pet)
+			$("#totalGuest").val(total)
+			
+			
+			/* if ($("#adultNum").val === 0) {
+				$("#adultCount").hide
+			} else {
+				$("#adultCount").show();
+				
+			} */
+		})
+		
+	})
+	
+	function disabled(num ,select) {
+		if (num === 0){
+			select.addClass("disabled")	
+		} else {
+			select.removeClass("disabled")
+		}
+	}
+	
+	function limitDisabled(limit,num,select) {
+		if (limit === num) {
+			select.addClass("disabled")	
+		} else {
+			select.removeClass("disabled")
+		}
+	}
+	
+	$(function() {
+           $(".p_btn").click(function() {
+               var $this = $(this);
+               var target = $this.prev();
+               var num = parseInt(target.text());
+               num++;
+			
+               target.text(num);
+               
+           });
+
+           $(".m_btn").click(function() {
+               var $this = $(this);
+               var target = $this.next();
+               var num = parseInt(target.text());
+               num -= ( (num === 0) ? 0 : 1 ); //0이하로는 못내려가게 한다 
+			
+               target.text(num);
+           });
+	});
+	
 	// 카카오페이 결제하기
 	$("#requestPay").click(function(){
 	
@@ -393,7 +590,7 @@ $(function(){
 	        buyer_email: '${accommodation.user.email}',
 	        buyer_name: '${accommodation.user.name}',
 	        buyer_tel: '${accommodation.user.phone}',
-	        buyer_addr: '${accommodation.user.address}',
+	        buyer_addr: "${accommodation.user.address}",
 	    }, function (rsp) { 
 	        if (rsp.success) {
 	      	  var msg = "예약이 완료되었습니다."

@@ -2,8 +2,6 @@ package kr.co.airbnb.form;
 
 import java.util.Date;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -35,8 +33,9 @@ public class ReservationRegisterForm {
 	private String payment;
 	private String messageToHost;
 	private int price;
+	private int serviceFee;
 	private int cleaningPrice;
-	private int totalPrice;
+	private int totalPrice = price + serviceFee + cleaningPrice;
 	private int entirePay;
 	private int leftPay;
 	
