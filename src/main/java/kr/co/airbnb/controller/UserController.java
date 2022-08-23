@@ -276,7 +276,9 @@ public class UserController {
 	
 	@GetMapping(path = "/sentReview")
 	public String sentReview(@LoginUser User loginUser, Model model) {
-		model.addAttribute("sentReviews", reviewService.getAllSentReviews(loginUser.getNo()));
+		model.addAttribute("sentHostReviews", reviewService.getSentHostReviews(loginUser.getNo()));
+		model.addAttribute("sentGuestReviews", reviewService.getSentGuestReviews(loginUser.getNo()));
+		model.addAttribute("reviewsToDo", reviewService.getReviewsToWrite(loginUser.getNo()));
 		
 		return "review/sentreview";
 	}

@@ -24,10 +24,10 @@ public interface ReviewMapper {
 	List<Review> getGuestReceivedReviews(int no);	// 유저 정보 하단 리뷰 모음 	: 게스트가 받은 리뷰
 	List<Review> getGuestWritedReviews(int no);	// 유저 정보 하단 리뷰 모음 : 호스트가 게스트에게 받은 리뷰
 	List<Review> getHostWriteReviews(int no);	// 유저 정보 하단 리뷰 모음 : 호스트가 호스트에게 받은 리뷰
-	List<Review> getSentReviews(int no);
-	List<Review> getReceivedReviews(int no);
-	List<Review> getAllSentReviews(int no);
-	
+	List<Review> getSentHostReviews(int no);
+	List<Review> getSentGuestReviews(int no);
+	List<Review> getReviewsToWrite(int no);
+
 	
 	
 }

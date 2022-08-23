@@ -92,115 +92,117 @@
 	<div class="tab-content">
 		<div class="tab-pane active" id="sent" role="tabpanel" aria-labelledby="sent-tab" tabindex="0">
 			<div class="row mb-3 mx-5">
-			<div class="col">
-				<div class="headerBox">
-					<h4>호스트의 후기</h4>
-				</div>
-				<c:choose>
-					<c:when test="${empty hostReviews}">
-						<div class="contentbox">
-							<p>후기는 에어비앤비 숙박이 완료된 후 작성됩니다. 나에 대한 후기는 이곳과 공개 프로필에서 볼 수 있습니다.</p>
-							<p>아직 작성된 후기가 없습니다.</p>
-						</div>
-					</c:when>
-					<c:otherwise>
-						<div class="row mb-3">
-							<div class="col">
-								<div class="contentbox">
-									<p class="mb-3">후기는 에어비앤비 숙박이 완료된 후 작성됩니다. 나에 대한 후기는 이곳과 공개 프로필에서 볼 수 있습니다.</p>
-									<c:forEach var="review" items="${hostReviews }">
-										<div class="row">
-											<div class="col-2 pt-3" align="center">
-												<a href="#">
-													<img src="../resources/images/profile/${review.user.profileImage ? review.user.profileImage : 'profile-default-img.png'}" class="userImg mb-3">
-												</a>
-												<p class="mb-0">${review.user.name }</p>				
-												<p class="mb-0"><fmt:formatDate value="${review.createdDate }" pattern="yyyy년 MM월 dd일" /> </p>
-											</div>					
-											<div class="col-10 mb-3">
-												<div class="row">
-													<div class="col-12 mb-3">
-														<p>${review.content }</p>
-														<div align="right"><button class="replyBtn">공개 답변 남기기</button></div>
-													</div>
-													<c:choose>
-														<c:when test="${review.privateNote == '' }">
-															<span>""</span>
-														</c:when>
-														<c:otherwise>
-															<div>
-																<h6><strong>비공개 후기</strong></h6>
-																<p>${review.privateNote }</p>											
-															</div>		
-														</c:otherwise>
-													</c:choose>			
-												</div>							
-											</div>											
-										</div>			
-										<hr/>								
-									</c:forEach>
+				<div class="col">
+					<div class="headerBox">
+						<h4>호스트의 후기</h4>
+					</div>
+					<c:choose>
+						<c:when test="${empty hostReviews}">
+							<div class="contentbox mb-5">
+								<p>후기는 에어비앤비 숙박이 완료된 후 작성됩니다. 나에 대한 후기는 이곳과 공개 프로필에서 볼 수 있습니다.</p>
+								<p>아직 작성된 후기가 없습니다.</p>
+							</div>
+						</c:when>
+						<c:otherwise>
+							<div class="row mb-3">
+								<div class="col">
+									<div class="contentbox">
+										<p class="mb-3">후기는 에어비앤비 숙박이 완료된 후 작성됩니다. 나에 대한 후기는 이곳과 공개 프로필에서 볼 수 있습니다.</p>
+										<c:forEach var="review" items="${hostReviews }">
+											<div class="row">
+												<div class="col-2 pt-3" align="center">
+													<a href="#">
+														<img src="../resources/images/profile/${not empty review.user.profileImage ? review.user.profileImage : 'profile-default-img.png'}" class="userImg mb-3">
+													</a>
+													<p class="mb-0">${review.user.name }</p>				
+													<p class="mb-0"><fmt:formatDate value="${review.createdDate }" pattern="yyyy년 MM월 dd일" /> </p>
+												</div>					
+												<div class="col-10 mb-3">
+													<div class="row">
+														<div class="col-12 mb-3">
+															<strong><a href="/acc/detail?no=${review.accNo }" class="text-dark fs-5 p-0 mt-1 ms-2">${review.accommodation.name }</a></strong>
+															<p class="mt-3">${review.content }</p>
+															<div align="right"><button class="replyBtn">공개 답변 남기기</button></div>
+														</div>
+														<c:choose>
+															<c:when test="${review.privateNote == '' }">
+																<span>""</span>
+															</c:when>
+															<c:otherwise>
+																<div>
+																	<h6><strong>비공개 후기</strong></h6>
+																	<p>${review.privateNote }</p>											
+																</div>		
+															</c:otherwise>
+														</c:choose>			
+													</div>							
+												</div>											
+											</div>			
+											<hr/>								
+										</c:forEach>
+									</div>
 								</div>
 							</div>
-						</div>
-					</c:otherwise>
-				</c:choose>
-				<c:choose>
-					<c:when test="${empty guestReviews}">
-						<div class="contentbox">
-							<p>후기는 에어비앤비 숙박이 완료된 후 작성됩니다. 나에 대한 후기는 이곳과 공개 프로필에서 볼 수 있습니다.</p>
-							<p>아직 작성된 후기가 없습니다.</p>
-						</div>
-					</c:when>
-					<c:otherwise>
-						<div class="row mb-3">
-							<div class="col">
-								<div class="headerBox">
-									<h4>게스트의 후기</h4>
-								</div>
-								<div class="contentbox">
+						</c:otherwise>
+					</c:choose>
+					<c:choose>
+						<c:when test="${empty guestReviews}">
+							<div class="contentbox">
 								<p>후기는 에어비앤비 숙박이 완료된 후 작성됩니다. 나에 대한 후기는 이곳과 공개 프로필에서 볼 수 있습니다.</p>
-								${guestReviews }
-									<c:forEach var="review" items="${guestReviews }">
-										<div class="row">
-											<div class="col-2 pt-3" align="center">
-												<a href="#">
-													<img src="/resources/images/profile/${review.user.profileImage ? review.user.profileImage : 'profile-default-img.png'}" class="userImg mb-3">
-												</a>
-												<p class="mb-0">${review.user.name }</p>				
-												<p class="mb-0"><fmt:formatDate value="${review.createdDate }" pattern="yyyy년 MM월 dd일" /></p>
-											</div>		
-											<div class="col-10 mb-3">
-												<div class="row">
-													<div class="col-12 mb-3">
-														<p>${review.content }</p>
-														<div align="right" ><button class="replyBtn">공개 답변 남기기</button></div>			
-														<c:choose>
-															<c:when test="${empty review.positiveFeedback}">
-															</c:when>
-															<c:otherwise>
-																<p class="mb-0"><strong>긍정적 평가</strong></p>
-																<p>${review.positiveFeedback }</p>		
-															</c:otherwise>
-														</c:choose>	
-														<c:choose>
-															<c:when test="${empty review.nagativeFeedback}">
-															</c:when>
-															<c:otherwise>
-																<p class="mb-0"><strong>부정적 평가</strong></p>
-																<p>${review.nagativeFeedback }</p>		
-															</c:otherwise>
-														</c:choose>							
+								<p>아직 작성된 후기가 없습니다.</p>
+							</div>
+						</c:when>
+						<c:otherwise>
+							<div class="row mb-3">
+								<div class="col">
+									<div class="headerBox">
+										<h4>게스트의 후기</h4>
+									</div>
+									<div class="contentbox">
+									<p>후기는 에어비앤비 숙박이 완료된 후 작성됩니다. 나에 대한 후기는 이곳과 공개 프로필에서 볼 수 있습니다.</p>
+										<c:forEach var="review" items="${guestReviews }">
+											<div class="row">
+												<div class="col-2 pt-3" align="center">
+													<a href="#">
+														<img src="/resources/images/profile/${not empty review.user.profileImage ? review.user.profileImage : 'profile-default-img.png'}" class="userImg mb-3">
+													</a>
+													<p class="mb-0">${review.user.name }</p>				
+													<p class="mb-0"><fmt:formatDate value="${review.createdDate }" pattern="yyyy년 MM월 dd일" /></p>
+												</div>		
+												<div class="col-10 mb-3">
+													<div class="row">
+														<div class="col-12 mb-3">
+															<strong><a href="/acc/detail?no=${review.accNo }" class="text-dark fs-5 p-0 mt-1 ms-2">${review.accommodation.name }</a></strong>
+															<p class="mt-3">${review.content }</p>
+															<div align="right" class="mb-3"><button class="replyBtn">공개 답변 남기기</button></div>			
+															<c:choose>
+																<c:when test="${empty review.positiveFeedback}">
+																</c:when>
+																<c:otherwise>
+																	<p class="mb-0"><strong>긍정적 평가</strong></p>
+																	<p>${review.positiveFeedback }</p>		
+																</c:otherwise>
+															</c:choose>	
+															<c:choose>
+																<c:when test="${empty review.nagativeFeedback}">
+																</c:when>
+																<c:otherwise>
+																	<p class="mb-0"><strong>부정적 평가</strong></p>
+																	<p>${review.nagativeFeedback }</p>		
+																</c:otherwise>
+															</c:choose>							
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-										<hr />
-									</c:forEach>
+											<hr />
+										</c:forEach>
+									</div>
 								</div>
 							</div>
-						</div>
-					</c:otherwise>
-				</c:choose>
+						</c:otherwise>
+					</c:choose>
+				</div>
 			</div>
 		</div>
 	</div>

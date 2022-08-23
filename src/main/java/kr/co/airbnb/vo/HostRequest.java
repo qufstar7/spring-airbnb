@@ -17,9 +17,9 @@ import lombok.ToString;
 public class HostRequest {
 	
 	private int reservationNo;
-	@JsonFormat(pattern = "yyyy년 M월 d일")
+	@JsonFormat(pattern = "yyyy년 M월 d일", timezone = "Asia/Seoul")
 	private Date checkIn;
-	@JsonFormat(pattern = "yyyy년 M월 d일")
+	@JsonFormat(pattern = "yyyy년 M월 d일", timezone = "Asia/Seoul")
 	private Date checkOut;
 	private int reviewCount;
 	private String accName;
