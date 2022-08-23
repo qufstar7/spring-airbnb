@@ -24,9 +24,6 @@
 <title>Applied Coding & Computer - aircnc</title>
 <style>
 /* 필터 모달창 */
-#filterModal{
-    z-index: 2200;
-}
 .modal-content {
 	border-radius: 12px;
 	box-shadow: 0px 21px 21px rgb(0 0 0 / 15%)
@@ -88,109 +85,6 @@
 }
 #house button .text{
 	vertical-align:bottom;
-}
-/* 필터-범주 슬라이드 */
-/* filter-차트 */
-::selection{
-  color: #fff;
-  background: #17A2B8;
-}
-.wrapper{
-  	top: 0px;
-    left: 50px;
-    position: relative;
-    width: 660px;
-    background: transparent;
-    padding: 0px;
-}
-header h2{
-  font-size: 24px;
-  font-weight: 600;
-}
-header p{
-  margin-top: 5px;
-  font-size: 16px;
-}
-.price-input{
-	width: 98%;
-    display: flex;
-    margin: 25px auto;
-}
-.price-input .field{
-  display: flex;
-  width: 100%;
-  height: 45px;
-  align-items: center;
-}
-.field input{
-  width: 100%;
-  height: 100%;
-  outline: none;
-  font-size: 19px;
-  margin-left: 12px;
-  border-radius: 5px;
-  text-align: center;
-  border: 1px solid #999;
-  -moz-appearance: textfield;
-}
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-}
-.price-input .separator{
-  width: 130px;
-  display: flex;
-  font-size: 19px;
-  align-items: center;
-  justify-content: center;
-}
-.slider{
-  height: 1px;
-  position: relative;
-  background: transparent;
-  border-radius: 5px;
-}
-.slider .progress{
-  height: 100%;
-  left: 25%;
-  right: 25%;
-  position: absolute;
-  border-radius: 5px;
-  background: transparent;
-}
-.range-input{
-  position: relative;
-  top: 5px;
-}
-.range-input input{
-  position: absolute;
-  width: 100%;
-  height: 5px;
-  top: -8px;
-  background: none;
-  pointer-events: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-}
-input[type="range"]::-webkit-slider-thumb{
-  height: 25px;
-  width: 25px;
-  border: solid 1px gray;
-  border-radius: 50%;
-  background: #fff;
-  pointer-events: auto;
-  -webkit-appearance: none;
-  box-shadow: 0 0 6px rgba(0,0,0,0.05);
-}
-input[type="range"]::-moz-range-thumb{
-  height: 25px;
-  width: 25px;
-  border: none;
-  border-radius: 50%;
-  background: #fff;
-  pointer-events: auto;
-  -moz-appearance: none;
-  box-shadow: 0 0 6px rgba(0,0,0,0.05);
 }
 /* 슬라이드쇼 */
 .grid-main {
