@@ -317,7 +317,6 @@
 </div>
 <script type="text/javascript">
 $(function(){
-	// 상세설명 모달
 	let modalHowToUse = new bootstrap.Modal(document.getElementById("modal-how-to-use"));
 		$("#btn-howtouse").click(function(){
 			modalHowToUse.show();
