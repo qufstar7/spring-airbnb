@@ -322,7 +322,7 @@
 			</div> 
 			<div class="col-4" id="side">
 				<div id="sticky" >
-				<form id="form-reservation" method="post" action="/book/register?no=${acc.accNo }">
+				<form id="form-reservation" method="post" action="/book/register?no=${acc.accNo }" modelAttribute="reservationRegisterForm">
 					<div class="row shadow-lg bg-body rounded" id="box">
 						<div class="col-6 boxhd reservation" >
 							<h4><strong><fmt:formatNumber value="${acc.price }"/></strong>/

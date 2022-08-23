@@ -34,7 +34,7 @@
 		<result column="card_id" property="id"/>
 		<result column="card_expiry_date" property="expiryDate"/>
 		<result column="card_cvv" property="cvv"/>
-		<result column="card_zip_code" property="zipcode"/>
+		<result column="card_zip_code" property="zipCode"/>
 		<result column="card_region" property="region"/>
 		<result column="card_balance" property="balance"/>
 		<result column="card_availability" property="availability"/>
@@ -67,10 +67,11 @@
 		select *
 		from airbnb_cards
 		where user_no = #{value}
+		and card_id is not null
 	</select>
 	
 	<!-- Reservation getReservationByuserNo(int no); -->
-	<select id="getReservationByUserNo" parameterType="int" resultMap="ReservationResultMap">
+	<select id="getReservationsByUserNo" parameterType="int" resultMap="ReservationResultMap">
 		select *
 		from airbnb_reservations
 		where user_no = #{value}

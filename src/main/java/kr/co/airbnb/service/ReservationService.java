@@ -45,7 +45,7 @@ public class ReservationService {
 		reservation.setMessageToHost(reservationRegisterForm.getMessageToHost());
 		reservation.setServiceFee(reservationRegisterForm.getPrice() *0.15);
 		reservation.setPrice(reservationRegisterForm.getPrice());
-		reservation.setTotalPrice(reservationRegisterForm.getPrice() + reservation.getServiceFee() + reservationRegisterForm.getCleaningPrice());
+		reservation.setTotalPrice(reservationRegisterForm.getPrice() + reservationRegisterForm.getServiceFee() + reservationRegisterForm.getCleaningPrice());
 		reservation.setEntirePay(reservationRegisterForm.getTotalPrice());
 		reservation.setLeftPay(reservationRegisterForm.getTotalPrice() * 0.3);
 		reservation.setAccNo(reservationRegisterForm.getAccNo());
@@ -64,8 +64,12 @@ public class ReservationService {
 		return reservationMapper.getCardByUserNo(userNo);
 	}
 	
-	public List<Reservation> getAllReservationByUsers(int userNo) {
+	public List<Reservation> getAllReservationsByUser(int userNo) {
 		return reservationMapper.getReservationByUserNo(userNo);
+	}
+	
+	public Reservation getReservationByReservationNO(int no) {
+		return reservationMapper.getReservationByReservaionNo(no);
 	}
 	
 	

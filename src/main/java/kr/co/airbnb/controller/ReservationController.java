@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import kr.co.airbnb.annotation.LoginUser;
@@ -26,6 +27,7 @@ import kr.co.airbnb.vo.User;
 
 @Controller
 @RequestMapping("/book")
+@SessionAttributes({"reservationRegisterForm"})
 public class ReservationController {
 	
 	@Autowired
@@ -64,7 +66,7 @@ public class ReservationController {
 		
 		List<Card> cards = reservationService.getMyCards(user.getNo());
 		model.addAttribute("cards", cards);
-		System.out.println(cards);
+		
 		model.addAttribute("reservaionRegisterForm",reservaionRegisterForm );
 		
 		
@@ -78,15 +80,26 @@ public class ReservationController {
 		reservationService.addNewReservation(loginUser, reservaionRegisterForm);
 		
 		sessionStatus.setComplete();
-				
+		
 		return "/reservation/completed";
 	}
-
+	
 	@GetMapping(path = "/completed")
-	public String completed(Model model, int no) {
-		List<Reservation> reservations = reservationService.getAllReservationByUsers(no);
-		model.addAttribute("reservations",reservations);
+	public String completed(@RequestParam("no") int accNo, Model model ) {
 		
-		return"/reservation/completed";
+		Accommodation accommodation  = reservationService.getAcc(accNo);
+		model.addAttribute("accommodation", accommodation);
+		
+		
+		return"/reservation/completed?no=" + accNo ;
 	}
+	
+	@GetMapping(path = "/trip")
+	public String trip(@LoginUser User loginUser, Model model) {
+		
+		List<Reservation> reservations = reservationService.getAllReservationsByUser(loginUser.getNo());
+		model.addAttribute("reservations", reservations);
+		return"/reservation/trip";
+	}
+	
 }
