@@ -316,18 +316,19 @@
 							  		</foreach>
 							  )
 			</if>
-			<if test="bedrooms != ''">
+			 
+			<if test="bedrooms != null">
 				and acc_no in (select acc_no
 							  from airbnb_acc_rooms
 							  where room_bedroom = #{bedrooms})
 			</if>
 			
-			<if test="beds != ''">
+			<if test="beds != null">
 				and acc_no in (select acc_no
 							  from airbnb_acc_rooms
 							  where room_bed = #{beds})
 			</if>
-			<if test="bathrooms != ''">
+			<if test="bathrooms != null">
 				and acc_no in (select acc_no
 							  from airbnb_acc_rooms
 							  where room_bathroom = #{bathrooms})
