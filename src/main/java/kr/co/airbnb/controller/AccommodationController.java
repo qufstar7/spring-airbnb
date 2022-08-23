@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.airbnb.annotation.LoginUser;
+import kr.co.airbnb.criteria.FilterCriteria;
 import kr.co.airbnb.criteria.SearchCriteria;
 import kr.co.airbnb.form.ReservationRegisterForm;
 import kr.co.airbnb.service.AccommodationService;
@@ -188,14 +190,32 @@ public class AccommodationController {
 		return "acc/list";
 	}
 	
-	/* tag검색할 때 참고
-	 * @GetMapping(path = "/list")
-	 * 
-	 * @ResponseBody public List<Accommodation> list(SearchCriteria searchCriteria)
-	 * { // nav검색으로 숙소 조회 return
-	 * accommodationService.searchAccByKeyword(searchCriteria);
-	 * 
-	 * }
-	 */
+	@GetMapping(path="/list/search2")
+	@ResponseBody
+	public List<Accommodation> search2(FilterCriteria filterCriteria) {
+		List<Accommodation> accommodations = new ArrayList<Accommodation>();
+		
+		// 필터 검색한 숙소
+		accommodations = accommodationService.searchAccByFilter(filterCriteria);
+		
+		// 각 숙소의 타입1,2,3 조회 + 침대 개수 조회
+		for (Accommodation acc : accommodations) {
+			int accNo = acc.getAccNo();
+			
+			List<Type> types = accommodationService.searchTypesByAccNo(accNo);
+			acc.setTypes(types);
+			//if (!types.isEmpty()) {
+			//	model.addAttribute("mainType", acc.getTypes().get(0));
+			//}
+			
+			AccRoom rooms = accommodationService.getRoomByAccNo(accNo);
+			acc.setRoom(rooms);
+		}
+
+		
+		return accommodations;
+	} 
+	
+	
 	
 }
