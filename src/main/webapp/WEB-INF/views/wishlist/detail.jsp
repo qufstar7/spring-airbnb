@@ -6,18 +6,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css">
-<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script> -->
-<!-- JavaScript Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-<script src="https://kit.fontawesome.com/2628157b3b.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+ --><!-- JavaScript Bundle with Popper -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
 <script src="https://unpkg.com/@googlemaps/markerwithlabel/dist/index.min.js"></script>
-<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Google+Sans:400,500,700|Google+Sans+Text:400&amp;lang=ko">
-<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans+Text:400&amp;text=%E2%86%90%E2%86%92%E2%86%91%E2%86%93&amp;lang=ko">
-<link rel="stylesheet" type="text/css" href="/resources/css/wishlist-detail.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css">
 <script src="https://kit.fontawesome.com/2628157b3b.js"></script>
+<!-- <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Google+Sans:400,500,700|Google+Sans+Text:400&amp;lang=ko">
+<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans+Text:400&amp;text=%E2%86%90%E2%86%92%E2%86%91%E2%86%93&amp;lang=ko"> -->
+<link rel="stylesheet" type="text/css" href="/resources/css/wishlist-detail.css">
 <style type="text/css">
 .div-nav {max-width: 98% !important;}
 </style>
@@ -107,7 +106,8 @@
 										<button type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide-to="1" aria-label="Slide 2"></button>
 										<button type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide-to="2" aria-label="Slide 3"></button>
 									</div>
-									<div id="carousel-inner-${acc.accNo}">
+									<%-- <div id="carousel-inner-${acc.accNo}"> --%>
+									<div class="carousel-inner-class">
 									<!-- 슬라이드쇼 이미지 -->
 									<div class="carousel-inner" >
 										<c:forEach items="${acc.photos }" var="photo">
@@ -189,7 +189,6 @@
 
 </div>
 <script type="text/javascript">
-
 	//marker의 label 스타일 초기화
 	function defaultLabel(markers) {
 		$.each(markers, function() {
@@ -239,8 +238,14 @@
 	}
 	
 	let accs = new Array();
-	<c:forEach var="acc" items="${wishlist.accs}" >
+	let carouselInnerHtmls = new Array();
+	let contents;
+	let i = 0;
+	<c:forEach var="acc" items="${wishlist.accs}">
 		accs.push({accNo: ${acc.accNo}, lat: ${acc.latitude}, lng: ${acc.longitude}, name: "${acc.name}", price:${acc.price}, reviewScore:${acc.reviewScore}, reviewCount: ${acc.reviewCount}});
+		contents = document.querySelectorAll(".carousel-inner-class")[i].innerHTML;  // helper 파일에서 새로 불러왔을 때도 infowWindow에 남아있도록..
+		i += 1;
+		carouselInnerHtmls.push(contents);
 	</c:forEach>
 		
 	let markers = {}; // 배열이 아닌 객체로 재생성
@@ -304,7 +309,7 @@
 		  	  	  $(this.label.element).find(".fa-ban").removeClass("text-dark").addClass("text-white");
 		  	  	  
 		  	  	  
-		  	  	  let carouselInnerHtml = $("#carousel-inner-" + acc.accNo).html();
+		  	  	      carouselInnerHtml = carouselInnerHtmls[index];
 		  	  	  
 		  	  	      let infoWindow_content = '<a href="/acc/detail?no=' + acc.accNo + '"  style="text-decoration: none; color: black;">';
 		    	      infoWindow_content += '<div class="card" style="width: 16rem;" >';
@@ -375,7 +380,7 @@ $(function () {
 		return false;
 		});
 	 
-	 $("#tabl1").on("mouseenter", '.card', function() {				// 날짜, 인원 검색시 미래에 새로 생기는 엘리먼트에도 적용시키기 위해
+	 $("#tabl1").on("mouseenter", '.card', function() {			// 미래이벤트
 		let accNo = $(this).attr("id").replace("card-", ""); 	
 	 	//let index = $(this).data("index");
 	 	//let marker = markers[index];
@@ -566,7 +571,8 @@ $(function () {
 		}
 	})
 	// 사칙연산 + 는 자동변환안됨.
-	$("#btn-adult-down").click(function() {
+	 
+	$("#btn-adult-dowm").click(function() {
 		let adultCount = $inputAdultCount.val();
 		if(adultCount <= 1) {
 			$(this).css("cursor", "not-allowed");
@@ -576,6 +582,7 @@ $(function () {
 			return false;
 		}
 	});
+	
 	$("#btn-adult-up").click(function() {
 		let adultCount = parseInt($inputAdultCount.val());
 		if(adultCount >= 16) {

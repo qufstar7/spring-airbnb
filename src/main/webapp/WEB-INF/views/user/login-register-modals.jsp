@@ -402,6 +402,7 @@ pageEncoding="UTF-8"%>
 
 $(function () {
 	
+	
 	let $firstName = $(":input[name=firstName]");
 	let $lastName = $(":input[name=lastName]");
 	let $birthDate = $(":input[name=birthDate]");
@@ -460,8 +461,10 @@ $(function () {
 		$.post("/user/normal-login", querystring, function(result) {
 			if(result.pass) {
 				location.href = "/";
-			} else {
+			} else if (result.fail === 'denied') {
 				$("#form-login span").text("유효하지 않은 비밀번호입니다. 다시 시도하여 주세요.");
+			} else if (result.fail === 'disabled') {
+				$("#form-login span").text("이미 탈퇴 처리된 계정입니다.");
 			}
 		})
 	})

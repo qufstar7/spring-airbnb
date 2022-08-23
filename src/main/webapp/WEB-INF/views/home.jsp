@@ -1586,7 +1586,7 @@ $(function () {
 		//e.preventDefault();
 		let accNo = $(this).attr("data-accNo");	
 		$heartIcon = $("#icon-heart-" + accNo); 
-		 if($(this).hasClass("fa-solid")) {
+		 if($heartIcon.hasClass("fa-solid")) {
 			 // 위시리스트에서 숙소 삭제 구현하기
 			 $.getJSON("/delete/wishlistAcc", "accNo=" + accNo) 
 			  .done(function(result) {

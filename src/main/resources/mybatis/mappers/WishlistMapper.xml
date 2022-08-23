@@ -319,6 +319,13 @@
 		                                    and W.user_no = #{userNo}
 		                                    and A.acc_no = #{accNo})
  	 </delete>
+ 	 
+ 	 <!-- void disableUser(int userNo); -->
+ 	 <update id="disableUser" parameterType="int">
+ 	 	update airbnb_users
+		 set user_disabled = 'Y'
+		where user_no = #{value}
+ 	 </update>
  
  
 </mapper>

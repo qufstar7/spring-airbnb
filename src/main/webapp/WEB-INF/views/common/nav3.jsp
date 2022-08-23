@@ -2,8 +2,20 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="tags.jsp"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/navbarstyle.css">
+<!-- 달력 -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="/resources/js/daterangepicker.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+<!-- 달력2 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	<!-- html 하단에 순서로 로드 -->
 <script src="js/flatpickr.js"></script>
+	<!-- 언어설정을 위한 로드 -->
 <script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
 <!-- /* 숙소 검색창이 없는 nav 입니다. */ -->
 
 
@@ -37,8 +49,11 @@
 									  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
 									</svg>
 							    </c:when>
+							    <c:when test="${not empty LOGIN_USER && empty LOGIN_USER.profileImage}">
+							    	<img class="acc-thumbnail" src="/resources/images/profile/profile-default-img.png" alt="기본프로필이미지">
+							    </c:when>
 							    <c:otherwise>
-							      <img class="acc-thumbnail" src="/resources/images/acc/sample-home.jpg" alt="프로필이미지">
+							      <img class="acc-thumbnail" src="/resources/images/profile/${LOGIN_USER.profileImage}" alt="프로필이미지">
 							    </c:otherwise>
 					    	</c:choose>
 					    </div>

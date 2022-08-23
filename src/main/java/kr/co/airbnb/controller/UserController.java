@@ -96,16 +96,7 @@ public class UserController {
 	@PostMapping("/normal-login")
 	@ResponseBody
 	public Map<String, Object> loginWithNormal(@RequestParam("loginEmail") String email, @RequestParam("loginPassword") String password) {
-		Map<String, Object> result = new HashMap<>();
-		System.out.println("일반 로그인 이메일 : " + email);
-		User user = userService.getUserByEmail(email);
-		if(password.equals(user.getPassword())) {
-			result.put("pass", true);
-			SessionUtils.addAttribute("LOGIN_USER", user);
-			System.out.println("사용자:" + user);
-		} else {
-			result.put("pass", false);
-		}
+		Map<String, Object> result = userService.loginWithNormal(email, password);
 		return result;
 	}
 	
@@ -269,7 +260,7 @@ public class UserController {
 	
 	@GetMapping(path="/account-delete/complete")
 	public String deleteAccountWithComplete(@LoginUser User loginUser) {
-		userService.deleteUser(loginUser.getNo());
+		userService.disableUser(loginUser.getNo());
 		
 		return "user/account-delete-complete";
 	}
@@ -288,6 +279,8 @@ public class UserController {
 		
 		return "review/receivedreview";
 	}
+	
+	
 	
 	
 }

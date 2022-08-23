@@ -1,6 +1,8 @@
 package kr.co.airbnb.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.airbnb.mapper.UserMapper;
 import kr.co.airbnb.mapper.WishlistMapper;
+import kr.co.airbnb.utils.SessionUtils;
 import kr.co.airbnb.vo.User;
 import kr.co.airbnb.vo.Wishlist;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +38,22 @@ public class UserService {
 		userMapper.updateUser(user);
 	}
 	
+	public Map<String, Object> loginWithNormal(String email, String password) {
+		Map<String, Object> result = new HashMap<>();
+		User user = getUserByEmail(email);
+		
+		if(user.getDisabled() == "Y") {
+			result.put("fail", "disabled");
+			
+		} else if(password.equals(user.getPassword())) {
+			result.put("pass", true);
+			SessionUtils.addAttribute("LOGIN_USER", user);
+		} else {
+			result.put("fail", "denied");
+		}
+		return result;
+	}
+	
 	/**
 	 * 소셜 로그인으로 획득한 사용자정보로 로그인처리를 수행한다.<p>
 	 * 소셜 로그인은 회원가입 절차없이 카카오 로그인 API로 획득한 정보를 데이터베이스에 저장한다.<p>
@@ -58,15 +77,7 @@ public class UserService {
 		return savedUser;
 	}
 
-	public void deleteUser(int userNo) { // 수정 필요
-		List<Wishlist> wishlists = wishlistService.getMyWishlists(userNo);
-		
-		for(Wishlist wishlist : wishlists) {
-			wishlistService.deleteWishlist(wishlist.getNo());
-			System.out.println("위시리스트 번호: " + wishlist.getNo());
-		}
-		
+	public void disableUser(int userNo) { // 수정 필요
 		userMapper.disableUser(userNo);
-		
 	}
 }
