@@ -110,7 +110,7 @@ pageEncoding="UTF-8"%>
       		<h3 class="d-none fw-bold fs-5" id="h-error"><i class="bi bi-exclamation-circle"></i> 해당 서비스를 이용하려면 로그인하세요</h5>
       	</div>
       	<div>
-      		<form action="" method="post" class="needs-validation" novalidate>
+      		<form id="form-email" method="post" class="needs-validation" novalidate>
 	      		<div class="form-floating my-4">
 			     	<input type="text" class="form-control outline" name="email" placeholder="이메일" required >
 			     	<label for="floatingInput">이메일</label>
@@ -321,7 +321,7 @@ pageEncoding="UTF-8"%>
         </div>
         <form id="form-profileImg" action="" method="post" enctype="multipart/form-data" >
 	        <div class="">
-		        <img id="img-profileImg" class="rounded-circle" src="/resources/images/profile/no-image.png" width="200">
+		        <img id="img-profileImg" class="rounded-circle" src="/resources/images/profile/profile-default-img.png" width="200">
 	        </div>
 	        <div class="d-grid gap-2 my-4">
 	        	<input type="file" name="profileImg" id="profile-img" class="d-none" accept="image/gif, image/jpeg, image/png" />
@@ -418,8 +418,12 @@ $(function () {
 	document.getElementById("email-login-modal").addEventListener('hidden.bs.modal', function (event) {
 		$("#h-welcome").removeClass("d-none");
 		$("#h-error").addClass("d-none");
+		$("#form-email :input[name=email]").val('');
+		$email.removeClass("is-valid");
 		//$("#박스-에러").하이드();
-	})
+	});
+	
+	
 	
 	let params = new URLSearchParams(document.location.search);
 	let errorValue = params.get("error");
@@ -461,11 +465,9 @@ $(function () {
 		$.post("/user/normal-login", querystring, function(result) {
 			if(result.pass) {
 				location.href = "/";
-			} else if (result.fail === 'denied') {
+			} else if (!result.pass) {
 				$("#form-login span").text("유효하지 않은 비밀번호입니다. 다시 시도하여 주세요.");
-			} else if (result.fail === 'disabled') {
-				$("#form-login span").text("이미 탈퇴 처리된 계정입니다.");
-			}
+			} 
 		})
 	})
 	
@@ -482,7 +484,7 @@ $(function () {
 	      		    $("#form-facebook-login :input[name=nickname]").val(response.name);
 	      	        $("#form-facebook-login :input[name=email]").val(response.email);
 	      	        
-	      	      $.getJSON("/user/checkEmail", "email=" + response.email, function(result) {
+	      	      $.getJSON("/user/checkEmailWithSns", "email=" + response.email, function(result) {
 						
 	      			if(result.exist) {
 	      				// 기존 페이지 계정 이메일과 소셜 로그인 이메일이 일치하는 경우 
@@ -550,7 +552,7 @@ $(function () {
 	    $("#form-google-login input[name=email]").val(responsePayload.email);
 	    $("#form-google-login input[name=profileImage]").val(responsePayload.picture);
 	    
-	    $.getJSON("/user/checkEmail", "email=" + responsePayload.email)
+	    $.getJSON("/user/checkEmailWithSns", "email=" + responsePayload.email)
 	     .done(function(result) {
 			if(result.exist && !result.user.loginType) {
 				console.log(result.user.loginType);
@@ -696,21 +698,25 @@ $(function () {
 			$email.keyup();
 			return false;
 		}
-		$(".btn-close").click();
 		
 		let email = $email.val().trim();
 		
-		$.getJSON("/user/checkEmail", "email=" + email, function(result) {
-			
+		$.getJSON("/user/checkEmail", "email=" + email, function(data) {
+			console.log(data.result);
 			// 사용자가 입력한 이메일이 db에 존재하면 비밀번호입력모달(로그인), 그렇지 않으면 회원가입모달창을 띄운다.
-			if(result.exist) {
+			if(data.result === "exist") {
+				loginEmailModal.hide();
 				$(":input[name=loginEmail]").val(email);
 				loginPasswordmodal.show();
 				return;
-			} else {
+			} else if(data.result === "unexist"){
+				loginEmailModal.hide();
 				registerModal.show();
 				$(":input[name=registerEmail]").val(email);
 				return;
+			} else if(data.result === 'disabled') {
+				$("#email-login-modal").find(":input[name=email]").addClass("is-invalid");
+				$("#email-login-modal").find(".invalid-feedback").text("이미 탈퇴 처리된 계정입니다.");
 			}
 		});
 	});
@@ -822,7 +828,7 @@ $(function () {
 		$.post("/user/register", querystring, function(result) {
 			if(result.success) {
 				
-				$("#email-register-modal .btn-close").click();
+				registerModal.hide();
 				let modal = new bootstrap.Modal(document.getElementById("register-complete-modal")); 
 				modal.show();
 			}

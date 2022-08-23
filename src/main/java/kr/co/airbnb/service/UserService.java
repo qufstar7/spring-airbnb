@@ -38,7 +38,7 @@ public class UserService {
 		userMapper.updateUser(user);
 	}
 	
-	public Map<String, Object> loginWithNormal(String email, String password) {
+/*	public Map<String, Object> loginWithNormal(String email, String password) {
 		Map<String, Object> result = new HashMap<>();
 		User user = getUserByEmail(email);
 		
@@ -52,7 +52,7 @@ public class UserService {
 			result.put("fail", "denied");
 		}
 		return result;
-	}
+	} */
 	
 	/**
 	 * 소셜 로그인으로 획득한 사용자정보로 로그인처리를 수행한다.<p>

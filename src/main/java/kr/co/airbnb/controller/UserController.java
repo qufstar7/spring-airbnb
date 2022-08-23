@@ -96,7 +96,16 @@ public class UserController {
 	@PostMapping("/normal-login")
 	@ResponseBody
 	public Map<String, Object> loginWithNormal(@RequestParam("loginEmail") String email, @RequestParam("loginPassword") String password) {
-		Map<String, Object> result = userService.loginWithNormal(email, password);
+		Map<String, Object> result = new HashMap<>();
+		System.out.println("일반 로그인 이메일 : " + email);
+		User user = userService.getUserByEmail(email);
+		if(password.equals(user.getPassword())) {
+			result.put("pass", true);
+			SessionUtils.addAttribute("LOGIN_USER", user);
+			System.out.println("사용자:" + user);
+		} else {
+			result.put("pass", false);
+		}
 		return result;
 	}
 	
@@ -140,6 +149,26 @@ public class UserController {
 		User savedUser = userService.getUserByEmail(email);
 		//System.out.println(savedUser);
 		if(savedUser == null) {
+			result.put("result", "unexist");
+			// 폼입력값을 담을 객체를 미리 생성해서 Model에 저장
+			model.addAttribute("userRegisterForm", new UserRegisterForm());
+		} else if("Y".equals(savedUser.getDisabled())) {
+			result.put("result", "disabled");
+		} else {
+			result.put("result", "exist");
+			result.put("user", savedUser);
+		}
+		
+		return result;
+	}
+	
+	@GetMapping(path="/checkEmailWithSns")
+	@ResponseBody
+	public Map<String, Object> checkEmailWithSns(@RequestParam("email") String email, Model model) {
+		Map<String, Object> result = new HashMap<>();
+		User savedUser = userService.getUserByEmail(email);
+		//System.out.println(savedUser);
+		if(savedUser == null) {
 			result.put("exist", false);
 			// 폼입력값을 담을 객체를 미리 생성해서 Model에 저장
 			model.addAttribute("userRegisterForm", new UserRegisterForm());
@@ -149,6 +178,7 @@ public class UserController {
 		}
 		return result;
 	}
+	
 	
 	@PostMapping(path="/register")
 	@ResponseBody
@@ -218,7 +248,6 @@ public class UserController {
 			user.setAddress(form.getAddress());
 			userService.updateUserInfo(user);
 			
-			return "redirect:/user/profile";
 			//data.put("user", user);
 		} else {
 			String filename = multipartFile.getOriginalFilename();
@@ -229,9 +258,11 @@ public class UserController {
 			FileOutputStream out = new FileOutputStream(new File(profileImageSaveDirectory, filename));
 			FileCopyUtils.copy(in, out);
 			
-			return "redirect:/user/profile";
 			//data.put("filename", filename);
 		}
+		SessionUtils.addAttribute("LOGIN_USER", userService.getUserByNo(user.getNo()));
+		return "redirect:/user/profile";
+		
 	}
 	
 	@GetMapping(path="/find/password")

@@ -49,14 +49,14 @@
 			<div class="col-4">
 				<div class="border rounded-3 p-4">
 					<div class=" text-center mb-2">
-						<img class="rounded-circle" src="/resources/images/profile/${user.profileImage ? 'user.profileImage' : 'profile-default-img.png'}" alt="프로필사진" width="180">
+						<img class="rounded-circle" src="/resources/images/profile/${not empty user.profileImage ? user.profileImage : 'profile-default-img.png'}" alt="프로필사진" width="180">
 					</div>
 					<div class="text-center mb-5">
 						<button type="button" class="btn btn-link fw-bold fs-6" data-bs-toggle="modal" data-bs-target="#modal-change-profileImg" style="color: black;">사진 업데이트하기</button>
 					</div>
 					<div class="mb-2 fs-4">
 						<i class="bi bi-star fw-bold"></i>
-						<span class="pop fw-bold fs-6" id="pop-review" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom">후기4개</span>
+						<span class="pop fw-bold fs-6" id="pop-review" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom">후기 ${user.reviewCount}개</span>
 					</div>
 					<div class="mb-4 fs-4">
 						<i class="bi bi-shield-check fw-bold"></i>
