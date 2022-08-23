@@ -31,6 +31,7 @@ import kr.co.airbnb.form.ReservationRegisterForm;
 import kr.co.airbnb.service.AccommodationService;
 import kr.co.airbnb.service.ConvenienceService;
 import kr.co.airbnb.service.NoteService;
+import kr.co.airbnb.service.UserService;
 import kr.co.airbnb.service.WishlistService;
 import kr.co.airbnb.vo.AccPrice;
 import kr.co.airbnb.vo.AccRoom;
@@ -55,8 +56,11 @@ public class AccommodationController {
 	@Autowired
 	NoteService noteService;
 	
+	@Autowired
+	UserService userService;
+	
 	@GetMapping(path = "/detail")
-	public String detail(@LoginUser User loginUser ,@RequestParam("no") int no,Model model) {
+	public String detail(@LoginUser(required = false) User loginUser ,@RequestParam("no") int no,Model model) {
 		if (loginUser != null) {
 			
 			Map<String,Object> map = new HashMap<String,Object>();
@@ -122,6 +126,20 @@ public class AccommodationController {
 		noteService.addNote(loginUser, content, no);
 		return "redirect:/acc/detail?no="+no;
 	}
+	
+	@PostMapping(path = "/note/reAdd")
+	@ResponseBody
+	public Map<String, Object> reNoteAdd(@RequestParam("content") String content,@LoginUser User loginUser ,@RequestParam("no") int no, @RequestParam("recvNo") int recvNo) {
+		 
+		noteService.reAddNote(loginUser, content, no, recvNo);
+		System.out.println("지나감");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("success", true);
+		 
+		
+		return result;
+	}
 	/*
 	 * @PostMapping(path="/wishlist")
 	 * 
@@ -133,20 +151,29 @@ public class AccommodationController {
 	 * wishlists); return result; }
 	 */
 	
-	@GetMapping(path = "/test")
+	@GetMapping(path = "/recvnote")
 	public String test(Model model,@LoginUser User loginUser) {
 		model.addAttribute("notes",noteService.getRecvNotes(loginUser.getNo()));
 		
-		return "acc/test";
+		return "acc/recvnote";
 	}
 	
-	@GetMapping(path = "/test2")
+	@GetMapping(path = "/sendnote")
 	public String test2(Model model,@LoginUser User loginUser) {
 		
 		
 		model.addAttribute("notes",noteService.getSendNotes(loginUser.getNo()));
 		
-		return "acc/test2";
+		return "acc/sendnote";
+	}
+	
+	@GetMapping(path = "/renote")
+	public String test3(Model model,@LoginUser User loginUser,@RequestParam("recvNo") int recvNo, @RequestParam("no") int accNo ) {
+		
+		model.addAttribute("acc",accommodationService.getAccommodation(accNo));
+		model.addAttribute("recvUser",userService.getUserByNo(recvNo));
+		/* model.addAttribute("noteForm", new NoteForm()); */
+		return "acc/renote";
 	}
 
 	@GetMapping(path = "/list")

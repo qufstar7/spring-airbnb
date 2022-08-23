@@ -31,6 +31,15 @@ public class NoteService {
 		
 		noteMapper.insertNote(note);
 	}
+	public void reAddNote(User loginUser,String content,int accNo,int recvNo) {
+		Note note = new Note();
+		note.setAcc(accommodationService.getAccommodation(accNo));
+		note.setContent(content);
+		note.setSendUser(loginUser);
+		note.setRecvUser(userService.getUserByNo(recvNo));
+		
+		noteMapper.insertNote(note);
+	}
 
 	
 	public List<Note> getRecvNotes(int userNo){

@@ -177,7 +177,7 @@
 									</svg>
 							    </c:when>
 							    <c:otherwise>
-							      <img class="acc-thumbnail" src="/resources/images/acc/sample-home.jpg" alt="프로필이미지">
+							      <img class="acc-thumbnail" src="/resources/images/profile/${user.profileImage}" alt="프로필이미지">
 							    </c:otherwise>
 					    	</c:choose>
 					    </div>
@@ -193,7 +193,7 @@
 						</c:when>
 						<c:otherwise>
 								<!-- 로그인 했을 때 -->
-								<a class="dropdown-item" href="#"><strong>메시지</strong></a>
+								<a class="dropdown-item" href="/acc/recvnote"><strong>메시지</strong></a>
 								<a class="dropdown-item" href="#"><strong>알림</strong></a>
 								<a class="dropdown-item" href="#"><strong>여행</strong></a>
 								<a class="dropdown-item" href="/wishlists"><strong>위시리스트</strong></a>

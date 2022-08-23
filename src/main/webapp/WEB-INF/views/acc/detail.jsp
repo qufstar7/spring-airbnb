@@ -148,7 +148,7 @@
 				<c:if test="${photo.num eq '1' }">
 					<div class="flex-item1" >
 						<div class="img-large" id="btn-open-image-modal">
-							<a href="#"><img src="/resources/images/acc/${photo.name }" id="image-large"></a>
+							<a href="#"><img src="/resources/images/acc/${photo.name }" alt="이미지" id="image-large"></a>
 						</div>
 					</div>
 				</c:if>
@@ -157,12 +157,12 @@
 				<c:forEach items="${acc.photos }" var="photo">
 					<c:if test="${photo.num eq '2' }"> 
 						<div class="img-short" id="btn-open-image-modal2">
-							<a href="#"><img src="/resources/images/acc/${photo.name }" class="short-img"></a>
+							<a href="#"><img src="/resources/images/acc/${photo.name }" alt="이미지" class="short-img"></a>
 						</div>
 					</c:if> 
 					<c:if test="${photo.num eq '3' }">
 						<div class="img-short short-bottom" id="btn-open-image-modal3">
-							<a href="#"><img src="/resources/images/acc/${photo.name }" class="short-img"></a>
+							<a href="#"><img src="/resources/images/acc/${photo.name }" alt="이미지" class="short-img"></a>
 						</div>
 					</c:if>
 				</c:forEach>
@@ -171,12 +171,12 @@
 				<c:forEach items="${acc.photos }" var="photo">
 					<c:if test="${photo.num eq '4' }"> 
 						<div class="img-short" id="btn-open-image-modal4">
-							<a href="#"><img src="/resources/images/acc/${photo.name }" class="short-img" id="image-right-top"></a>
+							<a href="#"><img src="/resources/images/acc/${photo.name }" alt="이미지" class="short-img" id="image-right-top"></a>
 						</div>
 					</c:if>
 					<c:if test="${photo.num eq '5' }"> 
 						<div class="img-short short-bottom" id="btn-open-image-modal5">
-							<a href="#"><img src="/resources/images/acc/${photo.name }" class="short-img" id="image-right-bottom"></a>
+							<a href="#"><img src="/resources/images/acc/${photo.name }" alt="이미지" class="short-img" id="image-right-bottom"></a>
 						</div>
 					</c:if>
 				</c:forEach>
@@ -218,20 +218,20 @@
 							</c:when>
 						</c:choose>
 					</c:forEach>
-					<c:if test="${acc.checkinScore le 4.5 }">
+					<c:if test="${acc.checkinScore ge 4.5 }">
 						<div class="mb-3">
 							<h6><i class="bi bi-key"></i> 순조로운 체크인 과정</h6>
 							<span>최근 숙박한 게스트 중 90%가 체크인 과정에 별점 5점을 준 숙소입니다.</span>
 						</div>
 					</c:if>
-					<c:if test="${acc.locationScore le 4.5 }">
+					<c:if test="${acc.locationScore ge 4.5 }">
 						<div class="mb-3">
 							<h6><i class="bi bi-signpost"></i> 훌륭한 숙소 위치</h6>
 							<span>최근 숙박한 게스트 중 90%가 위치에 별점 5점을 준 숙소입니다.</span>
 						</div>
 					</c:if>
 					<div class="mb-3">
-						<h6><i class="bi bi-bookmark-check"></i> 체크인 일주일전까진 무료로 취소가 가능합니다.</h6>
+						<h6><i class="bi bi-bookmark-check"></i> 체크인 30일전까진 무료로 취소가 가능합니다.</h6>
 					</div>
 				</div>
 				<hr>
@@ -339,8 +339,8 @@
 						<div class="col-12 start" >
 							<div class="" id="days-box">
 								<input type="text" class="text-center" placeholder="체크인 체크아웃을 설정하시오" data-input id="days">
-								<input type="date" name="checkInDate" id="checkInDate" value="" >
-								<input type="date" name="checkOutDate" id="checkOutDate" value="" >
+								<input type="text" name="checkInDate" id="checkInDate" value="" > 
+								<input type="text" name="checkOutDate" id="checkOutDate" value="" >
 								<input type="hidden" name="adultNum" id="adultNum" value="0">
 								<input type="hidden" name="childrenNum" id="childrenNum" value="0">
 								<input type="hidden" name="infantNum" id="infantNum" value="0">
@@ -649,7 +649,7 @@
 				</div>
 				<div class="col-6">
 					<div class="row">
-						<div class="col-3">
+						<div class="col-4">
 							<p><i class="bi bi-star-fill"></i> ${acc.reviewScore } 후기 ${acc.reviewCount }개</p>
 						</div>
 						<div class="col-4">
@@ -699,7 +699,7 @@
 				</div>
 				<div class="col-4">
 					<h6>환불 정책</h6>
-					<p>일주일 전까지 무료 환불 가능</p>
+					<p>30일 전까지 무료 환불 가능</p>
 				</div>
 			</div>
 		</div>
@@ -715,15 +715,13 @@
 			<div class="modal-body">
 				<c:forEach items="${cons }" var="con">
 					<div class="row">
-						<h6 class="mb-3">${con.name }</h6>
+						<h6 class="mb-3 mt-3">${con.name }</h6>
 						<c:forEach items="${acc.conveniences }" var="accConvenience">
 							<c:choose>
 								<c:when test="${accConvenience.convenience.type eq con.no }">
 									<p><span class="material-symbols-outlined"> ${accConvenience.convenience.iconName }</span>  ${accConvenience.convenience.name }</p>
 									<hr>
 								</c:when>
-								<c:otherwise>
-								</c:otherwise>
 							</c:choose>
 						</c:forEach>
 					</div>
@@ -1638,6 +1636,19 @@ $(function() {
 	let disabledDate = ('${acc.disabledDate}').split(",");
 	console.log(disabledDate) 
 	
+	/* var fp2 = $("#checkInDate").flatpickr({
+		minDate: new Date(),
+		dateFormat: "Y-m-d",
+		disable : disabledDate,
+		"locale": "ko" ,
+	});  
+	var fp3 = $("#checkOutDate").flatpickr({
+		minDate: new Date(),
+		dateFormat: "Y-m-d",
+		disable : disabledDate,
+		"locale": "ko" ,
+	});   */
+	
 	var fp1 = $("#days-box").flatpickr({
 		minDate: new Date(),
 		mode: "range",
@@ -1650,11 +1661,19 @@ $(function() {
  		if (selectedDates[1]==null || selectedDates[0]==null){
  			return;
  		}
+ 		console.log(selectedDates[0])
+ 		console.log(selectedDates[1])
  		
- 		$("#checkInDate").val((selectedDates[0]));
-		$("#checkOutDate").val((selectedDates[1]));
+ 		let indate = new Date(selectedDates[0])
+ 		let outdate = new Date(selectedDates[1])
+ 		console.log(indate)
+ 		console.log(outdate) 
+ 		
+ 		// 영탁
+ 		document.getElementById('checkInDate').value = CF_toStringByFormatting(new Date(indate));
+ 		document.getElementById('checkOutDate').value = CF_toStringByFormatting(new Date(outdate));
 		let diffDate = Date.parse(selectedDates[1])-Date.parse(selectedDates[0]);
-
+		
  		let day = Math.floor(diffDate / (1000 * 60 * 60 * 24));
  		$(".day").text(day);
  		$("#input-day").val(day);
@@ -1667,6 +1686,7 @@ $(function() {
  		$("#totalPrice").text(totalPrice.toLocaleString())
  		$("#totalPriceValue").val(totalPrice)
 	}) 
+	
    	$(".reservation").hide();
 	
 	$("#nav-1").hide();
@@ -1963,6 +1983,24 @@ $(function() {
 		}
 	}
 	
+	
+	function CF_toStringByFormatting(source){
+		var date = new Date(source);
+		const year = date.getFullYear();
+		const month = CF_leftPad(date.getMonth() + 1);
+		const day = CF_leftPad(date.getDate());
+		return [year, month, day].join('-');
+	}
+	
+	
+	function CF_leftPad(value){
+		if (Number(value) >= 10) {
+			return value;
+		}
+		return "0" + value;
+	}
+	
+	
 	$(function() {
            $(".p_btn").click(function() {
                var $this = $(this);
@@ -1992,12 +2030,17 @@ $(function() {
 			alert("인원은 필수 입력값입니다.");
 			return false;
 		}
-		/* let totalValue = $.trim($("#totalGuest").val());
-		if (totalValue < 1) {
-			alert("인원은 필수 입력값입니다.");
+		// 날짜
+		let checkIn = $.trim($("#checkInDate").val());
+		if (checkIn === "") {
+			alert("날짜는 필수 입력값입니다.");
 			return false;
-		} */
-			
+		}
+		let checkOut = $.trim($("#checkOutDate").val());
+		if (checkOut === "") {
+			alert("날짜 필수 입력값입니다.");
+			return false;
+		}
 		return true;
 	})
 	$("#form-create-wishlist").submit(function() {

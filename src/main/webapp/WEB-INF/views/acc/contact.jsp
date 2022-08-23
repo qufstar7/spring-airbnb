@@ -61,18 +61,18 @@
 					</ul>
 					<h6>요금 설정 및 예약 가능 여부</h6>
 					<ul>
-						<li>일주일 이상 숙박하시면 10% 할인이, 한 달 이상 숙박하시면 40% 할인이 적용됩니다.</li>
 						<li>체크인 30일 전까지 취소하면 전액 환불됩니다. 체크인까지 남은 기간이 30일 미만인 시점에 예약할 경우, 예약 후 48시간 이내에 취소하고 체크인까지 14일 이상이 남았다면 전액 환불되며, 그 후에는 체크인 7일 전까지 취소하면 예약금의 50%가 환불됩니다. 그 후에는 환불되지 않습니다.</li>
 					</ul>
 				</div>
 				<hr>
-				<form action="note/add" method="post">
-					<div class="col-12 pb-1">
+				<form action="note/add" method="post" id="contact">
+					<div class="col-12 pb-1 mb-2">
 						<h4>질문이 더 있으신가요? 호스트에게 메시지를 보내 문의하세요.</h4>
-						<input type="text" class="rounded" name="content" style="width: 653px; height: 100%; min-height: 176px;">
+						<textarea class="form-control rounded" name="content" style="width: 653px; height: 100%; min-height: 176px;">
+						</textarea>
 						<input type="hidden" name="no" value="${acc.accNo }">
 					</div>
-					<button type="submit" class="btn btn-outline-dark">메세지 전송하기</button>
+					<button type="submit" class="btn btn-outline-dark float-end">메세지 전송하기</button>
 				</form>
 			</div> 
 			<div class="col-4" id="side">
@@ -439,11 +439,12 @@ $(function() {
 			
 		return true;
 	})
-	$("#form-create-wishlist").submit(function() {
+	$("#contact").submit(function() {
 		
-		let titleValue = $.trim($(":input[name=wishlistName]").val());
-		if (titleValue === "") {
-			alert("제목은 필수 입력값입니다.");
+		let userNo = ${LOGIN_USER.no}
+		let hostNo = ${acc.user.no}
+		if (hostNo === userNo) {
+			alert("본인 숙소에는 연락을 보낼수 없습니다.");
 			return false;
 		}
 			
