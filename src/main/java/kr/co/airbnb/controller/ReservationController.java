@@ -45,7 +45,7 @@ public class ReservationController {
 		
 		return "reservation/test";
 	}
-	@GetMapping(path = "/register")
+	@GetMapping(path = "/register") 
 	public String register(@RequestParam("no") int accNo, Model model) {
 		Accommodation accommodation = reservationService.getAcc(accNo);
 		model.addAttribute("accommodation",accommodation);
@@ -54,7 +54,7 @@ public class ReservationController {
 		return "reservation/book";
 	}
 	
-	@PostMapping(path = "/register")
+	@PostMapping(path = "/register") 
 	public String book(@LoginUser User loginUser, @RequestParam("no") int accNo, Model model, @ModelAttribute("reservaionRegisterForm") ReservationRegisterForm reservaionRegisterForm) {
 		Accommodation accommodation  = reservationService.getAcc(accNo);
 		model.addAttribute("accommodation", accommodation);
@@ -67,7 +67,8 @@ public class ReservationController {
 		System.out.println(cards);
 		model.addAttribute("reservaionRegisterForm",reservaionRegisterForm );
 		
-		return "reservation/book";
+		
+		return "reservation/book"; 
 	}
 	
 	@PostMapping(path ="/register")
