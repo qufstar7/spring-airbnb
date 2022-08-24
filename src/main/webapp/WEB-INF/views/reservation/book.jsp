@@ -179,7 +179,7 @@
 							<strong>￦ <fmt:formatNumber value=" ${accommodation.price *0.3}"/> 원</strong>
 							<input class="form-check-input"  type="radio" name="payment"  id="radio-left">
 						</div>
-					</div>
+					</div> 
 					<div class="row p-3">
 						<div class-col-9>
 							지금 ₩<fmt:formatNumber value=" ${accommodation.price *0.3}"/>을(를) 결제하시면, 나머지 금액(₩<fmt:formatNumber value=" ${accommodation.price *0.7}"/>)은 동일한 결제수단으로 
