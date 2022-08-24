@@ -927,6 +927,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 	display: flex !important;
 	justify-content: space-between !important;
 	align-items: center !important;
+	height: 100px;
 }
 
 .h1-box {

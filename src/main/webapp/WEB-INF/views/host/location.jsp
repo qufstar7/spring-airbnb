@@ -68,7 +68,7 @@
 
 			<!-- 주소 입력폼 -->
 			<form id="locationRegisterForm" action="submitAddress" method="post">
-				<div style="z-index: 1; height: 60vh;" class="location-form border border-white rounded-4 translate-middle p-4">
+				<div style="z-index:1;" class="location-form border border-white rounded-4 translate-middle p-4">
 					<div class="location-form-header fs-5 fw-bolder m-0 text-center pb-4 mt-3">주소를 입력하세요</div>
 
 					<!-- 스크롤영역 -->

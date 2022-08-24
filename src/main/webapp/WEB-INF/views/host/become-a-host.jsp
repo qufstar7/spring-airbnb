@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../common/tags.jsp"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html>
@@ -42,9 +43,9 @@
 		</div>
 
 		<!-- 오른쪽 영역 -->
-		<div id="right-div">
+		<div id="right-div" style="display:block;">
 			<!-- rightDiv header nav -->
-			<div class="right-div-header">
+			<div class="right-div-header" style="position:absolute;right:0px;">
 				<nav class="navbar navbar-expand-lg navbar-light p-4">
 					<div class="container-fluid flex-row-reverse">
 						<div id="navbarNav">
@@ -79,18 +80,16 @@
 
 			<!-- rightDiv main -->
 			<div class="main-box align-self-center bg-white">
-				<form id="form-select-type">
-				
 					<!--일반숙소유형선택 -->
 					<div id="box-buttons" class="bd-highlight">
 					
 						<!-- 일반숙소유형 선택버튼 -->
 						<div id="right-content-box" class="text-center">
-							<c:if test="${not empty userAllAcc }">
+							<c:if test="${not empty allAccIncomplete }">
 							<div class="pb-3">
 								<p class="fw-bold float-start" style="font-size: 22px;">숙소 등록 완료하기</p>
-								<c:forEach var="userAcc" items="${userAllAcc }">
-								<button type="button" class="btn btn-types btn-maintypes bg-white container p-4 my-2">
+								<c:forEach var="icAcc" items="${allAccIncomplete }">
+								<button type="button" class="btn btn-types btn-maintypes bg-white container p-4 my-2" onclick="location.href='/host/become-a-host/registerContinue?accNo=${icAcc.accNo}'">
 									<!-- 집 모양 아이콘 -->														
 									<span class="btn btn-secondary float-start">													
 										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door-fill" viewBox="0 0 16 16">
@@ -99,7 +98,14 @@
 									</span>
 									
 									<!-- 메인타입 + 숙소 + 등록일 -->
-									<span class="text-lg-center fw-bolder text-dark float-start ms-3" style="padding-top:5px;">숙소: ${userAcc.types[0].name }<c:if test="${not empty userAcc.updatedDate }"></c:if></span>
+									<span class="text-lg-center fw-bolder text-dark float-start ms-3" style="padding-top:5px;">
+										숙소: ${icAcc.types[0].name }
+										<span class="ms-1" style="font-size:14px; font-weight:500;">
+											<c:if test="${not empty icAcc.createdDate }">
+										 	생성일: <fmt:formatDate value="${icAcc.createdDate}" pattern="yyyy-MM-dd"/>
+											</c:if>
+										</span>
+									</span>
 									
 									<!-- 화살표 모양 아이콘 -->
 									<span class="float-end fs-5 fw-bolder"> 
@@ -114,60 +120,112 @@
 							
 							<div class="pb-3 mb-4">
 								<p class="fw-bold float-start" style="font-size: 22px;">숙소 등록 시작하기</p>
-									<div class="py-3">
+								<div class="py-3">
+									
+									<!-- 선택버튼 -->
+									<button id="accRegister" type="button" class="btn btn-types btn-maintypes bg-white container p-4 my-2" onclick="location.href='/host/become-a-host/register'">
+										<!-- 플러스 아이콘 -->														
+										<span class="float-start">													
+											<svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+											  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+											</svg>										
+										</span>
 										
-										<!-- 선택버튼 -->
-										<button id="accRegister" type="button" class="btn btn-types btn-maintypes bg-white container p-4 my-2" onclick="location.href='/host/become-a-host/register'">
-											<!-- 플러스 아이콘 -->														
-											<span class="float-start">													
-												<svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
-												  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-												</svg>										
-											</span>
-											
-											<!-- 텍스트 -->
-											<span class="text-lg-center fw-bolder text-dark float-start ms-3">새로운 숙소 등록하기</span>
-											<!-- 화살표 모양 아이콘 -->
-											<span class="float-end fs-5 fw-bolder"> 
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
-												  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-												</svg>
-											</span>
-										</button>
+										<!-- 텍스트 -->
+										<span class="text-lg-center fw-bolder text-dark float-start ms-3">새로운 숙소 등록하기</span>
+										<!-- 화살표 모양 아이콘 -->
+										<span class="float-end fs-5 fw-bolder"> 
+											<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+											  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+											</svg>
+										</span>
+									</button>
+									
+									<!-- 선택버튼 -->
+									<button id="accCopy" type="button" class="btn btn-types btn-maintypes bg-white container p-4 my-2">
+										<!-- 플러스 아이콘 -->														
+										<span class="float-start">													
+											<svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-stickies" viewBox="0 0 16 16">
+											  <path d="M1.5 0A1.5 1.5 0 0 0 0 1.5V13a1 1 0 0 0 1 1V1.5a.5.5 0 0 1 .5-.5H14a1 1 0 0 0-1-1H1.5z"/>
+											  <path d="M3.5 2A1.5 1.5 0 0 0 2 3.5v11A1.5 1.5 0 0 0 3.5 16h6.086a1.5 1.5 0 0 0 1.06-.44l4.915-4.914A1.5 1.5 0 0 0 16 9.586V3.5A1.5 1.5 0 0 0 14.5 2h-11zM3 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V9h-4.5A1.5 1.5 0 0 0 9 10.5V15H3.5a.5.5 0 0 1-.5-.5v-11zm7 11.293V10.5a.5.5 0 0 1 .5-.5h4.293L10 14.793z"/>
+											</svg>									
+										</span>
 										
-										<!-- 선택버튼 -->
-										<button id="accCopy" type="button" class="btn btn-types btn-maintypes bg-white container p-4 my-2" onclick="location.href=''">
-											<!-- 플러스 아이콘 -->														
-											<span class="float-start">													
-												<svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-stickies" viewBox="0 0 16 16">
-												  <path d="M1.5 0A1.5 1.5 0 0 0 0 1.5V13a1 1 0 0 0 1 1V1.5a.5.5 0 0 1 .5-.5H14a1 1 0 0 0-1-1H1.5z"/>
-												  <path d="M3.5 2A1.5 1.5 0 0 0 2 3.5v11A1.5 1.5 0 0 0 3.5 16h6.086a1.5 1.5 0 0 0 1.06-.44l4.915-4.914A1.5 1.5 0 0 0 16 9.586V3.5A1.5 1.5 0 0 0 14.5 2h-11zM3 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V9h-4.5A1.5 1.5 0 0 0 9 10.5V15H3.5a.5.5 0 0 1-.5-.5v-11zm7 11.293V10.5a.5.5 0 0 1 .5-.5h4.293L10 14.793z"/>
-												</svg>									
-											</span>
-											
-											<!-- 텍스트 -->
-											<span class="text-lg-center fw-bolder text-dark float-start ms-3">기존 숙소 복사하기</span>
-											
-											<!-- 화살표 모양 아이콘 -->
-											<span class="float-end fs-5 fw-bolder"> 
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
-												  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-												</svg>
-											</span>
-										</button>
-									</div>
+										<!-- 텍스트 -->
+										<span class="text-lg-center fw-bolder text-dark float-start ms-3">기존 숙소 복사하기</span>
+										
+										<!-- 화살표 모양 아이콘 -->
+										<span class="float-end fs-5 fw-bolder"> 
+											<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+											  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+											</svg>
+										</span>
+									</button>
 								</div>
+							</div>
+								
 							</div>
 						</div>
 					</div>
-				</form>
 			</div>
 		</div>
 	</div>
+	
+	<!-- 모달 html -->
+<div class="modal" id="copy-acc-modal">
+	<div class="modal-lg modal-dialog modal-dialog-centered">
+		<div class="modal-content modal-context-box" >
+		
+			<div class="modal-btn-close-box">
+				<button type="button" class="btn-close modal-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			
+			<div class="modal-header">
+				<p class="fs-6 fw-bold m-0" id="exampleModalLabel">등록 완료된 숙소 목록</p>
+			</div>
+
+			<div class="text-center m-3" style="overflow:scroll; height:500px;">
+				<c:forEach var="nicAcc" items="${allAccNotIncomplete }">
+				<button type="button" class="btn btn-types btn-maintypes bg-white container p-4 my-2" onclick="location.href='/host/become-a-host/registerCopy?accNo=${nicAcc.accNo}'">
+					<!-- 집 모양 아이콘 -->
+					<span class="btn btn-secondary float-start">													
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door-fill" viewBox="0 0 16 16">
+						  <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5z"/>
+						</svg>													
+					</span>
+					
+					<!-- 메인타입 + 숙소 + 등록일 -->
+					<span class="text-lg-center fw-bolder text-dark float-start ms-3" style="padding-top:5px;">
+						숙소: ${nicAcc.types[0].name }
+						<span class="ms-1" style="font-size:14px; font-weight:500;">
+							<c:if test="${not empty nicAcc.createdDate }">
+						 	생성일: <fmt:formatDate value="${nicAcc.createdDate}" pattern="yyyy-MM-dd"/>
+							</c:if>
+						</span>
+					</span>
+					
+					<!-- 화살표 모양 아이콘 -->
+					<span class="float-end fs-5 fw-bolder"> 
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+						  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+						</svg>
+					</span>
+				</button>
+				</c:forEach>
+			</div>
+			
+		</div>
+	</div>
+</div>
+	
 
 <script type="text/javascript">
 $(function() {
-
+	let accCopyModal = new bootstrap.Modal(document.getElementById("copy-acc-modal")); 
+	
+	$("#accCopy").on("click", function(){
+		accCopyModal.show();
+	})
 })
 </script>
 </body>
