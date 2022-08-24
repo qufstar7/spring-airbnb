@@ -203,7 +203,7 @@
 			select *
 			from airbnb_accommodations
 			order by acc_review_count desc, acc_review_score desc)
-		where rownum &lt;=5
+		where rownum &lt;=20
 	</select>
 	
 		<!-- List<Accommodation> getAllAccs(int userNo); 
@@ -226,7 +226,7 @@
 				from airbnb_accommodations A
 				order by acc_review_count desc, acc_review_score desc
 				)
-		where rownum &lt;=5
+		where rownum &lt;=20
  	</select>
 	
 	<!-- List<Accommodation> getAccByCriteria(AccListCriteria accListCriteria); -->
