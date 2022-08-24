@@ -87,12 +87,6 @@ public class WishlistService {
 		return wishlistAccs;
 	} */
 	
-	public List<Accommodation> getAllAccs(int userNo) {
-		wishlistMapper.getAllAccs(userNo);
-		return wishlistMapper.getAllAccs(userNo);
-	}
-	
-	
 	// 숙소는 저장하지 않고 새로운 위시리스트 폴더만 생성하는 경우
 	public void createWishlist(Wishlist wishlist) {
 		wishlistMapper.createWishlist(wishlist);

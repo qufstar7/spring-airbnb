@@ -265,6 +265,26 @@ public class UserController {
 		
 	}
 	
+	@PostMapping(path="/update/personalInfo")
+	@ResponseBody
+	public Map<String, Object> updatePersonalInfo(UserUpdateForm form, @LoginUser User loginUser) {
+		System.out.println(form);
+		User user = userService.getUserByNo(loginUser.getNo());
+			user.setBirthDate(form.getBirthDate());
+			user.setAddress(form.getAddress());
+			user.setName(form.getName());
+			user.setGender(form.getGender());
+			user.setPhone(form.getPhone());
+			userService.updateUserInfo(user);
+		
+		Map<String, Object> data = new HashMap<>();
+		data.put("user", user);
+		
+		return data;
+	}
+	
+	
+	
 	@GetMapping(path="/find/password")
 	public String findPassword( ) {
 		

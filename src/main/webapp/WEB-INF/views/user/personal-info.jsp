@@ -10,6 +10,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<link rel="icon" href="../../../resources/aircnc.png">
 <title>계정관리-에어씨엔씨</title>
 <style type="text/css">
 	.btn-link {color: black; font-weight: bold;}
@@ -49,18 +51,19 @@
 
 </head>
 <body>
-<%@ include file="../common/nav.jsp" %>
+<%@ include file="../common/nav3.jsp" %>
 <div class="container mt-5">
 	<div class="mb-5">
 		<small class="fw-bold">계정 > 개인정보</small>
 		<h3 class="fw-bold mt-2">개인정보</h3>
 	</div>
+	<form action="" id="form-update-profileInfo">
 	<div class="row d-flex justify-content-between">
 		<div class="col-7">
 			<div class="mb-4">
 				<div class="d-flex justify-content-between">
 					<span>실명</span>
-					<button class="btn btn-link p-0" id="btn-name">수정</button>
+					<button type="button" class="btn btn-link p-0" id="btn-name">수정</button>
 				</div>
 				<span id="span-name">${user.name}</span>
 				<div id="div-name" class="d-none">
@@ -71,7 +74,7 @@
 				     	<div class="invalid-feedback">
 				     		<i class="fa-solid fa-circle-exclamation"></i>  실명은 반드시 입력해야 합니다
 				     	</div>
-				     	<button class="myButton" id="btn-update-name">저장</button>
+				     	<button type="button" class="myButton" id="btn-update-name">저장</button>
 					</div>
 				</div>
 			</div>
@@ -79,40 +82,40 @@
 			<div class="mb-4">
 				<div class="d-flex justify-content-between">
 					<span>성별</span>
-					<button class="btn btn-link p-0" id="btn-gender">수정</button>
+					<button type="button" class="btn btn-link p-0" id="btn-gender">수정</button>
 				</div>
 				<span id="span-gender">${user.gender}</span>
 				<div class="form-floating d-none" id="div-gender">
-				  <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
-				    <option value="male" ${user.gender == 'male' ? 'selected' : '' }>남자</option>
-				    <option value="female" ${user.gender == 'female' ? 'selected' : '' }>여자</option>
-				    <option value="else" ${user.gender == 'else' ? 'selected' : '' }>기타</option>
+				  <select class="form-select" name="gender" id="floatingSelect" aria-label="Floating label select example">
+				    <option value="male" ${user.gender == 'male' ? 'selected' : '' }>male</option>
+				    <option value="female" ${user.gender == 'female' ? 'selected' : '' }>female</option>
+				    <option value="else" ${user.gender == 'else' ? 'selected' : '' }>else</option>
 				  </select>
 				  <label for="floatingSelect">성별</label>
-				  <button class="myButton">저장</button>
+				  <button type="button" class="myButton" id="btn-update-gender">저장</button>
 				</div>
 			</div>
 			<hr/>
 			<div class="mb-4">
 				<div class="d-flex justify-content-between">
 					<span>생년월일</span>
-					<button class="btn btn-link p-0" id="btn-birthDate">수정</button>
+					<button type="button" class="btn btn-link p-0" id="btn-birthDate">수정</button>
 				</div>
-				<span id="span-birthDate"><fmt:formatDate value="${user.birthDate}"/> </span>
+				<span id="span-birthDate">****/**/**</span>
 				<div class="form-floating d-none" id="div-birthDate">
-				  <input type="date" class="form-control" id="floatingDate" placeholder="생년월일" value="<fmt:formatDate value="${user.birthDate}" pattern="yyyy-MM-dd"/>">
+				  <input type="date" class="form-control" name="birthDate" id="floatingDate" placeholder="생년월일" value='<fmt:formatDate value="${user.birthDate}" pattern="yyyy-MM-dd"/>'>
 				  <label for="floatingDate">생년월일</label>
-				  <button class="myButton">저장</button>
+				  <button type="button" class="myButton" id="btn-update-birthDate">저장</button>
 				</div>
 			</div>
 			<hr/>
 			<div class="mb-4">
 				<div class="d-flex justify-content-between">
 					<span>이메일 주소</span>
-					<button class="btn btn-link p-0" id="btn-email">수정</button>
+					<!-- <button class="btn btn-link p-0" id="btn-email">수정</button> -->
 				</div>
 				<span id="span-email">${user.email }</span>
-				<div class="d-none" id="div-email">
+	<!--		<div class="d-none" id="div-email">
 					<span><small>언제든지 확인하실 수 있는 주소를 사용하세요</small></span>
 					<div class="form-floating mt-3">
 				     	<input type="text" class="form-control outline" name="email" placeholder="이메일" required >
@@ -121,24 +124,33 @@
 				     		<i class="fa-solid fa-circle-exclamation"></i>  이메일 주소가 올바르지 않습니다.
 				     	</div>
 				     	<button class="myButton">저장</button>
-					</div>
-				</div>
+					</div>   
+				</div>   -->
 			</div>
 			<hr/>
 			<div class="mb-4">
+			
 				<div class="d-flex justify-content-between">
 					<span>전화번호</span>
-					<button class="btn btn-link p-0">수정</button>
+					<button type="button" class="btn btn-link p-0" id="btn-phone">수정</button>
 				</div>
-				<span>${user.phone }</span><br/>
-				<small>연락처 번호(예약이 확정된 게스트와 에어비앤비가 연락할 번호) 다른 전화번호를 추가</small><br>
-				<small>하고 번호별 사용 목적을 정하실 수 있습니다.</small>
+				<span id="span-phone">${user.phone }</span><br/>
+				<div class="mt-2">
+					<small >연락처 번호(예약이 확정된 게스트와 에어비앤비가 연락할 번호) 다른 전화번호를 추가</small><br>
+					<small>하고 번호별 사용 목적을 정하실 수 있습니다.</small>
+				</div>
+			
+				<div class="form-floating mt-3 d-none" id="div-phone">
+				     	<input type="text" class="form-control outline" name="phone" placeholder="전화번호" value="${user.phone }">
+				     	<label for="floatingInput">전화번호</label>
+				     	<button type="button" class="myButton" id="btn-update-phone">저장</button>
+					</div>
 			</div>
 			<hr/>
 			<div class="mb-4">
 				<div class="d-flex justify-content-between">
 					<span>정부 발급 신분증</span>
-					<button class="btn btn-link p-0">추가</button>
+					<button type="button" class="btn btn-link p-0">추가</button>
 				</div>
 				<small>제공되지 않음</small>
 			</div>
@@ -146,9 +158,24 @@
 			<div class="mb-4">
 				<div class="d-flex justify-content-between">
 					<span>주소</span>
-					<button class="btn btn-link p-0">수정</button>
+					<button type="button" class="btn btn-link p-0" id="btn-address">수정</button>
 				</div>
-				<small>${not empty user.address ? user.address : "제공되지 않음"}</small>
+				<span id="span-address">${not empty user.address ? user.address : "제공되지 않음"}</span>
+				<div id="div-addr" class="d-none">
+					<table>
+						<tr>
+						<td class="d-grid gap-2">
+							<div>
+								<input type="text" name="postcode" id="postcode" readonly placeholder="우편번호">
+								<button type="button" class="btn btn-outline-secondary btn-sm" id="btn-find-addr">우편번호 찾기</button>
+							</div> 
+							<input type="text" name="address" id="addr" placeholder="주소" readonly />
+							<input type="text" name="detailAddr" id="detailAddr" placeholder="상세주소" />
+						</td>
+						</tr>
+					</table>
+					<button type="button" class="myButton" id="btn-update-address">저장</button>
+				</div>
 			</div>
 			<hr/>
 		</div>
@@ -177,6 +204,7 @@
 		</div>
 		
 	</div>
+	</form>
 </div>
 <script type="text/javascript">
 	// 생년월일 수정 시 오늘 이후 날짜 제한하기
@@ -189,11 +217,12 @@
 
 $(function () {
 	$inputName = $(":input[name=name]");
-	let validName = false;
+	let validName = true;
 	$inputName.keyup(function() {
 		let name = $inputName.val().trim();
-		if (name === "") {
+		if (!name) {
 			$inputName.removeClass("is-valid").addClass("is-invalid");
+			validName = false;
 			return;
 		}
 		
@@ -218,8 +247,12 @@ $(function () {
 			$inputName.focus();
 			return;
 		}
-		$.get(url, data, function(data, textStatus, req) {
-			
+		
+		let querystring = $("#form-update-profileInfo").serialize();
+		$.post("/user/update/personalInfo", querystring, function(data) {
+			let updatedUser = data.user
+			$("#span-name").text(updatedUser.name);
+			$("#btn-name").click();
 		})
 		
 		
@@ -237,6 +270,15 @@ $(function () {
 		}
 	});
 	
+	$("#btn-update-gender").click(function() {
+		let querystring = $("#form-update-profileInfo").serialize();
+		$.post("/user/update/personalInfo", querystring, function(data) {
+			let updatedUser = data.user
+			$("#span-gender").text(updatedUser.gender);
+			$("#btn-gender").click();
+		})
+	});
+	
 	$("#btn-birthDate").click(function() {
 		if($(this).text() == '수정') {
 			$(this).text('취소');
@@ -249,7 +291,15 @@ $(function () {
 		}
 	});
 	
-	$("#btn-email").click(function() {
+	$("#btn-update-birthDate").click(function() {
+		let querystring = $("#form-update-profileInfo").serialize();
+		$.post("/user/update/personalInfo", querystring, function(data) {
+			let birthDate = data.user.birthDate;
+			$("#btn-birthDate").click();
+		});
+	});
+	
+	/* $("#btn-email").click(function() {
 		if($(this).text() == '수정') {
 			$(this).text('취소');
 			$("#span-email").addClass("d-none");
@@ -259,7 +309,103 @@ $(function () {
 			$("#span-email").removeClass("d-none");
 			$("#div-email").addClass("d-none");
 		}
+	}); */
+	
+	/* $("#btn-add-phone").click(function() {
+		if($(this).text() == '추가') {
+			$(this).text('취소');
+			$("#div-phone").removeClass("d-none");
+		} else {
+			$(this).text('추가');
+			$("#div-phone").addClass("d-none");
+		}
+	}); */
+	
+	$("#btn-phone").click(function() {
+		if($(this).text() == '수정') {
+			$(this).text('취소');
+			$("#div-phone").removeClass("d-none");
+		} else {
+			$(this).text('수정');
+			$("#div-phone").addClass("d-none");
+		}
 	});
+	
+	$("#btn-update-phone").click(function() {
+		let querystring = $("#form-update-profileInfo").serialize();
+		$.post("/user/update/personalInfo", querystring, function(data) {
+			$("#span-phone").text(data.user.phone);
+			$("#btn-phone").click();
+		});
+	})
+	
+	$("#btn-address").click(function() {
+		if($(this).text() == '수정') {
+			$(this).text('취소');
+			$("#div-addr").removeClass("d-none");
+		} else {
+			$(this).text('수정');
+			$("#div-addr").addClass("d-none");
+		}
+	});
+	
+	$("#btn-update-address").click(function() {
+		let querystring = $("#form-update-profileInfo").serialize();
+		$.post("/user/update/personalInfo", querystring, function(data) {
+			$("#span-address").text(data.user.address);
+			$("#btn-address").click();
+		})
+	})
+	
+	$("#btn-find-addr").click(function() {
+		new daum.Postcode({
+			oncomplete : function(data) {
+				// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+				// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+				// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+				var addr = ''; // 주소 변수
+				var extraAddr = ''; // 참고항목 변수
+
+				//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+				if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+					addr = data.roadAddress;
+				} else { // 사용자가 지번 주소를 선택했을 경우(J)
+					addr = data.jibunAddress;
+				}
+
+				// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+				if (data.userSelectedType === 'R') {
+					// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+					// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+					if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+						extraAddr += data.bname;
+					}
+					// 건물명이 있고, 공동주택일 경우 추가한다.
+					if (data.buildingName !== '' && data.apartment === 'Y') {
+						extraAddr += (extraAddr !== '' ? ', '
+								+ data.buildingName : data.buildingName);
+					}
+					// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+					if (extraAddr !== '') {
+						extraAddr = ' (' + extraAddr + ')';
+					}
+					// 조합된 참고항목을 해당 필드에 넣는다.
+					document.getElementById("detailAddr").value = extraAddr;
+
+				} else {
+					document.getElementById("detailAddr").value = '';
+				}
+
+				// 우편번호와 주소 정보를 해당 필드에 넣는다.
+				document.getElementById('postcode').value = data.zonecode;
+				document.getElementById("addr").value = addr;
+				// 커서를 상세주소 필드로 이동한다.
+				document.getElementById("detailAddr").focus();
+			}
+		}).open();
+	});
+	
 	
 	
 })

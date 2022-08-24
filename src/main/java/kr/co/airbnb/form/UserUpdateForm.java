@@ -20,4 +20,9 @@ public class UserUpdateForm {
 	private Date birthDate;
 	private MultipartFile profileImg;
 	
+	// 추가
+	private String name;
+	private String gender;
+	private String phone;
+	
 }

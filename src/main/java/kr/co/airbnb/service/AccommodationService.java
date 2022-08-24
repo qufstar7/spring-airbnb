@@ -146,5 +146,11 @@ public class AccommodationService {
 		return accommodationMapper.getPriceCount();
 	}
 
+	// 내 위시리스트에 담겨있는지 여부를 함께 반환하는 모든 숙소 정보
+	public List<Accommodation> getAllAccs(int userNo) {
+		accommodationMapper.getAllAccs(userNo);
+		return accommodationMapper.getAllAccs(userNo);
+	}
+	
 
 }
