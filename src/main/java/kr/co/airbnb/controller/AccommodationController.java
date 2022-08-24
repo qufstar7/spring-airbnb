@@ -194,7 +194,7 @@ public class AccommodationController {
 						
 			// 위시리스트 등록 숙소 여부를 포함한 모든 숙소들
 			if(loginUser != null) {
-				accList = wishlistService.getAllAccs(loginUser.getNo());
+				accList = accommodationService.getAllAccs(loginUser.getNo());
 			}
 		}else {			
 			// nav의 키워드로 숙소 검색

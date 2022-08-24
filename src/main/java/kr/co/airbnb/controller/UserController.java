@@ -214,6 +214,7 @@ public class UserController {
 			User user = userService.getUserByEmail(loginUser.getEmail());
 			user.setProfileImage(filename);
 			userService.updateUserInfo(user);
+			SessionUtils.addAttribute("LOGIN_USER", user);
 			
 			// 이미지 파일명이 중복되는 것을 방지하기 위해 고유이미지파일명 설정? UUID.randomUUID()
 			// 유닉스타임 파일명에 붙이기

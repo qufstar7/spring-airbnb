@@ -169,7 +169,7 @@
 								        <button type="button" class="btn rounded-circle btn-delete-wishlistAcc" data-accNo="${acc.accNo}"><i id="icon-heart-${acc.accNo}" class="fa-solid fa-heart fs-4"></i></button>
 							      	</div>
 								    <span class="card-title">${acc.name }</span>
-							        <p class="card-text text-muted">최대 인원 ${acc.guest}명 원룸 침대2개 욕실 1개</p>
+							        <p class="card-text text-muted" style="font-size: small;">최대 인원 ${acc.guest}명 • 침실 ${acc.room.bedroom}개 • 침대 ${acc.room.bed}개 • 욕실 ${acc.room.bathroom}개</p>
 							        <div class="d-flex justify-content-between"  style="margin-top: 72px;">
 						        	  <strong><i class="bi bi-star-fill"></i>${acc.reviewScore}<span class="text-black-50">(후기 ${acc.reviewCount}개)</span></strong>
 						        	  <span class="fs-5"><strong>₩<fmt:formatNumber value="${acc.price}"/></strong> /박 </span>
@@ -440,6 +440,10 @@ $(function () {
 		 return false;
 		 });
 	 
+	 
+	 
+	 
+	 
 	 let createListModal = new bootstrap.Modal(document.getElementById('modal-create-wishlist'), {
 		  keyboard: false
 		})
@@ -579,7 +583,7 @@ $(function () {
 	})
 	// 사칙연산 + 는 자동변환안됨.
 	 
-	$("#btn-adult-dowm").click(function() {
+	$("#btn-adult-down").click(function() {
 		let adultCount = $inputAdultCount.val();
 		if(adultCount <= 1) {
 			$(this).css("cursor", "not-allowed");
@@ -745,7 +749,10 @@ $(function () {
 		location.href = "/wishlists";
 	})  */
 	
-	
+	// 캐러셀 자동슬라이드 막기
+	$('.carousel').carousel({
+		  interval: false,
+		});
 	
 });
 </script>
@@ -837,7 +844,14 @@ $(function () {
 	      		<c:forEach var="wishlist" items="${wishlists}">
 			      	<div id="div-wishlist-${wishlist.no}" class="mt-3" style="display: flex; height: 64px; cursor: pointer;">
 		      			<input type="hidden" name="wishlistNo" value="${wishlist.no}">
-			      		<img src="https://a0.muscache.com/im/pictures/da1a2f06-efb0-4079-abce-0f6fc82089e0.jpg" alt="새로운 위시리스트 만들기" style="vertical-align:middle;">
+		      			<c:choose>
+		      			 <c:when test="${not empty wishlist.accs[0]}">
+				      		<img src="/resources/images/acc/${wishlist.accs[0].imageCover}" alt="imageCover" style="vertical-align:middle; border-radius: 8px;" width="63px">
+		      			 </c:when>
+		      			 <c:otherwise>
+		      			 	<img alt="" src="" alt="imageCover" style="vertical-align:middle; border-radius: 8px; background-color: #DDDDDD;" width="63px" >
+		      			 </c:otherwise>
+		      			</c:choose>
 			      		<span class="ms-3 fw-bold" style="margin-top:20px;">${wishlist.name }</span>
 			      	</div>
 	      		</c:forEach>

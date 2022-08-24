@@ -203,7 +203,7 @@
 			select *
 			from airbnb_accommodations
 			order by acc_review_count desc, acc_review_score desc)
-		where rownum &lt;=20
+		where rownum &lt;= 20
 	</select>
 	
 		<!-- List<Accommodation> getAllAccs(int userNo); 
@@ -214,7 +214,7 @@
 		select W.*, WA.acc_no
 		from airbnb_wishlists W, airbnb_wishlist_accommodations WA
 		where W.wishlist_no = WA.wishlist_no
-		and W.user_no =#{userNo})
+		and W.user_no = #{userNo})
 		select *
 		from (		
 				select A.*, 
@@ -226,7 +226,7 @@
 				from airbnb_accommodations A
 				order by acc_review_count desc, acc_review_score desc
 				)
-		where rownum &lt;=20
+		where rownum &lt;= 20
  	</select>
 	
 	<!-- List<Accommodation> getAccByCriteria(AccListCriteria accListCriteria); -->
