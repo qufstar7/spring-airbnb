@@ -16,6 +16,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
+<!-- 아이콘 라이브러리 -->
+<!-- <script src="https://kit.fontawesome.com/2628157b3b.js"></script> -->
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -470,7 +472,10 @@ input[type="range"]::-moz-range-thumb{
 									data-bs-target="#acc-slide${list.accNo }"
 									data-bs-slide-to="2" aria-label="Slide 3"></button>
 							</div>
-							<!-- 위시리스트 하트 버튼 -->
+							
+							<!-- 숙소목록을 출력되는 모든 메소드에 해당 숙소가 해당 사용자의 위시리스트 저장여부를 함께 출력하는 메소드를 따로 만들어야 해서 
+								우선 메인 화면에서만 위시리스트 아이콘가 표시되도록 하겠습니다! -유나- -->
+							<!-- 위시리스트 하트 버튼 
 							<div class="wishlist-icon">
 								<c:if test="${empty LOGIN_USER }">
 									<a class="unwish" data-bs-toggle="modal" data-bs-target="#email-login-modal" style="position:absolute; top:15px; right:15px; z-index:2">
@@ -488,7 +493,8 @@ input[type="range"]::-moz-range-thumb{
 													</c:otherwise>
 												</c:choose>
 									</a>
-								</c:if>
+								</c:if> -->
+								
 								<%-- <c:choose>
 									<c:when test="${acc.accNo eq wishlistBtn.accs }"> <!-- wishlist 모달 넣어주기-->
 										<a class="wished" href="#" style="position:absolute; top:15px; right:15px; z-index:2">
@@ -1673,7 +1679,7 @@ $(function () {
 		//e.preventDefault();
 		let accNo = $(this).attr("data-accNo");	
 		$heartIcon = $("#icon-heart-" + accNo); 
-		 if($(this).hasClass("fa-solid")) {
+		 if($heartIcon.hasClass("fa-solid")) {
 			 // 위시리스트에서 숙소 삭제 구현하기
 			 $.getJSON("/delete/wishlistAcc", "accNo=" + accNo) 
 			  .done(function(result) {
@@ -1751,7 +1757,14 @@ $(function () {
 	      		<c:forEach var="wishlist" items="${wishlists}">
 			      	<div id="div-wishlist-${wishlist.no}" class="mt-3" style="display: flex; height: 64px; cursor: pointer;">
 		      			<input type="hidden" name="wishlistNo" value="${wishlist.no}">
-			      		<img src="https://a0.muscache.com/im/pictures/da1a2f06-efb0-4079-abce-0f6fc82089e0.jpg" alt="새로운 위시리스트 만들기" style="vertical-align:middle;">
+		      			<c:choose>
+		      			 <c:when test="${not empty wishlist.accs[0]}">
+				      		<img src="/resources/images/acc/${wishlist.accs[0].imageCover}" alt="imageCover" style="vertical-align:middle; border-radius: 8px;" width="63px">
+		      			 </c:when>
+		      			 <c:otherwise>
+		      			 	<img alt="" src="" alt="imageCover" style="vertical-align:middle; border-radius: 8px; background-color: #DDDDDD;" width="63px" >
+		      			 </c:otherwise>
+		      			</c:choose>
 			      		<span class="ms-3 fw-bold" style="margin-top:20px;">${wishlist.name }</span>
 			      	</div>
 	      		</c:forEach>

@@ -317,7 +317,6 @@ input[type="range"]::-moz-range-thumb{
 	top:1px;
 }
 
-
 </style>
 </head>
 <c:set var="page" value="subNav" />
@@ -1566,6 +1565,7 @@ $(function () {
 	})
 })
 </script>
+
 <!-- 빈하트 클릭시 나타나는 Modal -->
 <div class="modal fade" id="modal-save-to-list" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable">
@@ -1584,7 +1584,14 @@ $(function () {
 	      		<c:forEach var="wishlist" items="${wishlists}">
 			      	<div id="div-wishlist-${wishlist.no}" class="mt-3" style="display: flex; height: 64px; cursor: pointer;">
 		      			<input type="hidden" name="wishlistNo" value="${wishlist.no}">
-			      		<img src="https://a0.muscache.com/im/pictures/da1a2f06-efb0-4079-abce-0f6fc82089e0.jpg" alt="새로운 위시리스트 만들기" style="vertical-align:middle;">
+		      			<c:choose>
+		      			 <c:when test="${not empty wishlist.accs[0]}">
+				      		<img src="/resources/images/acc/${wishlist.accs[0].imageCover}" alt="imageCover" style="vertical-align:middle; border-radius: 8px;" width="63px">
+		      			 </c:when>
+		      			 <c:otherwise>
+		      			 	<img alt="" src="" alt="imageCover" style="vertical-align:middle; border-radius: 8px; background-color: #DDDDDD;" width="63px" >
+		      			 </c:otherwise>
+		      			</c:choose>
 			      		<span class="ms-3 fw-bold" style="margin-top:20px;">${wishlist.name }</span>
 			      	</div>
 	      		</c:forEach>

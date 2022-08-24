@@ -120,6 +120,7 @@
  		where acc_no in (select acc_no
  		                 from airbnb_wishlist_accommodations
  		                 where wishlist_no = #{value})
+ 		order by acc_no desc
  	</select>
  	
  	<!-- List<Accommodation> getAvailableWishlistAccsWithConditions(@Param("wishlistNo")int wishlistNo, @Param("checkInDate") Date checkIndate, @Param("checkOutDate") Date checkOutDate, @Param("guestCount") int guestCount); -->
@@ -154,7 +155,6 @@
 				AND (T.acc_status != '운영중'  OR T.acc_guest &lt; #{guestCount})
 			</otherwise>
 		</choose>
- 	
  	
  		<!-- WITH test_accommodations
 		 AS ( select *
@@ -299,12 +299,4 @@
 		                                    and A.acc_no = #{accNo})
  	 </delete>
  	 
- 	 <!-- void disableUser(int userNo); -->
- 	 <update id="disableUser" parameterType="int">
- 	 	update airbnb_users
-		 set user_disabled = 'Y'
-		where user_no = #{value}
- 	 </update>
- 
- 
 </mapper>

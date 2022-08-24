@@ -190,7 +190,7 @@ pageEncoding="UTF-8"%>
 			     	<input type="password" class="form-control outline" name="loginPassword" placeholder="비밀번호" required>
 			     	<label for="floatingInput">비밀번호</label>
 			     	<div class="invalid-feedback">
-			     		<i class="fa-solid fa-circle-exclamation"></i> <span>비밀번호를 입력해주세요.</span>
+			     		<i class="fa-solid fa-circle-exclamation"></i> <span>유효하지 않은 비밀번호입니다. 다시 시도하여 주세요.</span>
 			     	</div>
 			     	<button type="button" class="text-reset btn btn-link position-absolute fw-bold top-50 end-0 translate-middle" id="btn-login-expose-password">표시</button>
 		    	</div>
@@ -201,7 +201,7 @@ pageEncoding="UTF-8"%>
       	</div>
       	<div>
       		<button class="btn btn-link fw-bold text-reset p-0 mb-2" data-bs-toggle="modal" data-bs-target="#email-login-modal"><small>다른 계정으로 로그인하기</small></button><br/>
-      		<button class="btn btn-link fw-bold text-reset p-0"><small>비밀번호를 잊으셨나요?</small></button>
+      		<button class="btn btn-link fw-bold text-reset p-0 d-none"><small>비밀번호를 잊으셨나요?</small></button>
       	</div>
       </div>
     </div>
@@ -353,7 +353,7 @@ pageEncoding="UTF-8"%>
 	        <div class="d-grid gap-2 my-4">
 	        	<input type="file" name="profileImg" id="profile-img" class="d-none" accept="image/gif, image/jpeg, image/png" />
 	        	<button type="button" class="btn btn-dark p-3 fs-5 fw-bold" id="btn-add-profileImg"><i class="fa-solid fa-cloud-arrow-up text-start"></i> 사진 업로드하기</button>
-	        	<button type="button" class="btn btn-dark p-3 fs-5 fw-bold d-none" id="btn-add-complete" onclick="window.location.reload()" data-bs-dismiss="modal" aria-label="Close">완료</button>
+	        	<button type="button" class="btn btn-dark p-3 fs-5 fw-bold d-none" id="btn-add-complete" onclick="location.href='/'" data-bs-dismiss="modal" aria-label="Close">완료</button>
 	        	<button type="button" class="btn btn-outline-dark p-3 fs-5 fw-bold" id="btn-use-facebookImg">페이스북 사진 사용</button>
 	        	<button type="button" class="btn btn-outline-dark p-3 fs-5 fw-bold d-none" id="btn-change-profileImg">사진 변경</button>
 	        </div>
@@ -384,8 +384,8 @@ pageEncoding="UTF-8"%>
 	
 	</div>
 
-	<!-- 카카로 로그인폼 처리 -->
-	<div class="border p-3 mb-4 bg-light">
+	<!-- 카카오 로그인폼 처리 -->
+	<div>
 		<!-- <a id="custom-login-btn">
 		  <img src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg" width="242" />
 		</a>  -->
@@ -493,7 +493,7 @@ $(function () {
 			if(result.pass) {
 				location.href = "/";
 			} else if (!result.pass) {
-				$("#form-login span").text("유효하지 않은 비밀번호입니다. 다시 시도하여 주세요.");
+				$loginPassword.removeClass("is-valid").addClass("is-invalid");
 			} 
 		})
 	})
@@ -515,7 +515,7 @@ $(function () {
 						
 	      			if(result.exist) {
 	      				// 기존 페이지 계정 이메일과 소셜 로그인 이메일이 일치하는 경우 
-	      				console.log("sns이메일 존재");
+	      				//console.log("sns이메일 존재");
 	      				// 아래 모달창은 나중에 파일 통합하면 출력되게 한다
 	      				loginEmailModal.hide();
 	      				$("#login-password-modal .modal-title").text("계정이 이미 존재합니다.");
@@ -582,7 +582,7 @@ $(function () {
 	    $.getJSON("/user/checkEmailWithSns", "email=" + responsePayload.email)
 	     .done(function(result) {
 			if(result.exist && !result.user.loginType) {
-				console.log(result.user.loginType);
+				//console.log(result.user.loginType);
 				// 기존 페이지 계정 이메일과 소셜 로그인 이메일이 일치하는 경우 	// loginType이 없는 유저들만?
 				loginEmailModal.hide();
 				$("#div-login-again").html("");
