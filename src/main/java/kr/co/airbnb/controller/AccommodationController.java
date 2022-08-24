@@ -36,6 +36,7 @@ import kr.co.airbnb.service.ConvenienceService;
 import kr.co.airbnb.service.NoteService;
 import kr.co.airbnb.service.UserService;
 import kr.co.airbnb.service.WishlistService;
+import kr.co.airbnb.vo.AccPhoto;
 import kr.co.airbnb.vo.AccPrice;
 import kr.co.airbnb.vo.AccRoom;
 import kr.co.airbnb.vo.Accommodation;
@@ -179,6 +180,7 @@ public class AccommodationController {
 		return "acc/renote";
 	}
 
+
 	@GetMapping(path = "/list")
 	public String list(@LoginUser(required = false) User loginUser, AccListCriteria accListCriteria, Model model) {	
 		
@@ -192,45 +194,28 @@ public class AccommodationController {
 		// nav의 키워드로 숙소 검색
 		accommodations = accommodationService.searchAccByCriteria(accListCriteria);
 		
-		// 각 숙소의 타입1,2,3 조회 + 침대 개수 조회
-		for (Accommodation acc : accommodations) {
-			int accNo = acc.getAccNo();
-			
-			List<Type> types = accommodationService.searchTypesByAccNo(accNo);
-			acc.setTypes(types);
-			
-			AccRoom rooms = accommodationService.getRoomByAccNo(accNo);
-			acc.setRoom(rooms);
-
-		List<Accommodation> accList = new ArrayList<Accommodation>();
-		if(searchCriteria == null) {
-			// 메인 페이지에 출력할 인기 숙소
-			accList = accommodationService.getPopularAccommodations();
-						
+		if(accListCriteria == null && loginUser != null) {
 			// 위시리스트 등록 숙소 여부를 포함한 모든 숙소들
-			if(loginUser != null) {
-				accList = accommodationService.getAllAccs(loginUser.getNo());
-			}
-		}else {			
-			// nav의 키워드로 숙소 검색
-			accList = accommodationService.searchAccByKeyword(searchCriteria);
-		}
-		model.addAttribute("list", accommodations);
-
-		// 각 숙소의 타입1,2,3 조회 + 침대 개수 조회
-		for (Accommodation acc : accommodations) {
-			int accNo = acc.getAccNo();
-			
-			List<Type> types = accommodationService.searchTypesByAccNo(accNo);
-			acc.setTypes(types);
-			//if (!types.isEmpty()) {
-			//	model.addAttribute("mainType", acc.getTypes().get(0));
-			//}
-			
-			AccRoom rooms = accommodationService.getRoomByAccNo(accNo);
-			acc.setRoom(rooms);
+			accommodations = accommodationService.getAllAccs(loginUser.getNo());
 		}
 		
+		// 각 숙소의 타입1,2,3 조회 + 침대 개수 조회 + 숙소 사진 조회
+		for (Accommodation acc : accommodations) {
+			int accNo = acc.getAccNo();
+			
+			List<Type> types = accommodationService.searchTypesByAccNo(accNo);
+			acc.setTypes(types);
+			
+			AccRoom rooms = accommodationService.getRoomByAccNo(accNo);
+			acc.setRoom(rooms);
+			
+			List<AccPhoto> photos = accommodationService.getAccPhotosByAccNo(accNo);
+			acc.setPhotos(photos);
+		}
+
+	
+		model.addAttribute("list", accommodations);
+
 		/* 필터부분 */
 		// 1박 평균 요금, 최저 요금, 최고요금
 		AccPrice price = accommodationService.getPrice();
@@ -241,6 +226,7 @@ public class AccommodationController {
 						
 		return "acc/list";
 	}
+	
 	
 	@GetMapping(path="/list/search2")
 	@ResponseBody

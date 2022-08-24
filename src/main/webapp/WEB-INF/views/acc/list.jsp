@@ -454,7 +454,7 @@ input[type="range"]::-moz-range-thumb{
 		<div id="accList" class="grid-main">
 		<!-- acc.status = '운영중' 인 숙소만 리스트업 --> 
 		<c:forEach var="list" items="${list }">
-			<div class="card-container" OnClick="location.href='/acc/detail?no=${list.accNo }'" style="text-decoration-line: none; color: black">
+			<div class="card-container" data-acc-no="${list.accNo }"  style="text-decoration-line: none; color: black">
 				<div class="card-box p-1">
 					<div class="" style="width: 300px">
 						<!-- 숙소 섬네일 슬라이드쇼 시작 -->
@@ -512,18 +512,28 @@ input[type="range"]::-moz-range-thumb{
 							<!-- 슬라이드쇼 이미지 /image-cover, room_image_no -->
 							<div class="carousel-inner" style="border-radius: 25px;">
 								<div class="carousel-item active"> 		
-									<img class="acc-thumbnail rounded-0"
-										src="/resources/images/acc/${list.imageCover }" alt="숙소이미지"
+									<img class="acc-thumbnail rounded-0" data-acc-no="${list.accNo }"
+										src="/resources/images/acc/${list.photos[0].name }" alt="숙소이미지"
 										style="object-fit: cover; width: 300px; height: 300px;">
 								</div>
 								<div class="carousel-item">
-									<img class="acc-thumbnail rounded-0"
-										src="/resources/images/acc/2.jpg" alt="숙소이미지"
+									<img class="acc-thumbnail rounded-0"  data-acc-no="${list.accNo }"
+										src="/resources/images/acc/${list.photos[1].name }" alt="숙소이미지"
 										style="object-fit: cover; width: 300px; height: 300px;">
 								</div>
-								<div class="carousel-item">				<%-- ${acc.room.image.no } --%>
-									<img class="acc-thumbnail rounded-0"
-										src="/resources/images/acc/3.jpg" alt="숙소이미지"
+								<div class="carousel-item">
+									<img class="acc-thumbnail rounded-0"  data-acc-no="${list.accNo }"
+										src="/resources/images/acc/${list.photos[2].name }" alt="숙소이미지"
+										style="object-fit: cover; width: 300px; height: 300px;">
+								</div>
+								<div class="carousel-item">
+									<img class="acc-thumbnail rounded-0"  data-acc-no="${list.accNo }"
+										src="/resources/images/acc/${list.photos[3].name }" alt="숙소이미지"
+										style="object-fit: cover; width: 300px; height: 300px;">
+								</div>
+								<div class="carousel-item">
+									<img class="acc-thumbnail rounded-0"  data-acc-no="${list.accNo }"
+										src="/resources/images/acc/${list.photos[4].name }" alt="숙소이미지"
 										style="object-fit: cover; width: 300px; height: 300px;">
 								</div>
 							</div>
@@ -546,8 +556,7 @@ input[type="range"]::-moz-range-thumb{
 						<div class="row my-2">
 							<div class="col-8">
 								<div class="card-title"><strong><span>${list.address.substring(0,2) }</span>의 <span>${list.types[0].name }</span></strong></div>
-								<div class="card-text text-muted" style="font-size: 10px;">${list.name }</div>
-								<%-- <div class="card-subtitle text-muted" style="font-size:15px">침대 <span>${acc.room.bed }</span>개</div> --%>
+								<div class="card-text text-muted"><small>${list.name }</small></div>
 								<div class="card-subtitle mb-2 text-muted"><fmt:formatDate value="${list.checkIn }" pattern="MM월 dd일"/> ~ <fmt:formatDate value="${list.checkOut }" pattern="MM월 dd일"/></div>
 								<div class="card-text pt-1">
 									<strong>₩<fmt:formatNumber value="${list.price }" /></strong>/박
@@ -1211,6 +1220,15 @@ input[type="range"]::-moz-range-thumb{
 			</div>
 		</div>
 	</div>
+<script>
+//숙소 카드 링크
+$('.card-container img, .card-desc').click(function(event) {
+	
+	let accNo = $(this).attr("data-acc-no");
+	location.href = "/acc/detail?no=" + accNo;
+	
+})
+</script>
 <script>
 /* 카카오맵 중심 x, y좌표 */
 var x = 35.855301;
