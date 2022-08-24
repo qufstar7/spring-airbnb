@@ -103,7 +103,7 @@
     	<div class="modal-content">
       		<div class="modal-header">
         		<h3 class="modal-title" id="exampleModalLabel"><strong>평가 및 후기</strong></h5>
-       	 		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       	 		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
       		</div>			      
       		<div class="modal-body">
 				<div class="row">
@@ -421,7 +421,14 @@ $(function() {
 		exampleModalToggle1.show();
 			
 	})
+		
+	function goBack() {
+		window.history.back();
+	}
 	
+	$(".btn-close").click(function(){
+		window.history.back();
+	})
 	
 	// form 1 - 별점
 	$("#box-total i").click(function() {
