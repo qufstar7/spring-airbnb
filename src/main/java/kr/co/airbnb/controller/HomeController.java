@@ -24,6 +24,7 @@ import kr.co.airbnb.criteria.SearchCriteria;
 import kr.co.airbnb.service.AccommodationService;
 import kr.co.airbnb.service.WishlistService;
 import kr.co.airbnb.utils.SessionUtils;
+import kr.co.airbnb.vo.AccPhoto;
 import kr.co.airbnb.vo.AccPrice;
 import kr.co.airbnb.vo.AccRoom;
 import kr.co.airbnb.vo.AccTag;
@@ -81,6 +82,9 @@ public class HomeController {
 			
 			AccRoom rooms = accommodationService.getRoomByAccNo(accNo);
 			acc.setRoom(rooms);
+			
+			List<AccPhoto> photos = accommodationService.getAccPhotosByAccNo(accNo);
+			acc.setPhotos(photos);
 		}
 
 		// home에만 나오는 nav의 모든 태그 조회
@@ -92,7 +96,6 @@ public class HomeController {
 		AccPrice price = accommodationService.getPrice();
 		model.addAttribute("price", price);
 		
-		// 차트
 		// 차트 막대기 표현할 숫자 전체 조회
 		model.addAttribute("counts", accommodationService.priceCount());
 		
@@ -129,11 +132,6 @@ public class HomeController {
 		
 		return accommodations;
 	} 
-
-	@GetMapping(path="filter")
-	public String filterTest() {
-		return "filter-test";
-	}
 	
 	@GetMapping(path="/logout")
 	public String logout() { 

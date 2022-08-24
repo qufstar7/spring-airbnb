@@ -452,7 +452,7 @@ input[type="range"]::-moz-range-thumb{
 		<div id="accList" class="grid-main">
 		<!-- acc.status = '운영중' 인 숙소만 리스트업 --> 
 		<c:forEach var="list" items="${list }">
-			<div class="card-container" OnClick="href='/detail?no=${list.accNo }'" style="text-decoration-line: none; color: black">
+			<div class="card-container" OnClick="location.href='/acc/detail?no=${list.accNo }'" style="text-decoration-line: none; color: black">
 				<div class="card-box p-1">
 					<div class="" style="width: 300px">
 						<!-- 숙소 섬네일 슬라이드쇼 시작 -->
@@ -540,14 +540,14 @@ input[type="range"]::-moz-range-thumb{
 						<div class="row my-2">
 							<div class="col-8">
 								<div class="card-title"><strong><span>${list.address.substring(0,2) }</span>의 <span>${list.types[0].name }</span></strong></div>
-								<div class="card-text text-muted" style="font-size:15px">${list.name }</div>
+								<div class="card-text text-muted" style="font-size: 10px;">${list.name }</div>
 								<%-- <div class="card-subtitle text-muted" style="font-size:15px">침대 <span>${acc.room.bed }</span>개</div> --%>
 								<div class="card-subtitle mb-2 text-muted"><fmt:formatDate value="${list.checkIn }" pattern="MM월 dd일"/> ~ <fmt:formatDate value="${list.checkOut }" pattern="MM월 dd일"/></div>
 								<div class="card-text pt-1">
 									<strong>₩<fmt:formatNumber value="${list.price }" /></strong>/박
 								</div>
 							</div>
-							<div class="col-4 text-end">★<span>4.5</span>(<span>120</span>)</div>	<!-- total_score (리뷰개수) -->
+							<div class="col-4 text-end"><i class="bi bi-star-fill"></i><span> ${acc.reviewScore }</span>(<span>${acc.reviewCount }</span>)</div>
 						</div>
 					</div>
 				</div>
@@ -579,7 +579,7 @@ input[type="range"]::-moz-range-thumb{
 					<div></div>
 				</div>
 				<div class="modal-body p-0" style="padding:0; overflow-x:hidden;">
-					<form id="filter-search" method="GET">
+					<form id="filter-search" method="GET" action="list">
 						<!-- 태그 아이디 -->
 						<input type="hidden" id="tagId-submit" value="">
 						<h5 class="pt-4">
@@ -1208,7 +1208,7 @@ input[type="range"]::-moz-range-thumb{
 <script>
 /* 카카오맵 중심 x, y좌표 */
 var x = 35.855301;
-var y = 128.192884;
+var y = 130.192884;
 /* list 페이지의 오른쪽 지도 구현 - 접기 펼치기 버튼 */
 
 $("#openbtn").click(function() {
@@ -1236,7 +1236,7 @@ $("#closebtn").click(function() {
 var container = document.getElementById('map'); 		  //지도를 담을 영역의 DOM 레퍼런스
 var options = { 										  //지도를 생성할 때 필요한 기본 옵션
 	center: new kakao.maps.LatLng(x, y), //지도의 중심좌표.
-	level: 12											  //지도의 레벨(확대, 축소 정도) - 최대 14
+	level: 13											  //지도의 레벨(확대, 축소 정도) - 최대 14
 };
 
 var map = new kakao.maps.Map(container, options); 		  //지도 생성 및 객체 리턴
@@ -1254,50 +1254,65 @@ function zoomOut() {
     map.setLevel(map.getLevel() + 1);
 }
 
+// 지도에 표시할 숙소의 위도, 경도
 var positions = [
-    {
-        title: '카카오', 
-        latlng: new kakao.maps.LatLng(33.450705, 126.570677)
-    },
-    {
-        title: '생태연못', 
-        latlng: new kakao.maps.LatLng(33.450936, 126.569477)
-    },
-    {
-        title: '텃밭', 
-        latlng: new kakao.maps.LatLng(33.450879, 126.569940)
-    },
-    {
-        title: '근린공원',
-        latlng: new kakao.maps.LatLng(33.451393, 126.570738)
-    }
-];
+				<c:forEach var='accMap' items="${list}">
+					{
+						title: '${accMap.accNo}',
+				        content: '<div class="text-center"><p> ₩ ${accMap.price}</p></div>', 
+				        latlng: new kakao.maps.LatLng(${accMap.latitude}, ${accMap.longitude})
+				    },
+				</c:forEach> 
+				];
 
 // 마커 이미지의 이미지 주소입니다
-var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+var imageSrc = "../../../resources/images/map_marker.png"; 
     
 for (var i = 0; i < positions.length; i ++) {
     
     // 마커 이미지의 이미지 크기 입니다
-    var imageSize = new kakao.maps.Size(0, 0); 
+    var imageSize = new kakao.maps.Size(20, 20); 
     
     // 마커 이미지를 생성합니다    
     var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
-    
-  //커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-    var content = '<div class="customoverlay">' +
-    '  <a href="https://map.kakao.com/link/map/11394059" target="_blank">' +
-    '    <span class="title">구의야구공원</span>' +
-    '  </a>' +
-    '</div>';
     
     // 마커를 생성합니다
     var marker = new kakao.maps.Marker({
         map: map, // 마커를 표시할 지도
         position: positions[i].latlng, // 마커를 표시할 위치
         title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-        image : markerImage // 마커 이미지 
+        image : markerImage, // 마커 이미지 
+        clickable : true
     });
+
+ 	// 마커에 표시할 인포윈도우를 생성합니다 
+    var infowindow = new kakao.maps.InfoWindow({
+        content: positions[i].content, // 인포윈도우에 표시할 내용
+        removable : true
+    });
+
+    // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
+    // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+    (function(marker, infowindow) {
+        // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
+        kakao.maps.event.addListener(marker, 'click', function() {
+            infowindow.open(map, marker);
+        });
+    })(marker, infowindow);
+}
+
+// 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+function makeOverListener(map, marker, infowindow) {
+    return function() {
+        infowindow.open(map, marker);
+    };
+}
+
+// 인포윈도우를 닫는 클로저를 만드는 함수입니다 
+function makeOutListener(infowindow) {
+    return function() {
+        infowindow.close(parseInt(marker.title));
+    };
 }
 
 /* var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 마커이미지의 주소입니다    
@@ -1348,7 +1363,7 @@ yAnchor: 1
          data.addColumn('string', 'Country');
          data.addColumn('number', '');
          data.addRows([
-	         <c:forEach var='c' items="${priceList}">
+	         <c:forEach var='c' items="${counts}">
 	           ['', ${c}],         
 	         </c:forEach>
          ]);
@@ -1427,7 +1442,6 @@ $(function() {
 		
 		$(".fold-content").toggleClass("d-none");
 	});
-	
 
 	/* 필터-전체 해제 */
 	$("#unchecked").click(function() {
@@ -1520,11 +1534,28 @@ $(function() {
 	
 	// 필터의 검색버튼을 누를 때
 	$("#btn-filter-search").click(function() {
-		searchFilter();
-		$("#filterModal").modal("hide");
+		//searchFilter();
+		$('#filter-search').trigger("submit");
+		//$("#filterModal").modal("hide");
 	});
 	
+	// 무한 스크롤 테스트
+	 /* let index=0;
+	 $(window).scroll(function(){
+		 let $window = $(this);
+		 let scrollTop = $window.scrollTop();
+		 let windowHeight = $window.height();
+		 let documentHeight = $(document).height();
+		 
+		 if (scrollTop + windowHeight + 1>= documentHeight) {
+			 index++;
+			 setTimeout(searchFilter,200);
+		 }
+		 })
+	 } */
+	
 	// 필터 검색
+	/*
 	function searchFilter() {
 		let $box = $('#accList').empty();
 		
@@ -1536,12 +1567,12 @@ $(function() {
 			success: function(accommodations) {
 				console.log(accommodations);
 				$.each(accommodations, function(index, acc) {
+				
 					let content= "";
 					content += '<div class="card-container" onclick="location.href=\'/acc/detail?no='+acc.accNo+'\'" style="text-decoration-line: none; color: black">';
 					content += '<div class="card-box p-1">';
 					content += '<div class="" style="width: 300px">';
-									<!-- 숙소 섬네일 슬라이드쇼 시작 -->
-									<!-- 아이디에 acc_no나 img_no를 사용하는게 좋을 것 같습니다. / id - 아래 3개의 버튼, prev버튼, next버튼 -->
+									
 					content += '		<div id="acc-slide'+acc.accNo+'" class="carousel slide" data-interval="false">';
 					content += '			<div class="carousel-indicators">';
 					content += '				<button type="button"';
@@ -1555,31 +1586,10 @@ $(function() {
 					content += '					data-bs-target="#acc-slide'+acc.accNo+'"';
 					content += '					data-bs-slide-to="2" aria-label="Slide 3"></button>';
 					content += '			</div>';
-										<!-- 위시리스트 하트 버튼 -->
+										
 					content += '			<div class="wishlist-icon">';
-										<%--
-											<c:if test="${empty LOGIN_USER }">
-												<a class="unwish" href="#" data-bs-toggle="modal" data-bs-target="#email-login-modal"
-													style="position:absolute; top:15px; right:15px; z-index:2">
-													<span class="material-icons" style="color:white">favorite</span>
-												</a>
-											</c:if>
-										--%>
-											<%-- <c:choose>
-												<c:when test="${acc.accNo eq wishlistBtn.accs }"> <!-- wishlist 모달 넣어주기-->
-													<a class="wished" href="#" style="position:absolute; top:15px; right:15px; z-index:2">
-														<span class="material-icons" style="color:#FF7977">favorite</span>
-													</a>
-												</c:when>
-												<c:otherwise>
-													<a class="unwish" href="#" data-bs-toggle="modal" data-bs-target="#"	
-														style="position:absolute; top:15px; right:15px; z-index:2">
-														<span class="material-icons" style="color:white">favorite</span>
-													</a>
-												</c:otherwise>
-											</c:choose> --%>
 					content += '				</div>';
-										<!-- 슬라이드쇼 이미지 /image-cover, room_image_no -->
+										
 					content += '				<div class="carousel-inner" style="border-radius: 25px;">';
 					content += '					<div class="carousel-item active">';
 					content += '						<img class="acc-thumbnail rounded-0"';
@@ -1611,12 +1621,12 @@ $(function() {
 					content += '					<span class="visually-hidden">Next</span>';
 					content += '				</button>';
 					content += '			</div>';
-									<!-- 숙소 설명 -->
+									
 					content += '			<div class="row my-2">';
 					content += '				<div class="col-8">';
 					content += '					<div class="card-title"><strong><span>'+acc.user.name+'</span>의 <span>'+ (acc.types[0] ? acc.types[0].name : "")+'</span></strong></div>';
 					content += '					<div class="card-text text-muted" style="font-size:15px">'+acc.name+'</div>';
-											<%-- <div class="card-subtitle text-muted" style="font-size:15px">침대 <span>${acc.room.bed }</span>개</div> --%>
+											
 					content += '					<div class="card-subtitle mb-2 text-muted">'+acc.checkIn+' ~ '+acc.checkOut+'</div>';
 					content += '					<div class="card-text pt-1">';
 					content += '						<strong>₩ '+acc.price+'</strong>/박';
@@ -1633,7 +1643,7 @@ $(function() {
 			}
 		});
 	}
-	
+	*/
 	
 	/* 슬라이드 쇼 버튼 hover */
 	/* $('.carousel-control-prev').hide();

@@ -209,108 +209,117 @@
 	<!-- List<Accommodation> getAccByCriteria(AccListCriteria accListCriteria); -->
 	<select id="getAccByCriteria" parameterType="kr.co.airbnb.criteria.AccListCriteria" resultMap="AccResultMap">
 		select *
-		from airbnb_accommodations
-		<where>
-			acc_price >= #{minPrice} and acc_price &lt;= #{maxPrice}
-			<if test="keyword != null">
-				and acc_address like '%'||#{keyword}||'%'
-			</if>
-			<!-- <if test="startDate != '' ">
-				endDate를 지정하지 않는 경우 1박 2일으로 자동 설정
-				<if test="endDate == ''">	
-					and acc_check_in = #{startDate}
-					and acc_check_out = to_date('#{startDate}', 'YYYY-MM-DD') + 1
+		from (
+			select *
+			from airbnb_accommodations
+			<where>
+				<if test="minPrice > 0  and maxPrice > 0">
+					acc_price >= #{minPrice} and acc_price &lt;= #{maxPrice}
 				</if>
-				<if test="endDate != ''">
-					and acc_check_in = #{startDate}
-					and acc_check_out = #{endDate}
+				<if test="keyword != null">
+					and acc_address like '%'||#{keyword}||'%'
 				</if>
-			</if> -->
-			<if test="adult != null || child != null || infant != null">
-				and acc_guest >= #{adult} + #{child} + #{infant}
-			</if>
-			<if test="pet != null">
-				and acc_pet = #{pet}
-			</if>
-			<if test="rent != null">
-				and acc_no in (select acc_no
-						       from airbnb_acc_types
-						       where type_no in
-						     		<foreach collection="rent" item="type" open="(" close=")" separator=",">
-						     			#{type}
-						     		</foreach>
-						     	)
-			</if>
-			<if test="house != null">
-				and acc_no in (select acc_no
-						       from airbnb_acc_types
-						       where type_no in
-						     		<foreach collection="house" item="type" open="(" close=")" separator=",">
-						     			#{type}
-						     		</foreach>
-						       )
-			</if>
-			
-			<if test="convenience != null">
-				and acc_no in (select acc_no
-							  from airbnb_acc_conveniences
-							  where convenience_no in
-							  		<foreach collection="convenience" item="convenience" open="(" close=")" separator=",">
-									   #{convenience}
-							  		</foreach>
-							  )
-			</if>
-			 
-			<if test="bedrooms != null">
-				and acc_no in (select acc_no
-							  from airbnb_acc_rooms
-							  where room_bedroom = #{bedrooms})
-			</if>
-			
-			<if test="beds != null">
-				and acc_no in (select acc_no
-							  from airbnb_acc_rooms
-							  where room_bed = #{beds})
-			</if>
-			<if test="bathrooms != null">
-				and acc_no in (select acc_no
-							  from airbnb_acc_rooms
-							  where room_bathroom = #{bathrooms})
-			</if>
-		</where>
+				<!-- <if test="startDate != '' ">
+					endDate를 지정하지 않는 경우 1박 2일으로 자동 설정
+					<if test="endDate == ''">	
+						and acc_check_in = #{startDate}
+						and acc_check_out = to_date('#{startDate}', 'YYYY-MM-DD') + 1
+					</if>
+					<if test="endDate != ''">
+						and acc_check_in = #{startDate}
+						and acc_check_out = #{endDate}
+					</if>
+				</if> -->
+				<if test="adult != null || child != null || infant != null">
+					and acc_guest >= #{adult} + #{child} + #{infant}
+				</if>
+				<if test="pet != null">
+					and acc_pet = #{pet}
+				</if>
+				<if test="rent != null">
+					and acc_no in (select acc_no
+							       from airbnb_acc_types
+							       where type_no in
+							     		<foreach collection="rent" item="type" open="(" close=")" separator=",">
+							     			#{type}
+							     		</foreach>
+							     	)
+				</if>
+				<if test="house != null">
+					and acc_no in (select acc_no
+							       from airbnb_acc_types
+							       where type_no in
+							     		<foreach collection="house" item="type" open="(" close=")" separator=",">
+							     			#{type}
+							     		</foreach>
+							       )
+				</if>
+				
+				<if test="convenience != null">
+					and acc_no in (select acc_no
+								  from airbnb_acc_conveniences
+								  where convenience_no in
+								  		<foreach collection="convenience" item="convenience" open="(" close=")" separator=",">
+										   #{convenience}
+								  		</foreach>
+								  )
+				</if>
+				 
+				<if test="bedrooms != null">
+					and acc_no in (select acc_no
+								  from airbnb_acc_rooms
+								  where room_bedroom = #{bedrooms})
+				</if>
+				
+				<if test="beds != null">
+					and acc_no in (select acc_no
+								  from airbnb_acc_rooms
+								  where room_bed = #{beds})
+				</if>
+				<if test="bathrooms != null">
+					and acc_no in (select acc_no
+								  from airbnb_acc_rooms
+								  where room_bathroom = #{bathrooms})
+				</if>
+			</where>
+		order by acc_review_count desc, acc_review_score desc)
+		where rownum &lt;= 20
 	</select>
 	<!-- List<Accommodation> searchAccByKeyword(SearchCriteria searchCriteria); -->
 	<select id="searchAccByKeyword" parameterType="kr.co.airbnb.criteria.SearchCriteria" resultMap="AccResultMap">
 		select *
-		from airbnb_accommodations
-		<where>
-			<if test="accTypes != null">
-				acc_no in (select acc_no
-						   from airbnb_acc_types
-						   where acc_no = #{accNo})
-			</if>
-			<if test="keyword != ''">
-				and acc_address like '%'||#{keyword}||'%'
-			</if>
-			<!-- <if test="startDate != '' ">
-				endDate를 지정하지 않는 경우 1박 2일으로 자동 설정
-				<if test="endDate == ''">	
-					and acc_check_in = #{startDate}
-					and acc_check_out = to_date('#{startDate}', 'YYYY-MM-DD') + 1
+		from (
+			select *
+			from airbnb_accommodations
+			<where>
+				<if test="accTypes != null">
+					acc_no in (select acc_no
+							   from airbnb_acc_types
+							   where acc_no = #{accNo})
 				</if>
-				<if test="endDate != ''">
-					and acc_check_in = #{startDate}
-					and acc_check_out = #{endDate}
+				<if test="keyword != ''">
+					and acc_address like '%'||#{keyword}||'%'
 				</if>
-			</if> -->
-			<if test="adult != '' || child != '' || infant != ''">
-				and acc_guest >= #{adult} + #{child} + #{infant}
-			</if>
-			<if test="pet != ''">
-				and acc_pet = #{pet}
-			</if>
-		</where> 
-				
+				<!-- <if test="startDate != '' ">
+					endDate를 지정하지 않는 경우 1박 2일으로 자동 설정
+					<if test="endDate == ''">	
+						and acc_check_in = #{startDate}
+						and acc_check_out = to_date('#{startDate}', 'YYYY-MM-DD') + 1
+					</if>
+					<if test="endDate != ''">
+						and acc_check_in = #{startDate}
+						and acc_check_out = #{endDate}
+					</if>
+				</if> -->
+				<if test="adult != '' || child != '' || infant != ''">
+					and acc_guest >= #{adult} + #{child} + #{infant}
+				</if>
+				<if test="pet != ''">
+					and acc_pet = #{pet}
+				</if>
+			</where> 
+			order by acc_review_count desc, acc_review_score desc)
+		where rownum &lt;= 20	
 	</select> 
 	
 	<!-- List<Accommodation> getAccByFilter(FilterCriteria filterCriteria); -->
