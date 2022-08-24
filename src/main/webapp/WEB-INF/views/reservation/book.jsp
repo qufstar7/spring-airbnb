@@ -23,12 +23,12 @@
 		<h4>확인 및 결제</h4>
 		<div class="row mb-3 my-5 px-3" >
 			<div class="col border bg-white rounded">
-					<div class="mb-3">
+					<div class="col mb-3">
 						<span style="font-weight:bold; font-size:small;">흔치 않은 기회입니다.</span>
 						<p >${accommodation.user.name }님의 숙소는 보통 예약이 가득 차 있습니다.</p>
 					</div>
-					<div class="col">
-						<img alt="다이아몬드" src="../resources/images/reservation/diampnd.png">
+					<div class="col-1">
+						<img alt="다이아몬드" src="../resources/images/reservation/diamond.png">
 					</div>
 			</div>
 		</div>
@@ -38,7 +38,7 @@
 					<span>날짜</span>
 					<button type ="button" class="btn btn-sm" style="background-color:white; border-color:white; float:right;"><u>수정</u></button>
 					<br>
-					<p class ="small"><fmt:formatDate value="${reservaionRegisterForm.checkInDate}" pattern="MM월dd일" /> - <fmt:formatDate value="${accommodation.checkOut}" pattern="dd일" /></p>
+					<p class ="small"><fmt:formatDate value="${reservaionRegisterForm.checkInDate}" pattern="MM월dd일" /> - <fmt:formatDate value="${reservaionRegisterForm.checkOutDate}" pattern="dd일" /></p>
 				</div>
 				<div>
 					<span>게스트</span>
@@ -183,7 +183,7 @@
 					<div class="row p-3">
 						<div class-col-9>
 							지금 ₩<fmt:formatNumber value=" ${accommodation.price *0.3}"/>을(를) 결제하시면, 나머지 금액(₩<fmt:formatNumber value=" ${accommodation.price *0.7}"/>)은 동일한 결제수단으로 
-							2022년 11월 18일 자동 청구됩니다. 추가 수수료는 없습니다.
+							<fmt:formatDate value="${reservaionRegisterForm.checkInDate}" pattern="yyyy년 MM월 dd일" /> 자동 청구됩니다. 추가 수수료는 없습니다.
 							<br>
 							<button type ="button" class="btn btn-sm" id="btn-howtouse" style="background-color:white; border-color:white;"><u>상세정보</u></button>
 						</div>
@@ -279,10 +279,6 @@
 				<input type="hidden" name="accNo" value="${accommodation.accNo }">	
 				<input type="hidden" name="checkInDate" value='<fmt:formatDate value="${accommodation.checkIn}" pattern="yyyy-MM-dd" />'>	
 				<input type="hidden" name="checkOutDate" value='<fmt:formatDate value="${accommodation.checkOut}" pattern="yyyy-MM-dd" />'>
-				<input type="hidden" name="adultNum" value="${adultCount }">	
-				<input type="hidden" name="childrenNum" value="${childCount }">	
-				<input type="hidden" name="infantNum" value="${infantCount }">	
-				<input type="hidden" name="petNum" value="${petCount }">	
 				<input type="hidden" name="totalGuest" value="${accommodation.guest }">	
 				<input type="hidden" name="price" value="${accommodation.price }">
 				<input type="hidden" name="cleaningPrice" value="${accommodation.cleaningPrice }">
@@ -461,6 +457,61 @@ $(function(){
 			$insert.empty();
 		}
 	});
+	
+	// 달력
+	let disabledDate = ('${acc.disabledDate}').split(",");
+	console.log(disabledDate) 
+	
+	/* var fp2 = $("#checkInDate").flatpickr({
+		minDate: new Date(),
+		dateFormat: "Y-m-d",
+		disable : disabledDate,
+		"locale": "ko" ,
+	});  
+	var fp3 = $("#checkOutDate").flatpickr({
+		minDate: new Date(),
+		dateFormat: "Y-m-d",
+		disable : disabledDate,
+		"locale": "ko" ,
+	});   */
+	
+	var fp1 = $("#days-box").flatpickr({
+		minDate: new Date(),
+		mode: "range",
+		dateFormat: "Y-m-d",
+		disable : disabledDate,
+		"locale": "ko" ,
+		wrap: true
+	   });  
+	fp1.config.onChange.push(function(selectedDates) {
+ 		if (selectedDates[1]==null || selectedDates[0]==null){
+ 			return;
+ 		}
+ 		console.log(selectedDates[0])
+ 		console.log(selectedDates[1])
+ 		
+ 		let indate = new Date(selectedDates[0])
+ 		let outdate = new Date(selectedDates[1])
+ 		console.log(indate)
+ 		console.log(outdate) 
+ 		
+ 		// 영탁
+ 		document.getElementById('checkInDate').value = CF_toStringByFormatting(new Date(indate));
+ 		document.getElementById('checkOutDate').value = CF_toStringByFormatting(new Date(outdate));
+		let diffDate = Date.parse(selectedDates[1])-Date.parse(selectedDates[0]);
+		
+ 		let day = Math.floor(diffDate / (1000 * 60 * 60 * 24));
+ 		$(".day").text(day);
+ 		$("#input-day").val(day);
+ 		let sum = ${acc.price } * day;
+ 		$("#day-price").text(sum.toLocaleString());
+ 		$("#price").val(sum);
+ 		
+ 		
+ 		let totalPrice = ${acc.cleaningPrice} + sum
+ 		$("#totalPrice").text(totalPrice.toLocaleString())
+ 		$("#totalPriceValue").val(totalPrice)
+	}) 
 	
 	// 인원 버튼
 	$(".adultM").addClass("disabled")
