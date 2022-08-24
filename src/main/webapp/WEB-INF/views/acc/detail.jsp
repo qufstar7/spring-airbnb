@@ -341,11 +341,11 @@
 								<input type="text" class="text-center" placeholder="체크인 체크아웃을 설정하시오" data-input id="days">
 								<input type="text" name="checkInDate" id="checkInDate" value="" > 
 								<input type="text" name="checkOutDate" id="checkOutDate" value="" >
-								<input type="hidden" name="adultNum" id="adultNum" value="0">
+								<input type="hidden" name="adultNum" id="adultNum" value="1">
 								<input type="hidden" name="childrenNum" id="childrenNum" value="0">
 								<input type="hidden" name="infantNum" id="infantNum" value="0">
 								<input type="hidden" name="petNum" id="petNum" value="0">
-								<input type="hidden" name="totalGuest" id="totalGuest" value="0">
+								<input type="hidden" name="totalGuest" id="totalGuest" value="1">
 								<input type="hidden" name="day" id="input-day" value="">
 							</div>
 						</div>

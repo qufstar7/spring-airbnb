@@ -31,7 +31,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
-<title>호스트에 연락</title>
+<title>메시지</title>
 </head>
 <body>
 <%@ include file="../common/nav2.jsp" %> 
