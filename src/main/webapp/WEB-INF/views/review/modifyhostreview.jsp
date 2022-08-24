@@ -92,8 +92,8 @@
 <%@ include file="../common/nav.jsp"%>
 <!-- form 시작 -->
 <!-- 파라미터로 숙소 번호 받아야 한다. -->
-<form class="mb-3" name="guestReview" id="guest-review">		
-<input type="hidden" id="user-type" name="userType" value="guest" />	
+<form class="mb-3" name="hostReview" id="host-review">		
+<input type="hidden" id="user-type" name="userType" value="host" />	
 <!-- Scrollable Modal -->
 <div class="modal fade" id="exampleModalToggle1" aria-hidden="true"  data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="exampleModalToggleLabel1" tabindex="-1">
 	<div class="modal-dialog modal-dialog-centered modal-lg">
@@ -105,33 +105,26 @@
 			<div class="modal-body">
 				<div class="mb-5">
 					<h3>공개후기<span class="fs-5">  (필수항목)</span></h3>
-					<p class="mb-4">회원님의 후기는 호스트의 프로필과 숙소 페이지에 전체 공개됩니다.
-					   다음 페이지에서 에어비앤비에게 비공개로 추가 피드백을 남기실 수 있습니다.
-					   한국어로 공개 후기를 작성하세요.
-					   다른 게스트는 필요한 경우 자동 번역문을 읽을 수 있습니다. </p>
+					<p class="gray mb-4">14일 동안 후기를 작성할 수 있습니다. 후기 작성 기간 동안에는 게스트도 호스트에 대한 후기를 작성해야 호스트의 피드백을 읽을 수 있습니다. 
+					      	   			후기 작성 기간이 종료되면, 호스트의 피드백이 공개됩니다. 후기 작성 가이드 라인을 살펴보세요.
+					</p>
 					<textarea name="public" id="public-text" cols="100" rows="5"  maxlength="500" style="resize:vertical; width:100%";" 
 							  placeholder="호스트가 어떻게 회원님을 맞이하였나요? 숙소 설명은 명확하였나요? 숙소가 위치한 지역은 어떤가요?"></textarea>
 					<p align="right">남은 글자 수 : <span id="test-length">( 500 / 500 )</span>자</p>
 				</div>
 				<div>
 					<div class="mb-4">
-						<h3>호스트 비공개 피드백<span class="fs-5">  (선택사항)</span></h3>
-						<p>이 피드백은 비공개이며, 해당 호스트와 에어비앤비 직원 빛 서비스 제공자만 볼 수 있습니다.</p>
-					</div>
-					<div class="mb-4">
-						<p><strong>이 숙소에서 가장 마음에 드는 점은 무엇인가요?</strong></p>
-						<textarea name="positive" id="positive-text" cols="100" rows="5" style="resize:vertical; width:100%;"></textarea>
-						<p align="right">남은 글자 수 : <span id="positive-length">( 500 / 500 )</span>자</p>
+						<h3>게스트 비공개 피드백<span class="fs-5">  (선택사항)</span></h3>
+						<p>이 피드백은 비공개이며, 해당 게스트와 에어비앤비 직원 빛 서비스 제공자만 볼 수 있습니다.</p>
 					</div>
 					<div class="mb-5">
-						<p><strong>회원님의 호스트가 더 발전하기 위한 피드백을 주세요.</strong></p>
-						<textarea name="feedback" id="feedback-text" cols="100" rows="5" style="resize:vertical; width:100%;"></textarea>
-						<p align="right">남은 글자 수 : <span id="feedback-length">( 500 / 500 )</span>자</p>
+						<p><strong>피드백을 하거나 감사함을 표하세요.<strong></p>
+						<textarea name="feedback" id="private-text" cols="100" rows="5" style="resize:vertical; width:100%;"></textarea>
 					</div>
 				</div>			
 			</div> 
 			<div class="modal-footer">
-				<button type="button" class="btn px-5 next" id="btn-comp-guestreview">완료</button>
+				<button type="button" class="btn px-5 next" id="btn-comp-hostreview">완료</button>
 			</div>
 		</div>
 	</div>
@@ -224,7 +217,7 @@ $(function() {
 	})
 				
 	// 비공개 후기 - 글자수 세는 함수
-	$("#positive-text").keyup(function() {
+	$("#private-text").keyup(function() {
 		let content = $(this).val();
 		$("#positive-length").text("( "+ ( 500 - parseInt(content.length)) +" / 500 )");
 		
@@ -235,18 +228,7 @@ $(function() {
 		}
 	})
 	
-	$("#feedback-text").keyup(function() {
-		let content = $(this).val();
-		$("#feedback-length").text("( "+ ( 500 - parseInt(content.length)) +" / 500 )");
-		
-		if (content.length > 500) {
-			alert("최대 500자까지 입력 가능합니다.");
-	        $(this).val(content.substring(0, 500));
-	        $('#test-length').text("( 0 / 500 )");
-		}
-	})
-	
-	$("#btn-comp-guestreview").click(function() {
+	$("#btn-comp-hostreview").click(function() {
 		exampleModalToggle1.hide();
 		exampleModalToggle2.show();
 	})
@@ -259,11 +241,10 @@ $(function() {
 		window.location = "https://localhost/";
 	})
 	
-	$("#btn-comp-guestreview").click(function() {
+	$("#btn-comp-hostreview").click(function() {
 		let review = {
 			content: $("#public-text").val(),	
-			positiveFeedback: $("#positive-text").val(),	
-			nagativeFeedback: $("#feedback-text").val(),
+			privateNote: $("#private-text").val(),	
 			no: no
 		}
 		

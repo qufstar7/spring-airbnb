@@ -210,5 +210,24 @@
 		                            and A.CHECK_OUT_DATE is not null and A.CHECK_OUT_DATE + 14 >= to_date(to_char(sysdate, 'yyyy-mm-dd')))
 		order by X.RESERVATION_CREATED_DATE desc
 	</select>
+	
+	<!-- Review getReviewByReviewNo(int no); -->
+	<select id="getReviewByReviewNo" parameterType="int" resultMap="reviewResultMap">
+		select *
+		from airbnb_reviews
+		where review_no = #{value}
+	</select>
+	
+	<!-- void updateReview(Review review); -->
+	<update id="updateReview" parameterType="kr.co.airbnb.vo.Review">
+		update airbnb_reviews
+		set 
+			review_content = #{content},
+			positive_feedback = #{positiveFeedback},
+			nagative_feedback = #{nagativeFeedback},
+			PRIVATE_NOTE = #{privateNote},
+			review_updated_date = sysdate
+		where review_no = #{no}
+	</update>
 
 </mapper>

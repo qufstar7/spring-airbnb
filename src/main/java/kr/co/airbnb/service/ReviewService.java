@@ -181,8 +181,16 @@ public class ReviewService {
 		return reviewMapper.getSentGuestReviews(no);
 	}
 
-	public Object getReviewsToWrite(int no) {
+	public List<Review> getReviewsToWrite(int no) {
 		return reviewMapper.getReviewsToWrite(no);
+	}
+
+	public Review getReviewByReviewNo(int no) {
+		return reviewMapper.getReviewByReviewNo(no);
+	}
+
+	public void updateReview(Review review) {
+		reviewMapper.updateReview(review);
 	}
 
 }
