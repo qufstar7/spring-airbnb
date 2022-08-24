@@ -39,6 +39,15 @@
 		<association property="user" column="USER_NO" select="kr.co.airbnb.mapper.UserMapper.getUserByNo"/>
 	</resultMap>
 	
+	<!-- List<Integer> getPriceCount(); -->
+	<select id="getPriceCount" resultType="int">
+		select count(*) as priceCount
+		from (select trunc(acc_price/32000) acc_price
+		        from airbnb_accommodations)
+		group by acc_price
+		order by acc_price
+	</select>
+	
 	<!-- AccPrice getPrice(); -->
 	<select id="getPrice" resultType="Price">
 		select 	avg(acc_price) as avg, 
@@ -126,28 +135,6 @@
 		and A.acc_no = #{value}
 	</select> -->
 	
-	
-	<!-- List<Wishlist> getWishlistByAccNo(int accNo); 
-	<select id="getWishlistByAccNo" parameterType="int" resultType="Wishlist">
-		select A.acc_no as accNo, B.wishlist_no as "wishlist.no"
-		from airbnb_accommodations A, airbnb_wishlist_accommodations B
-		where A.acc_no = B.acc_no
-		and A.acc_no = #{value}
-	</select>-->
-	
-	<!-- List<AccViewCount> getViewCountsByAccNo(int accNo); -->
-	
-	<!-- List<Reservation> getReservationByAccNo(int accNo); -->
-	
-	<!-- List<Review> getReviewByAccNo(int accNo); -->
-	
-	
-	<!-- List<AccDiscount> getDiscountByAccNo(int accNo); -->
-	
-	<!-- List<Tag> getTagByAccNo(int accNo); -->
-
-
-	<!-- List<Room> getRoomByAccNo(int accNo); -->
 	<select id="getRoomByAccNo" parameterType="int" resultType="kr.co.airbnb.vo.AccRoom">
 		select
 			ROOM_NO as no,
@@ -181,13 +168,6 @@
    		<collection property="photos" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccPhotosByAccNo"></collection>
    		<collection property="room" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getRoomByAccNo"></collection>
       	<collection property="type" column="TYPE_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getTypesByTypeNo"></collection>
-		<!--
-		<collection property="wishlist" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getWishlistByAccNo"></collection>
-		<collection property="view" column="ACC_NO" select=""></collection>
-		<collection property="reservation" column="ACC_NO" select=""></collection>
-		<collection property="review" column="ACC_NO" select=""></collection>
-		<collection property="discount" column="ACC_NO" select=""></collection>
-		<collection property="tag" column="ACC_NO" select=""></collection> -->
 	</resultMap>
 	
 	<!-- Accommodation getAcc(int no); -->
@@ -216,50 +196,23 @@
 		order by B.type_no
 	</select>
 	
-	<!-- List<AccRoom> getAllRoomsByAccNo(int accNo); 
-	<select id="getAllRoomsByAccNo" parameterType="int" resultType="room">
-		select 
-			B.room_no as no, 
-			B.room_bedroom as bedroom, 
-			B.room_bed as bed, 
-			B.room_bathroom as bathroom, 
-			B.room_toilet as toilet, 
-			B.room_livingroom as livingroom
-		from airbnb_accommodations A, airbnb_acc_rooms B
-		where A.acc_no = B.acc_no
-		and A.acc_no = #{value}
-	</select>-->
-	
-	<!-- List<Tag> getAllTagsByAccNo(int accNo);
-	<select id="getAllTagsByAccNo" parameterType="int" resultType="kr.co.airbnb.vo.Tag">
-		select
-			B.tag_id as id,
-			B.tag_name as name,
-			B.tag_icon as icon
-		from airbnb_accommodations A, airbnb_tags B, airbnb_acc_tags C
-		where A.acc_no = C.acc_no
-		and B.tag_id = C.tag_id
-		and A.acc_no = #{value}
-	</select>
-	 -->
-	
 	<!-- List<Accommodation> getPopularAccommodations(); -->
 	<select id="getPopularAccommodations" resultMap="AccResultMap">
 		select *
-		from airbnb_accommodations
+		from (
+			select *
+			from airbnb_accommodations
+			order by acc_review_count desc, acc_review_score desc)
+		where rownum &lt;=20
 	</select>
 	
-	<!-- List<Accommodation> searchAccByKeyword(SearchCriteria searchCriteria); -->
-	<select id="searchAccByKeyword" parameterType="kr.co.airbnb.criteria.SearchCriteria" resultMap="AccResultMap">
+	<!-- List<Accommodation> getAccByCriteria(AccListCriteria accListCriteria); -->
+	<select id="getAccByCriteria" parameterType="kr.co.airbnb.criteria.AccListCriteria" resultMap="AccResultMap">
 		select *
 		from airbnb_accommodations
 		<where>
-			<if test="accTypes != null">
-				acc_no in (select acc_no
-						   from airbnb_acc_types
-						   where acc_no = #{accNo})
-			</if>
-			<if test="keyword != ''">
+			acc_price >= #{minPrice} and acc_price &lt;= #{maxPrice}
+			<if test="keyword != null">
 				and acc_address like '%'||#{keyword}||'%'
 			</if>
 			<!-- <if test="startDate != '' ">
@@ -273,21 +226,12 @@
 					and acc_check_out = #{endDate}
 				</if>
 			</if> -->
-			<if test="adult != '' || child != '' || infant != ''">
+			<if test="adult != null || child != null || infant != null">
 				and acc_guest >= #{adult} + #{child} + #{infant}
 			</if>
-			<if test="pet != ''">
+			<if test="pet != null">
 				and acc_pet = #{pet}
 			</if>
-		</where> 
-	</select> 
-	
-	<!-- List<Accommodation> getAccByFilter(FilterCriteria filterCriteria); -->
-	<select id="getAccByFilter" parameterType="kr.co.airbnb.criteria.FilterCriteria" resultMap="AccResultMap">
-		select *
-		from airbnb_accommodations
-		<where>
-			acc_price >= #{minPrice} and acc_price &lt;= #{maxPrice}
 			<if test="rent != null">
 				and acc_no in (select acc_no
 						       from airbnb_acc_types
@@ -334,6 +278,98 @@
 							  where room_bathroom = #{bathrooms})
 			</if>
 		</where>
+	</select>
+	<!-- List<Accommodation> searchAccByKeyword(SearchCriteria searchCriteria); -->
+	<select id="searchAccByKeyword" parameterType="kr.co.airbnb.criteria.SearchCriteria" resultMap="AccResultMap">
+		select *
+		from airbnb_accommodations
+		<where>
+			<if test="accTypes != null">
+				acc_no in (select acc_no
+						   from airbnb_acc_types
+						   where acc_no = #{accNo})
+			</if>
+			<if test="keyword != ''">
+				and acc_address like '%'||#{keyword}||'%'
+			</if>
+			<!-- <if test="startDate != '' ">
+				endDate를 지정하지 않는 경우 1박 2일으로 자동 설정
+				<if test="endDate == ''">	
+					and acc_check_in = #{startDate}
+					and acc_check_out = to_date('#{startDate}', 'YYYY-MM-DD') + 1
+				</if>
+				<if test="endDate != ''">
+					and acc_check_in = #{startDate}
+					and acc_check_out = #{endDate}
+				</if>
+			</if> -->
+			<if test="adult != '' || child != '' || infant != ''">
+				and acc_guest >= #{adult} + #{child} + #{infant}
+			</if>
+			<if test="pet != ''">
+				and acc_pet = #{pet}
+			</if>
+		</where> 
+				
+	</select> 
+	
+	<!-- List<Accommodation> getAccByFilter(FilterCriteria filterCriteria); -->
+	<select id="getAccByFilter" parameterType="kr.co.airbnb.criteria.FilterCriteria" resultMap="AccResultMap">
+		select *
+		from (
+				select *
+				from airbnb_accommodations
+				<where>
+					acc_price >= #{minPrice} and acc_price &lt;= #{maxPrice}
+					<if test="rent != null">
+						and acc_no in (select acc_no
+								       from airbnb_acc_types
+								       where type_no in
+								     		<foreach collection="rent" item="type" open="(" close=")" separator=",">
+								     			#{type}
+								     		</foreach>
+								     	)
+					</if>
+					<if test="house != null">
+						and acc_no in (select acc_no
+								       from airbnb_acc_types
+								       where type_no in
+								     		<foreach collection="house" item="type" open="(" close=")" separator=",">
+								     			#{type}
+								     		</foreach>
+								       )
+					</if>
+					
+					<if test="convenience != null">
+						and acc_no in (select acc_no
+									  from airbnb_acc_conveniences
+									  where convenience_no in
+									  		<foreach collection="convenience" item="convenience" open="(" close=")" separator=",">
+											   #{convenience}
+									  		</foreach>
+									  )
+					</if>
+					 
+					<if test="bedrooms != null">
+						and acc_no in (select acc_no
+									  from airbnb_acc_rooms
+									  where room_bedroom = #{bedrooms})
+					</if>
+					
+					<if test="beds != null">
+						and acc_no in (select acc_no
+									  from airbnb_acc_rooms
+									  where room_bed = #{beds})
+					</if>
+					<if test="bathrooms != null">
+						and acc_no in (select acc_no
+									  from airbnb_acc_rooms
+									  where room_bathroom = #{bathrooms})
+					</if>
+				</where>
+				order by acc_review_count desc, acc_review_score desc)
+		where rownum &lt;= 20
+		
 	</select>
 	
 	<!-- List<Accommodation> searchAccByTag(Tag tag); -->

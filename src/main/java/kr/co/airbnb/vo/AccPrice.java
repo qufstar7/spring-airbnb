@@ -1,5 +1,7 @@
 package kr.co.airbnb.vo;
 
+import java.util.List;
+
 import org.apache.ibatis.type.Alias;
 
 import lombok.Getter;
@@ -17,4 +19,5 @@ public class AccPrice {
 	private int avg;
 	private int min;
 	private int max;
+	
 }
