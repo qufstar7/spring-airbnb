@@ -17,6 +17,7 @@
 <!-- <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Google+Sans:400,500,700|Google+Sans+Text:400&amp;lang=ko">
 <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans+Text:400&amp;text=%E2%86%90%E2%86%92%E2%86%91%E2%86%93&amp;lang=ko"> -->
 <link rel="stylesheet" type="text/css" href="/resources/css/wishlist-detail.css">
+<link rel="icon" href="../../../resources/aircnc.png">
 <style type="text/css">
 .div-nav {max-width: 98% !important;}
 </style>

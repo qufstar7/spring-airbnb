@@ -9,13 +9,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
 <!-- 달력2 -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-	<!-- html 하단에 순서로 로드 -->
-<script src="js/flatpickr.js"></script>
-	<!-- 언어설정을 위한 로드 -->
-<script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
-<script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
 <!-- /* 숙소 검색창이 없는 nav 입니다. */ -->
 
 

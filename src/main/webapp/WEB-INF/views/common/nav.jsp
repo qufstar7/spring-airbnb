@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="tags.jsp"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/navbarstyle.css">
+
 <!-- 달력 -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>

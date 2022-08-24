@@ -141,8 +141,8 @@
 		border: none;
 	}
 	
-	.wishlist-icon a:hover {background-color: transparent;}
-	.wishlist-icon i:hover {cursor: pointer; transform: scale(1.2);}
+	.wishlist-icon span:hover {background-color: transparent !important;}
+	.wishlist-icon i:hover {cursor: pointer; transform: scale(1.2); background-color: transparent !important;}
 	
 	/** 좌측 사진*/
 	#tabl1 img {border-radius: 12px;}

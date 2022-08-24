@@ -203,8 +203,31 @@
 			select *
 			from airbnb_accommodations
 			order by acc_review_count desc, acc_review_score desc)
-		where rownum &lt;=20
+		where rownum &lt;=5
 	</select>
+	
+		<!-- List<Accommodation> getAllAccs(int userNo); 
+ 	     내 위시리스트에 담겨있는지 여부를 함께 반환하는 모든 숙소 정보 -->
+ 	<select id="getAllAccs" resultMap="AccDetailResultMap">
+ 		with my_accommodations
+		as (
+		select W.*, WA.acc_no
+		from airbnb_wishlists W, airbnb_wishlist_accommodations WA
+		where W.wishlist_no = WA.wishlist_no
+		and W.user_no =#{userNo})
+		select *
+		from (		
+				select A.*, 
+				(select 'Y'
+				from dual
+				where exists ( select 1
+				                          from my_accommodations M
+				                          where A.acc_no  = M.acc_no)) savedWishList
+				from airbnb_accommodations A
+				order by acc_review_count desc, acc_review_score desc
+				)
+		where rownum &lt;=5
+ 	</select>
 	
 	<!-- List<Accommodation> getAccByCriteria(AccListCriteria accListCriteria); -->
 	<select id="getAccByCriteria" parameterType="kr.co.airbnb.criteria.AccListCriteria" resultMap="AccResultMap">
