@@ -164,7 +164,7 @@
 						<button id="back-btn" class="float-start btn btn-none ms-4 fs-6 text-decoration-underline text-black border-0" type="button" onclick="history.go(-1)" style="padding-top: 14px">뒤로</button>
 					</div>
 					<div class="">
-						<button id="next-btn" type="button" onclick="location.href='/host/profile'" class="float-start btn btn-dark float-end me-5" style="width: 180px; height: 48px;">
+						<button id="next-btn" type="button" onclick="location.href='/host/completeRegister'" class="float-start btn btn-dark float-end me-5" style="width: 180px; height: 48px;">
 							숙소 등록 완료하기
 						</button>
 					</div>

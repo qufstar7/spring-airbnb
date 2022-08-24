@@ -72,6 +72,7 @@ public class Accommodation {
 	private AccPhoto photo;
 	private AccViewCount view;
 	private Reservation reservation;
+	private List<Reservation> reservations;
 	private Review review;
 	private Wishlist wishlist;
 	private AccDiscount discount;

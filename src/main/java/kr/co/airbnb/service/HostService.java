@@ -17,6 +17,7 @@ import kr.co.airbnb.vo.AccRoom;
 import kr.co.airbnb.vo.AccTag;
 import kr.co.airbnb.vo.AccType;
 import kr.co.airbnb.vo.Accommodation;
+import kr.co.airbnb.vo.Reservation;
 import kr.co.airbnb.vo.Tag;
 import kr.co.airbnb.vo.Type;
 import kr.co.airbnb.vo.User;
@@ -29,19 +30,19 @@ public class HostService {
 	@Autowired
 	private AccommodationMapper accMapper;
 	
-	// 사용자의 모든 숙소 정보 조회
+	// 사용자의 모든 숙소 정보 조회(타입 정보 추가)
 	public List<Accommodation> getAllAccByUser(@LoginUser User loginUser) {
-		List<Accommodation> userAllAcc =  accMapper.getAllAccsByUser(loginUser);
+		List<Accommodation> userAllAcc =  hostMapper.getAllAccByUser(loginUser);
 		
-		for (Accommodation acc : userAllAcc) {
-			int no = acc.getAccNo();
-			List<Type> types = accMapper.getAllTypesByAccNo(no);
-			acc.setTypes(types);
-		}		
 		return userAllAcc;
 	}
 	
-	// 타입 1,2,3 전체 조회
+	// 최근 등록된 숙소 번호 조회
+	public int getMostRecentRegisteredAccNo() {
+		return hostMapper.getMostRecentRegisteredAccNo();
+	}
+	
+	// 1,2,3. 타입
 	public List<Type> getAllMainTypes() {
 		return hostMapper.getAllMainTypes();
 	}
@@ -64,14 +65,33 @@ public class HostService {
 	public void insertAccType(AccType accType) { 
 		hostMapper.insertAccType(accType);
 	}
-
+	public void updateType(AccType accType) {
+		int typeNo = accType.getType().getNo();
+		// 메인타입 수정
+		if (typeNo < 7) {
+			System.out.println("메인타입수정");
+			hostMapper.updateMainType(accType);
+		}
+		// 서브타입 수정
+		if (typeNo < 7) {
+			System.out.println("서브타입수정");
+			hostMapper.updateSubType(accType);
+		}
+		// 프라이버시타입 수정
+		if (typeNo < 7) {
+			System.out.println("프라이버시타입수정");
+			hostMapper.updatePrivacyType(accType);
+		}
+	}
+	
 	// 4. 주소
 	public void updateAddress(Accommodation registerAcc, User loginUser, AccRegisterForm arf) {
 		Accommodation acc = new Accommodation();
 		
 		// 주소합치기, 저장할 정보 객체에 저장
-		if(arf.getStateRegion() != null && arf.getCity() != null && arf.getRoadName() != null && arf.getSpecificAddress() != null) {
-			String fullAddress = ( arf.getStateRegion().trim() +" "+ arf.getCity().trim() +" "+ arf.getRoadName().trim() +" "+ arf.getSpecificAddress().trim() );
+		String fullAddress = ( arf.getStateRegion() +" "+ arf.getCity() +" "+ arf.getRoadName() +" "+ arf.getSpecificAddress() );
+		if(fullAddress != null) {
+			fullAddress = fullAddress.trim();
 			acc.setAddress(fullAddress);
 		}
 		acc.setLatitude(arf.getLatitude());
@@ -164,7 +184,6 @@ public class HostService {
 
 	public void insertTags(Accommodation registerAcc, User loginUser, AccRegisterForm arf) {
 		List<String> tags = arf.getTags();
-		System.out.println("tags: "+tags);
 		if (!CollectionUtils.isEmpty(tags)) {
 			for (String tag : tags) {				
 				hostMapper.insertAccTags(new AccTag(registerAcc.getAccNo(), tag));
@@ -203,8 +222,6 @@ public class HostService {
 		hostMapper.updateAccPrice(acc);
 	}
 	
-	// 12. 법관련
-	
 	// 완료페이지
 	public AccRoom getAllRoomInfoByAccNo(int accNo) {
 		return hostMapper.getAllRoomInfoByAccNo(accNo);
@@ -217,5 +234,28 @@ public class HostService {
 	public List<Type> getAllTypesByAccNo(int accNo) {
 		return accMapper.getAllTypesByAccNo(accNo);
 	}
+
+	public List<Accommodation> getAllAccIncompleteByUser(User loginUser) {
+		return hostMapper.getAllAccIncompleteByUser(loginUser);
+	}
+
+	public List<Accommodation> getAllAccNotIncompleteByUser(User loginUser) {
+		return hostMapper.getAllAccNotIncompleteByUser(loginUser);
+	}
+
+	public void updateAccStatus(Accommodation registerAcc) {
+		hostMapper.updateAccStatus(registerAcc);
+	}
+
+	public Accommodation getAccByAccNo(int accNo) {
+		return hostMapper.getAccByAccNo(accNo);
+	}
+
+	public List<Reservation> getAllReservations(int accNo) {
+		return hostMapper.getAllreservationsByAccNo(accNo);
+	}
+
+
+
 	
 }

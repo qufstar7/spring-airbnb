@@ -2,6 +2,86 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="kr.co.airbnb.mapper.HostMapper">
 
+<resultMap type="Accommodation" id="HostAccResultMap">
+	<id column="ACC_NO" property="accNo"/>
+	<result column="ACC_NAME" property="name"/>
+	<result column="ACC_DESCRIPTION" property="description"/>
+	<result column="ACC_address" property="address"/>
+	<result column="ACC_LATITUDE" property="latitude"/>
+	<result column="ACC_LONGITUDE" property="longitude"/>
+	<result column="ACC_PRICE" property="price"/>
+	<result column="ACC_GUEST" property="guest"/>
+	<result column="ACC_STATUS" property="status"/>
+	<result column="ACC_CREATED_DATE" property="createdDate"/>
+	<result column="ACC_UPDATED_DATE" property="updatedDate"/>
+	<result column="IMAGE_COVER" property="imageCover"/>
+	<association property="user" column="USER_NO" select="kr.co.airbnb.mapper.UserMapper.getUserByNo"/>
+</resultMap>
+	
+<resultMap type="Accommodation" id="HostAccDetailResultMap" extends="HostAccResultMap">
+	<collection property="conveniences" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccConveniencesByAccNo"></collection>
+ 	<collection property="photos" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccPhotosByAccNo"></collection>
+ 	<collection property="rooms" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getRoomByAccNo"></collection>
+    <collection property="types" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAllTypesByAccNo"></collection>
+    <collection property="tags" column="ACC_NO" select="kr.co.airbnb.mapper.HostMapper.getAllTagsByAccNo"></collection>
+    <collection property="reservations" column="ACC_NO" select="kr.co.airbnb.mapper.HostMapper.getAllreservationsByAccNo"></collection>
+</resultMap>
+
+
+<!-- List<Accommodation> getAllAccByUser(User loginUser); -->
+<select id="getAllAccByUser" parameterType="User" resultMap="HostAccDetailResultMap">
+	select *
+	from AIRBNB_ACCOMMODATIONS
+	where user_no = #{no}
+</select>
+	
+<!-- Accommodation getAccByAccNo(int accNo); -->
+<select id="getAccByAccNo" parameterType="int" resultMap="HostAccDetailResultMap">
+	select *
+	from AIRBNB_ACCOMMODATIONS
+	where acc_no = #{value}
+</select>
+
+<!-- List<AccTag> getAllTagsByAccNo(int accNo); -->
+<select id="getAllTagsByAccNo" parameterType="int" resultType="Tag">
+	select a.tag_id, a.tag_name, a.tag_icon
+	from airbnb_tags a, airbnb_acc_tags b
+	where a.tag_id = b.tag_id
+	and b.acc_no = #{value}
+</select>
+
+<!-- List<Reservation> getAllreservationsByAccNo(int accNo) -->
+<select id="getAllreservationsByAccNo" parameterType="int" resultType="Reservation">
+	select
+		reservation_no as no,
+		user_no as userNo, 
+		acc_no as accNo, 
+		reservation_status as reservationStatus, 
+		check_in_date as checkInDate, 
+		check_out_date as checkOutDate, 
+		adult_number as adultNum, 
+		children_number as childrenNum, 
+		infant_number as infantNum, 
+		PET_NUMBER as petNum, 
+		MESSAGE_TO_HOST as messageToHost,
+		RESERVATION_CREATED_DATE as createdDate,
+		RESERVATION_UPDATED_DATE as updatedDate,
+		ACC_SERVICE_FEE as serviceFee,
+		ACC_TOTAL_PRICE as totalPrice,
+		ENTIRE_PAYMENT as entirePayment,
+		LEFT_PAYMENT as leftPay
+	from airbnb_reservations
+	where acc_no = #{value}
+</select>
+	
+<!-- int getMostRecentRegisteredAccNo(); -->
+<select id="getMostRecentRegisteredAccNo" resultType="int">
+	select *
+	from airbnb_accommodations
+	where acc_created_date = (select MAX(acc_created_date)
+	                          from airbnb_accommodations)
+</select>
+
 <!-- List<Type> getAllMainTypes(); -->
 <select id="getAllMainTypes" resultType="Type">
 	select type_no as no, type_name as name, image_name as imageName
@@ -34,6 +114,37 @@
 	where type_no = #{value}
 </select>
 
+<!-- List<Tag> getAllTags(); -->
+<select id="getAllTags" resultType="Tag">
+	select tag_id as id, tag_name as name, tag_icon as icon
+	from airbnb_tags
+	order by tag_id
+</select>
+
+<!-- AccRoom getAllRoomInfoByAccNo(int accNo); -->
+<select id="getAllRoomInfoByAccNo" parameterType="int" resultType="room">
+	select acc_no as accNo, room_bedroom as bedroom, room_bed as bed, room_bathroom as bathroom
+	from airbnb_acc_rooms
+	where acc_no = #{value}
+</select>
+
+<!-- List<Accommodation> getAllAccIncompleteByUser(User loginUser); -->
+<select id="getAllAccIncompleteByUser" parameterType="User" resultMap="HostAccDetailResultMap">
+	select *
+	from AIRBNB_ACCOMMODATIONS
+	where user_no = #{no}
+	and acc_status = '등록미완'
+</select>
+
+<!-- List<Accommodation> getAllAccNotIncompleteByUser(User loginUser); -->
+<select id="getAllAccNotIncompleteByUser" parameterType="User" resultMap="HostAccDetailResultMap">
+	select *
+	from AIRBNB_ACCOMMODATIONS
+	where user_no = #{no}
+	and acc_status != '등록미완'
+</select>
+
+<!-- insert -->
 <!-- void insertAcc(Accommodation acc); -->	
 <insert id="insertAcc" parameterType="Accommodation">
 	<selectKey keyProperty="accNo" resultType="int" order="BEFORE">
@@ -59,7 +170,6 @@
 </insert>
 
 <!-- void insertAccRoom(AccRoom accRoom); -->
-<!-- 숙소 등록시 방을 여러개 입력받지 않는다. 1로 설정한다. -->
 <insert id="insertAccRoom" parameterType="room">
 	INSERT INTO airbnb_acc_rooms 
 	(room_no, acc_no, room_bedroom, room_bed, room_bathroom)
@@ -70,14 +180,6 @@
 	 					WHERE acc_no = #{accNo})
 </insert>
 
-<!-- void updateGuestsByAccNo(Accommodation acc); -->
-<update id="updateGuestsByAccNo" parameterType="Accommodation">
-	update airbnb_accommodations
-	set 
-		acc_guest = #{guest}
-	where acc_no = #{accNo}
-</update>	
-
 <!-- void insertAccConvenience(AccConvenience accConvenience); -->
 <insert id="insertAccConvenience" parameterType="AccConvenience">
 	insert into AIRBNB_ACC_CONVENIENCES
@@ -85,24 +187,6 @@
 	values
 	(#{accNo}, #{convenience.no})
 </insert>
-
-<!-- void updateAddressByAccNo(Accommodation acc); -->
-<update id="updateAddressByAccNo" parameterType="Accommodation">
-	update airbnb_accommodations
-	set 
-		acc_address = #{address},
-		acc_latitude = #{latitude},
-		acc_longitude = #{longitude}
-	where acc_no = #{accNo}
-</update>	
-	
-<!-- void updateImageCover(Accommodation acc); -->	
-<update id="updateImageCover" parameterType="Accommodation">
-	update airbnb_accommodations
-	set 
-		image_cover = #{imageCover}
-	where acc_no = #{accNo}
-</update>	
 	
 <!-- void insertAccPhotos(AccPhoto accPhoto); -->
 <insert id="insertAccPhotos" parameterType="AccPhoto">
@@ -116,21 +200,6 @@
 	(#{imageNo}, #{accNo}, #{name}, #{cover} )
 </insert>
 
-<!-- void updateAccName(Accommodation acc); -->
-<update id="updateAccName" parameterType="Accommodation">
-	update airbnb_accommodations
-	set 
-		acc_name = #{name}
-	where acc_no = #{accNo}
-</update>
-
-<!-- List<Tag> getAllTags(); -->
-<select id="getAllTags" resultType="Tag">
-	select tag_id as id, tag_name as name, tag_icon as icon
-	from airbnb_tags
-	order by tag_id
-</select>
-
 <!-- void insertAccTags(AccTag accTag); -->
 <insert id="insertAccTags" parameterType="AccTag">
 	insert into airbnb_acc_tags
@@ -138,6 +207,66 @@
 	values
 	(#{accNo}, #{tagId})
 </insert>
+
+<!-- update -->
+<!-- void updateMainType(AccType accType); -->
+<update id="updateMainType" parameterType="AccType">
+	update airbnb_acc_types
+	set 
+		type_no = #{type.no}
+	where acc_no = #{accNo}
+	and type_no in (1, 2, 3, 4, 5, 6)
+</update>
+<!-- void updateSubType(AccType accType); -->
+<update id="updateSubType" parameterType="AccType">
+	update airbnb_acc_types
+	set 
+		type_no = #{type.no}
+	where acc_no = #{accNo}
+	and type_no between 10 and 87
+</update>
+<!-- void updatePrivacyType(AccType accType); -->
+<update id="updatePrivacyType" parameterType="AccType">
+	update airbnb_acc_types
+	set 
+		type_no = #{type.no}
+	where acc_no = #{accNo}
+	and type_no in (100, 101, 102)
+</update>
+
+<!-- void updateGuestsByAccNo(Accommodation acc); -->
+<update id="updateGuestsByAccNo" parameterType="Accommodation">
+	update airbnb_accommodations
+	set 
+		acc_guest = #{guest}
+	where acc_no = #{accNo}
+</update>
+
+<!-- void updateAddressByAccNo(Accommodation acc); -->
+<update id="updateAddressByAccNo" parameterType="Accommodation">
+	update airbnb_accommodations
+	set 
+		acc_address = #{address},
+		acc_latitude = #{latitude},
+		acc_longitude = #{longitude}
+	where acc_no = #{accNo}
+</update>
+	
+<!-- void updateImageCover(Accommodation acc); -->	
+<update id="updateImageCover" parameterType="Accommodation">
+	update airbnb_accommodations
+	set 
+		image_cover = #{imageCover}
+	where acc_no = #{accNo}
+</update>
+
+<!-- void updateAccName(Accommodation acc); -->
+<update id="updateAccName" parameterType="Accommodation">
+	update airbnb_accommodations
+	set 
+		acc_name = #{name}
+	where acc_no = #{accNo}
+</update>
 
 <!-- void updateAccDescription(Accommodation acc); -->
 <update id="updateAccDescription" parameterType="Accommodation">
@@ -155,15 +284,16 @@
 	where acc_no = #{accNo}
 </update>
 
-<!-- AccRoom getAllRoomInfoByAccNo(int accNo); -->
-<select id="getAllRoomInfoByAccNo" parameterType="int" resultType="room">
-	select acc_no as accNo, room_bedroom as bedroom, room_bed as bed, room_bathroom as bathroom
-	from airbnb_acc_rooms
-	where acc_no = #{value}
-</select>
-
+<!-- void updateAccStatus(Accommodation registerAcc); -->
+<update id="updateAccStatus" parameterType="Accommodation">
+	update airbnb_accommodations
+	set 
+		acc_status = #{status}
+	where acc_no = #{accNo}
+</update>
 
 <!-- void updateAcc(Accommodation acc); -->
+<!--
 <update id="updateAcc" parameterType="Accommodation">
 	update airbnb_accommodations
 	set 
@@ -200,5 +330,6 @@
 		avg_convenience = #{convenienceScore}
 	where acc_no = #{accNo}
 </update>
+-->
 
 </mapper>

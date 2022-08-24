@@ -62,7 +62,7 @@
 			</div>
 
 			<!-- rightDiv main -->			
-			<div class="main-box align-self-center bg-white">
+			<div class="main-box align-self-center bg-white" style="display:block;">
 			
 					<!-- 편의시설 선택 버튼 박스들 -->
 					<div id="box-buttons" class="bd-highlight">
