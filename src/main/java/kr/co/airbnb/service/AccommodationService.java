@@ -17,6 +17,7 @@ import kr.co.airbnb.criteria.FilterCriteria;
 import kr.co.airbnb.criteria.SearchCriteria;
 import kr.co.airbnb.mapper.AccommodationMapper;
 import kr.co.airbnb.mapper.WishlistMapper;
+import kr.co.airbnb.vo.AccPhoto;
 import kr.co.airbnb.vo.AccPrice;
 import kr.co.airbnb.vo.AccRoom;
 import kr.co.airbnb.vo.AccTag;
@@ -66,6 +67,9 @@ public class AccommodationService {
 		return accommodationMapper.getRoomByAccNo(no);
 	}
 
+	public List<AccPhoto> getAccPhotosByAccNo(int accNo){
+		return accommodationMapper.getAccPhotosByAccNo(accNo);
+	}
 
 	public List<Boast> getBoast(int no) {
 		return accommodationMapper.getBoast(no);
@@ -75,11 +79,19 @@ public class AccommodationService {
 	public List<Accommodation> getPopularAccommodations() {
 		return accommodationMapper.getPopularAccommodations();
 	}
+	
+	/*
+	 * public void getAddressByAccNo(int accNo) { Accommodation acc = new
+	 * Accommodation();
+	 * 
+	 * // 주소 공백 제거 if() }
+	 */
+	
 	// 숙소의 타입1,2,3 조회
 	public List<Type> searchTypesByAccNo(int accNo) {
 		return accommodationMapper.getAllTypesByAccNo(accNo);
 	}
-	// 숙소의 태그 조회
+	
 	 
 	/*
 	 * public Image getImage(int no) { Image image = new Image(); List<AccPhoto>

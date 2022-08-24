@@ -180,13 +180,28 @@ public class AccommodationController {
 	}
 
 	@GetMapping(path = "/list")
-	public String list(@LoginUser(required = false) User loginUser, SearchCriteria searchCriteria, Model model) {	
+	public String list(@LoginUser(required = false) User loginUser, AccListCriteria accListCriteria, Model model) {	
 		
 		if(loginUser != null) {
 			List<Wishlist> wishlists = wishlistService.getMyWishlists(loginUser.getNo());
 			model.addAttribute("wishlists", wishlists);
 		}
 		
+
+		List<Accommodation> accommodations = new ArrayList<Accommodation>();
+		// nav의 키워드로 숙소 검색
+		accommodations = accommodationService.searchAccByCriteria(accListCriteria);
+		
+		// 각 숙소의 타입1,2,3 조회 + 침대 개수 조회
+		for (Accommodation acc : accommodations) {
+			int accNo = acc.getAccNo();
+			
+			List<Type> types = accommodationService.searchTypesByAccNo(accNo);
+			acc.setTypes(types);
+			
+			AccRoom rooms = accommodationService.getRoomByAccNo(accNo);
+			acc.setRoom(rooms);
+
 		List<Accommodation> accList = new ArrayList<Accommodation>();
 		if(searchCriteria == null) {
 			// 메인 페이지에 출력할 인기 숙소
@@ -200,8 +215,10 @@ public class AccommodationController {
 			// nav의 키워드로 숙소 검색
 			accList = accommodationService.searchAccByKeyword(searchCriteria);
 		}
+		model.addAttribute("list", accommodations);
+
 		// 각 숙소의 타입1,2,3 조회 + 침대 개수 조회
-		for (Accommodation acc : accList) {
+		for (Accommodation acc : accommodations) {
 			int accNo = acc.getAccNo();
 			
 			List<Type> types = accommodationService.searchTypesByAccNo(accNo);
@@ -214,23 +231,14 @@ public class AccommodationController {
 			acc.setRoom(rooms);
 		}
 		
-		model.addAttribute("list", accList);
-		
 		/* 필터부분 */
 		// 1박 평균 요금, 최저 요금, 최고요금
 		AccPrice price = accommodationService.getPrice();
 		model.addAttribute("price", price);
-		// List<Integer> priceList = accommodationService.priceCount();
-		// priceList -> [5, 6, 2, 10, 11, 3, 6]
-		/* 샘플 sql문
-			select count(*) cnt
-			from (select trunc(acc_price/30000) acc_price
-      		  	  from airbnb_accommodations)
-			group by acc_price
-			order by acc_price; 
-		 */
-		model.addAttribute("priceList", List.of(1, 1, 3, 6, 9, 15, 14, 12, 4, 3, 1, 0, 1));
-				
+		
+		// 차트 막대기 표현할 숫자 전체 조회
+		model.addAttribute("counts", accommodationService.priceCount());
+						
 		return "acc/list";
 	}
 	
