@@ -187,6 +187,7 @@ public class AccommodationController {
 			model.addAttribute("wishlists", wishlists);
 		}
 		
+
 		List<Accommodation> accommodations = new ArrayList<Accommodation>();
 		// nav의 키워드로 숙소 검색
 		accommodations = accommodationService.searchAccByCriteria(accListCriteria);
@@ -197,12 +198,22 @@ public class AccommodationController {
 			
 			List<Type> types = accommodationService.searchTypesByAccNo(accNo);
 			acc.setTypes(types);
-			//if (!types.isEmpty()) {
-			//	model.addAttribute("mainType", acc.getTypes().get(0));
-			//}
 			
 			AccRoom rooms = accommodationService.getRoomByAccNo(accNo);
 			acc.setRoom(rooms);
+
+		List<Accommodation> accList = new ArrayList<Accommodation>();
+		if(searchCriteria == null) {
+			// 메인 페이지에 출력할 인기 숙소
+			accList = accommodationService.getPopularAccommodations();
+						
+			// 위시리스트 등록 숙소 여부를 포함한 모든 숙소들
+			if(loginUser != null) {
+				accList = accommodationService.getAllAccs(loginUser.getNo());
+			}
+		}else {			
+			// nav의 키워드로 숙소 검색
+			accList = accommodationService.searchAccByKeyword(searchCriteria);
 		}
 		model.addAttribute("list", accommodations);
 

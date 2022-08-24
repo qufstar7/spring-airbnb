@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import kr.co.airbnb.vo.AccConvenience;
 import kr.co.airbnb.vo.AccRoom;
 import kr.co.airbnb.vo.AccType;
 import kr.co.airbnb.vo.Accommodation;
+import kr.co.airbnb.vo.Reservation;
 import kr.co.airbnb.vo.Tag;
 import kr.co.airbnb.vo.Type;
 import kr.co.airbnb.vo.User;
@@ -61,25 +63,23 @@ public class HostController {
 		if (loginUser == null) {
 			return "host/home";
 		}
+		
+		// '등록미완'인 숙소 검색해서 모델객체에 저장
+		List<Accommodation> allAccIncomplete = hostService.getAllAccIncompleteByUser(loginUser);
+		model.addAttribute("allAccIncomplete" , allAccIncomplete);
 
-		// 사용자의 숙소 전체 검색해서 모델객체에 저장
-		List<Accommodation> allAcc = hostService.getAllAccByUser(loginUser);
-		model.addAttribute("userAllAcc", allAcc);
+		// '등록미완'이 아닌 사용자의 숙소 전체 검색해서 모델객체에 저장
+		List<Accommodation> allAccNotIncomplete = hostService.getAllAccNotIncompleteByUser(loginUser);
+		model.addAttribute("allAccNotIncomplete", allAccNotIncomplete);
 
 		// 사용자의 호스트 여부를 바꿈
-		if (!allAcc.isEmpty()) {
-			loginUser.setIsHost("Y");
-			userService.updateUserInfo(loginUser);
-		}
-		if (allAcc.isEmpty()) {
-			loginUser.setIsHost("N");
-			userService.updateUserInfo(loginUser);
-		}
+		loginUser.setIsHost("Y");
+		userService.updateUserInfo(loginUser);
 
 		return "host/become-a-host";
 	}
 
-	// 새로운 숙소 등록하기 (숙소 생성 및 저장)
+	// '새로운 숙소 등록하기'
 	@GetMapping("/become-a-host/register")
 	public String register(@LoginUser User loginUser, Model model) {
 		// 로그인유저가 없으면 홈으로
@@ -87,15 +87,11 @@ public class HostController {
 			return "host/home";
 		}
 
-		// 사용자 계정 정보를 호스트로 바꿈.
-		loginUser.setIsHost("Y");
-		userService.updateUserInfo(loginUser);
-
 		// 숙소 생성 (번호,유저번호,생성일,상태(등록미완) 정보 저장)
 		hostService.insertAcc(loginUser);
 
 		// 가장 최근에 추가된 숙소데이터 조회
-		int accNo = accService.getAccommodationNoByUser(loginUser);
+        int accNo = hostService.getMostRecentRegisteredAccNo();
 		Accommodation registerAcc = accService.getAccommodation(accNo);
 		// 등록중인 숙소정보 세션에 저장
 		SessionUtils.addAttribute("REGISTER_ACC", registerAcc);
@@ -103,11 +99,77 @@ public class HostController {
 		return "redirect:/host/types";
 	}
 
-	// 기존 숙소 복사하기
+	// '숙소 등록 완료하기'
+	@GetMapping("/become-a-host/registerContinue")
+	public String registerContinue(int accNo, @LoginUser User loginUser, Model model) {
+		// 로그인유저가 없으면 홈으로
+		if (loginUser == null) {
+			return "host/home";
+		}
+		
+		// 숙소번호로 숙소 조회
+		Accommodation registerAcc = hostService.getAccByAccNo(accNo);
+		// 등록중인 숙소정보 세션에 저장
+		SessionUtils.addAttribute("REGISTER_ACC", registerAcc);
+		
+		model.addAttribute(registerAcc);
+		// 최종단계 이동
+		if(registerAcc.getTypes() == null || registerAcc.getTypes().size() < 3) {
+			return "redirect:/host/types";
+		}
+		if(registerAcc.getAddress() == null) {
+			return "redirect:/host/location";
+		}
+		if(registerAcc.getGuest() == 0) {
+			return "redirect:/host/guest";
+		}
+		if(registerAcc.getConveniences() == null) {
+			return "redirect:/host/facilities";
+		}
+		if(registerAcc.getImageCover() == null) {
+			return "redirect:/host/pictures";
+		}
+		if(registerAcc.getName() == null) {
+			return "redirect:/host/name";
+		}
+		if(registerAcc.getTags() == null) {
+			return "redirect:/host/tags";
+		}
+		if(registerAcc.getDescription() == null) {
+			return "redirect:/host/description";
+		}
+		if(registerAcc.getPrice() == 0) {
+			return "redirect:/host/price";
+		}
 
+		return "redirect:/host/complete";
+	}
+	
+	// '기존 숙소 복사하기'
+	@GetMapping("/become-a-host/registerCopy")
+	public String registerCopy(int accNo, @LoginUser User loginUser, Model model) {
+		// 로그인유저가 없으면 홈으로
+		if (loginUser == null) {
+			return "host/home";
+		}
+
+		// 숙소 생성 (번호,유저번호,생성일,상태(등록미완) 정보 저장)
+		hostService.insertAcc(loginUser);
+
+		// 가장 최근에 추가된 숙소데이터 조회
+		int newAccNo = accService.getAccommodationNoByUser(loginUser);
+		Accommodation registerAcc = accService.getAccommodation(newAccNo);
+		// 등록중인 숙소정보 세션에 저장
+		SessionUtils.addAttribute("REGISTER_ACC", registerAcc);
+		
+		model.addAttribute("acc", registerAcc);
+
+		return "redirect:/host/types";
+	}
+		
 	// 타입 페이지 (타입1(메인타입) 선택 페이지)
 	@GetMapping("/types")
-	public String type1(@LoginUser User loginUser, Model model) {
+	public String type1(@LoginUser User loginUser, Model model, @RegisterAcc Accommodation registerAcc) {
 		// 로그인유저가 없으면 홈으로
 		if (loginUser == null) {
 			return "host/home";
@@ -116,6 +178,9 @@ public class HostController {
 		// 타입1(메인타입) 검색
 		List<Type> accMainTypes = hostService.getAllMainTypes();
 		model.addAttribute("accMainTypes", accMainTypes);
+		
+//		// 등록중이던 정보 전달
+//		model.addAttribute(registerAcc);
 
 		return "host/types";
 	}
@@ -123,8 +188,12 @@ public class HostController {
 	// ajax 타입2(서브타입) 선택 페이지
 	@GetMapping("/searchType1")
 	@ResponseBody
-	public List<Type> type2(int mainType, @RegisterAcc Accommodation registerAcc) {
+	public List<Type> type2(int mainType, Model model, @RegisterAcc Accommodation registerAcc) {
 		insertType(mainType, registerAcc);
+		
+		// 등록중이던 정보 전달
+		model.addAttribute(registerAcc);
+		
 		// 모든 서브 타입 조회
 		return hostService.getAllSubTypes(mainType);
 	}
@@ -132,8 +201,12 @@ public class HostController {
 	// ajax 타입3(프라이버시타입) 선택 페이지
 	@GetMapping("/searchType2")
 	@ResponseBody
-	public List<Type> type3(int subType, @RegisterAcc Accommodation registerAcc) {
+	public List<Type> type3(int subType, Model model, @RegisterAcc Accommodation registerAcc) {
 		insertType(subType, registerAcc);
+		
+		// 등록중이던 정보 전달
+		model.addAttribute(registerAcc);
+		
 		// 모든 프라이버시타입 조회
 		return hostService.getAllPrivacyTypes();
 	}
@@ -157,14 +230,26 @@ public class HostController {
 		// 등록중인숙소 세션객체 조회
 		int accNo = registerAcc.getAccNo();
 
+		List<Type> types = hostService.getAllTypesByAccNo(accNo);
 		AccType accType = new AccType(accNo, typeNo);
-		hostService.insertAccType(accType);
+		// 타입 추가
+		if (types.isEmpty() || types.size() == 1 || types.size() == 2) {
+			hostService.insertAccType(accType);
+		}
+		
+		// 타입 수정
+		if (!types.isEmpty() ) {
+			hostService.updateType(accType);
+		}
 	}
 	
 	// 주소 페이지
 	@GetMapping("/location")
-	public String location(Model model) {
+	public String location(Model model, @RegisterAcc Accommodation registerAcc) {
 
+		// 등록중이던 정보 전달
+		model.addAttribute(registerAcc);
+		
 		return "host/location";
 	}
 
@@ -195,13 +280,20 @@ public class HostController {
 	@GetMapping("/locationDetail")
 	public String locationDetail(Model model, @RegisterAcc Accommodation registerAcc) {
 		model.addAttribute("registerAcc", registerAcc);
+
+		// 등록중이던 정보 전달
+		model.addAttribute(registerAcc);
 		
 		return "/host/locationDetail";
 	}
 
 	// 인원수 페이지
 	@GetMapping("/guests")
-	public String guests(Model model) {
+	public String guests(@RegisterAcc Accommodation registerAcc, Model model) {
+
+		// 등록중이던 정보 전달
+		model.addAttribute(registerAcc);
+		
 		return "/host/guests";
 	}
 	
@@ -222,7 +314,10 @@ public class HostController {
 	
 	// 편의시설 페이지
 	@GetMapping("/facilities")
-	public String facilities(Model model) {
+	public String facilities(@RegisterAcc Accommodation registerAcc, Model model) {
+
+		// 등록중이던 정보 전달
+		model.addAttribute(registerAcc);
 		
 		return "/host/facilities";
 	}
@@ -244,7 +339,11 @@ public class HostController {
 	
 	// 사진 페이지
 	@GetMapping("/pictures")
-	public String pictures(Model model) {
+	public String pictures(@RegisterAcc Accommodation registerAcc, Model model) {
+
+		// 등록중이던 정보 전달
+		model.addAttribute(registerAcc);
+		
 		return "/host/pictures";
 	}
 
@@ -306,7 +405,11 @@ public class HostController {
 	
 	// 이름 페이지
 	@GetMapping("/name")
-	public String name(Model model) {
+	public String name(@RegisterAcc Accommodation registerAcc, Model model) {
+
+		// 등록중이던 정보 전달
+		model.addAttribute(registerAcc);
+		
 		return "/host/name";
 	}
 	
@@ -323,9 +426,13 @@ public class HostController {
 	
 	// 태그 페이지
 	@GetMapping("/tags")
-	public String tags(Model model) {
+	public String tags(@RegisterAcc Accommodation registerAcc, Model model) {
 		List<Tag> tags = hostService.getAllTags();
 		model.addAttribute("tags", tags);
+
+		// 등록중이던 정보 전달
+		model.addAttribute(registerAcc);
+		
 		return "/host/tags";
 	}
 	
@@ -354,7 +461,11 @@ public class HostController {
 	
 	// 설명 페이지
 	@GetMapping("/description")
-	public String description(Model model) {
+	public String description(@RegisterAcc Accommodation registerAcc, Model model) {
+
+		// 등록중이던 정보 전달
+		model.addAttribute(registerAcc);
+		
 		return "/host/description";
 	}
 	
@@ -383,7 +494,11 @@ public class HostController {
 	
 	// 요금 페이지
 	@GetMapping("/price")
-	public String price(Model model) {
+	public String price(@RegisterAcc Accommodation registerAcc, Model model) {
+
+		// 등록중이던 정보 전달
+		model.addAttribute(registerAcc);
+		
 		return "/host/price";
 	}
 	
@@ -409,13 +524,6 @@ public class HostController {
 		return "redirect:/host/complete";
 	}
 	
-	
-	// 법관련 페이지
-//	@GetMapping("/legal")
-//	public String legal(Model model) {
-//		return "/host/legal";
-//	}
-	
 	// 완료 페이지
 	@GetMapping("/complete")
 	public String complete(Model model, @RegisterAcc Accommodation registerAcc) {
@@ -435,9 +543,33 @@ public class HostController {
 		return "/host/complete";
 	}
 	
-	// 호스트 프로필 페이지
-	@GetMapping("/profile")
-	public String profile(Model model) {
+	// 완료 후 상태 변경
+	@GetMapping("/completeRegister")
+	public String completeRegister(@RegisterAcc Accommodation registerAcc) {
+		
+		registerAcc.setStatus("심사대기");
+		hostService.updateAccStatus(registerAcc);
+		
+		return "redirect:/host/hosting";
+	}
+	
+	// 호스팅 관리 페이지
+	@GetMapping("/hosting")
+	public String hosting(Model model, @LoginUser User loginUser) {
+		if (loginUser == null || loginUser.getIsHost() == "N") {
+			return "redirect:/";
+		}
+		
+		List<Accommodation> accs = hostService.getAllAccByUser(loginUser);
+		List<List> ListofList = new ArrayList<List>();
+		for (Accommodation acc : accs) {
+			List<Reservation> rList = hostService.getAllReservations(acc.getAccNo());
+			ListofList.add(rList);
+		}
+		
+		model.addAttribute("reservations", ListofList);
+		model.addAttribute("accs", accs);
+		model.addAttribute("user", loginUser);
 		return "/host/hosting";
 	}
 }

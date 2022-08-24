@@ -62,7 +62,7 @@ public class HomeController {
 			
 			// 위시리스트 등록 숙소 여부를 포함한 모든 숙소들
 			if(loginUser != null) {
-				accommodations = wishlistService.getAllAccs(loginUser.getNo());
+				accommodations = accommodationService.getAllAccs(loginUser.getNo());
 			}
 		} else {
 			// 태그로 검색한 숙소

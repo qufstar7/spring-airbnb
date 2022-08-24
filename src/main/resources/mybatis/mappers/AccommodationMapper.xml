@@ -35,7 +35,6 @@
 		<result column="AVG_VALUE" property="valueScore"/>
 		<result column="AVG_CONVENIENCE" property="convenienceScore"/>
 		<result column="AVG_TOTAL" property="totalScore"/>
-		<association property="disabledDate" column="acc_no" select="kr.co.airbnb.mapper.AccommodationMapper.getDisabledByAccNo"/>
 		<association property="user" column="USER_NO" select="kr.co.airbnb.mapper.UserMapper.getUserByNo"/>
 	</resultMap>
 	
@@ -150,16 +149,28 @@
 	
 	<!-- Accommodation getDisabledByAccNo(int accNo); -->
 	<select id="getDisabledByAccNo" parameterType="int" resultType="string">
-		SELECT DISTINCT to_char (YMD,'YYYY-MM-DD') YMD
+	
+		SELECT 
+              ( 
+                SELECT LISTAGG(TO_CHAR(A.YMD,'YYYY-MM-DD'),',') WITHIN GROUP (ORDER BY A.YMD) AS TEST
+                FROM
+                (
+                    SELECT A.CHECK_IN_DATE +(LEVEL - 1) AS YMD
+                    FROM DUAL
+                    CONNECT BY A.CHECK_IN_DATE +(LEVEL-1) <![CDATA[<=]]> A.CHECK_OUT_DATE
+                ) A
+               ) AS disabled
+		FROM AIRBNB_RESERVATIONS A
+        WHERE ACC_NO = #{value}
+	</select>
+	
+	<!-- SELECT DISTINCT to_char (YMD,'YYYY-MM-DD') YMD
 		FROM(
 		SELECT CHECK_IN_DATE+(LEVEL - 1) YMD
 		FROM AIRBNB_RESERVATIONS
 		where acc_no = #{value}
 		CONNECT BY CHECK_IN_DATE +(LEVEL-1) <![CDATA[<=]]> CHECK_OUT_DATE)
-		order by YMD asc
-	</select>
-	
-	
+		order by YMD asc -->
 	
 	
 	<resultMap type="Accommodation" id="AccDetailResultMap" extends="AccResultMap">
@@ -168,7 +179,13 @@
    		<collection property="photos" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getAccPhotosByAccNo"></collection>
    		<collection property="room" column="ACC_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getRoomByAccNo"></collection>
       	<collection property="type" column="TYPE_NO" select="kr.co.airbnb.mapper.AccommodationMapper.getTypesByTypeNo"></collection>
+      	<collection property="disabledDate" column="acc_no" select="kr.co.airbnb.mapper.AccommodationMapper.getDisabledByAccNo"/>
 	</resultMap>
+	
+	
+	
+	
+	
 	
 	<!-- Accommodation getAcc(int no); -->
 	<select id="getAcc" parameterType="int" resultMap="AccDetailResultMap">
@@ -176,6 +193,8 @@
 		from AIRBNB_ACCOMMODATIONS
 		where acc_no = #{value}
 	</select>
+
+
 
 	<!-- List<Type> getAllTypesByAccNo(int accNo); -->
 	<select id="getAllTypesByAccNo" parameterType="int" resultType="Type">
@@ -205,6 +224,29 @@
 			order by acc_review_count desc, acc_review_score desc)
 		where rownum &lt;=20
 	</select>
+	
+		<!-- List<Accommodation> getAllAccs(int userNo); 
+ 	     내 위시리스트에 담겨있는지 여부를 함께 반환하는 모든 숙소 정보 -->
+ 	<select id="getAllAccs" resultMap="AccDetailResultMap">
+ 		with my_accommodations
+		as (
+		select W.*, WA.acc_no
+		from airbnb_wishlists W, airbnb_wishlist_accommodations WA
+		where W.wishlist_no = WA.wishlist_no
+		and W.user_no =#{userNo})
+		select *
+		from (		
+				select A.*, 
+				(select 'Y'
+				from dual
+				where exists ( select 1
+				                          from my_accommodations M
+				                          where A.acc_no  = M.acc_no)) savedWishList
+				from airbnb_accommodations A
+				order by acc_review_count desc, acc_review_score desc
+				)
+		where rownum &lt;=20
+ 	</select>
 	
 	<!-- List<Accommodation> getAccByCriteria(AccListCriteria accListCriteria); -->
 	<select id="getAccByCriteria" parameterType="kr.co.airbnb.criteria.AccListCriteria" resultMap="AccResultMap">

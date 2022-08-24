@@ -76,7 +76,7 @@
 			</div>
 
 			<!-- rightDiv main -->
-			<div class="main-box align-self-center bg-white">
+			<div class="main-box align-self-center bg-white" style="display:block;">
 				<form id="form-select-type" method="post" action="/host/submitTypes">
 					<!--일반숙소유형선택 -->
 					<div id="box-buttons" class="bd-highlight">
@@ -294,7 +294,7 @@ $(function(){
 			} else {
 	            $.each(privacyTypes, function(index, privacyType) {
 	            	let content = '';
-	            	content += '<div class="">';
+	            	content += '<div class="py-1">';
 	            	content += '	<button	class="btn btn-types btn-privacytypes bg-white container m-2" type="button" role="radio" data-type='+ privacyType.no +'>';
 	            	content += '		<div class="m-3 text-lg-start fw-bolder text-dark" style="font-size:18px;">'+ privacyType.name +'</div>';
 	            	content += '	</button>';
@@ -307,8 +307,40 @@ $(function(){
 
 	}
 	
+	// 저장된 값이 있으면 불러오기
+	var mainTypeNoSession = '${REGISTER_ACC.types[0].no}';
+	var subTypeNoSession = '${REGISTER_ACC.types[1].no}';
+	var privacyTypeNoSession = '${REGISTER_ACC.types[2].no}';
+	console.log(typeof(mainTypeNoSession));
+	console.log(subTypeNoSession);
+	console.log(privacyTypeNoSession);
+
+	var btnList = $(".btn-maintypes").get();
+		
+	var resultList = getDataTypes(btnList, mainTypeNoSession);
+	console.log("resultList: "+resultList);
+	
+	function getDataTypes(btnList, dataType) {
+		console.log("getDataTypews 실행");
+		var output = [];
+		for (var i=0; i < btnList.length; ++i) {
+			output.push(btnList[i].getAttribute("data-type"));
+		}
+		return output;
+	}
+	
+/* 	if (mainTypeNoSession === Number(mainTypeDataType)) {
+		var mainTypeDataType = $(".btn-maintypes").attr("data-type");
+		console.log(mainTypeDatType);
+		console.log(typeof(mainTypeDatType));
+		console.log("일치하는값찾음");
+		$("button[data-type='mainTypeDataType']").addClass("btn-type-checked");
+	} */
+	// 버튼 선택상태로
+	
 })
 
 </script>
+
 </body>
 </html>

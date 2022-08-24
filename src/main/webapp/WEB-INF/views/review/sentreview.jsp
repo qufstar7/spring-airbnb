@@ -70,6 +70,14 @@
 			background: rgb(255, 90, 95) !important;
 			color: white;
 	}
+	
+	.modifyBtn, .deleteBtn {
+			background: white;
+		    color: rgb(255, 90, 95);
+		    font-size: large;
+		    border: 2px solid rgb(255, 90, 95);
+		    border-radius: 10%;
+	}
 </style>
 </head>
 <body>
@@ -173,6 +181,10 @@
 													<div class="col-12 mb-3">
 														<strong><a href="/acc/detail?no=${review.accNo }" class="text-dark fs-5 p-0 mt-1 ms-2">${review.accommodation.name }</a></strong>
 														<p class="mb-5 mt-3">${review.content }</p>
+														<div align="right">
+															<button class="modifyBtn" type="button" id="btn-modify-review-guest" onclick = "location.href='https://localhost/modifyreview?no=${review.no}'">수정하기</button>
+															<button class="deleteBtn" type="button" id="btn-delete-review-guest">삭제하기</button>
+														</div>
 														<c:choose>
 															<c:when test="${empty review.positiveFeedback}">
 															</c:when>
@@ -209,6 +221,10 @@
 													<div class="col-12 mb-3">
 														<strong><a href="/acc/detail?no=${review.accNo }" class="text-dark fs-5 p-0 mt-1 ms-2">${review.accommodation.name }</a></strong>
 														<p class="mb-5 mt-3">${review.content }</p>
+														<div align="right">
+															<button type="button" class="modifyBtn" id="btn-modify-review-host" onclick = "location.href='https://localhost/modifyhostreview?no=${review.no}'">수정하기</button>
+															<button type="button" class="deleteBtn" id="btn-delete-review-host">삭제하기</button>
+														</div>
 														<c:choose>
 															<c:when test="${empty review.privateNote}">
 															</c:when>

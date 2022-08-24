@@ -21,7 +21,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-<title>Applied Coding & Computer - aircnc</title>
+<title>여행은 살아보는 거야 - 에어씨앤씨 - AirCnC</title>
 
 <style type="text/css">
 

@@ -13,6 +13,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="/resources/js/fresco.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/resources/css/wishlist2.css">
+<link rel="icon" href="../../../resources/aircnc.png">
 <title>위시리스트-에어씨엔씨</title>
 <style type="text/css">
 /*  footer css   */

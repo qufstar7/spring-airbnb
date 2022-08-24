@@ -48,7 +48,19 @@ pageEncoding="UTF-8"%>
 
 
 	
-	#agree1, #agree2 {zoom:3.0;}
+	#agree1, #agree2 {/* zoom:3.0; */
+	display: inline-block !important;
+    border-width: 1px !important;
+    border-style: solid !important;
+    border-color: rgb(176, 176, 176) !important;
+    height: 24px !important;
+    width: 24px !important;
+    background: rgb(255, 255, 255) !important;
+    text-align: center !important;
+    overflow: hidden !important;
+    vertical-align: top !important;
+    border-radius: 4px !important;
+	}
 	#password-helper p {font-size: small; margin: 0%;}
 	
 	h4, h5 {font-weight: bold;}
@@ -83,6 +95,11 @@ pageEncoding="UTF-8"%>
 	}
 	#btn-login-expose-password {font-size: small !important; font-weight: bold !important;}
 	
+	.form-control.is-valid, .was-validated .form-control:valid {
+		background-image: !important;
+	}
+	
+	.invalid-feedback {font-size: 12px !important;}
 	
 </style>
 
@@ -97,7 +114,7 @@ pageEncoding="UTF-8"%>
 </button> -->
 
 <!-- 이메일 입력 모달1 -->
-<div style="z-index: 5000;" class="modal fade" id="email-login-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div style="z-index: 5000;" class="modal fade" id="email-login-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
   <div class="modal-dialog modal-dialog-centered myModal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -156,7 +173,7 @@ pageEncoding="UTF-8"%>
 
 
 <!-- 로그인의 경우 비밀번호 입력 모달2 -->
-<div class="modal fade" id="login-password-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="login-password-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
   <div class="modal-dialog modal-lg modal-dialog-centered myModal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -197,7 +214,7 @@ pageEncoding="UTF-8"%>
 </button> -->
 
 <!-- Modal -->
-<div class="modal fade" id="email-register-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="email-register-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
   <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered myModal-dialog">
     <div class="modal-content">
        <div class="modal-header">
@@ -210,7 +227,7 @@ pageEncoding="UTF-8"%>
 			     <input type="text" class="form-control outline" name="firstName" placeholder="이름(예: 길동)" required >
 			     <label for="floatingInput">이름(예: 길동)</label>
 			     <div class="invalid-feedback">
-					<i class="fa-solid fa-circle-exclamation"></i><span>이름을 입력해주세요.</span>
+					<i class="fa-solid fa-circle-exclamation"></i><span> 이름을 입력해주세요.</span>
 				 </div>
 			</div>
 			
@@ -218,20 +235,24 @@ pageEncoding="UTF-8"%>
 			     <input type="text" class="form-control outline" name="lastName" placeholder="성(예: 홍)">
 			     <label for="floatingInput">성(예: 홍)</label>
 			     <div class="invalid-feedback">
-					<i class="fa-solid fa-circle-exclamation"></i><span>성을 입력해주세요.</span>
+					<i class="fa-solid fa-circle-exclamation"></i><span> 성을 입력해주세요.</span>
 				 </div>
-			    <p id="p-advice">정부 발급 신분증에 표시된 이름과 일치하는지 확인하세요.</p>
+			    <p id="p-advice" style="font-size: 12px;">정부 발급 신분증에 표시된 이름과 일치하는지 확인하세요.</p>
 		    </div>
 		    <div class="form-floating">
 			     <input type="date" class="form-control outline" name="birthDate" placeholder="생년원일">
 			     <label for="floatingInput">생년월일</label>
+			      <div class="invalid-feedback">
+					<i class="fa-solid fa-circle-exclamation"></i><span> 계속하시려면 생일을 선택하세요.</span>
+				 </div>
+				 <p id="email-advice" style="font-size: 12px;">만 18세 이상의 성인만 회원으로 가입할 수 있습니다. 생일은 에어비앤비의 다른 회원에게 공개되지 않습니다.</p>
 			</div>
 		    <div class="form-floating">
 			     <input type="email" class="form-control outline" name="registerEmail" placeholder="" required >
 			     <label for="floatingInput">이메일</label>
-			     <p id="p-info">예약 확인과 영수증은 이메일로 보내드립니다.</p>
+			     <p id="p-info" style="font-size: 12px;">예약 확인과 영수증은 이메일로 보내드립니다.</p>
 			     <div class="invalid-feedback">
-					<i class="fa-solid fa-circle-exclamation"></i><span>올바른 형식의 이메일을 입력해주세요.</span>
+					<i class="fa-solid fa-circle-exclamation"></i><span> 올바른 형식의 이메일을 입력해주세요.</span>
 				 </div>
 			</div>
 		    <div class="form-floating position-relative">
@@ -239,17 +260,22 @@ pageEncoding="UTF-8"%>
 			     <label for="floatingInput">비밀번호</label>
 			     <button type="button" class="text-reset btn btn-link position-absolute top-50 end-0 translate-middle" id="btn-register-expose-password">표시</button>
 			</div>
-		    <div id="password-helper" class="p-0">
+			<div class="password-feedback d-none" style="color: #dc3545; font-size: 12px; ">
+					<i class="fa-solid fa-circle-exclamation"></i><span> 비밀번호를 입력하세요.</span>
+			</div>
+		    <div id="password-helper" class="p-0" style="font-size: 12px;">
 		     	<p class="d-none" id="ph-1">비밀번호에 본인 이름이나 이메일 주소를 포함할 수 없습니다</p>
 				<p class="d-none" id="ph-2">최소8자</p>
 				<p class="d-none" id="ph-3">숫자나 기호를 포함하세요</p>
 		    </div>
-			<div class="row my-3">
+			<div class="row mb-3">
+				<hr class="mb-4">
 				<div class="col-10">
-					<label for="agree1">개인정보 수집 및 이용에 동의합니다.
+					<label for="agree1" style="font-size: small;">개인정보 수집 및 이용에 동의합니다.<br/>
 							1. 에어비앤비가 수집하는 개인 정보 에어비앤비 플랫폼을 이용하는 데 필요한 정보 당사는 
 							회원님이 에어비앤비 플랫폼을 이용할 때 회원님의 개인 정보를 수집합니다. 
-							그렇지 않은 경우, 에어비앤비는 요청하신 서비스를 회원님께 제공하지 못할 수 있습니다. 이러한 정보에는 다음이 포함됩니다.
+							그렇지 않은 경우, 에어비앤비는 요청하신 서비스를 회원님께 제공하지 못할 수 있습니다. 이러한 정보에는 다음이 포함됩니다. </br>
+							<span id="check-agree1" class="d-none" style="color: #dc3545; font-size: .875em;"><i class="fa-solid fa-circle-exclamation"></i> 계속하려면 동의해주세요.</span>
 					</label>
 				</div>
 				<div class="col-2 ps-5">
@@ -258,7 +284,7 @@ pageEncoding="UTF-8"%>
 			</div>
 		    <div class="row mb-3">
 		    	<div class="col-10">
-					<label for="agree2">마케팅 이메일 수신을 원합니다(선택).
+					<label for="agree2" style="font-size: small;">마케팅 이메일 수신을 원합니다(선택).<br/>
 						 에어비앤비 회원 전용 할인, 추천 여행 정보, 마케팅 이메일, 푸시 알림을 보내드립니다. 
 						 계정 설정 또는 마케팅 알림에서 언제든지 수신을 거부할 수 있습니다.
 					</label>
@@ -266,8 +292,9 @@ pageEncoding="UTF-8"%>
 				<div class="col-2 ps-5">
 					<input type="checkbox" id="agree2" >
 				</div>
+				<hr class="mb-4">
 		    </div>
-        	<div>
+        	<div style="font-size: small;">
         		동의 및 계속하기를 선택하여 에어비앤비 <strong>서비스 약관</strong>, <strong>결제 서비스 약관</strong>, 
         		<strong>위치기반서비스 이용약관</strong>, <strong>차별 금지 정책</strong>, <strong>개인정보 처리방침</strong>에 동의합니다.
         	</div>
@@ -288,7 +315,7 @@ pageEncoding="UTF-8"%>
   회원가입 완료 모달
 </button> -->
 
-<div class="modal fade" id="register-complete-modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+<div class="modal fade" id="register-complete-modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1" data-bs-backdrop="static">
   <div class="modal-dialog modal-dialog-centered modal-lg myModal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -306,7 +333,7 @@ pageEncoding="UTF-8"%>
     </div>
   </div>
 </div>
-<div class="modal fade" id="upload-profile-modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+<div class="modal fade" id="upload-profile-modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1" data-bs-backdrop="static">
   <div class="modal-dialog modal-dialog-centered modal-lg myModal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -734,28 +761,50 @@ $(function () {
 		$("#p-info").removeClass("d-none");
 	})
 
-	
+	let validFirstName = false;
 	$firstName.keyup(function() {
 		
 		let firstName = $(this).val().trim();
 		if(firstName == "") {
-			$(this).removeClass("is-valid").addClass("is-invalid");
+			validFirstName = false;
 			return;
-		} 
-		$(this).addClass("is-valid").removeClass("is-invalid");
+		}  else {
+			validFirstName = true;
+			$(this).addClass("is-valid").removeClass("is-invalid");
+		}
 	});
 	
+	let validLastName = false;
 	$lastName.keyup(function() {
-		
 		let lastName = $(this).val().trim();
 		if(lastName == "") {
-			$(this).removeClass("is-valid").addClass("is-invalid");
-			$("#p-advice").addClass("d-none");
+			//$(this).removeClass("is-valid").addClass("is-invalid");
+			validLastName = false;
 			return;
-		} 
-		$(this).addClass("is-valid").removeClass("is-invalid");
-		$("#p-advice").removeClass("d-none");
+		} else {
+			validLastName = true;
+			$(this).addClass("is-valid").removeClass("is-invalid");
+		}
 		
+		if($lastName.hasClass("is-valid")) {
+			$("#p-advice").removeClass("d-none");
+		} else if($lastName.hasClass("is-invalid")) {
+			$("#p-advice").addClass("d-none");
+		}
+	})
+	
+	
+	let validBirthDate = false;
+	$birthDate.keyup(function() {
+		
+		let birthDate = $(this).val().trim();;
+		if(birthDate == "") {
+			validBirthDate = false;
+			return;
+		} else {
+			validBirthDate = true;
+			$(this).addClass("is-valid").removeClass("is-invalid");
+		}
 	});
 	
 	
@@ -789,7 +838,7 @@ $(function () {
 		$("#password-helper p").removeClass("d-none");
 	});
 	
-	
+	let validPassword = false;
 	$password.keyup(function(event) {
 				
 		let password = $(this).val().trim();
@@ -801,28 +850,67 @@ $(function () {
 			$password.val(password.replace(/[ㄱ-힣]/g, ''));
 		}
 		
+		if(password) {
+			$(".password-feedback").addClass("d-none");
+		}
+		
 		if(password.includes(firstName)) {
 			$("#ph-1").removeClass("text-success").addClass("text-danger");
+			validPassword = false;
 		} else {
 			$("#ph-1").removeClass("text-danger").addClass("text-success");
+			validPassword = true;
 		}
 		
 		if(password.length < 8) {
 			$("#ph-2").removeClass("text-success").addClass("text-danger");
+			validPassword = false;
 		} else {
 			$("#ph-2").removeClass("text-danger").addClass("text-success");
+			validPassword = true;
 		}
 		
 		if(!passwordRegExp.test(password)) {
 			$("#ph-3").removeClass("text-success").addClass("text-danger");
+			validPassword = false;
 		} else {
 			$("#ph-3").removeClass("text-danger").addClass("text-success");
+			validPassword = true;
 		}
 		
 	});
 	
+	
 	// 회원가입 입력폼 제출
 	$("#btn-register").click(function() {
+		
+		if(!validFirstName) {
+			$firstName.removeClass("is-valid").addClass("is-invalid");
+			$firstName.focus();
+		}
+		
+		if(!validLastName) {
+			$lastName.removeClass("is-valid").addClass("is-invalid");
+		}
+		
+		if(!validBirthDate) {
+			$birthDate.removeClass("is-valid").addClass("is-invalid");
+		}
+		
+		if(!validPassword) {
+			$password.focus();
+		}
+		if($password.val().trim() == '') { 
+			$(".password-feedback").removeClass("d-none");
+			//$password.removeClass("is-valid").addClass("is-invalid");
+			$password.focus();
+		}
+		
+		if(!$("#agree1").prop("checked")) {
+			$("#check-agree1").removeClass("d-none");
+			return false
+		}
+		
 		
 		let querystring = $("#register-form").serialize();
 		$.post("/user/register", querystring, function(result) {

@@ -38,8 +38,9 @@ public class Reservation {
 	private double leftPay;
 	private Accommodation accommodation;
 	private User user;
-	
-	
+	private String reservationStatus;
+	private int userNo;
+	private String entirePayment;
 	
 	
 }

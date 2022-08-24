@@ -18,7 +18,8 @@
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
-<title>Insert title here</title>
+<link href="../resources/aircnc.png" rel="icon" type="image/x-icon" />
+<title>${recvUser.name }에게 답장하기</title>
 </head>
 <body>
 <div class="container p-3">

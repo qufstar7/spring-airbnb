@@ -27,6 +27,8 @@ public interface ReviewMapper {
 	List<Review> getSentHostReviews(int no);
 	List<Review> getSentGuestReviews(int no);
 	List<Review> getReviewsToWrite(int no);
+	Review getReviewByReviewNo(int no);
+	void updateReview(Review review);
 
 	
 	

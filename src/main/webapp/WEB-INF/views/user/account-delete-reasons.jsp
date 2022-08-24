@@ -5,6 +5,7 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="/resources/css/deleteAccount.css">
+<link rel="icon" href="../../../resources/aircnc.png">
 <title>계정비활성화 - AirCnC</title>
 <style type="text/css">
 	input[type="radio"]:checked {

@@ -100,7 +100,7 @@
 			
 			<div class="main-box bg-white p-4">
 				<div style="max-width: 700px; margin: auto;">
-					<div class="fs-2 fw-bolder pb-3 m-3">숙소의 특징이 잘 드러나는 문구를 최대 2개까지 선택하실 수 있습니다.</div>
+					<div class="fs-2 fw-bolder pb-3" style="word-break:keep-all;">숙소의 특징이 잘 드러나는 문구를 최대 2개까지 선택하실 수 있습니다.</div>
 					<div>
 						<div id="allTagBox" class="text-center">
 							<c:forEach var="tag" items="${tags }">

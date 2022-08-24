@@ -101,7 +101,7 @@
 				</nav>
 			</div>
 			
-			<div class="main-box align-self-center bg-white p-4">
+			<div class="main-box align-self-center bg-white p-4" style="display:block">
 			
 				<!-- 편의시설 선택 버튼 박스들 -->
 				<div id="box-buttons" class="bd-highlight">

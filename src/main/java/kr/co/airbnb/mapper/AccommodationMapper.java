@@ -3,6 +3,7 @@ package kr.co.airbnb.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import kr.co.airbnb.annotation.LoginUser;
 import kr.co.airbnb.criteria.AccCriteria;
@@ -63,6 +64,9 @@ public interface AccommodationMapper {
 	List<Boast> getBoast(int accNo);
 	// 룸
 	AccRoom getRoomByAccNo(int accNo);
+	
+	// 내 위시리스트에 담겨있는지 여부를 함께 반환하는 모든 숙소 정보
+	List<Accommodation> getAllAccs(@Param("userNo") int userNo);
 
 	// 숙소 업데이트
 	void updateAcc(Accommodation acc);

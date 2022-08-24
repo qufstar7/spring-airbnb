@@ -111,4 +111,18 @@ public class ReviewRestController {
 		return SingleResponseData.create(reviews);
 	}
 	
+	@PutMapping(path = "/modification")
+	public ResponseData updateReview (@LoginUser User loginUser,  @RequestBody Review review) {
+		reviewService.updateReview(review);
+		
+		return ResponseData.create(true, "리뷰 정보가 수정되었습니다.");
+	}
+	
+	@GetMapping(path = "/review")
+	public SingleResponseData<Review> getReview (@LoginUser User loginUser, @RequestParam("no") int no) {
+		Review review = reviewService.getReviewByReviewNo(no);
+		
+		return SingleResponseData.create(review);
+	}
+	
 }
