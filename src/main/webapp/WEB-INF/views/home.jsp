@@ -492,8 +492,7 @@ input[type="range"]::-moz-range-thumb{
 						<div class="row my-2 card-desc " data-acc-no="${acc.accNo }">
 							<div class="col-8">
 								<div class="card-title"><strong><span>${acc.address.substring(0,2) }</span>의 <span>${acc.types[0].name }</span></strong></div>
-								<div class="card-text text-muted" style="font-size:15px">${acc.name }</div>
-								<%-- <div class="card-subtitle text-muted" style="font-size:15px">침대 <span>${acc.room.bed }</span>개</div> --%>
+								<div class="card-text text-muted"><small>${acc.name }</small></div>
 								<div class="card-subtitle mb-2 text-muted"><fmt:formatDate value="${acc.checkIn }" pattern="MM월 dd일"/> ~ <fmt:formatDate value="${acc.checkOut }" pattern="MM월 dd일"/></div>
 								<div class="card-text pt-1">
 									<strong>₩<fmt:formatNumber value="${acc.price }" /></strong>/박
@@ -1149,7 +1148,7 @@ input[type="range"]::-moz-range-thumb{
 	</div>
 <script type="text/javascript">
 $(function() {	
-	
+	// 숙소 카드 링크
 	$('.card-container img, .card-desc').click(function(event) {
 		
 		let accNo = $(this).attr("data-acc-no");
@@ -1388,7 +1387,7 @@ $(function() {
 				console.log(accommodations);
 				$.each(accommodations, function(index, acc) {
 					let content= "";
-					content += '<div class="card-container" onclick="location.href=\'/acc/detail?no='+acc.accNo+'\'" style="text-decoration-line: none; color: black">';
+					content += '<div class="card-container" data-acc-no="'+acc.accNo+'" style="text-decoration-line: none; color: black">';
 					content += '<div class="card-box p-1">';
 					content += '<div class="" style="width: 300px">';
 									<!-- 숙소 섬네일 슬라이드쇼 시작 -->
@@ -1430,16 +1429,15 @@ $(function() {
 												</c:otherwise>
 											</c:choose> --%>
 					content += '				</div>';
-										<!-- 슬라이드쇼 이미지 /image-cover, room_image_no -->
 					content += '				<div class="carousel-inner" style="border-radius: 25px;">';
 					content += '					<div class="carousel-item active">';
-					content += '						<img class="acc-thumbnail rounded-0"';
+					content += '						<img class="acc-thumbnail rounded-0" data-acc-no="'+acc.accNo+'"';
 					content += '									src="/resources/images/acc/'+acc.imageCover +'" alt="숙소이미지"';
 					content += '									style="object-fit: cover; width: 300px; height: 300px;">';
 					content += '					</div>';
 					content += '					<div class="carousel-item">';
 					content += '						<img class="acc-thumbnail rounded-0"';
-					content += '								src="/resources/images/acc/2.jpg" alt="숙소이미지"';
+					content += '								src="/resources/images/acc/'+acc.accNo+'.png" alt="숙소이미지"';
 					content += '								style="object-fit: cover; width: 300px; height: 300px;">';
 					content += '					</div>';
 					content += '					<div class="carousel-item">';
@@ -1465,9 +1463,8 @@ $(function() {
 									<!-- 숙소 설명 -->
 					content += '			<div class="row my-2">';
 					content += '				<div class="col-8">';
-					content += '					<div class="card-title"><strong><span>'+acc.user.name+'</span>의 <span>'+ (acc.types[0] ? acc.types[0].name : "")+'</span></strong></div>';
-					content += '					<div class="card-text text-muted" style="font-size:15px">'+acc.name+'</div>';
-											<%-- <div class="card-subtitle text-muted" style="font-size:15px">침대 <span>${acc.room.bed }</span>개</div> --%>
+					content += '					<div class="card-title"><strong><span>'+acc.address.substring(0,2)+'</span>의 <span>'+ (acc.types[0] ? acc.types[0].name : "")+'</span></strong></div>';
+					content += '					<div class="card-text text-muted"><small>'+acc.name+'</small></div>';
 					content += '					<div class="card-subtitle mb-2 text-muted">'+acc.checkIn+' ~ '+acc.checkOut+'</div>';
 					content += '					<div class="card-text pt-1">';
 					content += '						<strong>₩ '+acc.price+'</strong>/박';
