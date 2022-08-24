@@ -11,10 +11,11 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-public class FilterCriteria {
-	
-	private int accNo;
-	
+public class AccListCriteria {
+
+private int accNo;
+
+// FilterCriteria.java
 	// 필터의 슬라이더 부분		
 	private int rangeMin;
 	private int rangeMax;
@@ -41,4 +42,18 @@ public class FilterCriteria {
 	
 	// 숙소 type검색 + 숙소유형 + 건물유형
 	private List<String> accTypes;
+	
+// SearchCriteria.java	
+	// nav검색 - 어디든지 : 주소검색, 대한민국 내 인기 여행지 - 버튼 클릭
+	private String keyword;
+	
+	// nav검색 - 언제든지 : 날짜 검색
+	private String startDate;
+	private String endDate;
+	
+	// nav검색 - 누구든지 : 인원수 검색
+	private String adult;	// 검색 조건에 포함되지 않을 수도 있기 때문에 String으로
+	private String child;
+	private String infant;
+	private String pet;
 }

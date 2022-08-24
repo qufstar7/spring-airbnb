@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.airbnb.annotation.LoginUser;
 import kr.co.airbnb.criteria.AccCriteria;
+import kr.co.airbnb.criteria.AccListCriteria;
 import kr.co.airbnb.criteria.FilterCriteria;
 import kr.co.airbnb.criteria.SearchCriteria;
 import kr.co.airbnb.mapper.AccommodationMapper;
@@ -109,7 +110,7 @@ public class AccommodationService {
 		return accommodationMapper.getAccNoByUser(loginUser);
 	}
 	
-	// nav검색으로 list조회
+	// nav 키워드 검색으로 list조회
 	public List<Accommodation> searchAccByKeyword(SearchCriteria searchCriteria) {
 		return accommodationMapper.searchAccByKeyword(searchCriteria);
 	}
@@ -135,7 +136,15 @@ public class AccommodationService {
 		return accommodationMapper.getAccByFilter(filterCriteria);
 	}
 
-	
+	// 키워드 + 필터 검색으로 숙소 조회
+	public List<Accommodation> searchAccByCriteria(AccListCriteria accListCriteria) {
+		return accommodationMapper.getAccByCriteria(accListCriteria);
+	}
+
+	// 필터 - 차트
+	public List<Integer> priceCount() {
+		return accommodationMapper.getPriceCount();
+	}
 
 
 }

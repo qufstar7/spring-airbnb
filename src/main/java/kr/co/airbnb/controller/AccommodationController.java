@@ -27,6 +27,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.airbnb.annotation.LoginUser;
+import kr.co.airbnb.criteria.AccListCriteria;
 import kr.co.airbnb.criteria.FilterCriteria;
 import kr.co.airbnb.criteria.SearchCriteria;
 import kr.co.airbnb.form.ReservationRegisterForm;
@@ -152,10 +153,26 @@ public class AccommodationController {
 	}
 
 	@GetMapping(path = "/list")
-	public String list(SearchCriteria searchCriteria, Model model) {	
-		// nav의 키워드로 숙소 검색
-		List<Accommodation> accList = accommodationService.searchAccByKeyword(searchCriteria);
+	public String list(@LoginUser(required = false) User loginUser, SearchCriteria searchCriteria, Model model) {	
 		
+		if(loginUser != null) {
+			List<Wishlist> wishlists = wishlistService.getMyWishlists(loginUser.getNo());
+			model.addAttribute("wishlists", wishlists);
+		}
+		
+		List<Accommodation> accList = new ArrayList<Accommodation>();
+		if(searchCriteria == null) {
+			// 메인 페이지에 출력할 인기 숙소
+			accList = accommodationService.getPopularAccommodations();
+						
+			// 위시리스트 등록 숙소 여부를 포함한 모든 숙소들
+			if(loginUser != null) {
+				accList = wishlistService.getAllAccs(loginUser.getNo());
+			}
+		}else {			
+			// nav의 키워드로 숙소 검색
+			accList = accommodationService.searchAccByKeyword(searchCriteria);
+		}
 		// 각 숙소의 타입1,2,3 조회 + 침대 개수 조회
 		for (Accommodation acc : accList) {
 			int accNo = acc.getAccNo();
@@ -192,12 +209,15 @@ public class AccommodationController {
 	
 	@GetMapping(path="/list/search2")
 	@ResponseBody
-	public List<Accommodation> search2(FilterCriteria filterCriteria) {
+	public List<Accommodation> search2(FilterCriteria filterCriteria, AccListCriteria accListCriteria, SearchCriteria searchCriteria) {
 		List<Accommodation> accommodations = new ArrayList<Accommodation>();
-		
-		// 필터 검색한 숙소
-		accommodations = accommodationService.searchAccByFilter(filterCriteria);
-		
+		if(filterCriteria == null) {
+			// nav의 키워드로 숙소 검색
+			accommodations = accommodationService.searchAccByKeyword(searchCriteria);
+		} else {
+			// <!-- 보류 --> 키워드 + 필터 검색한 숙소  
+			accommodations = accommodationService.searchAccByCriteria(accListCriteria);
+		}
 		// 각 숙소의 타입1,2,3 조회 + 침대 개수 조회
 		for (Accommodation acc : accommodations) {
 			int accNo = acc.getAccNo();

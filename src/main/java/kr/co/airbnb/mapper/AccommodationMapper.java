@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import kr.co.airbnb.annotation.LoginUser;
 import kr.co.airbnb.criteria.AccCriteria;
+import kr.co.airbnb.criteria.AccListCriteria;
 import kr.co.airbnb.criteria.FilterCriteria;
 import kr.co.airbnb.criteria.SearchCriteria;
 import kr.co.airbnb.vo.AccConvenience;
@@ -91,9 +92,13 @@ public interface AccommodationMapper {
 	AccPrice getPrice();
 	// 필터 검색으로 숙소 조회
 	List<Accommodation> getAccByFilter(FilterCriteria filterCriteria);
+
+	// 키워드 + 필터 검색으로 숙소 조회
+	List<Accommodation> getAccByCriteria(AccListCriteria accListCriteria);
+	 
+	// 필터 - 차트
+	List<Integer> getPriceCount();
 	
-	// room 조회
-	//List<AccRoom> getAllRoomsByAccNo(int accNo);
 	
 
 }

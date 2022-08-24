@@ -1271,7 +1271,7 @@ $(function() {
          data.addColumn('string', 'Country');
          data.addColumn('number', '');
          data.addRows([
-	         <c:forEach var='c' items="${priceList}">
+	         <c:forEach var='c' items="${counts}">
 	           ['', ${c}],         
 	         </c:forEach>
          ]);

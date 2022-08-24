@@ -421,6 +421,13 @@ input[type="range"]::-moz-range-thumb{
 	.container{padding:0}
 	.grid-main {column-gap: 100px;}
 }
+/* 지도 마커 */
+.customoverlay {position:relative;bottom:15px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+.customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
+.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+
 </style>
 </head>
 <c:set var="page" value="subNav" />
@@ -466,13 +473,24 @@ input[type="range"]::-moz-range-thumb{
 							<!-- 위시리스트 하트 버튼 -->
 							<div class="wishlist-icon">
 								<c:if test="${empty LOGIN_USER }">
-									<a class="unwish" href="#" data-bs-toggle="modal" data-bs-target="#email-login-modal"
-										style="position:absolute; top:15px; right:15px; z-index:2">
-										<span class="material-icons" style="color:white">favorite</span>
+									<a class="unwish" data-bs-toggle="modal" data-bs-target="#email-login-modal" style="position:absolute; top:15px; right:15px; z-index:2">
+										<i class="bi bi-suit-heart fs-4" style="color: white;"></i>
+									</a>
+								</c:if>
+								<c:if test="${not empty LOGIN_USER }">
+									<a class="unwish"  style="position:absolute; top:15px; right:15px; z-index:2">
+												<c:choose>
+													<c:when test="${list.savedWishlist eq 'Y'}">
+														<i class="wishlistIcon fa-solid fa-heart fs-4" data-accNo="${list.accNo}" id="icon-heart-${list.accNo}" style="color: #FF385C;"></i>												
+													</c:when>
+													<c:otherwise>
+														<i class="wishlistIcon fa-regular fa-heart fs-4" data-accNo="${list.accNo}" id="icon-heart-${list.accNo}" style="color: white;"></i>
+													</c:otherwise>
+												</c:choose>
 									</a>
 								</c:if>
 								<%-- <c:choose>
-									<c:when test="${list.accNo eq user.wishlist.no }"> <!-- wishlist 모달 넣어주기-->
+									<c:when test="${acc.accNo eq wishlistBtn.accs }"> <!-- wishlist 모달 넣어주기-->
 										<a class="wished" href="#" style="position:absolute; top:15px; right:15px; z-index:2">
 											<span class="material-icons" style="color:#FF7977">favorite</span>
 										</a>
@@ -1236,6 +1254,87 @@ function zoomOut() {
     map.setLevel(map.getLevel() + 1);
 }
 
+var positions = [
+    {
+        title: '카카오', 
+        latlng: new kakao.maps.LatLng(33.450705, 126.570677)
+    },
+    {
+        title: '생태연못', 
+        latlng: new kakao.maps.LatLng(33.450936, 126.569477)
+    },
+    {
+        title: '텃밭', 
+        latlng: new kakao.maps.LatLng(33.450879, 126.569940)
+    },
+    {
+        title: '근린공원',
+        latlng: new kakao.maps.LatLng(33.451393, 126.570738)
+    }
+];
+
+// 마커 이미지의 이미지 주소입니다
+var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+    
+for (var i = 0; i < positions.length; i ++) {
+    
+    // 마커 이미지의 이미지 크기 입니다
+    var imageSize = new kakao.maps.Size(0, 0); 
+    
+    // 마커 이미지를 생성합니다    
+    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+    
+  //커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+    var content = '<div class="customoverlay">' +
+    '  <a href="https://map.kakao.com/link/map/11394059" target="_blank">' +
+    '    <span class="title">구의야구공원</span>' +
+    '  </a>' +
+    '</div>';
+    
+    // 마커를 생성합니다
+    var marker = new kakao.maps.Marker({
+        map: map, // 마커를 표시할 지도
+        position: positions[i].latlng, // 마커를 표시할 위치
+        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+        image : markerImage // 마커 이미지 
+    });
+}
+
+/* var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 마커이미지의 주소입니다    
+imageSize = new kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
+imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+//마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+markerPosition = new kakao.maps.LatLng(37.54699, 127.09598); // 마커가 표시될 위치입니다
+
+//마커를 생성합니다
+var marker = new kakao.maps.Marker({
+position: markerPosition,
+image: markerImage // 마커이미지 설정 
+});
+
+//마커가 지도 위에 표시되도록 설정합니다
+marker.setMap(map);  
+
+//커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+var content = '<div class="customoverlay">' +
+'  <a href="https://map.kakao.com/link/map/11394059" target="_blank">' +
+'    <span class="title">구의야구공원</span>' +
+'  </a>' +
+'</div>';
+
+//커스텀 오버레이가 표시될 위치입니다 
+var position = new kakao.maps.LatLng(37.54699, 127.09598);  
+
+//커스텀 오버레이를 생성합니다
+var customOverlay = new kakao.maps.CustomOverlay({
+map: map,
+position: position,
+content: content,
+yAnchor: 1 
+}); */
+
 </script>
 <!-- 필터 모달창 script -->
 <script type="text/javascript">
@@ -1551,5 +1650,133 @@ $(function() {
 })	
 
 </script>
+
+<!-- 위시리스트 모달 및 js -->
+<script type="text/javascript">
+$(function () {
+	
+	$(".unwish").on("click", function(e) {
+		return false;
+	});
+	
+	$(".wishlistIcon").on("click", function(e) {
+		//e.preventDefault();
+		let accNo = $(this).attr("data-accNo");	
+		$heartIcon = $("#icon-heart-" + accNo); 
+		 if($(this).hasClass("fa-solid")) {
+			 // 위시리스트에서 숙소 삭제 구현하기
+			 $.getJSON("/delete/wishlistAcc", "accNo=" + accNo) 
+			  .done(function(result) {
+				  if(result.success) {
+					  $heartIcon.removeClass("fa-solid").addClass("fa-regular").css("color", "white");
+				  }
+			  });
+		 } else {
+			 // 다시 추가
+			 saveToListModal.show();
+			 // 1.다른 위시리스트 폴더로 이동할 경우  2.위시리스트 폴더를 새로 만들어서 숙소를 저장할 경우
+			 $("#form-create-wishlist input[name=accNo]").val(accNo); 
+		 }
+	}); 
+	
+	let saveToListModal = new bootstrap.Modal(document.getElementById('modal-save-to-list'), {
+		  keyboard: false
+		})
+	
+	let createListModal = new bootstrap.Modal(document.getElementById('modal-create-wishlist'), {
+		  keyboard: false
+		});
+	
+	// 위시리스트 폴더리스트 모달창에서 "새로운 위시리스트 만들기" 누를 경우
+	 $("#div-create-wishlist").click(function() {
+		 saveToListModal.hide();
+		 createListModal.show();
+		 $(":input[name=wishlistName]").val('');
+	 });
+	
+	// 새로운 위시리스트 폴더 만들기
+	 $(":input[name=wishlistName]").keyup(function() {
+	 	if($(this).val().trim()) {
+	 		$("#btn-create-wishlist").prop("disabled", false);
+	 	} else {
+	 		$("#btn-create-wishlist").prop("disabled", true);
+	 	}
+	 });
+	
+	// 기존 위시리스트 폴더에 저장
+	 
+	$("#div-wishlists").on('click', "div", function() {
+		let accNo = $(":input[name=accNo]").val();
+		$heartIcon = $("#icon-heart-" + accNo); 
+		// 아래의 wishlistNo는 변경할 위시리스트 폴더 번호
+		let wishlistNo = $(this).find('input[name="wishlistNo"]').val();
+		//alert("accNo: " + accNo + " wishlistNo: " + wishlistNo); 
+		$.getJSON("/change/wishlistAcc", "wishlistNo=" + wishlistNo + "&accNo=" + accNo)
+		 .done(function(result) {
+			 if(result.success) {
+				console.log(result);
+				saveToListModal.hide();
+				$heartIcon.removeClass("fa-regular").addClass("fa-solid").css("color", "#FF385C");
+			 }
+		 });
+		 // location.reload();
+	})
+})
+</script>
+<!-- 빈하트 클릭시 나타나는 Modal -->
+<div class="modal fade" id="modal-save-to-list" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h5 class="modal-title fw-bold w-100 text-center">위시리스트</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      	<div id="div-create-wishlist" style="display: flex; height: 64px; cursor: pointer;">
+      		<img src="https://a0.muscache.com/im/pictures/da1a2f06-efb0-4079-abce-0f6fc82089e0.jpg" alt="새로운 위시리스트 만들기" style="vertical-align:middle;">
+      		<span class="ms-3 fw-bold" style="margin-top:20px;">새로운 위시리스트 만들기</span>
+      	</div>
+      	<div id="div-wishlists">
+	      	<c:if test="${not empty wishlists }">
+	      		<c:forEach var="wishlist" items="${wishlists}">
+			      	<div id="div-wishlist-${wishlist.no}" class="mt-3" style="display: flex; height: 64px; cursor: pointer;">
+		      			<input type="hidden" name="wishlistNo" value="${wishlist.no}">
+			      		<img src="https://a0.muscache.com/im/pictures/da1a2f06-efb0-4079-abce-0f6fc82089e0.jpg" alt="새로운 위시리스트 만들기" style="vertical-align:middle;">
+			      		<span class="ms-3 fw-bold" style="margin-top:20px;">${wishlist.name }</span>
+			      	</div>
+	      		</c:forEach>
+	      	</c:if>
+      	</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 새로운 위시리스트 만들기 클릭시 나타나는 Modal -->
+<div class="modal fade" id="modal-create-wishlist" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold w-100 text-center fs-6">위시리스트 이름 정하기</h5>
+        <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#modal-save-to-list"></button>
+      </div>
+      <form id="form-create-wishlist" method="post" action="/wishlists/insert">
+      <div class="modal-body mb-4">
+	      	<div class="form-floating">
+	      		<input type="hidden" name="accNo">
+		     	<input type="text" class="form-control" name="wishlistName" placeholder="이름">
+		     	<label for="floatingInput">이름</label>
+			</div>
+			<small>최대 50자</small>
+      </div>
+      <div class="modal-footer">
+        <div class="d-grid gap-2 w-100">
+		  <button class="btn btn-dark fw-bold btn-lg fs-6" type="submit" id="btn-create-wishlist" disabled>새로 만들기</button>
+		</div>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
 </body>
 </html>
