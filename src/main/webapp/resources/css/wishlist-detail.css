@@ -147,3 +147,10 @@
 	/** 좌측 사진*/
 	#tabl1 img {border-radius: 12px;}
 	
+	.carousel-indicators > button {
+ 			border-radius: 100% !important;
+    width: 8px !important;
+    height: 8px !important;
+    background-color: #404040 ;
+    }
+	

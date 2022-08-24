@@ -102,51 +102,55 @@
 							    <div class="col-md-5">
 							      <div id="carouselExampleIndicators-${acc.accNo }" class="carousel slide" data-interval="false">
 									<!-- 숙소 섬네일 슬라이드쇼 -->
-									<div class="carousel-indicators">
-										<button type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-										<button type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide-to="1" aria-label="Slide 2"></button>
-										<button type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide-to="2" aria-label="Slide 3"></button>
+									<div class="carousel-indicators-class">
+										<div class="carousel-indicators">
+											<button type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+											<button type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide-to="1" aria-label="Slide 2"></button>
+											<button type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide-to="2" aria-label="Slide 3"></button>
+											<button type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide-to="3" aria-label="Slide 4"></button>
+											<button type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide-to="4" aria-label="Slide 5"></button>
+										</div>
 									</div>
 									<%-- <div id="carousel-inner-${acc.accNo}"> --%>
 									<div class="carousel-inner-class">
-									<!-- 슬라이드쇼 이미지 -->
-									<div class="carousel-inner" >
-										<c:forEach items="${acc.photos }" var="photo">
-											<c:if test="${photo.num eq 1 }">
-										<div class="carousel-item active">
-											<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지"  style="object-fit: cover; height: 200px;">
+										<!-- 슬라이드쇼 이미지 -->
+										<div class="carousel-inner" >
+											<c:forEach items="${acc.photos }" var="photo">
+												<c:if test="${photo.num eq 1 }">
+											<div class="carousel-item active">
+												<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지"  style="object-fit: cover; height: 200px;">
+											</div>
+												</c:if>
+											</c:forEach>
+											<c:forEach items="${acc.photos }" var="photo">
+												<c:if test="${photo.num eq 2 }">
+													<div class="carousel-item">
+														<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지" style="object-fit: cover; height: 200px;">
+													</div>
+												</c:if>
+											</c:forEach>
+											<c:forEach items="${acc.photos }" var="photo">
+												<c:if test="${photo.num eq 3 }">
+													<div class="carousel-item">
+														<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지" style="object-fit: cover; height: 200px;">
+													</div>
+												</c:if>
+											</c:forEach>
+											<c:forEach items="${acc.photos }" var="photo">
+												<c:if test="${photo.num eq 4 }">
+													<div class="carousel-item">
+														<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지" style="object-fit: cover; height: 200px;">
+													</div>
+												</c:if>
+											</c:forEach>
+											<c:forEach items="${acc.photos }" var="photo">
+												<c:if test="${photo.num eq 5 }">
+													<div class="carousel-item">
+														<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지" style="object-fit: cover; height: 200px;">
+													</div>
+												</c:if>
+											</c:forEach>
 										</div>
-											</c:if>
-										</c:forEach>
-										<c:forEach items="${acc.photos }" var="photo">
-											<c:if test="${photo.num eq 2 }">
-												<div class="carousel-item">
-													<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지" style="object-fit: cover; height: 200px;">
-												</div>
-											</c:if>
-										</c:forEach>
-										<c:forEach items="${acc.photos }" var="photo">
-											<c:if test="${photo.num eq 3 }">
-												<div class="carousel-item">
-													<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지" style="object-fit: cover; height: 200px;">
-												</div>
-											</c:if>
-										</c:forEach>
-										<c:forEach items="${acc.photos }" var="photo">
-											<c:if test="${photo.num eq 4 }">
-												<div class="carousel-item">
-													<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지" style="object-fit: cover; height: 200px;">
-												</div>
-											</c:if>
-										</c:forEach>
-										<c:forEach items="${acc.photos }" var="photo">
-											<c:if test="${photo.num eq 5 }">
-												<div class="carousel-item">
-													<img class="w-100" src="/resources/images/acc/${photo.name }" alt="숙소이미지" style="object-fit: cover; height: 200px;">
-												</div>
-											</c:if>
-										</c:forEach>
-									</div>
 									</div>
 									<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators-${acc.accNo }" data-bs-slide="prev">
 										<span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -319,6 +323,8 @@
 	    	  		  infoWindow_content +=	'		<button type="button" data-bs-target="#carousel-info' + acc.accNo + '" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>';
 	    	  		  infoWindow_content +=	'		<button type="button" data-bs-target="#carousel-info' + acc.accNo + '" data-bs-slide-to="1" aria-label="Slide 2"></button>';
 	    	  		  infoWindow_content +=	'		<button type="button" data-bs-target="#carousel-info' + acc.accNo + '" data-bs-slide-to="2" aria-label="Slide 3"></button>';
+	    	  		  infoWindow_content +=	'		<button type="button" data-bs-target="#carousel-info' + acc.accNo + '" data-bs-slide-to="3" aria-label="Slide 4"></button>';
+	    	  		  infoWindow_content +=	'		<button type="button" data-bs-target="#carousel-info' + acc.accNo + '" data-bs-slide-to="4" aria-label="Slide 5"></button>';
 	    	  		  infoWindow_content +=	'	</div>';
 		    	  	  infoWindow_content +=	'	<div class="wishlist-icon">';
 		    	  	  infoWindow_content +=	'     <span class="btn-delete-wishlistAcc" data-accNo="' + acc.accNo + '" style="position:absolute; top:10px; right:15px; z-index:2; padding:0px;">';
