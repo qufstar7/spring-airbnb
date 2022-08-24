@@ -210,7 +210,7 @@ pageEncoding="UTF-8"%>
 			     <input type="text" class="form-control outline" name="firstName" placeholder="이름(예: 길동)" required >
 			     <label for="floatingInput">이름(예: 길동)</label>
 			     <div class="invalid-feedback">
-					<i class="fa-solid fa-circle-exclamation"></i><span>이름을 입력해주세요.</span>
+					<i class="fa-solid fa-circle-exclamation"></i><span> 이름을 입력해주세요.</span>
 				 </div>
 			</div>
 			
@@ -218,20 +218,24 @@ pageEncoding="UTF-8"%>
 			     <input type="text" class="form-control outline" name="lastName" placeholder="성(예: 홍)">
 			     <label for="floatingInput">성(예: 홍)</label>
 			     <div class="invalid-feedback">
-					<i class="fa-solid fa-circle-exclamation"></i><span>성을 입력해주세요.</span>
+					<i class="fa-solid fa-circle-exclamation"></i><span> 성을 입력해주세요.</span>
 				 </div>
-			    <p id="p-advice">정부 발급 신분증에 표시된 이름과 일치하는지 확인하세요.</p>
+			    <p id="p-advice" style="font-size: small;">정부 발급 신분증에 표시된 이름과 일치하는지 확인하세요.</p>
 		    </div>
 		    <div class="form-floating">
 			     <input type="date" class="form-control outline" name="birthDate" placeholder="생년원일">
 			     <label for="floatingInput">생년월일</label>
+			      <div class="invalid-feedback">
+					<i class="fa-solid fa-circle-exclamation"></i><span> 계속하시려면 생일을 선택하세요.</span>
+				 </div>
+				 <p id="p-advice" style="font-size: small;">만 18세 이상의 성인만 회원으로 가입할 수 있습니다. 생일은 에어비앤비의 다른 회원에게 공개되지 않습니다.</p>
 			</div>
 		    <div class="form-floating">
 			     <input type="email" class="form-control outline" name="registerEmail" placeholder="" required >
 			     <label for="floatingInput">이메일</label>
-			     <p id="p-info">예약 확인과 영수증은 이메일로 보내드립니다.</p>
+			     <p id="p-info" style="font-size: small;">예약 확인과 영수증은 이메일로 보내드립니다.</p>
 			     <div class="invalid-feedback">
-					<i class="fa-solid fa-circle-exclamation"></i><span>올바른 형식의 이메일을 입력해주세요.</span>
+					<i class="fa-solid fa-circle-exclamation"></i><span> 올바른 형식의 이메일을 입력해주세요.</span>
 				 </div>
 			</div>
 		    <div class="form-floating position-relative">
@@ -239,7 +243,10 @@ pageEncoding="UTF-8"%>
 			     <label for="floatingInput">비밀번호</label>
 			     <button type="button" class="text-reset btn btn-link position-absolute top-50 end-0 translate-middle" id="btn-register-expose-password">표시</button>
 			</div>
-		    <div id="password-helper" class="p-0">
+			<div class="password-feedback d-none" style="color: #dc3545; font-size: .875em; ">
+					<i class="fa-solid fa-circle-exclamation"></i><span> 비밀번호를 입력하세요.</span>
+			</div>
+		    <div id="password-helper" class="p-0" style="font-size: small;">
 		     	<p class="d-none" id="ph-1">비밀번호에 본인 이름이나 이메일 주소를 포함할 수 없습니다</p>
 				<p class="d-none" id="ph-2">최소8자</p>
 				<p class="d-none" id="ph-3">숫자나 기호를 포함하세요</p>
@@ -734,28 +741,45 @@ $(function () {
 		$("#p-info").removeClass("d-none");
 	})
 
-	
+	let validFirstName = false;
 	$firstName.keyup(function() {
 		
 		let firstName = $(this).val().trim();
 		if(firstName == "") {
-			$(this).removeClass("is-valid").addClass("is-invalid");
+			//$(this).removeClass("is-valid").addClass("is-invalid");
+			validFirstName = false;
 			return;
-		} 
-		$(this).addClass("is-valid").removeClass("is-invalid");
+		}  else {
+			validFirstName = true;
+		}
+		//$(this).addClass("is-valid").removeClass("is-invalid");
 	});
 	
-	$lastName.keyup(function() {
-		
+	let validLastName = false;
+	$lastName.on("focus", function() {
 		let lastName = $(this).val().trim();
 		if(lastName == "") {
-			$(this).removeClass("is-valid").addClass("is-invalid");
+			//$(this).removeClass("is-valid").addClass("is-invalid");
+			validLastName = false;
 			$("#p-advice").addClass("d-none");
 			return;
-		} 
-		$(this).addClass("is-valid").removeClass("is-invalid");
-		$("#p-advice").removeClass("d-none");
+		} else {
+			validLastName = true;
+			$(this).addClass("is-valid").removeClass("is-invalid");
+			$("#p-advice").removeClass("d-none");
+		}
+	});
+	
+	let validBirthDate = false;
+	$birthDate.keyup(function() {
 		
+		let birthDate = $(this).val().trim();;
+		if(birthDate == "") {
+			validBirthDate = false;
+			return;
+		} else {
+			validBirthDate = true;
+		}
 	});
 	
 	
@@ -789,7 +813,7 @@ $(function () {
 		$("#password-helper p").removeClass("d-none");
 	});
 	
-	
+	let validPassword = false;
 	$password.keyup(function(event) {
 				
 		let password = $(this).val().trim();
@@ -801,28 +825,61 @@ $(function () {
 			$password.val(password.replace(/[ㄱ-힣]/g, ''));
 		}
 		
+		
+		
 		if(password.includes(firstName)) {
 			$("#ph-1").removeClass("text-success").addClass("text-danger");
+			validPassword = false;
 		} else {
 			$("#ph-1").removeClass("text-danger").addClass("text-success");
+			validPassword = true;
 		}
 		
 		if(password.length < 8) {
 			$("#ph-2").removeClass("text-success").addClass("text-danger");
+			validPassword = false;
 		} else {
 			$("#ph-2").removeClass("text-danger").addClass("text-success");
+			validPassword = true;
 		}
 		
 		if(!passwordRegExp.test(password)) {
 			$("#ph-3").removeClass("text-success").addClass("text-danger");
+			validPassword = false;
 		} else {
 			$("#ph-3").removeClass("text-danger").addClass("text-success");
+			validPassword = true;
 		}
 		
 	});
 	
 	// 회원가입 입력폼 제출
 	$("#btn-register").click(function() {
+		
+		if(!validFirstName) {
+			$firstName.removeClass("is-valid").addClass("is-invalid");
+			$firstName.focus();
+		}
+		
+		if(!validLastName) {
+			$lastName.removeClass("is-valid").addClass("is-invalid");
+		}
+		
+		if(!validBirthDate) {
+			$birthDate.removeClass("is-valid").addClass("is-invalid");
+		}
+		
+		if(!validPassword) {
+			$password.focus();
+		}
+		if($password.val().trim() == '') { 
+			alert("빔");
+			$(".password-feedback").removeClass("d-none");
+			//$password.removeClass("is-valid").addClass("is-invalid");
+			$password.focus();
+			return false;
+		}
+		
 		
 		let querystring = $("#register-form").serialize();
 		$.post("/user/register", querystring, function(result) {
