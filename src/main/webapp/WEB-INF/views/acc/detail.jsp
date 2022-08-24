@@ -682,7 +682,7 @@
 				</div>
 			</div>
 			<hr>
-			<div class="row mt-5">
+			<div class="row mt-5 mb-5">
 				<h4>알아두어야 할 사항</h4>
 				<div class="col-4">
 					<h6>숙소 이용 규칙</h6>
@@ -696,7 +696,7 @@
 					<h6>건강과 안전</h6>
 					<p>에어비앤비 코로나19 방역 수칙을 준수하셔야 합니다.</p>
 					<p>출입이 제한되지 않는 수영장/온수 욕조</p>
-				</div>
+				</div> 
 				<div class="col-4">
 					<h6>환불 정책</h6>
 					<p>30일 전까지 무료 환불 가능</p>
@@ -704,6 +704,46 @@
 			</div>
 		</div>
 	</div>
+	
+<footer class="bg-light" style="width: 100%;  border-top: 1px solid #E2E2E2; padding-top: 20px;">
+	<div class="row" style="margin-left: 390px; margin-right: 390px; padding-top: 20px; ">
+		<div class="col-3">
+			<h6>에어비앤비지원</h6>
+			<p>에어커버</p>
+			<p>안전 정보</p>
+			<p>장애인 지원</p>
+			<p>예약 취소 옵션</p>
+			<p>에어비앤비의 코로나19 대응 방안</p>
+			<p>이웃 민원 신고</p>
+		</div>
+		<div class="col-3">
+			<h6>커뮤니티</h6>
+			<p>Airbnb.org: 재난 구호 숙소</p>
+			<p>아프간 난민 지원</p>
+			<p>차별 철폐를 위한 노력</p>
+		</div>
+		<div class="col-3">
+			<h6>호스팅</h6>
+			<p>호스팅 시작하기</p>
+			<p>호스트를 위한 에어커버</p>
+			<p>호스팅 자료 둘러보기</p>
+			<p>커뮤니티 포럼 방문하기</p>
+			<p>책임감 있는 호스팅</p>
+		</div>
+		<div class="col-3">
+			<h6>에어비앤비</h6>
+			<p>뉴스룸</p>
+			<p>새로운 기능에 대해 알아보기</p>
+			<p>에어비앤비 공동창업자의 메시지</p>
+			<p>채용정보</p>
+			<p>투자자 정보</p>
+		</div>
+		<hr class="mt-3">
+		<div>
+			<p style="font-size: 14px;">© 2022 Aircnc, Inc.·개인정보 처리방침·이용약관·사이트맵·한국의 변경된 환불 정책·회사 세부정보 언어 선택 한국어 (KR) 통화 선택 ₩ KRW</p>
+		</div>
+	</div>
+</footer>
 <!-- 편의시설 모달 -->
 <div class="modal" id="modal-con-acc">
 	<div class="modal-dialog modal-Default">
