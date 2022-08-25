@@ -30,7 +30,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
-<title>호스트에 연락</title>
+<title>${acc.user.name }님에게 연락하기</title>
 </head>
 <body>
 <%@ include file="../common/nav2.jsp" %> 
@@ -96,11 +96,11 @@
 								<input type="text" class="text-center" placeholder="체크인 체크아웃을 설정하시오" data-input id="days">
 								<input type="date" name="checkInDate" id="checkInDate" value="" >
 								<input type="date" name="checkOutDate" id="checkOutDate" value="" >
-								<input type="hidden" name="adultNum" id="adultNum" value="0">
+								<input type="hidden" name="adultNum" id="adultNum" value="1">
 								<input type="hidden" name="childrenNum" id="childrenNum" value="0">
 								<input type="hidden" name="infantNum" id="infantNum" value="0">
 								<input type="hidden" name="petNum" id="petNum" value="0">
-								<input type="hidden" name="totalGuest" id="totalGuest" value="0">
+								<input type="hidden" name="totalGuest" id="totalGuest" value="1">
 								<input type="hidden" name="day" id="input-day" value="">
 							</div>
 						</div>
@@ -257,11 +257,19 @@ $(function() {
  		if (selectedDates[1]==null || selectedDates[0]==null){
  			return;
  		}
+ 		console.log(selectedDates[0])
+ 		console.log(selectedDates[1])
  		
- 		$("#checkInDate").val((selectedDates[0]));
-		$("#checkOutDate").val((selectedDates[1]));
+ 		let indate = new Date(selectedDates[0])
+ 		let outdate = new Date(selectedDates[1])
+ 		console.log(indate)
+ 		console.log(outdate) 
+ 		
+ 		// 영탁
+ 		document.getElementById('checkInDate').value = CF_toStringByFormatting(new Date(indate));
+ 		document.getElementById('checkOutDate').value = CF_toStringByFormatting(new Date(outdate));
 		let diffDate = Date.parse(selectedDates[1])-Date.parse(selectedDates[0]);
-
+		
  		let day = Math.floor(diffDate / (1000 * 60 * 60 * 24));
  		$(".day").text(day);
  		$("#input-day").val(day);
@@ -274,6 +282,22 @@ $(function() {
  		$("#totalPrice").text(totalPrice.toLocaleString())
  		$("#totalPriceValue").val(totalPrice)
 	}) 
+	
+	function CF_toStringByFormatting(source){
+		var date = new Date(source);
+		const year = date.getFullYear();
+		const month = CF_leftPad(date.getMonth() + 1);
+		const day = CF_leftPad(date.getDate());
+		return [year, month, day].join('-');
+	}
+	
+	
+	function CF_leftPad(value){
+		if (Number(value) >= 10) {
+			return value;
+		}
+		return "0" + value;
+	}
 	$(".reservation").hide();
 	
 	$("#nav-1").hide();
@@ -423,7 +447,7 @@ $(function() {
            });
 	});
 	
-	$("#form-reservation").submit(function() {
+$("#form-reservation").submit(function() {
 		
 		// 인원수
 		let totalValue = $.trim($("#totalGuest").val());
@@ -431,14 +455,30 @@ $(function() {
 			alert("인원은 필수 입력값입니다.");
 			return false;
 		}
-		/* let totalValue = $.trim($("#totalGuest").val());
-		if (totalValue < 1) {
-			alert("인원은 필수 입력값입니다.");
+		// 날짜
+		let checkIn = $.trim($("#checkInDate").val());
+		if (checkIn === "") {
+			alert("날짜는 필수 입력값입니다.");
 			return false;
-		} */
+		}
+		let checkOut = $.trim($("#checkOutDate").val());
+		if (checkOut === "") {
+			alert("날짜 필수 입력값입니다.");
+			return false;
+		}
+		return true;
+	})
+	$("#form-create-wishlist").submit(function() {
+		
+		let titleValue = $.trim($(":input[name=wishlistName]").val());
+		if (titleValue === "") {
+			alert("제목은 필수 입력값입니다.");
+			return false;
+		}
 			
 		return true;
 	})
+	
 	$("#contact").submit(function() {
 		
 		let userNo = ${LOGIN_USER.no}

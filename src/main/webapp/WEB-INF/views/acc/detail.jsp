@@ -31,7 +31,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
-<title>숙소 상세 페이지</title>
+<title>${acc.name }</title>
 </head>
 <body >
 <c:set var="menu" value="detaile"/>
@@ -1715,7 +1715,6 @@ $(function() {
 		let diffDate = Date.parse(selectedDates[1])-Date.parse(selectedDates[0]);
 		
  		let day = Math.floor(diffDate / (1000 * 60 * 60 * 24));
- 		$(".day").text(day);
  		$("#input-day").val(day);
  		let sum = ${acc.price } * day;
  		$("#day-price").text(sum.toLocaleString());
@@ -2150,7 +2149,7 @@ $(function() {
 	    container: '#create-kakaotalk-sharing-btn',
 	    objectType: 'feed',
 	    content: {
-	      title: '${acc.name}',
+	      title: 'aircnc',
 	      description: '${acc.name}',
 	      imageUrl:
 		  		'https://localhost/resources/logo-home.png',

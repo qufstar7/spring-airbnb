@@ -173,8 +173,17 @@
 	        </p>
         </div>
         <form id="form-profileImg" action="/user/update" method="post" enctype="multipart/form-data" >
-	        <div class="">
-		        <img class="rounded-circle" src="/resources/images/profile/${user.profileImage}" width="180">
+	        <div>
+	        <c:choose>
+	        	<c:when test="${not empty user.profileImage}">
+			        <img class="rounded-circle" src="/resources/images/profile/${user.profileImage}" width="180">
+	        	</c:when>
+	        	<c:otherwise>
+	        		<img class="rounded-circle" src="/resources/images/profile/profile-default-img.png" width="180">
+	        	</c:otherwise>
+	        </c:choose>
+	        
+	        
 	        </div>
 	        <div class="d-grid gap-2 my-4">
 	        	<input type="file" name="profileImg" id="input-change-profileImg" class="d-none" accept="image/gif, image/jpeg, image/png" />

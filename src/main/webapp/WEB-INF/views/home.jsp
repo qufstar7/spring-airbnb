@@ -317,6 +317,13 @@ input[type="range"]::-moz-range-thumb{
 	top:1px;
 }
 
+.carousel-indicators > button {
+ 			border-radius: 100% !important;
+    width: 8px !important;
+    height: 8px !important;
+    background-color: #404040 ;
+    }
+
 </style>
 </head>
 <c:set var="page" value="subNav" />
@@ -423,6 +430,12 @@ input[type="range"]::-moz-range-thumb{
 								<button type="button"
 									data-bs-target="#acc-slide${acc.accNo }"
 									data-bs-slide-to="2" aria-label="Slide 3"></button>
+								<button type="button"
+									data-bs-target="#acc-slide${acc.accNo }"
+									data-bs-slide-to="3" aria-label="Slide 4"></button>
+								<button type="button"
+									data-bs-target="#acc-slide${acc.accNo }"
+									data-bs-slide-to="4" aria-label="Slide 5"></button>
 							</div>
 							<!-- 위시리스트 하트 버튼 -->
 							<div class="wishlist-icon">
@@ -489,8 +502,11 @@ input[type="range"]::-moz-range-thumb{
 						</div>
 						<!-- 숙소 설명 -->
 						<div class="row my-2 card-desc " data-acc-no="${acc.accNo }">
+						<c:set var="address"  value="${fn:split(acc.address, ' ')}"/>
 							<div class="col-8">
-								<div class="card-title"><strong><span>${acc.address.substring(0,2) }</span>의 <span>${acc.types[0].name}</span></strong></div>
+
+								<div class="card-title"><strong><span>${address[1]}, ${address[0]}</span>의 <span>${acc.types[0].name }</span></strong></div>
+
 								<div class="card-text text-muted"><small>${acc.name }</small></div>
 								<div class="card-subtitle mb-2 text-muted"><fmt:formatDate value="${acc.checkIn }" pattern="MM월 dd일"/> ~ <fmt:formatDate value="${acc.checkOut }" pattern="MM월 dd일"/></div>
 								<div class="card-text pt-1">

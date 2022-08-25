@@ -529,21 +529,24 @@ input[type="range"]::-moz-range-thumb{
 							<span class="visually-hidden">Previous</span>
 						</button>
 
-						<button class="carousel-control-next" type="button"
-							data-bs-target="#acc-slide${list.accNo }"
-							data-bs-slide="next">
-							<span class="carousel-control-next-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Next</span>
-						</button>
-					</div>
-					<!-- 숙소 설명 -->
-					<div class="row my-2">
-						<div class="col-8">
-							<div class="card-title"><strong><span>${list.address.substring(0,2) }</span>의 <span>${list.types[0].name }</span></strong></div>
-							<div class="card-text text-muted"><small>${list.name }</small></div>
-							<div class="card-subtitle mb-2 text-muted"><fmt:formatDate value="${list.checkIn }" pattern="MM월 dd일"/> ~ <fmt:formatDate value="${list.checkOut }" pattern="MM월 dd일"/></div>
-							<div class="card-text pt-1">
-								<strong>₩<fmt:formatNumber value="${list.price }" /></strong>/박
+							<button class="carousel-control-next" type="button"
+								data-bs-target="#acc-slide${list.accNo }"
+								data-bs-slide="next">
+								<span class="carousel-control-next-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Next</span>
+							</button>
+						</div>
+						<!-- 숙소 설명 -->
+						<div class="row my-2">
+						<c:set var="address"  value="${fn:split(list.address, ' ')}"/>
+							<div class="col-8">
+								<div class="card-title"><strong><span>${address[1]}, ${address[0]}</span>의 <span>${list.types[0].name }</span></strong></div>
+								<div class="card-text text-muted"><small>${list.name }</small></div>
+								<div class="card-subtitle mb-2 text-muted"><fmt:formatDate value="${list.checkIn }" pattern="MM월 dd일"/> ~ <fmt:formatDate value="${list.checkOut }" pattern="MM월 dd일"/></div>
+								<div class="card-text pt-1">
+									<strong>₩<fmt:formatNumber value="${list.price }" /></strong>/박
+								</div>
+
 							</div>
 						</div>
 						<div class="col-4 text-end"><i class="bi bi-star-fill"></i><span> ${acc.reviewScore }</span>(<span>${acc.reviewCount }</span>)</div>
