@@ -204,7 +204,7 @@
 								<!-- 로그인 했을 때 -->
 								<a class="dropdown-item" href="/acc/recvnote"><strong>메시지</strong></a>
 								<a class="dropdown-item" href="#"><strong>알림</strong></a>
-								<a class="dropdown-item" href="#"><strong>여행</strong></a>
+								<a class="dropdown-item" href="/book/trip"><strong>여행</strong></a>
 								<a class="dropdown-item" href="/wishlists"><strong>위시리스트</strong></a>
 								<hr style="width:180px; margin: 10px auto;">
 								<a class="dropdown-item" href="/host">숙소 호스트 되기</a>

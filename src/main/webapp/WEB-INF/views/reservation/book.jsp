@@ -10,6 +10,10 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
+<link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_orange.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
 <link href="../resources/aircnc.png" rel="icon" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="/resources/css/book.css" />
 <title>확인 및 결제</title>
@@ -33,21 +37,44 @@
 			</div>
 		</div>
 			<div class="divide">
-				<form class="col" id="form-reservation" method="post" action="completed?no=${accommodation.accNo }" modelAttribute="reservationRegisterForm">
 					<h5>예약 정보</h5>
 				<div class = "col border border-white bg-white">
 					<span>날짜</span>
-					<button type ="button" class="btn btn-sm" style="background-color:white; border-color:white; float:right;"><u>수정</u></button>
+					<button type ="button" id="btn-calendar" class="btn btn-sm" style="background-color:white; border-color:white; float:right;"><u>수정</u></button>
 					<br>
-					<p class ="small"><fmt:formatDate value="${reservaionRegisterForm.checkInDate}" pattern="MM월dd일" /> - <fmt:formatDate value="${accommodation.checkOut}" pattern="dd일" /></p>
+					<p class ="small"><fmt:formatDate value="${reservaionRegisterForm.checkInDate}" pattern="MM월dd일" /> - <fmt:formatDate value="${reservaionRegisterForm.checkOutDate}" pattern="dd일" /></p>
 				</div>
 				<div>
 					<span>게스트</span>
 					<button type ="button" class="btn btn-sm"  id="btn-guest" style="background-color:white; border-color:white; float:right;"><u>수정</u></button>
 					<br>
 					<span id="adult">게스트: <span id="adultCount">1</span>명</span>
-					<span id="infant">유아: <span id="infantCount">0</span>명</span>
-					<span id="pet">반려동물: <sapn id="petCount"> 0</sapn>마리</span>
+				</div>
+			</div>
+			<!-- 달력 -->
+			<div class="mb-3">
+				<div class="modal" id="modal-calendar" tabindex="-1">
+					<div class="modal-dialog">
+				 		<div class="modal-content">
+				      		<div class="modal-body">
+				      			<div class="divide2">
+				      				<h5>날짜선택</h5>
+				      			</div>
+				      			<div class="" id="days-box">
+				      				<input type="text" name="checkInDate" id="checkInDate" value="" > 
+									<input type="text" name="checkOutDate" id="checkOutDate" value="" >
+				      			</div>
+				      		</div>
+				      		<div class="modal-footer">
+				      			<div class="col">
+					        		<button type="button" class="btn btn-sm" style="background-color:white; border-color:white;" data-bs-dismiss="modal"><u>취소</u></button>
+				      			</div>
+				      			<div class="col-3">
+				        			<button type="button" class="btn btn-dark" data-bs-dismiss="modal">저장하기</button>
+				        		</div>
+				      		</div>
+				  		</div>
+					</div>
 				</div>
 			</div>
 			<!-- 게스트 -->
@@ -177,14 +204,13 @@
 							<strong>요금 일부는 지금 결제, 나머지는 나중에 결제</strong>
 						</div>
 						<div class="col-4 text-end">
-							<strong>￦ <fmt:formatNumber value=" ${accommodation.price *0.3}"/> 원</strong>
+							<strong>￦ <fmt:formatNumber value=" ${accommodation.price *0.3}"  maxFractionDigits="0" /> 원</strong>
 							<input class="form-check-input"  type="radio" name="payment"  id="radio-left">
-							<input type="hidden" name="leftPay" value="">
 						</div>
 					</div>
 					<div class="row p-3">
 						<div class-col-9>
-							지금 ₩<fmt:formatNumber value=" ${accommodation.price *0.3}"/>을(를) 결제하시면, 나머지 금액(₩<fmt:formatNumber value=" ${accommodation.price *0.7}"/>)은 동일한 결제수단으로 
+							지금 ₩<fmt:formatNumber value=" ${accommodation.price *0.3}" maxFractionDigits="0"/>을(를) 결제하시면, 나머지 금액(₩<fmt:formatNumber value=" ${accommodation.price *0.7}"  maxFractionDigits="0" />)은 동일한 결제수단으로 
 							2022년 11월 18일 자동 청구됩니다. 추가 수수료는 없습니다.
 							<br>
 							<button type ="button" class="btn btn-sm" id="btn-howtouse" style="background-color:white; border-color:white;"><u>상세정보</u></button>
@@ -239,6 +265,7 @@
 			</select>
 			<div id="insertCard">
 				<!-- 카드등록 -->
+				<form class="col" id="form-reservation" method="post" action="completed?no=${accommodation.accNo }" modelAttribute="reservaionRegisterForm">
 			</div>
 			<hr>
 			<div class="divide">
@@ -278,17 +305,19 @@
 			</div>
 			<div class="reservationFrom">
 				<input type="hidden" name="accNo" value="${accommodation.accNo }">	
-				<input type="hidden" name="checkInDate" value='<fmt:formatDate value="${reservationRegisterForm.checkInDate}" pattern="yyyy-MM-dd" />'>	
-				<input type="hidden" name="checkOutDate" value='<fmt:formatDate value="${reservationRegisterForm.checkOutDate}" pattern="yyyy-MM-dd" />'>
-				<input type="hidden" name="adultNum" value="${reservationRegisterForm.adultNum }">	
-				<input type="hidden" name="childrenNum" value="${reservationRegisterForm.childrenNum }">	
-				<input type="hidden" name="infantNum" value="${reservationRegisterForm.infantNum }">	
-				<input type="hidden" name="petNum" value="${reservationRegisterForm.petNum }">	
-				<input type="hidden" name="totalGuest" value="${reservationRegisterForm.totalGuest }">	
-				<input type="hidden" name="totalPrice" value="${reservationRegisterForm.totalPrice }">
+				<input type="hidden" name="checkInDate" value='<fmt:formatDate value="${reservaionRegisterForm.checkInDate}" pattern="yyyy-MM-dd" />'>	
+				<input type="hidden" name="checkOutDate" value='<fmt:formatDate value="${reservaionRegisterForm.checkOutDate}" pattern="yyyy-MM-dd" />'>
+				<input type="hidden" name="adultNum" value="${reservaionRegisterForm.adultNum }">	
+				<input type="hidden" name="childrenNum" value="${reservaionRegisterForm.childrenNum }">	
+				<input type="hidden" name="infantNum" value="${reservaionRegisterForm.infantNum }">	
+				<input type="hidden" name="petNum" value="${reservaionRegisterForm.petNum }">	
+				<input type="hidden" name="totalGuest" value="${reservaionRegisterForm.totalGuest }">	
+				<input type="hidden" name="totalPrice" value="${reservaionRegisterForm.totalPrice }">
+				<input type="hidden" name="serviceFee" value='<fmt:formatNumber value="${accommodation.price *0.15 }" pattern="#"/>'>
 				<input type="hidden" name="cleaningPrice" value="${accommodation.cleaningPrice }">
-				<input type="hidden" name="entirePay" value="${reservationRegisterForm.cleaningPrice }">
-				<input type="hidden" name="leftPay" value="${reservationRegisterForm.cleaningPrice }">
+				<input type="hidden" name="price" value="${accommodation.price }">
+				<input type="hidden" name="entirePay" value="${accommodation.price }">
+				<input type="hidden" name="leftPay" value='<fmt:formatNumber value="${accommodation.price *0.3 }" pattern="#"/>'>
 				<button type="submit" class="btn btn-lg" style="background-color:#d80765; color:white;">확인 및 결제</a>
 			</div>
 		</form>	
@@ -319,12 +348,12 @@
 						<div class="divide2">
 							<h5>요금 세부정보</h5>
 							<div class="border bg-white border-white">
-								<span>￦<fmt:formatNumber value="${accommodation.price }" /> × <fmt:formatDate value="${accommodation.checkIn}"  />박</span>
+								<span>￦<fmt:formatNumber value="${accommodation.price }" /> × <span class="day"></span>1박</span>
 								<span style="float:right"">￦<fmt:formatNumber value="${accommodation.price }" /> 원</span>
 							</div>
 							<div>
 								<span><u>서비스 수수료</u></span>
-								<span style="float:right">￦<fmt:formatNumber value="${accommodation.price *0.15 }" /> 원</span>
+								<span style="float:right">￦<fmt:formatNumber value="${accommodation.price *0.15 }" maxFractionDigits="0"/> 원</span>
 							</div>
 							<div>
 								<span><u>청소비</u></span>
@@ -362,12 +391,12 @@
 						<div class="divide2">
 							<h5>요금 세부정보</h5>
 							<div class="border bg-white border-white">
-								<span>￦<fmt:formatNumber value="${accommodation.price }" /> × $2박</span>
-								<span style="float:right"">￦<fmt:formatNumber value="${accommodation.price }" /></span>
+								<span>￦<fmt:formatNumber value="${accommodation.price }" /> × 1박</span>
+								<span style="float:right"">￦<fmt:formatNumber value="${accommodation.price }" />원</span>
 							</div>
 							<div>
 								<span><u>서비스 수수료</u></span>
-								<span style="float:right">￦<fmt:formatNumber value="${accommodation.price *0.15}" /></span>
+								<span style="float:right">￦<fmt:formatNumber value="${accommodation.price *0.15}"   maxFractionDigits="0"/>원</span>
 							</div>
 							<div>
 								<span><u>청소비</u></span>
@@ -381,11 +410,11 @@
 							<div class="divide2">
 								<div class="border bg-white border-white">
 									<span>지급일: 지금</span>
-									<span style="float:right"">￦<fmt:formatNumber value="${accommodation.price *0.3}" /></span>
+									<span style="float:right"">￦<fmt:formatNumber value="${accommodation.price *0.3}"  maxFractionDigits="0"/></span>
 								</div>
 								<div>
 									<span>지급일:<fmt:formatDate value="${accommodation.checkIn}"  /></span>
-									<span style="float:right">￦<fmt:formatNumber value="${accommodation.price *0.7}" /></span>
+									<span style="float:right">￦<fmt:formatNumber value="${accommodation.price *0.7}"  maxFractionDigits="0"/></span>
 								</div>
 							</div>
 						</div>
@@ -400,6 +429,12 @@ $(function(){
 	let modalHowToUse = new bootstrap.Modal(document.getElementById("modal-how-to-use"));
 		$("#btn-howtouse").click(function(){
 			modalHowToUse.show();
+		});
+	
+	// 달력 모달
+	let modalCalendar = new bootstrap.Modal(document.getElementById("modal-calendar"));
+		$("#btn-calendar").click(function(){
+			modalCalendar.show();
 		});
 		
 	// 게스트 모달
@@ -464,6 +499,50 @@ $(function(){
 			$insert.empty();
 		}
 	});
+	
+	// 달력
+/* 	let disabledDate = ('${acc.disabledDate}').split(",");
+	console.log(disabledDate) 
+	
+	var fp1 = $("#days-box").flatpickr({
+		minDate: new Date(),
+		mode: "range",
+		dateFormat: "Y-m-d",
+		disable : disabledDate,
+		"locale": "ko" ,
+		wrap: true
+	   });  
+	
+	fp1.config.onChange.push(function(selectedDates) {
+ 		if (selectedDates[1]==null || selectedDates[0]==null){
+ 			return;
+ 		}
+ 		console.log(selectedDates[0])
+ 		console.log(selectedDates[1])
+ 		
+ 		let indate = new Date(selectedDates[0])
+ 		let outdate = new Date(selectedDates[1])
+ 		console.log(indate)
+ 		console.log(outdate) 
+ 		
+ 		// 영탁
+ 		document.getElementById('checkInDate').value = CF_toStringByFormatting(new Date(indate));
+ 		document.getElementById('checkOutDate').value = CF_toStringByFormatting(new Date(outdate));
+		let diffDate = Date.parse(selectedDates[1])-Date.parse(selectedDates[0]);
+		
+ 		let day = Math.floor(diffDate / (1000 * 60 * 60 * 24));
+ 		$(".day").text(day);
+ 		$("#input-day").val(day);
+ 		let sum = ${accommodation.price } * day;
+ 		$("#day-price").text(sum.toLocaleString());
+ 		$("#price").val(sum);
+ 		
+ 		
+ 		let totalPrice = ${acc.cleaningPrice} + sum
+ 		$("#totalPrice").text(totalPrice.toLocaleString())
+ 		$("#totalPriceValue").val(totalPrice)
+	})  
+*/
 	
 	// 인원 버튼
 	$(".adultM").addClass("disabled")
@@ -532,6 +611,13 @@ $(function(){
 			$("#petNum").val(pet)
 			$("#totalGuest").val(total)
 			
+			
+			/* if ($("#adultNum").val === 0) {
+				$("#adultCount").hide
+			} else {
+				$("#adultCount").show();
+				
+			} */
 		})
 		
 	})
@@ -562,7 +648,6 @@ $(function(){
                target.text(num);
                
            });
-
            $(".m_btn").click(function() {
                var $this = $(this);
                var target = $this.next();
@@ -571,7 +656,7 @@ $(function(){
 			
                target.text(num);
            });
-	});
+	}); 
 	
 	// 카카오페이 결제하기
 	$("#requestPay").click(function(){
