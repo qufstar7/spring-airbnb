@@ -490,7 +490,7 @@ input[type="range"]::-moz-range-thumb{
 						<!-- 숙소 설명 -->
 						<div class="row my-2 card-desc " data-acc-no="${acc.accNo }">
 							<div class="col-8">
-								<div class="card-title"><strong><span>${acc.address.substring(0,2) }</span>의 <span>${acc.types[0].name }</span></strong></div>
+								<div class="card-title"><strong><span>${acc.address.substring(0,2) }</span>의 <span>${acc.types[0].name}</span></strong></div>
 								<div class="card-text text-muted"><small>${acc.name }</small></div>
 								<div class="card-subtitle mb-2 text-muted"><fmt:formatDate value="${acc.checkIn }" pattern="MM월 dd일"/> ~ <fmt:formatDate value="${acc.checkOut }" pattern="MM월 dd일"/></div>
 								<div class="card-text pt-1">
@@ -1406,71 +1406,56 @@ $(function() {
 					content += '			</div>';
 										<!-- 위시리스트 하트 버튼 -->
 					content += '			<div class="wishlist-icon">';
-										<%--
-											<c:if test="${empty LOGIN_USER }">
-												<a class="unwish" href="#" data-bs-toggle="modal" data-bs-target="#email-login-modal"
-													style="position:absolute; top:15px; right:15px; z-index:2">
-													<span class="material-icons" style="color:white">favorite</span>
-												</a>
-											</c:if>
-										--%>
-											<%-- <c:choose>
-												<c:when test="${acc.accNo eq wishlistBtn.accs }"> <!-- wishlist 모달 넣어주기-->
-													<a class="wished" href="#" style="position:absolute; top:15px; right:15px; z-index:2">
-														<span class="material-icons" style="color:#FF7977">favorite</span>
-													</a>
-												</c:when>
-												<c:otherwise>
-													<a class="unwish" href="#" data-bs-toggle="modal" data-bs-target="#"	
-														style="position:absolute; top:15px; right:15px; z-index:2">
-														<span class="material-icons" style="color:white">favorite</span>
-													</a>
-												</c:otherwise>
-											</c:choose> --%>
+					content += '				<a class="unwish" style="position:absolute; top:15px; right:15px; z-index:2">';
+				if (acc.savedwishlist == 'Y') {
+					content += '					<i class="wishlistIcon fa-solid fa-heart fs-4" data-accNo="'+acc.accNo+'" id="icon-heart-'+acc.accNo+'" style="color: #FF385C;"></i>';													
+				} else {
+					content += '					<i class="wishlistIcon fa-regular fa-heart fs-4" data-accNo="'+acc.accNo+'" id="icon-heart-'+acc.accNo+'" style="color: white;"></i>';
+				}
+					content += '				</a>';
+					content += '			</div>';
+					content += '			<div class="carousel-inner" style="border-radius: 25px;">';
+					content += '				<div class="carousel-item active">';
+					content += '					<img class="acc-thumbnail rounded-0" data-acc-no="'+acc.accNo+'"';
+					content += '							src="/resources/images/acc/'+acc.imageCover +'" alt="숙소이미지"';
+					content += '							style="object-fit: cover; width: 300px; height: 300px;">';
 					content += '				</div>';
-					content += '				<div class="carousel-inner" style="border-radius: 25px;">';
-					content += '					<div class="carousel-item active">';
-					content += '						<img class="acc-thumbnail rounded-0" data-acc-no="'+acc.accNo+'"';
-					content += '									src="/resources/images/acc/'+acc.imageCover +'" alt="숙소이미지"';
-					content += '									style="object-fit: cover; width: 300px; height: 300px;">';
-					content += '					</div>';
-					content += '					<div class="carousel-item">';
-					content += '						<img class="acc-thumbnail rounded-0"';
-					content += '								src="/resources/images/acc/'+acc.accNo+'.png" alt="숙소이미지"';
-					content += '								style="object-fit: cover; width: 300px; height: 300px;">';
-					content += '					</div>';
-					content += '					<div class="carousel-item">';
-					content += '						<img class="acc-thumbnail rounded-0"';
-					content += '									src="/resources/images/acc/3.jpg" alt="숙소이미지"';
-					content += '									style="object-fit: cover; width: 300px; height: 300px;">';
-					content += '					</div>';
+					content += '				<div class="carousel-item">';
+					content += '					<img class="acc-thumbnail rounded-0"';
+					content += '							src="/resources/images/acc/'+acc.accNo+'.png" alt="숙소이미지"';
+					content += '							style="object-fit: cover; width: 300px; height: 300px;">';
 					content += '				</div>';
+					content += '				<div class="carousel-item">';
+					content += '					<img class="acc-thumbnail rounded-0"';
+					content += '							src="/resources/images/acc/3.jpg" alt="숙소이미지"';
+					content += '							style="object-fit: cover; width: 300px; height: 300px;">';
+					content += '				</div>';
+					content += '			</div>';
 										
-					content += '				<button class="carousel-control-prev" type="button"';
+					content += '			<button class="carousel-control-prev" type="button"';
+					content += '					data-bs-target="#acc-slide'+acc.accNo+'"';
+					content += '					data-bs-slide="prev">';
+					content += '				<span class="carousel-control-prev-icon" aria-hidden="true"></span>';
+					content += '				<span class="visually-hidden">Previous</span>';
+					content += '			</button>';
+					content += '			<button class="carousel-control-next" type="button"';
 					content += '						data-bs-target="#acc-slide'+acc.accNo+'"';
-					content += '						data-bs-slide="prev">';
-					content += '					<span class="carousel-control-prev-icon" aria-hidden="true"></span>';
-					content += '					<span class="visually-hidden">Previous</span>';
-					content += '				</button>';
-					content += '				<button class="carousel-control-next" type="button"';
-					content += '							data-bs-target="#acc-slide'+acc.accNo+'"';
-					content += '							data-bs-slide="next">';
-					content += '					<span class="carousel-control-next-icon" aria-hidden="true"></span>';
-					content += '					<span class="visually-hidden">Next</span>';
-					content += '				</button>';
-					content += '			</div>';
+					content += '						data-bs-slide="next">';
+					content += '				<span class="carousel-control-next-icon" aria-hidden="true"></span>';
+					content += '				<span class="visually-hidden">Next</span>';
+					content += '			</button>';
+					content += '		</div>';
 									<!-- 숙소 설명 -->
-					content += '			<div class="row my-2">';
-					content += '				<div class="col-8">';
-					content += '					<div class="card-title"><strong><span>'+acc.address.substring(0,2)+'</span>의 <span>'+ (acc.types[0] ? acc.types[0].name : "")+'</span></strong></div>';
-					content += '					<div class="card-text text-muted"><small>'+acc.name+'</small></div>';
-					content += '					<div class="card-subtitle mb-2 text-muted">'+acc.checkIn+' ~ '+acc.checkOut+'</div>';
-					content += '					<div class="card-text pt-1">';
-					content += '						<strong>₩ '+acc.price+'</strong>/박';
-					content += '					</div>';
+					content += '		<div class="row my-2">';
+					content += '			<div class="col-8">';
+					content += '				<div class="card-title"><strong><span>'+acc.address.substring(0,2)+'</span>의 <span>'+ (acc.types[0] ? acc.types[0].name : "")+'</span></strong></div>';
+					content += '				<div class="card-text text-muted"><small>'+acc.name+'</small></div>';
+					content += '				<div class="card-subtitle mb-2 text-muted">'+acc.checkIn+' ~ '+acc.checkOut+'</div>';
+					content += '				<div class="card-text pt-1">';
+					content += '					<strong>₩ '+acc.price+'</strong>/박';
 					content += '				</div>';
-					content += '				<div class="col-4 text-end"><i class="bi bi-star-fill"></i><span> '+acc.reviewScore+'</span>(<span>'+acc.reviewCount+'</span>)</div>';
 					content += '			</div>';
+					content += '			<div class="col-4 text-end"><i class="bi bi-star-fill"></i><span> '+acc.reviewScore+'</span>(<span>'+acc.reviewCount+'</span>)</div>';
 					content += '		</div>';
 					content += '	</div>';
 					content += '</div>';

@@ -2,6 +2,7 @@ package kr.co.airbnb.criteria;
 
 import java.util.List;
 
+import kr.co.airbnb.vo.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,8 +13,9 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 public class AccListCriteria {
-
-private int accNo;
+	private User user;
+	private String id;
+	private int accNo;
 
 // FilterCriteria.java
 	// 필터의 슬라이더 부분		

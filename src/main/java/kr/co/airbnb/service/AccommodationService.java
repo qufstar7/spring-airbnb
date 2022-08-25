@@ -122,30 +122,15 @@ public class AccommodationService {
 		return accommodationMapper.getAccNoByUser(loginUser);
 	}
 	
-	// nav 키워드 검색으로 list조회
-	public List<Accommodation> searchAccByKeyword(SearchCriteria searchCriteria) {
-		return accommodationMapper.searchAccByKeyword(searchCriteria);
-	}
-
 	// 모든 태그 조회
 	public List<Tag> getAllTags() {
 		return  accommodationMapper.getAllTag();
-	}
-
-	// 태그id로 숙소 조회
-	public List<Accommodation> searchAccByTag(String id) { 
-		return accommodationMapper.searchAccByTag(id);
 	}
 
 	/* 필터부분 */
 	// 1박 평균 요금, 최저 요금, 최고요금 조회
 	public AccPrice getPrice() {
 		return accommodationMapper.getPrice();
-	}
-	// 필터 검색으로 숙소 조회
-	public List<Accommodation> searchAccByFilter(FilterCriteria filterCriteria) {
-		
-		return accommodationMapper.getAccByFilter(filterCriteria);
 	}
 
 	// 키워드 + 필터 검색으로 숙소 조회

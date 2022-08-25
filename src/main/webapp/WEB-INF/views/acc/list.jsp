@@ -472,116 +472,100 @@ input[type="range"]::-moz-range-thumb{
 									data-bs-target="#acc-slide${list.accNo }"
 									data-bs-slide-to="2" aria-label="Slide 3"></button>
 							</div>
-							
-							<!-- 숙소목록을 출력되는 모든 메소드에 해당 숙소가 해당 사용자의 위시리스트 저장여부를 함께 출력하는 메소드를 따로 만들어야 해서 
-								우선 메인 화면에서만 위시리스트 아이콘가 표시되도록 하겠습니다! -유나- -->
-							<!-- 위시리스트 하트 버튼 
-							<div class="wishlist-icon">
-								<c:if test="${empty LOGIN_USER }">
-									<a class="unwish" data-bs-toggle="modal" data-bs-target="#email-login-modal" style="position:absolute; top:15px; right:15px; z-index:2">
-										<i class="bi bi-suit-heart fs-4" style="color: white;"></i>
-									</a>
-								</c:if>
-								<c:if test="${not empty LOGIN_USER }">
-									<a class="unwish"  style="position:absolute; top:15px; right:15px; z-index:2">
-												<c:choose>
-													<c:when test="${list.savedWishlist eq 'Y'}">
-														<i class="wishlistIcon fa-solid fa-heart fs-4" data-accNo="${list.accNo}" id="icon-heart-${list.accNo}" style="color: #FF385C;"></i>												
-													</c:when>
-													<c:otherwise>
-														<i class="wishlistIcon fa-regular fa-heart fs-4" data-accNo="${list.accNo}" id="icon-heart-${list.accNo}" style="color: white;"></i>
-													</c:otherwise>
-												</c:choose>
-									</a>
-								</c:if> -->
-								
-								<%-- <c:choose>
-									<c:when test="${acc.accNo eq wishlistBtn.accs }"> <!-- wishlist 모달 넣어주기-->
-										<a class="wished" href="#" style="position:absolute; top:15px; right:15px; z-index:2">
-											<span class="material-icons" style="color:#FF7977">favorite</span>
-										</a>
-									</c:when>
-									<c:otherwise>
-										<a class="unwish" href="#" data-bs-toggle="modal" data-bs-target="#"	
-											style="position:absolute; top:15px; right:15px; z-index:2">
-											<span class="material-icons" style="color:white">favorite</span>
-										</a>
-									</c:otherwise>
-								</c:choose> --%>
-							</div>
-							<!-- 슬라이드쇼 이미지 /image-cover, room_image_no -->
-							<div class="carousel-inner" style="border-radius: 25px;">
-								<div class="carousel-item active"> 		
-									<img class="acc-thumbnail rounded-0" data-acc-no="${list.accNo }"
-										src="/resources/images/acc/${list.photos[0].name }" alt="숙소이미지"
-										style="object-fit: cover; width: 300px; height: 300px;">
-								</div>
-								<div class="carousel-item">
-									<img class="acc-thumbnail rounded-0"  data-acc-no="${list.accNo }"
-										src="/resources/images/acc/${list.photos[1].name }" alt="숙소이미지"
-										style="object-fit: cover; width: 300px; height: 300px;">
-								</div>
-								<div class="carousel-item">
-									<img class="acc-thumbnail rounded-0"  data-acc-no="${list.accNo }"
-										src="/resources/images/acc/${list.photos[2].name }" alt="숙소이미지"
-										style="object-fit: cover; width: 300px; height: 300px;">
-								</div>
-								<div class="carousel-item">
-									<img class="acc-thumbnail rounded-0"  data-acc-no="${list.accNo }"
-										src="/resources/images/acc/${list.photos[3].name }" alt="숙소이미지"
-										style="object-fit: cover; width: 300px; height: 300px;">
-								</div>
-								<div class="carousel-item">
-									<img class="acc-thumbnail rounded-0"  data-acc-no="${list.accNo }"
-										src="/resources/images/acc/${list.photos[4].name }" alt="숙소이미지"
-										style="object-fit: cover; width: 300px; height: 300px;">
-								</div>
-							</div>
-
-							<button class="carousel-control-prev" type="button"
-								data-bs-target="#acc-slide${list.accNo }"
-								data-bs-slide="prev">
-								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-								<span class="visually-hidden">Previous</span>
-							</button>
-
-							<button class="carousel-control-next" type="button"
-								data-bs-target="#acc-slide${list.accNo }"
-								data-bs-slide="next">
-								<span class="carousel-control-next-icon" aria-hidden="true"></span>
-								<span class="visually-hidden">Next</span>
-							</button>
 						</div>
-						<!-- 숙소 설명 -->
-						<div class="row my-2">
-							<div class="col-8">
-								<div class="card-title"><strong><span>${list.address.substring(0,2) }</span>의 <span>${list.types[0].name }</span></strong></div>
-								<div class="card-text text-muted"><small>${list.name }</small></div>
-								<div class="card-subtitle mb-2 text-muted"><fmt:formatDate value="${list.checkIn }" pattern="MM월 dd일"/> ~ <fmt:formatDate value="${list.checkOut }" pattern="MM월 dd일"/></div>
-								<div class="card-text pt-1">
-									<strong>₩<fmt:formatNumber value="${list.price }" /></strong>/박
-								</div>
-							</div>
-							<div class="col-4 text-end"><i class="bi bi-star-fill"></i><span> ${acc.reviewScore }</span>(<span>${acc.reviewCount }</span>)</div>
+						<!-- 위시리스트 하트 버튼 -->
+						<div class="wishlist-icon">
+							<c:if test="${empty LOGIN_USER }">
+								<a class="unwish" data-bs-toggle="modal" data-bs-target="#email-login-modal" style="position:absolute; top:15px; right:15px; z-index:2">
+									<i class="bi bi-suit-heart fs-4" style="color: white;"></i>
+								</a>
+							</c:if>
+							<c:if test="${not empty LOGIN_USER }">
+								<a class="unwish"  style="position:absolute; top:15px; right:15px; z-index:2">
+											<c:choose>
+												<c:when test="${list.savedWishlist eq 'Y'}">
+													<i class="wishlistIcon fa-solid fa-heart fs-4" data-accNo="${list.accNo}" id="icon-heart-${list.accNo}" style="color: #FF385C;"></i>												
+												</c:when>
+												<c:otherwise>
+													<i class="wishlistIcon fa-regular fa-heart fs-4" data-accNo="${list.accNo}" id="icon-heart-${list.accNo}" style="color: white;"></i>
+												</c:otherwise>
+											</c:choose>
+								</a>
+							</c:if>
 						</div>
+						<!-- 슬라이드쇼 이미지 /image-cover, room_image_no -->
+						<div class="carousel-inner" style="border-radius: 25px;">
+							<div class="carousel-item active"> 		
+								<img class="acc-thumbnail rounded-0" data-acc-no="${list.accNo }"
+									src="/resources/images/acc/${list.photos[0].name }" alt="숙소이미지"
+									style="object-fit: cover; width: 300px; height: 300px;">
+							</div>
+							<div class="carousel-item">
+								<img class="acc-thumbnail rounded-0"  data-acc-no="${list.accNo }"
+									src="/resources/images/acc/${list.photos[1].name }" alt="숙소이미지"
+									style="object-fit: cover; width: 300px; height: 300px;">
+							</div>
+							<div class="carousel-item">
+								<img class="acc-thumbnail rounded-0"  data-acc-no="${list.accNo }"
+									src="/resources/images/acc/${list.photos[2].name }" alt="숙소이미지"
+									style="object-fit: cover; width: 300px; height: 300px;">
+							</div>
+							<div class="carousel-item">
+								<img class="acc-thumbnail rounded-0"  data-acc-no="${list.accNo }"
+									src="/resources/images/acc/${list.photos[3].name }" alt="숙소이미지"
+									style="object-fit: cover; width: 300px; height: 300px;">
+							</div>
+							<div class="carousel-item">
+								<img class="acc-thumbnail rounded-0"  data-acc-no="${list.accNo }"
+									src="/resources/images/acc/${list.photos[4].name }" alt="숙소이미지"
+									style="object-fit: cover; width: 300px; height: 300px;">
+							</div>
+						</div>
+
+						<button class="carousel-control-prev" type="button"
+							data-bs-target="#acc-slide${list.accNo }"
+							data-bs-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Previous</span>
+						</button>
+
+						<button class="carousel-control-next" type="button"
+							data-bs-target="#acc-slide${list.accNo }"
+							data-bs-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Next</span>
+						</button>
+					</div>
+					<!-- 숙소 설명 -->
+					<div class="row my-2">
+						<div class="col-8">
+							<div class="card-title"><strong><span>${list.address.substring(0,2) }</span>의 <span>${list.types[0].name }</span></strong></div>
+							<div class="card-text text-muted"><small>${list.name }</small></div>
+							<div class="card-subtitle mb-2 text-muted"><fmt:formatDate value="${list.checkIn }" pattern="MM월 dd일"/> ~ <fmt:formatDate value="${list.checkOut }" pattern="MM월 dd일"/></div>
+							<div class="card-text pt-1">
+								<strong>₩<fmt:formatNumber value="${list.price }" /></strong>/박
+							</div>
+						</div>
+						<div class="col-4 text-end"><i class="bi bi-star-fill"></i><span> ${acc.reviewScore }</span>(<span>${acc.reviewCount }</span>)</div>
 					</div>
 				</div>
 			</div>
-			</c:forEach>
-		</div>
-		<div id="mySidebar" class="sidebar" style="z-index:3;">
-		  <!-- 접기 펼치기 버튼 -->
-		  <button id="openbtn" onclick="openNav()"><i class="bi bi-chevron-left"></i></button>
-		  <div class="zoombtn-group">
-		  	<button type="button" onclick="zoomIn()"><i class="bi bi-plus-lg"></i></button>
-		  	<button type="button" onclick="zoomOut()"><i class="bi bi-dash-lg"></i></button>
-		  </div>
-		  <button id="closebtn" class="d-none" onclick="closeNav()"><i class="bi bi-chevron-right"></i><strong>    목록보기</strong></button>
-		  <!-- 필터 버튼 -->
-		  <button id="filterbtn" class="d-none" type="button" data-bs-toggle="modal" data-bs-target="#filterModal"><i class="bi bi-sliders"></i><strong>    필터</strong></button>
-		  <div id="map"></div>
+		</c:forEach>
 		</div>
 	</div>
+	<div id="mySidebar" class="sidebar" style="z-index:3;">
+	  <!-- 접기 펼치기 버튼 -->
+	  <button id="openbtn" onclick="openNav()"><i class="bi bi-chevron-left"></i></button>
+	  <div class="zoombtn-group">
+	  	<button type="button" onclick="zoomIn()"><i class="bi bi-plus-lg"></i></button>
+	  	<button type="button" onclick="zoomOut()"><i class="bi bi-dash-lg"></i></button>
+	  </div>
+	  <button id="closebtn" class="d-none" onclick="closeNav()"><i class="bi bi-chevron-right"></i><strong>    목록보기</strong></button>
+	  <!-- 필터 버튼 -->
+	  <button id="filterbtn" class="d-none" type="button" data-bs-toggle="modal" data-bs-target="#filterModal"><i class="bi bi-sliders"></i><strong>    필터</strong></button>
+	  <div id="map"></div>
+	</div>
+</div>
 	<!-- filter modal -->
 	<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-scrollable modal-lg">
