@@ -44,11 +44,12 @@
 							<ul class="navbar-nav">
 								<li class="nav-item nav-ask-superhost"><a class="profile-btn right-nav-btn nav-link active border rounded-pill" href="">
 										<div>
-											<img class="sm-profile-img front-img" src="/resources/images/host/julian-wan.jpg" aria-hidden="true"> <img class="sm-profile-img middle-img" src="/resources/images/host/jurica-koletic.jpg" aria-hidden="true"> <img class="sm-profile-img back-img" src="/resources/images/host/michael-dam.jpg" aria-hidden="true">
-										</div> <span class="profile-text">${LOGIN_USER.name }님의 숙소 등록하기</span>
+											<img class="sm-profile-img back-img" src="/resources/images/profile/${LOGIN_USER.profileImage }" aria-hidden="true">
+										</div> 
+										<span class="profile-text ms-3">${LOGIN_USER.name }님의 숙소 등록하기</span>
 								</a></li>
 								<li class="nav-item"><a class="right-nav-btn nav-link active border rounded-pill" href="">도움말</a></li>
-								<li class="nav-item"><a class="right-nav-btn nav-link active border rounded-pill" href="">저장 및 나가기</a></li>
+								<li class="nav-item"><a class="right-nav-btn nav-link active border rounded-pill" href="/host/become-a-host">저장 및 나가기</a></li>
 							</ul>
 						</div>
 					</div>
@@ -72,7 +73,12 @@
 						</button>
 						
 						<div class="" id="guestNum">
+						<c:if test="${not empty REGISTER_ACC.guest }">
+							<span aria-hidden="true">${REGISTER_ACC.guest }</span>
+						</c:if> 
+						<c:if test="${empty REGISTER_ACC.guest}">
 							<span aria-hidden="true">4</span>
+						</c:if> 
 						</div>
 						
 						<button id="guestPlusBtn" class="plusMinusBtn plusBtn" type="button" aria-label="증가">
@@ -98,7 +104,12 @@
 						</button>
 						
 						<div class="" id="bedNum">
-							<span aria-hidden="true">1</span>
+						<c:if test="${not empty REGISTER_ACC.room.bed }">
+							<span aria-hidden="true">${REGISTER_ACC.room.bed }</span>
+						</c:if> 
+						<c:if test="${empty REGISTER_ACC.room.bed }">
+							<span aria-hidden="true">1 </span>
+						</c:if> 
 						</div>
 						
 						<button id="bedPlusBtn" class="plusMinusBtn plusBtn" type="button" aria-label="증가">
@@ -124,7 +135,12 @@
 						</button>
 						
 						<div class="" id="bedroomNum">
-							<span aria-hidden="true">1</span>
+						<c:if test="${not empty REGISTER_ACC.room.bedroom }">
+							<span aria-hidden="true">${REGISTER_ACC.room.bedroom }</span>
+						</c:if> 
+						<c:if test="${empty REGISTER_ACC.room.bedroom }">
+							<span aria-hidden="true">1 </span>
+						</c:if> 
 						</div>
 						
 						<button id="bedroomPlusBtn" class="plusMinusBtn plusBtn" type="button">
@@ -150,7 +166,12 @@
 						</button>
 						
 						<div class="" id="bathroomNum">
-							<span aria-hidden="true">1</span>
+						<c:if test="${not empty REGISTER_ACC.room.bathroom }">
+							<span aria-hidden="true">${REGISTER_ACC.room.bathroom }</span>
+						</c:if> 
+						<c:if test="${empty REGISTER_ACC.room.bathroom }">
+							<span aria-hidden="true">1 </span>
+						</c:if> 
 						</div>
 						
 						<button id="bathroomPlusBtn" class="plusMinusBtn plusBtn" type="button" aria-label="증가" >
@@ -178,7 +199,7 @@
 					</div>
 					<!-- 뒤로/다음버튼 -->
 					<div class="">
-						<button id="back-btn" class="float-start btn btn-none ms-4 fs-6 text-decoration-underline text-black border-0" type="button" onclick="history.go(-1)" style="padding-top: 14px">뒤로</button>
+						<button id="back-btn" class="float-start btn btn-none ms-4 fs-6 text-decoration-underline text-black border-0" type="button" onclick="location.href='/host/locationDetail'" style="padding-top: 14px">뒤로</button>
 					</div>
 					<div class="">
 						<button id="next-btn" class="float-start btn btn-dark float-end" type="submit" form="form-select-guests" onclick="" style="width: 80px; height: 48px;">다음</button>
@@ -229,7 +250,7 @@
 					$(this).addClass("disabledBtn");
 					return false;
 				}
-				if ($bedNum == 2) {
+				if ($bedNum == 1) {
 					$("#bedMinusBtn").attr("disabled", false);
 					$("#bedMinusBtn").removeClass("disabledBtn");
 				}

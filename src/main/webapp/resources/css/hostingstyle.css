@@ -289,7 +289,6 @@ body {
 }
 
 .profile-text {
-	float: right;
 	margin-right: 7px;
 	position: relative;
 	left: 1px;
@@ -424,7 +423,7 @@ body {
 #locationProfileImgBox {
 	position: absolute;
 	top: 7px;
-	right: 83px;
+	right: 131px;
 }
 
 #locationProfileImg {
@@ -434,7 +433,7 @@ body {
 #locationProfileText {
 	position: absolute;
 	top: 7px;
-	right: -60px;
+	right: -17px;
 }
 
 #locationRightNavBtn {

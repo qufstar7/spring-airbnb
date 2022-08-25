@@ -54,17 +54,9 @@
 									class="profile-btn right-nav-btn nav-link active border rounded-pill"
 									href="" style="cursor:context-menu;">
 										<div>
-											<img class="sm-profile-img front-img"
-												src="/resources/images/host/julian-wan.jpg"
-												aria-hidden="true"> <img
-												class="sm-profile-img middle-img"
-												src="/resources/images/host/jurica-koletic.jpg"
-												aria-hidden="true"> <img
-												class="sm-profile-img back-img"
-												src="/resources/images/host/michael-dam.jpg"
-												aria-hidden="true">
-										</div> <span class="profile-text">${LOGIN_USER.name }님의 숙소
-											등록하기</span>
+											<img class="sm-profile-img back-img" src="/resources/images/profile/${LOGIN_USER.profileImage }" aria-hidden="true">
+										</div> 
+										<span class="profile-text ms-3">${LOGIN_USER.name }님의 숙소 등록하기</span>
 								</a></li>
 								<li class="nav-item"><a
 									class="right-nav-btn nav-link active border rounded-pill"

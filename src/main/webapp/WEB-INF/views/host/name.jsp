@@ -76,23 +76,16 @@
 									class="profile-btn right-nav-btn nav-link active border rounded-pill"
 									href="">
 										<div>
-											<img class="sm-profile-img front-img"
-												src="/resources/images/host/julian-wan.jpg"
-												aria-hidden="true"> <img
-												class="sm-profile-img middle-img"
-												src="/resources/images/host/jurica-koletic.jpg"
-												aria-hidden="true"> <img
-												class="sm-profile-img back-img"
-												src="/resources/images/host/michael-dam.jpg"
-												aria-hidden="true">
-										</div> <span class="profile-text">${LOGIN_USER.name }님의 숙소 등록하기</span>
+											<img class="sm-profile-img back-img" src="/resources/images/profile/${LOGIN_USER.profileImage }" aria-hidden="true">
+										</div> 
+										<span class="profile-text ms-3">${LOGIN_USER.name }님의 숙소 등록하기</span>
 								</a></li>
 								<li class="nav-item"><a
 									class="right-nav-btn nav-link active border rounded-pill"
 									href="">도움말</a></li>
 								<li class="nav-item"><a
 									class="right-nav-btn nav-link active border rounded-pill"
-									href="">저장 및 나가기</a></li>
+									href="/host/become-a-host">저장 및 나가기</a></li>
 							</ul>
 						</div>
 					</div>
@@ -103,7 +96,7 @@
 			<div class="main-box align-self-center bg-white p-4">
 				<div class="main-middle-box">
 					<div class="fs-2 fw-bolder m-3">숙소 이름 정하기</div>
-					<textarea rows="3" id="textBox" class="textArea" name="name" maxlength="50" autocomplete="off" placeholder="건물 내 무료 주차 이용이 가능한 아름다운 레지던스" style=""></textarea>
+					<textarea rows="3" id="textBox" class="textArea" name="name" maxlength="50" autocomplete="off" placeholder="건물 내 무료 주차 이용이 가능한 아름다운 레지던스" style="">${REGISTER_ACC.name }</textarea>
 				    <div class="fs-4 fw-light mt-2">
 						<p class="d-inline textCount">0</p>
 					    <p class="d-inline">/</p>
@@ -127,7 +120,7 @@
 					<div class="">
 						<button id="back-btn"
 							class="float-start btn btn-none ms-4 fs-6 text-decoration-underline text-black border-0"
-							type="button" onclick="history.go(-1)"
+							type="button" onclick="location.href='/host/pictures'"
 							style="padding-top: 14px">뒤로</button>
 					</div>
 					<div class="">

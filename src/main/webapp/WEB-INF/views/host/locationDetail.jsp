@@ -45,12 +45,13 @@
 						<div id="navbarNav">
 							<ul class="navbar-nav">
 								<li class="nav-item nav-ask-superhost"><a id="locationProfileBtn" class="profile-btn right-nav-btn nav-link active rounded-pill" href="">
-										<div id="locationProfileImgBox">
-											<img id="locationProfileImg" class="sm-profile-img front-img" src="/resources/images/host/julian-wan.jpg" aria-hidden="true"> <img id="locationProfileImg" class="sm-profile-img middle-img" src="/resources/images/host/jurica-koletic.jpg" aria-hidden="true"> <img id="locationProfileImg" class="sm-profile-img back-img" src="/resources/images/host/michael-dam.jpg" aria-hidden="true">
-										</div> <span id="locationProfileText" class="profile-text">${LOGIN_USER.name }님의 숙소 등록하기</span>
+										<div id="locationProfileImgBox" class="float-start">
+											<img id="locationProfileImg" class="sm-profile-img front-img float-start" src="/resources/images/profile/${LOGIN_USER.profileImage }" aria-hidden="true">
+										</div> 
+										<span id="locationProfileText" class="profile-text">${LOGIN_USER.name }님의 숙소 등록하기</span>
 								</a></li>
 								<li class="nav-item"><a id="locationRightNavBtn" class="right-nav-btn nav-link active border rounded-pill" href="">도움말</a></li>
-								<li class="nav-item"><a id="locationRightNavBtn" class="right-nav-btn nav-link active border rounded-pill" href="">저장 및 나가기</a></li>
+								<li class="nav-item"><a id="locationRightNavBtn" class="right-nav-btn nav-link active border rounded-pill" href="/host/become-a-host">저장 및 나가기</a></li>
 							</ul>
 						</div>
 					</div>
@@ -77,7 +78,7 @@
 					</div>
 					<!-- 뒤로/다음버튼 -->
 					<div id="">
-						<button id="back-btn" class="float-start btn btn-none ms-4 text-decoration-underline text-black border-0" type="button" onclick="history.go(-1)" style="padding-top: 14px">뒤로</button>
+						<button id="back-btn" class="float-start btn btn-none ms-4 text-decoration-underline text-black border-0" type="button" onclick="location.href='/host/location'" style="padding-top: 14px">뒤로</button>
 					</div>
 					<div id="">
 						<button id="next-btn" class="float-start btn btn-dark float-end me-5" onclick="location.href='/host/guests'" form="locationRegisterForm" type="button" style="width: 80px; height: 48px;">다음</button>

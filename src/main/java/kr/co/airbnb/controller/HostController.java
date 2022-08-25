@@ -164,9 +164,9 @@ public class HostController {
 		
 		model.addAttribute("acc", registerAcc);
 
-		return "redirect:/host/types";
+		return "redirect:/host/complete";
 	}
-		
+	
 	// 타입 페이지 (타입1(메인타입) 선택 페이지)
 	@GetMapping("/types")
 	public String type1(@LoginUser User loginUser, Model model, @RegisterAcc Accommodation registerAcc) {

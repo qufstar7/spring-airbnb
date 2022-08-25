@@ -40,24 +40,23 @@
 
 			<div id="bgMap" class="" style="height: 95vh;">
 
-				<nav class="navbar navbar-expand-lg navbar-light pt-4 pb-3" style="z-index: 100;">
+				<nav class="navbar navbar-expand-lg navbar-light pt-6 pb-3" style="z-index: 100;">
 					<div class="container-fluid flex-row-reverse">
 						<div id="navbarNav">
 							<ul class="navbar-nav">
 								<li class="nav-item nav-ask-superhost">
 									<a id="locationProfileBtn" class="profile-btn right-nav-btn nav-link active rounded-pill" href="">
-										<div id="locationProfileImgBox">
-											<img id="locationProfileImg" class="sm-profile-img front-img" src="/resources/images/host/julian-wan.jpg" aria-hidden="true"> 
-											<img id="locationProfileImg" class="sm-profile-img middle-img" src="/resources/images/host/jurica-koletic.jpg" aria-hidden="true"> 
-											<img id="locationProfileImg" class="sm-profile-img back-img" src="/resources/images/host/michael-dam.jpg" aria-hidden="true">
-										</div> <span id="locationProfileText" class="profile-text">${LOGIN_USER.name }님의 숙소 등록하기</span>
+										<div id="locationProfileImgBox" class="float-start">
+											<img id="locationProfileImg" class="sm-profile-img front-img float-start" src="/resources/images/profile/${LOGIN_USER.profileImage }" aria-hidden="true">
+										</div> 
+										<span id="locationProfileText" class="profile-text">${LOGIN_USER.name }님의 숙소 등록하기</span>
 									</a>
 								</li>
 								<li class="nav-item">
 									<a id="locationRightNavBtn" class="right-nav-btn nav-link active border rounded-pill" href="">도움말</a>
 								</li>
 								<li class="nav-item">
-									<a id="locationRightNavBtn" class="right-nav-btn nav-link active border rounded-pill" href="">저장 및 나가기</a>
+									<a id="locationRightNavBtn" class="right-nav-btn nav-link active border rounded-pill" href="/host/become-a-host">저장 및 나가기</a>
 								</li>
 							</ul>
 						</div>
@@ -69,10 +68,10 @@
 			<!-- 주소 입력폼 -->
 			<form id="locationRegisterForm" action="submitAddress" method="post">
 				<div style="z-index:1;" class="location-form border border-white rounded-4 translate-middle p-4">
-					<div class="location-form-header fs-5 fw-bolder m-0 text-center pb-4 mt-3">주소를 입력하세요</div>
+					<div class="location-form-header fs-5 fw-bolder m-0 text-center pb-4 my-3">주소를 입력하세요</div>
 
 					<!-- 스크롤영역 -->
-					<div class="location-form-scroll position-relative mt-3">
+					<div class="location-form-scroll position-relative mt-1">
 						<!-- 입력폼 -->
 						<div class="rounded">
 							<div class="form-floating">
@@ -96,6 +95,11 @@
 								<label class="input-form-label fs-6 ps-3" for="locationFormZipcode">우편번호</label>
 							</div>
 						</div>
+						
+						<!-- 전체 주소 -->
+						<c:if test="${not empty REGISTER_ACC.address }">
+						<div id="address-to-saved" class="my-2 mx-1">${REGISTER_ACC.address }</div>
+						</c:if>
 
 						<!-- 위도, 경도 전달용 히든필드 -->
 						<input class="hiddenField1" type="hidden" name="latitude" value="0">
@@ -149,7 +153,7 @@
 					</div>
 					<!-- 뒤로/다음버튼 -->
 					<div id="">
-						<button id="back-btn" class="float-start btn btn-none ms-4 text-decoration-underline text-black border-0" type="button" onclick="history.go(-1)" style="padding-top: 14px">뒤로</button>
+						<button id="back-btn" class="float-start btn btn-none ms-4 text-decoration-underline text-black border-0" type="button" onclick="location.href='/host/types'" style="padding-top: 14px">뒤로</button>
 					</div>
 					<div id="">
 						<button id="next-btn" class="float-start btn btn-dark float-end me-5" form="locationRegisterForm" type="submit" disabled style="width: 80px; height: 48px;">다음</button>
@@ -242,20 +246,11 @@
 			// 주소 검색 후 마커,지도 이동 / 값 체크하기 / hiddenField 수정
 			$("#check-btn").on("click", function() {
 				// 입력한 주소 객체 생성
-				var stateRegionValue = $.trim($(
-						":input[name=stateRegion]").val());
+				var stateRegionValue = $.trim($(":input[name=stateRegion]").val());
 				var city = $.trim($(":input[name=city]").val());
-				var roadName = $
-						.trim($(":input[name=roadName]").val());
-				var specificAddress = $.trim($(
-						":input[name=specificAddress]").val());
-				var zipCode = parseInt($(":input[name=zipCode]")
-						.val());
-				console.log("주/도는 " + stateRegionValue);
-				console.log("도시는 " + city);
-				console.log("도로명주소는 " + roadName);
-				console.log("상세주소는 " + specificAddress);
-				console.log("우편번호는 " + zipCode);
+				var roadName = $.trim($(":input[name=roadName]").val());
+				var specificAddress = $.trim($(":input[name=specificAddress]").val());
+				var zipCode = $.trim($(":input[name=zipCode]").val());
 
 				// 도로명주소 유효성 체크하기
 				if (isEmpty(roadName)) {
@@ -312,6 +307,7 @@
 				$("#next-btn").removeAttr("disabled");
 
 				// 주소로 좌표 검색
+				getInfo();
 				// 지도 변경, 마커 위치 변경, 값 저장
 				geocoder.addressSearch(roadName, function(result, status) {
 					// 정상적으로 검색이 완료됐으면 
@@ -343,7 +339,10 @@
 						$(".hiddenField2").attr("value", center.getLng());
 					}
 				});
-
+				
+				// '저장할 주소' div 수정
+				let fulladdress = "("+ zipCode + ") " + stateRegionValue + " " + city + " " + roadName + " " + specificAddress;
+				$("#address-to-saved").text(fulladdress);
 			});
 
 			// 구체적인 위치 표시하기 스위치버튼 기능 구현
