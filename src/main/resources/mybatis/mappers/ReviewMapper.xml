@@ -132,7 +132,7 @@
 	<!-- Map<String, Object> getGuestReceivedReviews(int no); 
 		게스트가 받은 리뷰이다. (호스트가 적어준 리뷰 조회)	-->
 	<select id="getGuestReceivedReviews" parameterType="int" resultMap="reviewResultMap">
-		select  R.REVIEW_NO, R.USER_NO, R.REVIEW_CONTENT, R.REVIEW_CREATED_DATE, A.ACC_NO, R.PRIVATE_NOTE, R.USER_TYPE
+		select  R.REVIEW_NO, R.USER_NO, R.REVIEW_CONTENT, R.REVIEW_CREATED_DATE, A.ACC_NO, R.PRIVATE_NOTE, R.USER_TYPE, R.REVIEW_DELETED
 		from AIRBNB_USERS U, AIRBNB_REVIEWS R, AIRBNB_RESERVATIONS V, AIRBNB_ACCOMMODATIONS A
 		where U.USER_NO = #{value}                       
 		    AND U.USER_NO = V.USER_NO                  
@@ -147,7 +147,7 @@
 		호스트가 받은 리뷰이다. (게스트가 적어준 리뷰 조회)	-->
 	<select id="getGuestWritedReviews" parameterType="int" resultMap="reviewResultMap">
 		select A.ACC_NAME, A.IMAGE_COVER, R.REVIEW_CREATED_DATE, R.REVIEW_CONTENT, R.USER_TYPE, R.POSITIVE_FEEDBACK, R.NAGATIVE_FEEDBACK,
-			   U.USER_PROFILE_IMAGE, U.USER_NAME, U.USER_ADDRESS, U.USER_CREATED_DATE, R.USER_NO, A.ACC_NO, A.ACC_REVIEW_COUNT
+			   U.USER_PROFILE_IMAGE, U.USER_NAME, U.USER_ADDRESS, U.USER_CREATED_DATE, R.USER_NO, A.ACC_NO, A.ACC_REVIEW_COUNT, R.REVIEW_DELETED
 		from AIRBNB_ACCOMMODATIONS A, AIRBNB_USERS U, AIRBNB_REVIEWS R, AIRBNB_RESERVATIONS V
 		where U.USER_NO = #{value}     
 		    AND A.USER_NO = U.USER_NO
@@ -199,7 +199,10 @@
 			and X.user_no = z.user_no
 			and X.reservation_no in (select A.reservation_no
 		                            from airbnb_reservations A
-		                            where A.user_no = #{value} and A.CHECK_OUT_DATE is not null and A.CHECK_OUT_DATE + 14 >= to_date(to_char(sysdate, 'yyyy-mm-dd'
+		                            where A.user_no = #{value} 
+		                                and A.CHECK_OUT_DATE is not null 
+		                                AND A.CHECK_OUT_DATE &lt;= to_date(to_char(sysdate, 'yyyy-mm-dd'))
+		                                and A.CHECK_OUT_DATE + 14 >= to_date(to_char(sysdate, 'yyyy-mm-dd'
 		                            ))
 		                            and A.CHECK_IN_DATE + 1 &lt;= to_date(to_char(sysdate, 'yyyy-mm-dd'))
 		                            minus
@@ -226,6 +229,15 @@
 			positive_feedback = #{positiveFeedback},
 			nagative_feedback = #{nagativeFeedback},
 			PRIVATE_NOTE = #{privateNote},
+			review_updated_date = sysdate
+		where review_no = #{no}
+	</update>
+	
+	<!-- void deleteReview(Review review); -->
+	<update id="deleteReview" parameterType="kr.co.airbnb.vo.Review">
+		update airbnb_reviews
+		set 
+			REVIEW_DELETED = 'Y',
 			review_updated_date = sysdate
 		where review_no = #{no}
 	</update>

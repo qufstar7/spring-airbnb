@@ -304,57 +304,72 @@ $(function () {
 				
 				// 호스트이며, 게스트 / 호스트에게 받은 후기가 하나라도 있다.
 				$.each(guestReviews, function(index, review) {
-					let guestReview = '';
-					guestReview += '<div class="row">';
-					guestReview += '	<div class="col-10">';
-					guestReview += '		<h5><a class="text-dark fw-bold p-0 mt-1" href="../acc/detail?no='+ (review.accommodation.accNo) +'">'+(review.accommodation.name)+'</a></h5>';
-					guestReview += '		<p class="text-muted">'+ (review.createdDate) +'</p>';
-					guestReview += '	</div>';
-					guestReview += '	<div class="col-2">';
-					guestReview += '		<a href="../acc/detail?no='+ (review.accommodation.accNo) +'">';
-					guestReview += '			<img src="/resources/images/acc/'+ (review.accommodation.imageCover) +'" class="rectangleImg mb-3">';
-					guestReview += '		</a>';
-					guestReview += '	</div>';
-					guestReview += '</div>';
-					guestReview += '<div class="boxReviewContent">';
-					guestReview += '	<p class="reviewContent mb-0">'+ (review.content) +'</p>';
-					guestReview += '</div>';
-					guestReview += '<div class="row mt-3 mb-5">';
-					guestReview += '	<div class="col-1">';
-					guestReview += '		<a href="#">';
-					guestReview += '			<img src="/resources/images/profile/'+ (review.user.profileImage ? review.user.profileImage : "profile-default-img.png") +'" class="userImg mb-3">'; 
-					guestReview += '		</a>';
-					guestReview += '	</div>';
-					guestReview += '	<div class="col">';
-					guestReview += '		<p class="mb-0 ps-3"><strong>'+ (review.user.name) +'님, '+ (review.user.address ? review.user.address : "") +'</strong></p>';
-					guestReview += '		<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">'+ (review.user.createdDate) +'</span>';
-					guestReview += '	</div>';
-					guestReview += '</div>';
 
-					$guestReviewBox.append(guestReview);
-				
+					if (review.deleted == 'Y') {
+						let guestReview = '';
+						guestReview += '<div class="boxReviewContent">';
+						guestReview += '	<p class="reviewContent mb-0">'+ (review.content) +'</p>';
+						guestReview += '</div>';
+					} else {
+						let guestReview = '';
+						guestReview += '<div class="row">';
+						guestReview += '	<div class="col-10">';
+						guestReview += '		<h5><a class="text-dark fw-bold p-0 mt-1" href="../acc/detail?no='+ (review.accommodation.accNo) +'">'+(review.accommodation.name)+'</a></h5>';
+						guestReview += '		<p class="text-muted">'+ (review.createdDate) +'</p>';
+						guestReview += '	</div>';
+						guestReview += '	<div class="col-2">';
+						guestReview += '		<a href="../acc/detail?no='+ (review.accommodation.accNo) +'">';
+						guestReview += '			<img src="/resources/images/acc/'+ (review.accommodation.imageCover) +'" class="rectangleImg mb-3">';
+						guestReview += '		</a>';
+						guestReview += '	</div>';
+						guestReview += '</div>';
+						guestReview += '<div class="boxReviewContent">';
+						guestReview += '	<p class="reviewContent mb-0">'+ (review.content) +'</p>';
+						guestReview += '</div>';
+						guestReview += '<div class="row mt-3 mb-5">';
+						guestReview += '	<div class="col-1">';
+						guestReview += '		<a href="#">';
+						guestReview += '			<img src="/resources/images/profile/'+ (review.user.profileImage ? review.user.profileImage : "profile-default-img.png") +'" class="userImg mb-3">'; 
+						guestReview += '		</a>';
+						guestReview += '	</div>';
+						guestReview += '	<div class="col">';
+						guestReview += '		<p class="mb-0 ps-3"><strong>'+ (review.user.name) +'님, '+ (review.user.address ? review.user.address : "") +'</strong></p>';
+						guestReview += '		<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">'+ (review.user.createdDate) +'</span>';
+						guestReview += '	</div>';
+						guestReview += '</div>';
+	
+						$guestReviewBox.append(guestReview);
+					}
 				})
 				
-				$.each(hostReviews, function(index, review) {
-					let hostReview = '';
-					hostReview += '<div class="boxReviewContent">';
-					hostReview += '		<p class="text-muted">'+ (review.createdDate) +'</p>';
-					hostReview += '		<p class="reviewContent mb-0">'+ (review.content) +'</p>';
-					hostReview += '</div>';
-					hostReview += '<div class="row">';
-					hostReview += '		<div class="col-1">';
-					hostReview += '			<a href="#">';
-					hostReview += '				<img src="/resources/images/profile/'+ (review.user.profileImage ? review.user.profileImage : "profile-default-img.png") +'" class="userImg mb-3">';
-					hostReview += '			</a>';
-					hostReview += '		</div>';
-					hostReview += '		<div class="col  mt-3 mb-5">';
-					hostReview += '			<p class="mb-0 ps-3"><strong>'+ (review.user.name) +'님, '+ (review.user.address ? review.user.address : "") +'</strong></p>';
-					hostReview += '			<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">'+ (review.user.createdDate) +'</span>';
-					hostReview += '		</div>';
-					hostReview += '</div>';
-
-					$hostReviewBox.append(hostReview);
 				
+				$.each(hostReviews, function(index, review) {
+					
+					if (review.deleted == 'Y') {
+						let guestReview = '';
+						guestReview += '<div class="boxReviewContent">';
+						guestReview += '	<p class="reviewContent mb-0">'+ (review.content) +'</p>';
+						guestReview += '</div>';
+					} else {
+						let hostReview = '';
+						hostReview += '<div class="boxReviewContent">';
+						hostReview += '		<p class="text-muted">'+ (review.createdDate) +'</p>';
+						hostReview += '		<p class="reviewContent mb-0">'+ (review.content) +'</p>';
+						hostReview += '</div>';
+						hostReview += '<div class="row">';
+						hostReview += '		<div class="col-1">';
+						hostReview += '			<a href="#">';
+						hostReview += '				<img src="/resources/images/profile/'+ (review.user.profileImage ? review.user.profileImage : "profile-default-img.png") +'" class="userImg mb-3">';
+						hostReview += '			</a>';
+						hostReview += '		</div>';
+						hostReview += '		<div class="col  mt-3 mb-5">';
+						hostReview += '			<p class="mb-0 ps-3"><strong>'+ (review.user.name) +'님, '+ (review.user.address ? review.user.address : "") +'</strong></p>';
+						hostReview += '			<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">'+ (review.user.createdDate) +'</span>';
+						hostReview += '		</div>';
+						hostReview += '</div>';
+	
+						$hostReviewBox.append(hostReview);
+					}
 				})
 				
 			} else {						// guest
@@ -382,26 +397,31 @@ $(function () {
 					$reviewCount.html(reviewCount2);
 					
 				$.each(reviews, function(index, review) {
-					
-					let content1=''
-					content1 += '<div class="boxReviewContent">';
-					content1 += '	<p class="text-muted">'+ (review.createdDate) +'</p>';
-					content1 += '	<p class="reviewContent mb-0">'+ (review.content) +'</p>';
-					content1 += '</div>';
-					content1 += '<div class="row">';
-					content1 += '	<div class="col-1">';
-					content1 += '		<a href="#">';
-					content1 += '			<img src="/resources/images/profile/'+ (review.user.profileImage ? review.user.profileImage : "profile-default-img.png") +'" class="userImg mb-3">';
-					content1 += '		</a>';
-					content1 += '	</div>';
-					content1 += '	<div class="col mt-3 mb-5">';
-					content1 += '		<p class="mb-0 ps-3"><strong>'+ (review.user.name) +' 님, '+(review.user.address)+'</strong></p>';
-					content1 += '		<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">'+ (review.user.createdDate) +'</span>';
-					content1 += '	</div>';
-					content1 += '</div>';
-					
-					$guestBoxReviewBox.append(content1);
-
+					if (review.deleted == 'Y') {
+						let guestReview = '';
+						guestReview += '<div class="boxReviewContent">';
+						guestReview += '	<p class="reviewContent mb-0">'+ (review.content) +'</p>';
+						guestReview += '</div>';
+					} else {
+						let content1=''
+						content1 += '<div class="boxReviewContent">';
+						content1 += '	<p class="text-muted">'+ (review.createdDate) +'</p>';
+						content1 += '	<p class="reviewContent mb-0">'+ (review.content) +'</p>';
+						content1 += '</div>';
+						content1 += '<div class="row">';
+						content1 += '	<div class="col-1">';
+						content1 += '		<a href="#">';
+						content1 += '			<img src="/resources/images/profile/'+ (review.user.profileImage ? review.user.profileImage : "profile-default-img.png") +'" class="userImg mb-3">';
+						content1 += '		</a>';
+						content1 += '	</div>';
+						content1 += '	<div class="col mt-3 mb-5">';
+						content1 += '		<p class="mb-0 ps-3"><strong>'+ (review.user.name) +' 님, '+(review.user.address)+'</strong></p>';
+						content1 += '		<span class="mb-0 ps-3 text-muted">회원가입: </span><span class="text-muted">'+ (review.user.createdDate) +'</span>';
+						content1 += '	</div>';
+						content1 += '</div>';
+						
+						$guestBoxReviewBox.append(content1);
+					}
 				})
 			}
 			

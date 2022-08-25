@@ -433,6 +433,18 @@
 		where acc_no = #{accNo}
 	</update>
 	
+	<!-- void deleteReview(Review review); -->
+	<update id="deleteReview" parameterType="kr.co.airbnb.vo.Review">
+		update AIRBNB_ACCOMMODATIONS
+		set
+			ACC_REVIEW_COUNT = ACC_REVIEW_COUNT - 1,
+			ACC_UPDATED_DATE = sysdate
+		where acc_no in (select a.acc_no
+		                 from AIRBNB_ACCOMMODATIONS a,  AIRBNB_REVIEWS b
+		                 where b.acc_no = a.acc_no
+		                 and b.review_no = #{no})
+	</update>
+	
 	<!-- void insertAcc(Accommodation acc); -->	
 	<insert id="insertAcc" parameterType="Accommodation">
 		<selectKey keyProperty="accNo" resultType="int" order="BEFORE">

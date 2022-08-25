@@ -588,7 +588,7 @@ $(function() {
 		if (content.length > 500) {
 			alert("최대 500자까지 입력 가능합니다.");
 	        $(this).val(content.substring(0, 500));
-	        $('#test-length').text("( 0 / 500 )");
+	        $('#positive-length').text("( 0 / 500 )");
 			
 		}
 	})
@@ -599,7 +599,7 @@ $(function() {
 		
 		if (content.length > 500) {
 			alert("최대 500자까지 입력 가능합니다.");
-	        $(this).val(content.substring(0, 500));
+	        $(this).val(feedback.substring(0, 500));
 	        $('#test-length').text("( 0 / 500 )");
 			
 		}

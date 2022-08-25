@@ -29,6 +29,7 @@ public interface ReviewMapper {
 	List<Review> getReviewsToWrite(int no);
 	Review getReviewByReviewNo(int no);
 	void updateReview(Review review);
+	void deleteReview(Review review);
 
 	
 	

@@ -193,4 +193,9 @@ public class ReviewService {
 		reviewMapper.updateReview(review);
 	}
 
+	public void deleteReview(Review review) {
+		reviewMapper.deleteReview(review);
+		accommodationMapper.deleteReview(review);
+	}
+
 }

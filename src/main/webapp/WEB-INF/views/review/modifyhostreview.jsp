@@ -120,6 +120,7 @@
 					<div class="mb-5">
 						<p><strong>피드백을 하거나 감사함을 표하세요.<strong></p>
 						<textarea name="feedback" id="private-text" cols="100" rows="5" style="resize:vertical; width:100%;"></textarea>
+						<p align="right">남은 글자 수 : <span id="private-length">( 500 / 500 )</span>자</p>
 					</div>
 				</div>			
 			</div> 
@@ -147,7 +148,7 @@
 			</div>
 			<div class="modal-footer mx-auto" >
 				<button type="button" class="btn px-5 endBtn" id="btn-go-review" onclick="location.href='https://localhost/user/sentReview';">나의 후기로 가기</button>
-				<button type="button" class="btn px-5 endBtn" id="btn-go-main" onclick="location.href='https://localhost/user/receivedReview';">메인으로 가기</button>
+				<button type="button" class="btn px-5 endBtn" id="btn-go-main" onclick="location.href='https://localhost/';">메인으로 가기</button>
 	    	</button>
 			</div>
 		</div>
@@ -219,12 +220,12 @@ $(function() {
 	// 비공개 후기 - 글자수 세는 함수
 	$("#private-text").keyup(function() {
 		let content = $(this).val();
-		$("#positive-length").text("( "+ ( 500 - parseInt(content.length)) +" / 500 )");
+		$("#private-length").text("( "+ ( 500 - parseInt(content.length)) +" / 500 )");
 		
 		if (content.length > 500) {
 			alert("최대 500자까지 입력 가능합니다.");
 	        $(this).val(content.substring(0, 500));
-	        $('#test-length').text("( 0 / 500 )");
+	        $('#private-length').text("( 0 / 500 )");
 		}
 	})
 	

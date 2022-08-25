@@ -170,73 +170,91 @@
 								<div class="contentbox">
 									<c:forEach var="review" items="${sentGuestReviews }">
 										<div class="row">
-											<div class="col-2 pt-3" align="center">
-												<a href="/acc/detail?no=${review.accNo }">
-													<img src="/resources/images/acc/${not empty review.accommodation.imageCover ? review.accommodation.imageCover : 'no-image.jpg'}" class="rectangleImg mb-3">
-												</a>
-												<p class="mb-0"><fmt:formatDate value="${review.createdDate }" pattern="yyyy년 MM월 dd일" /></p>
-											</div>		
-											<div class="col-10 mb-3">
-												<div class="row">
-													<div class="col-12 mb-3">
-														<strong><a href="/acc/detail?no=${review.accNo }" class="text-dark fs-5 p-0 mt-1 ms-2">${review.accommodation.name }</a></strong>
-														<p class="mb-5 mt-3">${review.content }</p>
-														<div align="right">
-															<button class="modifyBtn" type="button" id="btn-modify-review-guest" onclick = "location.href='https://localhost/modifyreview?no=${review.no}'">수정하기</button>
-															<button class="deleteBtn" type="button" id="btn-delete-review-guest">삭제하기</button>
+											<c:choose>
+												<c:when test="${review.deleted == 'Y' }">
+													<div class="mt-3 mb-3" align="center">
+														<p>삭제된 리뷰입니다.</p>
+													</div>												
+												</c:when>
+												<c:otherwise>
+													<div class="col-2 pt-3" align="center">
+														<a href="/acc/detail?no=${review.accNo }">
+															<img src="/resources/images/acc/${not empty review.accommodation.imageCover ? review.accommodation.imageCover : 'no-image.jpg'}" class="rectangleImg mb-3">
+														</a>
+														<p class="mb-0"><fmt:formatDate value="${review.createdDate }" pattern="yyyy년 MM월 dd일" /></p>
+													</div>		
+													<div class="col-10 mb-3">
+														<div class="row">
+															<div class="col-12 mb-3">
+																<strong><a href="/acc/detail?no=${review.accNo }" class="text-dark fs-5 p-0 mt-1 ms-2">${review.accommodation.name }</a></strong>
+																<p class="mb-5 mt-3">${review.content }</p>
+																<div align="right">
+																	<button class="modifyBtn" type="button" id="btn-modify-review-guest" onclick = "location.href='https://localhost/modifyreview?no=${review.no}'">수정하기</button>
+																	<button class="deleteBtn" type="button" id="btn-delete-review-guest" onclick = "location.href='https://localhost/deletereview?no=${review.no}'">삭제하기</button>
+																</div>
+																<c:choose>
+																	<c:when test="${empty review.positiveFeedback}">
+																	</c:when>
+																	<c:otherwise>
+																		<p class="mb-0"><strong>긍정적 평가</strong></p>
+																		<p class="mb-3">${review.positiveFeedback }</p>		
+																	</c:otherwise>
+																</c:choose>	
+																<c:choose>
+																	<c:when test="${empty review.nagativeFeedback}">
+																	</c:when>
+																	<c:otherwise>
+																		<p class="mb-0"><strong>부정적 평가</strong></p>
+																		<p class="mb-3">${review.nagativeFeedback }</p>		
+																	</c:otherwise>
+																</c:choose>			
+															</div>
 														</div>
-														<c:choose>
-															<c:when test="${empty review.positiveFeedback}">
-															</c:when>
-															<c:otherwise>
-																<p class="mb-0"><strong>긍정적 평가</strong></p>
-																<p class="mb-3">${review.positiveFeedback }</p>		
-															</c:otherwise>
-														</c:choose>	
-														<c:choose>
-															<c:when test="${empty review.nagativeFeedback}">
-															</c:when>
-															<c:otherwise>
-																<p class="mb-0"><strong>부정적 평가</strong></p>
-																<p class="mb-3">${review.nagativeFeedback }</p>		
-															</c:otherwise>
-														</c:choose>			
 													</div>
 												</div>
-											</div>
-										</div>
+												</c:otherwise>
+											</c:choose>
 										<hr />
 									</c:forEach>
 									<c:forEach var="review" items="${sentHostReviews }">
 										<div class="row">
-											<div class="col-2 pt-3" align="center">
-												<a href="#">
-													<img src="/resources/images/profile/${not empty review.user.profileImage ? review.user.profileImage : 'profile-default-img.png'}" class="mb-3 userImg">
-												</a>			
-												<p class="mb-0">${review.user.name }</p>				
-												<p class="mb-0"><fmt:formatDate value="${review.createdDate }" pattern="yyyy년 MM월 dd일" /></p>
-											</div>		
-											<div class="col-10 mb-3">
-												<div class="row">
-													<div class="col-12 mb-3">
-														<strong><a href="/acc/detail?no=${review.accNo }" class="text-dark fs-5 p-0 mt-1 ms-2">${review.accommodation.name }</a></strong>
-														<p class="mb-5 mt-3">${review.content }</p>
-														<div align="right">
-															<button type="button" class="modifyBtn" id="btn-modify-review-host" onclick = "location.href='https://localhost/modifyhostreview?no=${review.no}'">수정하기</button>
-															<button type="button" class="deleteBtn" id="btn-delete-review-host">삭제하기</button>
+											<c:choose>
+												<c:when test="${review.deleted == 'Y' }">
+													<div class="mt-3 mb-3" align="center">
+														<p>삭제된 리뷰입니다.</p>
+													</div>
+												</c:when>
+												<c:otherwise>
+													<div class="col-2 pt-3" align="center">
+														<a href="#">
+															<img src="/resources/images/profile/${not empty review.user.profileImage ? review.user.profileImage : 'profile-default-img.png'}" class="mb-3 userImg">
+														</a>			
+														<p class="mb-0">${review.user.name }</p>				
+														<p class="mb-0"><fmt:formatDate value="${review.createdDate }" pattern="yyyy년 MM월 dd일" /></p>
+													</div>		
+													<div class="col-10 mb-3">
+														<div class="row">
+															<div class="col-12 mb-3">
+																<strong><a href="/acc/detail?no=${review.accNo }" class="text-dark fs-5 p-0 mt-1 ms-2">${review.accommodation.name }</a></strong>
+																<p class="mb-5 mt-3">${review.content }</p>
+																<div align="right">
+																	<button type="button" class="modifyBtn" id="btn-modify-review-host" onclick = "location.href='https://localhost/modifyhostreview?no=${review.no}'">수정하기</button>
+																	<button type="button" class="deleteBtn" id="btn-delete-review-host" onclick = "location.href='https://localhost/deletehostreview?no=${review.no}'">삭제하기</button>
+																</div>
+																<c:choose>
+																	<c:when test="${empty review.privateNote}">
+																	</c:when>
+																	<c:otherwise>
+																		<p class="mb-0"><strong>private note</strong></p>
+																		<p class="mb-3">${review.privateNote }</p>											
+																	</c:otherwise>
+																</c:choose>					
+															</div>
 														</div>
-														<c:choose>
-															<c:when test="${empty review.privateNote}">
-															</c:when>
-															<c:otherwise>
-																<p class="mb-0"><strong>private note</strong></p>
-																<p class="mb-3">${review.privateNote }</p>											
-															</c:otherwise>
-														</c:choose>					
 													</div>
 												</div>
-											</div>
-										</div>
+												</c:otherwise>
+											</c:choose>
 										<hr />
 									</c:forEach>
 								</div>
@@ -249,10 +267,7 @@
 	</div>
 </div>
 
-<script type="text/javascript">
 
-
-</script>
 
 </body>
 </html>

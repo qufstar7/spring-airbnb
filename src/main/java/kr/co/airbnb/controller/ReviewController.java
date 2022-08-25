@@ -39,5 +39,15 @@ public class ReviewController {
 	public String modifyhostreview() {
 		return "review/modifyhostreview";
 	}
+	
+	@GetMapping(path = "/deletereview")
+	public String deletereview() {
+		return "review/deletereview";
+	}
+	
+	@GetMapping(path = "/deletehostreview")
+	public String deletehostreview() {
+		return "review/deletehostreview";
+	}
 
 }
