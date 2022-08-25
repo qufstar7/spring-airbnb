@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="tags.jsp"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/navbarstyle.css">
+
 <!-- 달력 -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
@@ -157,7 +158,12 @@
 			<div class="box justify-content-between">
 				<div class="row align-items-center" id="userbtn">
 					<div class="col">
-						<button class="hostbtn" type="button">호스트모드로 전환</button>
+						<c:if test="${empty LOGIN_USER }">
+							<button class="hostbtn" type="button" data-bs-toggle="modal" data-bs-target="#email-login-modal" style="width:150px;">로그인 후 호스팅하기</button>
+						</c:if>
+						<c:if test="${not empty LOGIN_USER }">
+							<button class="hostbtn" type="button" onclick="location.href='/host/hosting'">호스트모드로 전환</button>
+						</c:if>
 					</div>
 					<div class="dropdown col">
 					  <button class="dropbtn" id="btn-toggle-mymenu">
