@@ -43,12 +43,13 @@ public class ReservationService {
 		reservation.setPetNum(reservationRegisterForm.getPetNum());
 		reservation.setTotalGuest(reservationRegisterForm.getTotalGuest());
 		reservation.setMessageToHost(reservationRegisterForm.getMessageToHost());
-		reservation.setServiceFee(reservationRegisterForm.getPrice() *0.15);
+		reservation.setServiceFee(reservationRegisterForm.getServiceFee());
 		reservation.setPrice(reservationRegisterForm.getPrice());
 		reservation.setTotalPrice(reservationRegisterForm.getPrice() + reservationRegisterForm.getServiceFee() + reservationRegisterForm.getCleaningPrice());
 		reservation.setEntirePay(reservationRegisterForm.getTotalPrice());
 		reservation.setLeftPay(reservationRegisterForm.getTotalPrice() * 0.3);
 		reservation.setAccNo(reservationRegisterForm.getAccNo());
+		reservation.setAccommodation(accommodationMapper.getAcc(reservationRegisterForm.getAccNo()));
 		reservation.setUser(loginUser);
 		
 		

@@ -42,7 +42,7 @@
 	</resultMap>
 	
 	<resultMap type="Reservation" id="ReservationResultMap">
-		<id column="reservation_no" property="reservationNo"/>
+		<id column="reservation_no" property="no"/>
 		<result column="reservation_status" property="status"/>
 		<result column="check_in_date" property="checkInDate"/>
 		<result column="check_out_date" property="checkOutDate"/>
@@ -71,7 +71,7 @@
 	</select>
 	
 	<!-- Reservation getReservationByuserNo(int no); -->
-	<select id="getReservationsByUserNo" parameterType="int" resultMap="ReservationResultMap">
+	<select id="getReservationByUserNo" parameterType="int" resultMap="ReservationResultMap">
 		select *
 		from airbnb_reservations
 		where user_no = #{value}

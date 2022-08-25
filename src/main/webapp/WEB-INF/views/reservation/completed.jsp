@@ -32,7 +32,7 @@
 					</div>
 				</div>
 				<div class="col">
-				    <span>궁금한 사항은 언제든 호스트에게 문의하실 수 있습니다.</span>
+				    <span>궁금한 사항은 언제든 ${accommodation.user.name }에게 문의하실 수 있습니다.</span>
 				</div>
 				<div>
 					<textarea rows="4" class="form-control" name="messageToHost" placeholder="안녕하세요. 여행이 예정되어있습니다."></textarea>
@@ -90,18 +90,18 @@
 						<h5>${accommodation.name}</h5>
 					</div>
 					<div>
-						<p><fmt:formatDate value="${reservationRegisterForm.checkInDate}" pattern="MM월dd일" />~<fmt:formatDate value="${reservation.checkOutDate}" pattern="dd일" />
+						<p><fmt:formatDate value="${reservaionRegisterForm.checkInDate}" pattern="MM월dd일" />~<fmt:formatDate value="${reservaionRegisterForm.checkOutDate}" pattern="dd일" />
 						· 게스트 ${reservaionRegisterForm.adultNum }명
 						</p>
 					</div>
 					<hr>
 					<div class="divide2">
 						<span>총 합계</span>
-						<span style="float:right">${reservation.totalPrice }</span>
+						<span style="float:right">￦<fmt:formatNumber value="${reservaionRegisterForm.totalPrice }" /> 원</span>
 					</div>
 					<hr>
 					<div class="divide2">
-						<span>지급완료</span>
+						<span style="float:right">지급완료</span>
 					</div>
 				</div>
 			</div>

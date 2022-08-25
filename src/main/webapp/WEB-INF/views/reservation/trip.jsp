@@ -21,13 +21,45 @@
 	</div>
 	<div class="divide">
 		<h4>예정된 예약</h4>
-		<c:forEach var="reservation" items="${reservaions }">
 			<c:choose>
-				<c:when test="${empty reservaions }">
-					<h3>예정된 예약이 없습니다.</h3>
+				<c:when test="${empty reservations }">
+					<div class="border border-2">
+						<img alt="" src="../resources/images/reservation/trip.png">
+						<h3>예정된 예약이 없습니다.</h3>
+						<a href="/" class="btn btn-lg" style="background-color:#d80765; color:white;">숙소 검색하기</a>
+					</div>
 				</c:when>
+				<c:otherwise>
+					<c:forEach var="reservation" items="${reservations }">
+						<div class="row">
+							<div class="col-4">
+								<div class="border border-2 rounded-start" style="width:500px; height:250px;">
+									<div class="mx-3 my-3">
+										<h4>${reservation.accommodation.address }</h4>
+										<p><small>${reservation.accommodation.name }</small></p>
+										<hr>
+									</div>
+									<div class="row">
+										<div class="col-5 mx-2">
+											<p style="line-height: 0.5;"><fmt:formatDate value="${reservation.checkInDate}" pattern="M월d일" /> -</p>
+											<p style="line-height: 0.5;"><fmt:formatDate value="${reservation.checkOutDate}" pattern="M월d일" /></p>
+											<p style="line-height: 0.5;"><small><fmt:formatDate value="${reservation.checkInDate}" pattern="yyyy년" /></small></p>
+										</div>
+										<div class="col-2" style="border-left:1px solid; height:30px">
+											<p>${reservation.accommodation.address }</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-2">
+								<div class="border border-2 rounded-end" style="width:500px; height:250px;">
+									<img class="acc" style="object-fit:cover;" src="../resources/images/acc/${reservation.accommodation.accNo }.png">
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+				</c:otherwise>
 			</c:choose>
-		</c:forEach>
 	</div>
 </div>
 </body>

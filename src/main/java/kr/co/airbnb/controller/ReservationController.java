@@ -57,7 +57,7 @@ public class ReservationController {
 	}
 	
 	@PostMapping(path = "/register") 
-	public String book(@LoginUser User loginUser, @RequestParam("no") int accNo, Model model, @ModelAttribute("reservaionRegisterForm") ReservationRegisterForm reservaionRegisterForm) {
+	public String book(@LoginUser User loginUser, @RequestParam("no") int accNo, Model model, @ModelAttribute("reservationRegisterForm") ReservationRegisterForm reservaionRegisterForm) {
 		Accommodation accommodation  = reservationService.getAcc(accNo);
 		model.addAttribute("accommodation", accommodation);
 		
@@ -73,10 +73,12 @@ public class ReservationController {
 		return "reservation/book"; 
 	}
 	
-	@PostMapping(path ="/register")
+	@PostMapping(path ="/insert")
 	@RequestMapping(value="/completed", method = {RequestMethod.POST})
-	public String register(@LoginUser User loginUser, @ModelAttribute("reservaionRegisterForm") ReservationRegisterForm reservaionRegisterForm, SessionStatus sessionStatus ) throws IOException {
-		
+	public String register(@LoginUser User loginUser, @ModelAttribute("reservationRegisterForm") ReservationRegisterForm reservaionRegisterForm, Model model, SessionStatus sessionStatus ) throws IOException {
+		Accommodation accommodation = reservationService.getAcc(reservaionRegisterForm.getAccNo());
+		model.addAttribute("accommodation",accommodation);
+		model.addAttribute("reservaionRegisterForm",reservaionRegisterForm);
 		reservationService.addNewReservation(loginUser, reservaionRegisterForm);
 		
 		sessionStatus.setComplete();
@@ -96,8 +98,10 @@ public class ReservationController {
 	
 	@GetMapping(path = "/trip")
 	public String trip(@LoginUser User loginUser, Model model) {
+		User user = userService.getUserByEmail(loginUser.getEmail());
+		model.addAttribute("user", user);
 		
-		List<Reservation> reservations = reservationService.getAllReservationsByUser(loginUser.getNo());
+		List<Reservation> reservations = reservationService.getAllReservationsByUser(user.getNo());
 		model.addAttribute("reservations", reservations);
 		return"/reservation/trip";
 	}
