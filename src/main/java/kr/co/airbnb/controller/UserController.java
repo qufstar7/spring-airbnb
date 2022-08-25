@@ -313,6 +313,7 @@ public class UserController {
 	@GetMapping(path="/account-delete/complete")
 	public String deleteAccountWithComplete(@LoginUser User loginUser) {
 		userService.disableUser(loginUser.getNo());
+		SessionUtils.sessionInvlidate();
 		
 		return "user/account-delete-complete";
 	}
