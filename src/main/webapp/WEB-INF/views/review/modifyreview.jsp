@@ -91,7 +91,6 @@
 <div class="container">
 <%@ include file="../common/nav.jsp"%>
 <!-- form 시작 -->
-<!-- 파라미터로 숙소 번호 받아야 한다. -->
 <form class="mb-3" name="guestReview" id="guest-review">		
 <input type="hidden" id="user-type" name="userType" value="guest" />	
 <!-- Scrollable Modal -->
@@ -154,7 +153,7 @@
 			</div>
 			<div class="modal-footer mx-auto" >
 				<button type="button" class="btn px-5 endBtn" id="btn-go-review" onclick="location.href='https://localhost/user/sentReview';">나의 후기로 가기</button>
-				<button type="button" class="btn px-5 endBtn" id="btn-go-main" onclick="location.href='https://localhost/user/receivedReview';">메인으로 가기</button>
+				<button type="button" class="btn px-5 endBtn" id="btn-go-main" onclick="location.href='https://localhost/';">메인으로 가기</button>
 	    	</button>
 			</div>
 		</div>
@@ -231,7 +230,7 @@ $(function() {
 		if (content.length > 500) {
 			alert("최대 500자까지 입력 가능합니다.");
 	        $(this).val(content.substring(0, 500));
-	        $('#test-length').text("( 0 / 500 )");
+	        $('#positive-length').text("( 0 / 500 )");
 		}
 	})
 	
@@ -242,7 +241,7 @@ $(function() {
 		if (content.length > 500) {
 			alert("최대 500자까지 입력 가능합니다.");
 	        $(this).val(content.substring(0, 500));
-	        $('#test-length').text("( 0 / 500 )");
+	        $('#feedback-length').text("( 0 / 500 )");
 		}
 	})
 	
@@ -274,7 +273,6 @@ $(function() {
 			contentType: "application/json",		// 서버로 보내는 요청메세지의 컨텐츠 타입
 			dataType: 'json',						// 서버로부터 받을 것으로 예상되는 응답메세지의 컨텐츠 타입
 			success: function() {
-				alert(data.message);
 			}
 		});
 	})

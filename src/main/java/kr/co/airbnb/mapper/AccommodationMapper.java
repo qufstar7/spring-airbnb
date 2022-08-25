@@ -73,6 +73,8 @@ public interface AccommodationMapper {
 	
 	// 숙소 리뷰 갯수, 별점 평균 업데이트
 	void updateAvgScore(Accommodation accommodation);
+	// 리뷰 삭제시 리뷰갯수 - 1 업데이트
+	void deleteReview(Review review);
 	
 	// 삭제예정
 //	void insertAcc(Accommodation acc);
