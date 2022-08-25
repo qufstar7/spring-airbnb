@@ -19,6 +19,7 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import kr.co.airbnb.annotation.LoginUser;
 import kr.co.airbnb.criteria.AccCriteria;
+import kr.co.airbnb.criteria.AccListCriteria;
 import kr.co.airbnb.criteria.FilterCriteria;
 import kr.co.airbnb.criteria.SearchCriteria;
 import kr.co.airbnb.service.AccommodationService;
@@ -47,27 +48,28 @@ public class HomeController {
 	// localhost
 	// localhost/?id=101
 	@GetMapping(path = "/")
-	public String home(@LoginUser(required = false) User loginUser,  @RequestParam(name = "id", required = false) String id, Model model) {
+	public String home(@LoginUser(required = false) User loginUser,  AccListCriteria accListCriterias, Model model) {
 		
 		if(loginUser != null) {
 			List<Wishlist> wishlists = wishlistService.getMyWishlists(loginUser.getNo());
 			model.addAttribute("wishlists", wishlists);
 		}
 		
-		
 		List<Accommodation> accommodations = new ArrayList<Accommodation>();
-		if (id == null) {
-			// 메인 페이지에 출력할 인기 숙소
-			accommodations = accommodationService.getPopularAccommodations();
-			
-			// 위시리스트 등록 숙소 여부를 포함한 모든 숙소들
-			if(loginUser != null) {
-				accommodations = accommodationService.getAllAccs(loginUser.getNo());
-			}
-		} else {
-			// 태그로 검색한 숙소
-			accommodations = accommodationService.searchAccByTag(id); 
-		}
+		accListCriterias.setUser(loginUser);
+		accommodations = accommodationService.searchAccByCriteria(accListCriterias);
+//		if (accListCriterias.getId() == null) {
+//			// 메인 페이지에 출력할 인기 숙소
+//			accommodations = accommodationService.getPopularAccommodations();
+//			
+//			// 위시리스트 등록 숙소 여부를 포함한 모든 숙소들
+//			if(loginUser != null) {
+//				accommodations = accommodationService.getAllAccs(loginUser.getNo());
+//			}
+//		} else {
+//			// 태그로 검색한 숙소
+//			accommodations = accommodationService.searchAccByCriteria(accListCriterias);
+//		}
 		model.addAttribute("accommodations", accommodations);
 		
 		// 각 숙소의 타입1,2,3 조회 + 침대 개수 조회
@@ -80,8 +82,8 @@ public class HomeController {
 			//	model.addAttribute("mainType", acc.getTypes().get(0));
 			//}
 			
-			AccRoom rooms = accommodationService.getRoomByAccNo(accNo);
-			acc.setRoom(rooms);
+			//AccRoom rooms = accommodationService.getRoomByAccNo(accNo);
+			//acc.setRoom(rooms);
 			
 			List<AccPhoto> photos = accommodationService.getAccPhotosByAccNo(accNo);
 			acc.setPhotos(photos);
@@ -104,16 +106,12 @@ public class HomeController {
 	
 	@GetMapping(path="/search")
 	@ResponseBody
-	public List<Accommodation> search(@RequestParam(name = "id", required = false) String id, FilterCriteria filterCriteria) {
+	public List<Accommodation> search(@LoginUser(required = false) User user, AccListCriteria accListCriterias) {
 		List<Accommodation> accommodations = new ArrayList<Accommodation>();
 		
-		if (id == null) {
-			// 필터 검색한 숙소
-			accommodations = accommodationService.searchAccByFilter(filterCriteria);
-		} else {
-			// 태그로 검색한 숙소
-			accommodations = accommodationService.searchAccByTag(id); 
-		}
+		
+		accListCriterias.setUser(user);
+		accommodations = accommodationService.searchAccByCriteria(accListCriterias);
 		
 		// 각 숙소의 타입1,2,3 조회 + 침대 개수 조회
 		for (Accommodation acc : accommodations) {
@@ -121,12 +119,9 @@ public class HomeController {
 			
 			List<Type> types = accommodationService.searchTypesByAccNo(accNo);
 			acc.setTypes(types);
-			//if (!types.isEmpty()) {
-			//	model.addAttribute("mainType", acc.getTypes().get(0));
-			//}
-			
-			AccRoom rooms = accommodationService.getRoomByAccNo(accNo);
-			acc.setRoom(rooms);
+
+			List<AccPhoto> photos = accommodationService.getAccPhotosByAccNo(accNo);
+			acc.setPhotos(photos);
 		}
 
 		

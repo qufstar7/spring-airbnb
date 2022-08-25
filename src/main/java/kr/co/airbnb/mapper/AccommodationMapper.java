@@ -82,21 +82,13 @@ public interface AccommodationMapper {
 	// 사용자의 숙소중 가장 최근(가장 큰 숫자)의 숙소 번호 조회
 	int getAccNoByUser(User loginUser);
 
-	// nav검색으로 list조회
-	List<Accommodation> searchAccByKeyword(SearchCriteria searchCriteria);
-
 	// 모든 태그 조회
 	List<Tag> getAllTag();
-	
-	// 태그id로 숙소 조회
-	List<Accommodation> searchAccByTag(String id);
 	
 	/* 필터부분 */
 	// 1박 평균 요금, 최저 요금, 최고요금 조회
 	AccPrice getPrice();
-	// 필터 검색으로 숙소 조회
-	List<Accommodation> getAccByFilter(FilterCriteria filterCriteria);
-
+	
 	// 키워드 + 필터 검색으로 숙소 조회
 	List<Accommodation> getAccByCriteria(AccListCriteria accListCriteria);
 	 

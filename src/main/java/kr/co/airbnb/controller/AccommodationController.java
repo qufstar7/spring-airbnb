@@ -189,16 +189,17 @@ public class AccommodationController {
 			model.addAttribute("wishlists", wishlists);
 		}
 		
-
 		List<Accommodation> accommodations = new ArrayList<Accommodation>();
+		accListCriteria.setUser(loginUser);
 		// nav의 키워드로 숙소 검색
 		accommodations = accommodationService.searchAccByCriteria(accListCriteria);
 		
-		if(accListCriteria == null && loginUser != null) {
-			// 위시리스트 등록 숙소 여부를 포함한 모든 숙소들
-			accommodations = accommodationService.getAllAccs(loginUser.getNo());
-		}
+		/*
+		 * if(accListCriteria == null && loginUser != null) { // 위시리스트 등록 숙소 여부를 포함한 모든
+		 * 숙소들 accommodations = accommodationService.getAllAccs(loginUser.getNo()); }
+		 */
 		
+		model.addAttribute("list", accommodations);
 		// 각 숙소의 타입1,2,3 조회 + 침대 개수 조회 + 숙소 사진 조회
 		for (Accommodation acc : accommodations) {
 			int accNo = acc.getAccNo();
@@ -206,15 +207,9 @@ public class AccommodationController {
 			List<Type> types = accommodationService.searchTypesByAccNo(accNo);
 			acc.setTypes(types);
 			
-			AccRoom rooms = accommodationService.getRoomByAccNo(accNo);
-			acc.setRoom(rooms);
-			
 			List<AccPhoto> photos = accommodationService.getAccPhotosByAccNo(accNo);
 			acc.setPhotos(photos);
 		}
-
-	
-		model.addAttribute("list", accommodations);
 
 		/* 필터부분 */
 		// 1박 평균 요금, 최저 요금, 최고요금
@@ -228,34 +223,6 @@ public class AccommodationController {
 	}
 	
 	
-	@GetMapping(path="/list/search2")
-	@ResponseBody
-	public List<Accommodation> search2(FilterCriteria filterCriteria, AccListCriteria accListCriteria, SearchCriteria searchCriteria) {
-		List<Accommodation> accommodations = new ArrayList<Accommodation>();
-		if(filterCriteria == null) {
-			// nav의 키워드로 숙소 검색
-			accommodations = accommodationService.searchAccByKeyword(searchCriteria);
-		} else {
-			// <!-- 보류 --> 키워드 + 필터 검색한 숙소  
-			accommodations = accommodationService.searchAccByCriteria(accListCriteria);
-		}
-		// 각 숙소의 타입1,2,3 조회 + 침대 개수 조회
-		for (Accommodation acc : accommodations) {
-			int accNo = acc.getAccNo();
-			
-			List<Type> types = accommodationService.searchTypesByAccNo(accNo);
-			acc.setTypes(types);
-			//if (!types.isEmpty()) {
-			//	model.addAttribute("mainType", acc.getTypes().get(0));
-			//}
-			
-			AccRoom rooms = accommodationService.getRoomByAccNo(accNo);
-			acc.setRoom(rooms);
-		}
-
-		
-		return accommodations;
-	} 
 	
 	
 	
