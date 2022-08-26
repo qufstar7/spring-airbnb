@@ -1,6 +1,11 @@
 package kr.co.airbnb.criteria;
 
+import java.util.Date;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import kr.co.airbnb.vo.User;
 import lombok.Getter;
@@ -50,8 +55,12 @@ public class AccListCriteria {
 	private String keyword;
 	
 	// nav검색 - 언제든지 : 날짜 검색
-	private String startDate;
-	private String endDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+	private Date startDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+	private Date endDate;
 	
 	// nav검색 - 누구든지 : 인원수 검색
 	private String adult;	// 검색 조건에 포함되지 않을 수도 있기 때문에 String으로

@@ -222,7 +222,7 @@
 		from (
 			select *
 			from airbnb_accommodations
-			order by acc_review_count desc, acc_review_score desc)
+			order by acc_review_score desc, acc_review_count desc)
 		where rownum &lt;= 20
 	</select>
 	
@@ -270,14 +270,14 @@
 			select A.*
 			from airbnb_accommodations A
 			<if test="id != null">
-					, airbnb_tags B, airbnb_acc_tags C
-				</if>
+				, airbnb_tags B, airbnb_acc_tags C
+			</if>
 			<where>
 				<if test="id != null">
-						A.acc_no = C.acc_no
-						and B.tag_id = C.tag_id
-						and B.tag_id = #{id}			
-					</if>
+					A.acc_no = C.acc_no
+					and B.tag_id = C.tag_id
+					and B.tag_id = #{id}			
+				</if>
 				<if test="minPrice > 0  and maxPrice > 0">
 					and A.acc_price >= #{minPrice} and A.acc_price &lt;= #{maxPrice}
 				</if>
@@ -295,6 +295,10 @@
 						and acc_check_out = #{endDate}
 					</if>
 				</if> -->
+				<if test="startDate != null and endDate != null">
+					and A.acc_check_in &lt;= #{startDate}
+					and A.acc_check_out >= #{endDate}
+				</if>
 				<if test="adult != null || child != null || infant != null">
 					and A.acc_guest >= #{adult} + #{child} + #{infant}
 				</if>
@@ -331,20 +335,53 @@
 				</if>
 				 
 				<if test="bedrooms != null">
-					and A.acc_no in (select acc_no
-								  from airbnb_acc_rooms
-								  where room_bedroom = #{bedrooms})
+					<if test="bedrooms == 0">
+						and A.acc_no in (select acc_no
+									  from airbnb_acc_rooms)
+					</if>
+					<if test="bedrooms == 8">
+						and A.acc_no in (select acc_no
+									  from airbnb_acc_rooms
+									  where room_bedroom >= 8)
+					</if>
+					<if test="bedrooms != 0 and bedrooms != 8">
+						and A.acc_no in (select acc_no
+									  from airbnb_acc_rooms
+									  where room_bedroom = #{bedrooms})
+					</if>
 				</if>
 				
 				<if test="beds != null">
-					and A.acc_no in (select acc_no
-								  from airbnb_acc_rooms
-								  where room_bed = #{beds})
+					<if test="beds == 0">
+						and A.acc_no in (select acc_no
+									  from airbnb_acc_rooms)
+					</if>
+					<if test="beds == 8">
+						and A.acc_no in (select acc_no
+									  from airbnb_acc_rooms
+									  where room_bed >= 8)
+					</if>
+					<if test="beds != 0 and beds != 8">
+						and A.acc_no in (select acc_no
+									  from airbnb_acc_rooms
+									  where room_bed = #{beds})
+					</if>
 				</if>
 				<if test="bathrooms != null">
-					and A.acc_no in (select acc_no
-								  from airbnb_acc_rooms
-								  where room_bathroom = #{bathrooms})
+					<if test="bathrooms == 0">						
+						and A.acc_no in (select acc_no
+									  from airbnb_acc_rooms)
+					</if>
+					<if test="bathrooms == 8">					
+						and A.acc_no in (select acc_no
+									  from airbnb_acc_rooms
+									  where room_bathroom >= 8)
+					</if>
+					<if test="bathrooms != 0 and bathrooms != 8">
+						and A.acc_no in (select acc_no
+									  from airbnb_acc_rooms
+									  where room_bathroom = #{bathrooms})
+					</if>
 				</if>
 			</where>
 		order by A.acc_review_count desc, A.acc_review_score desc) X

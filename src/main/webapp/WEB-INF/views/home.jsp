@@ -513,7 +513,7 @@ input[type="range"]::-moz-range-thumb{
 									<strong>₩<fmt:formatNumber value="${acc.price }" /></strong>/박
 								</div>
 							</div>
-							<div class="col-4 text-end"><i class="bi bi-star-fill"></i><span> ${acc.reviewScore }</span>(<span>${acc.reviewCount }</span>)</div>
+							<div class="col-4 text-end"><i class="bi bi-star-fill" ></i><span> ${acc.reviewScore }</span>(<span>${acc.reviewCount }</span>)</div>
 						</div>
 					</div>
 				</div>
@@ -605,9 +605,9 @@ input[type="range"]::-moz-range-thumb{
 						<div class="rooms" style="padding:25px;">
 							<p><strong>침실</strong></p>
 							<p id="bedrooms" class="pb-3">
-								<button type="button" class="bedrooms" data-bedrooms="상관없음">
+								<button type="button" class="bedrooms" data-bedrooms="0">
 									<label class="px-2">상관없음</label>
-									<input type="hidden" name="bedrooms" value="상관없음" disabled="disabled"/>
+									<input type="hidden" name="bedrooms" value="0" disabled="disabled"/>
 								</button>
 								<button type="button" class="bedrooms" data-bedrooms="1">
 									<label class="px-2">1</label>
@@ -637,16 +637,16 @@ input[type="range"]::-moz-range-thumb{
 									<label class="px-2">7</label>
 									<input type="hidden" name="bedrooms" value="7" disabled="disabled"/>
 								</button>
-								<button type="button" class="bedrooms" data-bedrooms="8+">
+								<button type="button" class="bedrooms" data-bedrooms="8">
 									<label class="px-2">8+</label>
-									<input type="hidden" name="bedrooms" value="min_bedrooms" disabled="disabled"/>
+									<input type="hidden" name="bedrooms" value="8" disabled="disabled"/>
 								</button>
 							</p>
 							<p><strong>침대</strong></p>
 							<p id="" class="pb-3">
-								<button type="button" class="beds" data-beds="상관없음">
+								<button type="button" class="beds" data-beds="0">
 									<label class="px-2">상관없음</label>
-									<input type="hidden" name="beds" value="상관없음" disabled="disabled"/>
+									<input type="hidden" name="beds" value="0" disabled="disabled"/>
 								</button>
 								<button type="button" class="beds" data-beds="1">
 									<label class="px-2">1</label>
@@ -676,18 +676,18 @@ input[type="range"]::-moz-range-thumb{
 									<label class="px-2">7</label>
 									<input type="hidden" name="beds" value="7" disabled="disabled"/>
 								</button>
-								<button type="button" class="beds" data-beds="min_beds">
+								<button type="button" class="beds" data-beds="8">
 									<label class="px-2">8+</label>
-									<input type="hidden" name="beds" value="min_beds" disabled="disabled"/>
+									<input type="hidden" name="beds" value="8" disabled="disabled"/>
 								</button>
 							</p>
 
 							<div class="fold-content d-none">
 								<p><strong>욕실</strong></p>
 								<p id="" class="pb-3">
-								<button type="button" class="bathrooms" data-bathroom="상관없음">
+								<button type="button" class="bathrooms" data-bathroom="0">
 									<label class="px-2">상관없음</label>
-									<input type="hidden" name="bathrooms" value="상관없음" disabled="disabled"/>
+									<input type="hidden" name="bathrooms" value="0" disabled="disabled"/>
 								</button>
 								<button type="button" class="bathrooms" data-bathroom="1">
 									<label class="px-2">1</label>
@@ -717,9 +717,9 @@ input[type="range"]::-moz-range-thumb{
 									<label class="px-2">7</label>
 									<input type="hidden" name="bathrooms" value="7" disabled="disabled"/>
 								</button>
-								<button type="button" class="bathrooms" data-bathroom="min_bathrooms">
+								<button type="button" class="bathrooms" data-bathroom="8">
 									<label class="px-2">8+</label>
-									<input type="hidden" name="bathrooms" value="min_bathrooms" disabled="disabled"/>
+									<input type="hidden" name="bathrooms" value="8" disabled="disabled"/>
 								</button>
 								</p>
 							</div>
@@ -1141,8 +1141,9 @@ input[type="range"]::-moz-range-thumb{
 									</div>
 								</div>
 						</div>
+						<!--
 						<hr class="my-4">
-						<!-- <h5>
+						<h5>
 							<strong>호스트 언어</strong>
 						</h5>
 						<hr class="my-4"> -->
@@ -1164,7 +1165,7 @@ input[type="range"]::-moz-range-thumb{
 <script type="text/javascript">
 $(function() {	
 	// 숙소 카드 링크
-	$('.card-container img, .card-desc').click(function(event) {
+	$('#box-acc').on('click', '.card-container img, .card-desc', function(event) {
 		
 		let accNo = $(this).attr("data-acc-no");
 		location.href = "/acc/detail?no=" + accNo;
@@ -1423,7 +1424,7 @@ $(function() {
 										<!-- 위시리스트 하트 버튼 -->
 					content += '			<div class="wishlist-icon">';
 					content += '				<a class="unwish" style="position:absolute; top:15px; right:15px; z-index:2">';
-				if (acc.savedwishlist == 'Y') {
+				if (acc.savedWishlist == 'Y') {
 					content += '					<i class="wishlistIcon fa-solid fa-heart fs-4" data-accNo="'+acc.accNo+'" id="icon-heart-'+acc.accNo+'" style="color: #FF385C;"></i>';													
 				} else {
 					content += '					<i class="wishlistIcon fa-regular fa-heart fs-4" data-accNo="'+acc.accNo+'" id="icon-heart-'+acc.accNo+'" style="color: white;"></i>';
@@ -1433,17 +1434,27 @@ $(function() {
 					content += '			<div class="carousel-inner" style="border-radius: 25px;">';
 					content += '				<div class="carousel-item active">';
 					content += '					<img class="acc-thumbnail rounded-0" data-acc-no="'+acc.accNo+'"';
-					content += '							src="/resources/images/acc/'+acc.imageCover +'" alt="숙소이미지"';
+					content += '							src="/resources/images/acc/'+acc.photos[0].name +'" alt="숙소이미지"';
 					content += '							style="object-fit: cover; width: 300px; height: 300px;">';
 					content += '				</div>';
 					content += '				<div class="carousel-item">';
-					content += '					<img class="acc-thumbnail rounded-0"';
-					content += '							src="/resources/images/acc/'+acc.accNo+'.png" alt="숙소이미지"';
+					content += '					<img class="acc-thumbnail rounded-0" data-acc-no="'+acc.accNo+'"';
+					content += '							src="/resources/images/acc/'+acc.photos[1].name +'" alt="숙소이미지"';
 					content += '							style="object-fit: cover; width: 300px; height: 300px;">';
 					content += '				</div>';
 					content += '				<div class="carousel-item">';
-					content += '					<img class="acc-thumbnail rounded-0"';
-					content += '							src="/resources/images/acc/3.jpg" alt="숙소이미지"';
+					content += '					<img class="acc-thumbnail rounded-0" data-acc-no="'+acc.accNo+'"';
+					content += '							src="/resources/images/acc/'+acc.photos[2].name +'" alt="숙소이미지"';
+					content += '							style="object-fit: cover; width: 300px; height: 300px;">';
+					content += '				</div>';
+					content += '				<div class="carousel-item">';
+					content += '					<img class="acc-thumbnail rounded-0" data-acc-no="'+acc.accNo+'"';
+					content += '							src="/resources/images/acc/'+acc.photos[3].name +'" alt="숙소이미지"';
+					content += '							style="object-fit: cover; width: 300px; height: 300px;">';
+					content += '				</div>';
+					content += '				<div class="carousel-item">';
+					content += '					<img class="acc-thumbnail rounded-0" data-acc-no="'+acc.accNo+'"';
+					content += '							src="/resources/images/acc/'+acc.photos[4].name +'" alt="숙소이미지"';
 					content += '							style="object-fit: cover; width: 300px; height: 300px;">';
 					content += '				</div>';
 					content += '			</div>';
@@ -1464,11 +1475,11 @@ $(function() {
 									<!-- 숙소 설명 -->
 					content += '		<div class="row my-2">';
 					content += '			<div class="col-8">';
-					content += '				<div class="card-title"><strong><span>'+acc.address.substring(0,2)+'</span>의 <span>'+ (acc.types[0] ? acc.types[0].name : "")+'</span></strong></div>';
+					content += '				<div class="card-title"><strong><span>'+acc.address.substring(0,2)+'</span>의 <span>'+ (acc.types[0] ? acc.types[0].name : "<span>숙소</span>")+'</span></strong></div>';
 					content += '				<div class="card-text text-muted"><small>'+acc.name+'</small></div>';
 					content += '				<div class="card-subtitle mb-2 text-muted">'+acc.checkIn+' ~ '+acc.checkOut+'</div>';
 					content += '				<div class="card-text pt-1">';
-					content += '					<strong>₩ '+acc.price+'</strong>/박';
+					content += '					<strong>₩ '+acc.price.toLocaleString()+'</strong>/박';
 					content += '				</div>';
 					content += '			</div>';
 					content += '			<div class="col-4 text-end"><i class="bi bi-star-fill"></i><span> '+acc.reviewScore+'</span>(<span>'+acc.reviewCount+'</span>)</div>';
@@ -1495,11 +1506,11 @@ $(function() {
 <script type="text/javascript">
 $(function () {
 	
-	$(".unwish").on("click", function(e) {
+	$("#box-acc").on("click", ".unwish",  function(e) {
 		return false;
 	});
 	
-	$(".wishlistIcon").on("click", function(e) {
+	$("#box-acc").on("click", ".wishlistIcon", function(e) {
 		//e.preventDefault();
 		let accNo = $(this).attr("data-accNo");	
 		$heartIcon = $("#icon-heart-" + accNo); 
