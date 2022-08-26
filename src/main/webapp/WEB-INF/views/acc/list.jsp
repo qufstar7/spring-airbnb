@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../common/tags.jsp"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -415,6 +416,13 @@ input[type="range"]::-moz-range-thumb{
 	top:1px;
 }
 
+.carousel-indicators > button {
+ 			border-radius: 100% !important;
+    width: 8px !important;
+    height: 8px !important;
+    background-color: #404040 ;
+    }
+
 /*  */
 @media screen and (max-width: 950px) {
 	#mySidebar {width:0px;}
@@ -449,111 +457,119 @@ input[type="range"]::-moz-range-thumb{
 		</div>
 	</div>
 </div>
+<%@ include file="../user/login-register-modals.jsp" %>
 <div class="container">
 	<div id="main">
 		<div id="accList" class="grid-main">
 		<!-- acc.status = '운영중' 인 숙소만 리스트업 --> 
-		<c:forEach var="list" items="${list }">
-			<div class="card-container" data-acc-no="${list.accNo }"  style="text-decoration-line: none; color: black">
+		<c:forEach var="acc" items="${list }">
+			<div class="card-container" data-acc-no="${acc.accNo }" style="text-decoration-line: none; color: black">
 				<div class="card-box p-1">
 					<div class="" style="width: 300px">
-						<!-- 숙소 섬네일 슬라이드쇼 시작 -->
-						<!-- 아이디에 acc_no나 img_no를 사용하는게 좋을 것 같습니다. / id - 아래 3개의 버튼, prev버튼, next버튼 -->
-						<div id="acc-slide${list.accNo }" class="carousel slide" data-interval="false">
+									<!-- 숙소 섬네일 슬라이드쇼 시작 -->
+									<!-- 아이디에 acc_no나 img_no를 사용하는게 좋을 것 같습니다. / id - 아래 3개의 버튼, prev버튼, next버튼 -->
+						<div id="acc-slide${acc.accNo }" class="carousel slide" data-interval="false">
 							<div class="carousel-indicators">
-								<button type="button"
-									data-bs-target="#acc-slide${list.accNo }"
-									data-bs-slide-to="0" class="active" aria-current="true"
-									aria-label="Slide 1"></button>
-								<button type="button"
-									data-bs-target="#acc-slide${list.accNo }"
-									data-bs-slide-to="1" aria-label="Slide 2"></button>
-								<button type="button"
-									data-bs-target="#acc-slide${list.accNo }"
-									data-bs-slide-to="2" aria-label="Slide 3"></button>
+											<button type="button"
+												data-bs-target="#acc-slide${acc.accNo }"
+												data-bs-slide-to="0" class="active" aria-current="true"
+												aria-label="Slide 1"></button>
+											<button type="button"
+												data-bs-target="#acc-slide${acc.accNo }"
+												data-bs-slide-to="1" aria-label="Slide 2"></button>
+											<button type="button"
+												data-bs-target="#acc-slide${acc.accNo }"
+												data-bs-slide-to="2" aria-label="Slide 3"></button>
+											<button type="button"
+												data-bs-target="#acc-slide${acc.accNo }"
+												data-bs-slide-to="3" aria-label="Slide 4"></button>
+											<button type="button"
+												data-bs-target="#acc-slide${acc.accNo }"
+												data-bs-slide-to="4" aria-label="Slide 5"></button>
 							</div>
-						</div>
-						<!-- 위시리스트 하트 버튼 -->
-						<div class="wishlist-icon">
-							<c:if test="${empty LOGIN_USER }">
-								<a class="unwish" data-bs-toggle="modal" data-bs-target="#email-login-modal" style="position:absolute; top:15px; right:15px; z-index:2">
-									<i class="bi bi-suit-heart fs-4" style="color: white;"></i>
-								</a>
-							</c:if>
-							<c:if test="${not empty LOGIN_USER }">
-								<a class="unwish"  style="position:absolute; top:15px; right:15px; z-index:2">
-											<c:choose>
-												<c:when test="${list.savedWishlist eq 'Y'}">
-													<i class="wishlistIcon fa-solid fa-heart fs-4" data-accNo="${list.accNo}" id="icon-heart-${list.accNo}" style="color: #FF385C;"></i>												
-												</c:when>
-												<c:otherwise>
-													<i class="wishlistIcon fa-regular fa-heart fs-4" data-accNo="${list.accNo}" id="icon-heart-${list.accNo}" style="color: white;"></i>
-												</c:otherwise>
-											</c:choose>
-								</a>
-							</c:if>
-						</div>
-						<!-- 슬라이드쇼 이미지 /image-cover, room_image_no -->
-						<div class="carousel-inner" style="border-radius: 25px;">
-							<div class="carousel-item active"> 		
-								<img class="acc-thumbnail rounded-0" data-acc-no="${list.accNo }"
-									src="/resources/images/acc/${list.photos[0].name }" alt="숙소이미지"
-									style="object-fit: cover; width: 300px; height: 300px;">
+										<!-- 위시리스트 하트 버튼 -->
+							<div class="wishlist-icon">
+											<c:if test="${empty LOGIN_USER }">
+												<a class="unwish" data-bs-toggle="modal" data-bs-target="#email-login-modal" style="position:absolute; top:15px; right:15px; z-index:2">
+													<i class="bi bi-suit-heart fs-4" style="color: white;"></i>
+												</a>
+											</c:if>
+											<c:if test="${not empty LOGIN_USER }">
+												<a class="unwish"  style="position:absolute; top:15px; right:15px; z-index:2">
+															<c:choose>
+																<c:when test="${acc.savedWishlist eq 'Y'}">
+																	<i class="wishlistIcon fa-solid fa-heart fs-4" data-accNo="${acc.accNo}" id="icon-heart-${acc.accNo}" style="color: #FF385C;"></i>												
+																</c:when>
+																<c:otherwise>
+																	<i class="wishlistIcon fa-regular fa-heart fs-4" data-accNo="${acc.accNo}" id="icon-heart-${acc.accNo}" style="color: white;"></i>
+																</c:otherwise>
+															</c:choose>
+												</a>
+											</c:if>
 							</div>
-							<div class="carousel-item">
-								<img class="acc-thumbnail rounded-0"  data-acc-no="${list.accNo }"
-									src="/resources/images/acc/${list.photos[1].name }" alt="숙소이미지"
-									style="object-fit: cover; width: 300px; height: 300px;">
-							</div>
-							<div class="carousel-item">
-								<img class="acc-thumbnail rounded-0"  data-acc-no="${list.accNo }"
-									src="/resources/images/acc/${list.photos[2].name }" alt="숙소이미지"
-									style="object-fit: cover; width: 300px; height: 300px;">
-							</div>
-							<div class="carousel-item">
-								<img class="acc-thumbnail rounded-0"  data-acc-no="${list.accNo }"
-									src="/resources/images/acc/${list.photos[3].name }" alt="숙소이미지"
-									style="object-fit: cover; width: 300px; height: 300px;">
-							</div>
-							<div class="carousel-item">
-								<img class="acc-thumbnail rounded-0"  data-acc-no="${list.accNo }"
-									src="/resources/images/acc/${list.photos[4].name }" alt="숙소이미지"
-									style="object-fit: cover; width: 300px; height: 300px;">
-							</div>
-						</div>
-
-						<button class="carousel-control-prev" type="button"
-							data-bs-target="#acc-slide${list.accNo }"
-							data-bs-slide="prev">
-							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Previous</span>
-						</button>
-
-							<button class="carousel-control-next" type="button"
-								data-bs-target="#acc-slide${list.accNo }"
-								data-bs-slide="next">
-								<span class="carousel-control-next-icon" aria-hidden="true"></span>
-								<span class="visually-hidden">Next</span>
-							</button>
-						</div>
-						<!-- 숙소 설명 -->
-						<div class="row my-2">
-						<c:set var="address"  value="${fn:split(list.address, ' ')}"/>
-							<div class="col-8">
-								<div class="card-title"><strong><span>${address[1]}, ${address[0]}</span>의 <span>${list.types[0].name }</span></strong></div>
-								<div class="card-text text-muted"><small>${list.name }</small></div>
-								<div class="card-subtitle mb-2 text-muted"><fmt:formatDate value="${list.checkIn }" pattern="MM월 dd일"/> ~ <fmt:formatDate value="${list.checkOut }" pattern="MM월 dd일"/></div>
-								<div class="card-text pt-1">
-									<strong>₩<fmt:formatNumber value="${list.price }" /></strong>/박
+										<!-- 슬라이드쇼 이미지 /image-cover, room_image_no -->
+							<div class="carousel-inner" style="border-radius: 25px;">
+								<div class="carousel-item active"> 		
+												<img class="acc-thumbnail rounded-0" data-acc-no="${acc.accNo }"
+													src="/resources/images/acc/${acc.photos[0].name }" alt="숙소이미지"
+													style="object-fit: cover; width: 300px; height: 300px;">
 								</div>
-
+								<div class="carousel-item">
+												<img class="acc-thumbnail rounded-0"  data-acc-no="${acc.accNo }"
+													src="/resources/images/acc/${acc.photos[1].name }" alt="숙소이미지"
+													style="object-fit: cover; width: 300px; height: 300px;">
+								</div>
+								<div class="carousel-item">
+												<img class="acc-thumbnail rounded-0"  data-acc-no="${acc.accNo }"
+													src="/resources/images/acc/${acc.photos[2].name }" alt="숙소이미지"
+													style="object-fit: cover; width: 300px; height: 300px;">
+								</div>
+								<div class="carousel-item">
+												<img class="acc-thumbnail rounded-0"  data-acc-no="${acc.accNo }"
+													src="/resources/images/acc/${acc.photos[3].name }" alt="숙소이미지"
+													style="object-fit: cover; width: 300px; height: 300px;">
+								</div>
+								<div class="carousel-item">
+												<img class="acc-thumbnail rounded-0"  data-acc-no="${acc.accNo }"
+													src="/resources/images/acc/${acc.photos[4].name }" alt="숙소이미지"
+													style="object-fit: cover; width: 300px; height: 300px;">
+								</div>
+											
 							</div>
+										
+										<button class="carousel-control-prev" type="button"
+											data-bs-target="#acc-slide${acc.accNo }"
+											data-bs-slide="prev">
+											<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+											<span class="visually-hidden">Previous</span>
+										</button>
+										<button class="carousel-control-next" type="button"
+											data-bs-target="#acc-slide${acc.accNo }"
+											data-bs-slide="next">
+											<span class="carousel-control-next-icon" aria-hidden="true"></span>
+											<span class="visually-hidden">Next</span>
+										</button>
 						</div>
-						<div class="col-4 text-end"><i class="bi bi-star-fill"></i><span> ${acc.reviewScore }</span>(<span>${acc.reviewCount }</span>)</div>
+															<!-- 숙소 설명 -->
+						<div class="row my-2 card-desc " data-acc-no="${acc.accNo }">
+									<c:set var="address"  value="${fn:split(acc.address, ' ')}"/>
+							<div class="col-8">
+			
+								<div class="card-title"><strong><span>${address[1]}, ${address[0]}</span>의 <span>${acc.types[0].name }</span></strong></div>
+			
+									<div class="card-text text-muted"><small>${acc.name }</small></div>
+									<div class="card-subtitle mb-2 text-muted"><fmt:formatDate value="${acc.checkIn }" pattern="MM월 dd일"/> ~ <fmt:formatDate value="${acc.checkOut }" pattern="MM월 dd일"/></div>
+									<div class="card-text pt-1">
+												<strong>₩<fmt:formatNumber value="${acc.price }" /></strong>/박
+									</div>
+								</div>
+							<div class="col-4 text-end"><i class="bi bi-star-fill"></i><span> ${acc.reviewScore }</span>(<span>${acc.reviewCount }</span>)</div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</c:forEach>
+
+			</c:forEach>
 		</div>
 	</div>
 	<div id="mySidebar" class="sidebar" style="z-index:3;">
@@ -651,9 +667,9 @@ input[type="range"]::-moz-range-thumb{
 						<div class="rooms" style="padding:25px;">
 							<p><strong>침실</strong></p>
 							<p id="bedrooms" class="pb-3">
-								<button type="button" class="bedrooms" data-bedrooms="상관없음">
+								<button type="button" class="bedrooms" data-bedrooms="0">
 									<label class="px-2">상관없음</label>
-									<input type="hidden" name="bedrooms" value="상관없음" disabled="disabled"/>
+									<input type="hidden" name="bedrooms" value="0" disabled="disabled"/>
 								</button>
 								<button type="button" class="bedrooms" data-bedrooms="1">
 									<label class="px-2">1</label>
@@ -683,16 +699,16 @@ input[type="range"]::-moz-range-thumb{
 									<label class="px-2">7</label>
 									<input type="hidden" name="bedrooms" value="7" disabled="disabled"/>
 								</button>
-								<button type="button" class="bedrooms" data-bedrooms="8+">
+								<button type="button" class="bedrooms" data-bedrooms="8">
 									<label class="px-2">8+</label>
-									<input type="hidden" name="bedrooms" value="min_bedrooms" disabled="disabled"/>
+									<input type="hidden" name="bedrooms" value="8" disabled="disabled"/>
 								</button>
 							</p>
 							<p><strong>침대</strong></p>
 							<p id="" class="pb-3">
-								<button type="button" class="beds" data-beds="상관없음">
+								<button type="button" class="beds" data-beds="0">
 									<label class="px-2">상관없음</label>
-									<input type="hidden" name="beds" value="상관없음" disabled="disabled"/>
+									<input type="hidden" name="beds" value="0" disabled="disabled"/>
 								</button>
 								<button type="button" class="beds" data-beds="1">
 									<label class="px-2">1</label>
@@ -722,18 +738,18 @@ input[type="range"]::-moz-range-thumb{
 									<label class="px-2">7</label>
 									<input type="hidden" name="beds" value="7" disabled="disabled"/>
 								</button>
-								<button type="button" class="beds" data-beds="min_beds">
+								<button type="button" class="beds" data-beds="8">
 									<label class="px-2">8+</label>
-									<input type="hidden" name="beds" value="min_beds" disabled="disabled"/>
+									<input type="hidden" name="beds" value="8" disabled="disabled"/>
 								</button>
 							</p>
 
 							<div class="fold-content d-none">
 								<p><strong>욕실</strong></p>
 								<p id="" class="pb-3">
-								<button type="button" class="bathrooms" data-bathroom="상관없음">
+								<button type="button" class="bathrooms" data-bathroom="0">
 									<label class="px-2">상관없음</label>
-									<input type="hidden" name="bathrooms" value="상관없음" disabled="disabled"/>
+									<input type="hidden" name="bathrooms" value="0" disabled="disabled"/>
 								</button>
 								<button type="button" class="bathrooms" data-bathroom="1">
 									<label class="px-2">1</label>
@@ -763,9 +779,9 @@ input[type="range"]::-moz-range-thumb{
 									<label class="px-2">7</label>
 									<input type="hidden" name="bathrooms" value="7" disabled="disabled"/>
 								</button>
-								<button type="button" class="bathrooms" data-bathroom="min_bathrooms">
+								<button type="button" class="bathrooms" data-bathroom="8">
 									<label class="px-2">8+</label>
-									<input type="hidden" name="bathrooms" value="min_bathrooms" disabled="disabled"/>
+									<input type="hidden" name="bathrooms" value="8" disabled="disabled"/>
 								</button>
 								</p>
 							</div>
@@ -1269,7 +1285,7 @@ function zoomOut() {
 var positions = [
 				<c:forEach var='accMap' items="${list}">
 					{
-						title: '${accMap.accNo}',
+						title: '${accMap.name}',
 				        content: '<div class="text-center"><p> ₩ ${accMap.price}</p></div>', 
 				        latlng: new kakao.maps.LatLng(${accMap.latitude}, ${accMap.longitude})
 				    },

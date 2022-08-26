@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.ibatis.type.Alias;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -29,8 +31,10 @@ public class Accommodation {
 	private int guest;
 	private int pet;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "M월 d일", timezone = "Asia/Seoul")
 	private Date checkIn;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "M월 d일", timezone = "Asia/Seoul")
 	private Date checkOut;
 	private String checkInType;
 	private String status;
