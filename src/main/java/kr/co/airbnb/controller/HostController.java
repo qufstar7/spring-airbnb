@@ -572,4 +572,12 @@ public class HostController {
 		model.addAttribute("user", loginUser);
 		return "/host/hosting";
 	}
+	
+	// 게스트 프로필로 이동
+	@GetMapping("/guestProfile")
+	public String guestProfile(Model model, int guestNo) {
+		User user = userService.getUserByNo(guestNo);
+		model.addAttribute("user", user);
+		return "user/profile";
+	}
 }

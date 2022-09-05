@@ -40,6 +40,7 @@ public class Reservation {
 	private User user;
 	private String reservationStatus;
 	private int userNo;
+	private String userName;
 	private String entirePayment;
 	
 	

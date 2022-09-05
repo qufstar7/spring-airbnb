@@ -194,7 +194,7 @@
 				    <tr>
 				      <th scope="col">#</th>
 				      <th scope="col">예약숙소</th>
-				      <th scope="col">예약자번호</th>
+				      <th scope="col">예약자</th>
 				      <th scope="col">상태</th>
 				      <th scope="col">체크인 날짜</th>
 				      <th scope="col">체크아웃 날짜</th>
@@ -215,7 +215,7 @@
 				    <tr style="min-height:56px;">
 				      <th scope="row">${status.index + 1}</th>
 				      <td>${reservation.accNo }</td>
-				      <td>${reservation.userNo }</td>
+				      <td><a href="/host/guestProfile?guestNo=${reservation.userNo }" style="text-decoration:none; color:black;">${reservation.userName }</a></td>
 				      <td>
 				      	<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-label="즉시 예약 기능 켜짐" role="img" focusable="false" style="height: 16px; width: 16px; fill: rgb(0, 138, 5);"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm3.159 4.869L6.67 9.355 4.42 7.105 3.289 8.236 6.67 11.62 12.291 6z"></path></svg>
 				      	${reservation.reservationStatus }

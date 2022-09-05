@@ -53,25 +53,27 @@
 <!-- List<Reservation> getAllreservationsByAccNo(int accNo) -->
 <select id="getAllreservationsByAccNo" parameterType="int" resultType="Reservation">
 	select
-		reservation_no as no,
-		user_no as userNo, 
-		acc_no as accNo, 
-		reservation_status as reservationStatus, 
-		check_in_date as checkInDate, 
-		check_out_date as checkOutDate, 
-		adult_number as adultNum, 
-		children_number as childrenNum, 
-		infant_number as infantNum, 
-		PET_NUMBER as petNum, 
-		MESSAGE_TO_HOST as messageToHost,
-		RESERVATION_CREATED_DATE as createdDate,
-		RESERVATION_UPDATED_DATE as updatedDate,
-		ACC_SERVICE_FEE as serviceFee,
-		ACC_TOTAL_PRICE as totalPrice,
-		ENTIRE_PAYMENT as entirePayment,
-		LEFT_PAYMENT as leftPay
-	from airbnb_reservations
+		A.reservation_no as no,
+		A.user_no as userNo, 
+		A.acc_no as accNo, 
+		B.user_name as userName,
+		A.reservation_status as reservationStatus, 
+		A.check_in_date as checkInDate, 
+		A.check_out_date as checkOutDate, 
+		A.adult_number as adultNum, 
+		A.children_number as childrenNum, 
+		A.infant_number as infantNum, 
+		A.PET_NUMBER as petNum, 
+		A.MESSAGE_TO_HOST as messageToHost,
+		A.RESERVATION_CREATED_DATE as createdDate,
+		A.RESERVATION_UPDATED_DATE as updatedDate,
+		A.ACC_SERVICE_FEE as serviceFee,
+		A.ACC_TOTAL_PRICE as totalPrice,
+		A.ENTIRE_PAYMENT as entirePayment,
+		A.LEFT_PAYMENT as leftPay
+	from airbnb_reservations A, airbnb_users B
 	where acc_no = #{value}
+	and A.user_no = B.user_no
 </select>
 	
 <!-- int getMostRecentRegisteredAccNo(); -->
