@@ -47,7 +47,7 @@
               <a class="nav-link dropdown-toggle" href="#" id="dropdown10" data-bs-toggle="dropdown" aria-expanded="false">메뉴</a>
               <ul class="dropdown-menu" aria-labelledby="dropdown10">
                 <li><a class="dropdown-item" href="/host/accommodation" style="display:none;">숙소</a></li>
-                <li><a class="dropdown-item" href="/host/reservation">예약</a></li>
+                <li><a class="dropdown-item" href="#">예약</a></li>
                 <li><a class="dropdown-item" href="/host/become-a-host">새로운 숙소 등록하기</a></li>
               </ul>
             </li>
