@@ -24,7 +24,7 @@
 			<div class="box">
 				<div class="row align-items-center" id="userbtn">
 					<div class="col">
-						<button class="hostbtn" type="button">호스트모드로 전환</button>
+						<button class="hostbtn" type="button" onclick="location.href='/host/hosting'">호스트모드로 전환</button>
 					</div>
 					<div class="dropdown col">
 					  <button class="dropbtn" id="btn-toggle-mymenu">
